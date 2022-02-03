@@ -2,17 +2,17 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="ECSSENProPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>dataaccess.CompanyName</class>
-    <class>dataaccess.Donation</class>
-    <class>dataaccess.FoodDeliveryData</class>
-    <class>dataaccess.Store</class>
-    <class>dataaccess.HotlineData</class>
-    <class>dataaccess.ProgramTraining</class>
-    <class>dataaccess.Task</class>
-    <class>dataaccess.Program</class>
-    <class>dataaccess.Role</class>
-    <class>dataaccess.Team</class>
-    <class>dataaccess.User</class>
+    <class>models.CompanyName</class>
+    <class>models.Donation</class>
+    <class>models.FoodDeliveryData</class>
+    <class>models.Store</class>
+    <class>models.HotlineData</class>
+    <class>models.Program</class>
+    <class>models.Task</class>
+    <class>models.ProgramTraining</class>
+    <class>models.Role</class>
+    <class>models.Team</class>
+    <class>models.User</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3806/ecssendb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
