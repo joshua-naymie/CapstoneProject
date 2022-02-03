@@ -30,14 +30,9 @@
             <c:forEach items="${users}" var="user">
                 <tr>
                 <form method="POST">
-                    
-                    <input name="isAdmin" type="hidden" value="${user.isAdmin}">
-                    <input name="username" type="hidden" value="${user.username}">
-                    <td name="tableUsername" value="${user.username}">${user.username}</td>
-                    <td name="tableFirstName" value="${user.firstName}">${user.firstName}</td>
-                    <td name="tableLastName" value="${user.lastName}">${user.lastName}</td>
-                    <td name="tableLastName" value="${user.active}">${user.active}</td>
-                    <td name="tableLastName" value="${user.isAdmin}">${user.isAdmin}</td>
+                    <td name="tableUsername" value="${user.getUserId()}">${user.getUserId()}</td>
+                    <td name="tableFirstName" value="${user.getFirstName()}">${user.getFirstName()}</td>
+                    <td name="tableLastName" value="${user.getLastName()}">${user.getLastName()}</td>
                     <td name="" value="edit"><button type="submit" value="Edit" name="action"><i class="fas fa-pen"></i></button></td>
                     <td name="" value="delete"><button type="submit" value="Delete" name="action"><i class="fas fa-times"></i></button></td>
                     <td name="" value="editAdmin"><button type="submit" value="EditAdmin" name="action"><i class="fas fa-pen"></i></button></td>

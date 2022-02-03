@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import models.*;
 
 /**
  *
@@ -22,6 +23,13 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        User user = new User();
+        user.setFirstName("John");
+        user.setLastName("Smith");
+        user.setUserId("jsmith@gmail.com");
+        
+        request.setAttribute("user", user);
+        
         getServletContext().getRequestDispatcher("/WEB-INF/User.jsp").forward(request, response);
     }
 
