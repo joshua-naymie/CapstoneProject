@@ -1,0 +1,22 @@
+ table, th, td {
+  border: 1px solid black;
+}
+
+table {
+  border-collapse: collapse;
+  width: 60%;
+}
+
+th {
+  height: 50px;
+}
+
+label{
+    display: inline-block;
+    width: 80px
+}
+input{
+    margin-left: 5px;
+    margin-bottom: 5px;
+    height: 19px;
+}
