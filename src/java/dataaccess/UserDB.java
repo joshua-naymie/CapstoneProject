@@ -10,4 +10,18 @@ package dataaccess;
  */
 public class UserDB {
     
+    // irina
+    // getAll for getting all users
+    
+    //irina
+    // get for getting a specific user
+    
+    //agambeer
+    // getting a list of users based on matching last name
+    
+    //agambeer
+    // Insert for creating users
+    
+    //agambeer
+    // update for editing users
 }

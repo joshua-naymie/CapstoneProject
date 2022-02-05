@@ -20,27 +20,44 @@ import models.User;
  * @author DWEI
  */
 public class AccountServlet extends HttpServlet {
-
-
-  
+    
+    // saurav
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        // Initial testing
         EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
         List<User> test = entityManager.createNamedQuery("User.findAll").getResultList();
         User user = test.get(0);
         request.setAttribute("user", user);
-        getServletContext().getRequestDispatcher("/WEB-INF/User.jsp").forward(request, response);
-        
-    }
+        getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
 
-   
+        // Retrieve user Data
+        // directing the page to the appropriate Jsp based on what the user clicks (edit, change status, create)
+//        switch (request.getServletPath()) {
+//            case "/login":
+//                request.setAttribute(PAGE_STATE, "\"login\"");
+//                break;
+//            case "/signup":
+//                request.setAttribute(PAGE_STATE, "\"signup\"");
+//                break;
+//            default:
+//                request.setAttribute(PAGE_STATE, "WRONG");
+//                break;
+//        }
+        // loading the jsp
+
+    }
+    
+    // david
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-    }
 
+        // edit user
+        // change status
+        // create user 
+        // work on exporting if we have time before use case is due
+    }
 
 }
