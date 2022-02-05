@@ -28,8 +28,8 @@ public class AccountServlet extends HttpServlet {
         // Initial testing
         EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
         List<User> test = entityManager.createNamedQuery("User.findAll").getResultList();
-        User user = test.get(0);
-        request.setAttribute("user", user);
+        //User user = test.get(0);
+        request.setAttribute("users", test);
         getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
 
         // Retrieve user Data
