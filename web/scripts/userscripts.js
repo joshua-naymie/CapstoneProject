@@ -69,9 +69,14 @@ const addressLink = (value) => {
 //     return content;
 // }
 
+var table;
+var main;
+
 function load()
 {
-    let main = document.getElementById("main");
+    document.getElementById("searchbar").addEventListener("input", (e) => {searchTable(e.target.value);});
+    
+    main = document.getElementById("main");
 
     let col1 = new DataColumn("First Name", "firstName");
     let col2 = new DataColumn("Last Name", "lastName");
@@ -79,7 +84,7 @@ function load()
     let col4 = new CustomColumn("Details", detailsContent);
     // let col4 = new CustomColumn("Full Name", fullName);
 
-    let table = new AutoTable("table", data, [col1, col2, col4]);
+    table = new AutoTable("table", data, [col1, col2, col4]);
     table.addColumn(col3, 2);
 
     table.generateTable();
@@ -95,8 +100,42 @@ function showDetails(user)
           `Phone #: ${user.phoneNum}`);
 }
 
-
+function removeAllChildren(element)
+{
+    while(element.firstChild)
+    {
+        element.removeChild(element.firstChild);
+    }
+}
 function searchTable(searchValue)
 {
-    
+    if(searchValue.length > 1)
+    {
+        let temparray = [];
+        
+        data.forEach(user => {
+            if(user.firstName.toLowerCase().startsWith(searchValue))
+            {
+                temparray.push(user);
+            }
+
+        });
+       
+       table.data = temparray;
+       
+       removeAllChildren(table.container);
+       
+       table.generateTable();
+       main.appendChild(table.container);
+    }
+    else
+    {
+        if(table.data !== data)
+        {
+            table.data = data;
+            removeAllChildren(table.container);
+            table.generateTable();
+        }
+    }
 }
+

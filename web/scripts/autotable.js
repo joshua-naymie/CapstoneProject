@@ -13,10 +13,12 @@ class AutoTable
         this.className = className;
         this.data = data;
         this.columns = new RowManager(this.className, columnMaps);
+        
+        this.rows = [];
     }
 
     /**
-     *  Adds a DataColumn or CustomColumn to the table
+     * Adds a DataColumn or CustomColumn to the table
      * @param {DataColumn | CustomColumn} column    The column to add to the table
      * @param {number} position                     The position to insert the column into.
      *                                              Added to the end if null.
@@ -67,7 +69,6 @@ class AutoTable
             cell.appendChild(content);
             row.appendChild(cell);
         }
-
         this.container.appendChild(row);
     }
 
@@ -78,7 +79,7 @@ class AutoTable
     {
         for(let i=0; i<this.data.length; i++)
         {
-            this.container.appendChild(i === this.data.length-1 ? this.getRowContent(data[i], true) : this.getRowContent(data[i]));
+            this.container.appendChild(i === this.data.length-1 ? this.getRowContent(this.data[i], true) : this.getRowContent(this.data[i]));
         }
     }
 
