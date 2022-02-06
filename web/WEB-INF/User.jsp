@@ -18,24 +18,28 @@
         <script type="text/javascript" src="scripts/customcolumn.js"></script>
         <script type="text/javascript" src="scripts/rowmanager.js"></script>
     </head>
-    <body id="body" class="body">
-        <div style="display: flex; justify-content: center;">
-            <div class="table-controls">
-                <div style=""></div>
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <input id="searchbar" type="text" placeholder="Name" />
+    <body id="body">
+        <%@ include file="navbar.jsp" %>
+        <div class="body">
+            <div style="display: flex; justify-content: center;">
+                <div class="table-controls">
+                    <div style=""></div>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <input id="searchbar" type="text" placeholder="Name" />
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end">
+                        <button>Add User</button>
+                    </div>
+
                 </div>
-                
-                <div style="display: flex; justify-content: flex-end">
-                    <button>Add User</button>
-                </div>
-                
+            </div>
+
+
+            <div id="main" class="main">
+
             </div>
         </div>
         
-        
-        <div id="main" class="main">
-            
-        </div>
     </body>
 </html>
