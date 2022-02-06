@@ -23,16 +23,17 @@
     color: black;
     justify-content: center;
     align-items: center;
+    border-width: 1px 0 1px 1px;
+    width: 100%;
+    display: flex;
+    border-style: solid;
+    border-color: black;
 }
 
 .table-row
 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr .5fr;
-    /* border-width: 0 1px 1px 1px;
-    border-style: solid;
-    border-color: black; */
-    /* padding: 4px 0 4px 0; */
     max-width: 1024px;
     min-width: 533px;
 }
@@ -43,7 +44,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    border-width: 1px 0 0 1px;
+    border-width: 0 0 1px 1px;
     border-style: solid;
     border-color: black;
     /* margin-left: 33%; */
@@ -65,4 +66,9 @@ overflow: hidden; */
 .table-cell__last-row
 {
     border-bottom: 1px solid black;
+}
+
+.display__none
+{
+    display: none;
 }

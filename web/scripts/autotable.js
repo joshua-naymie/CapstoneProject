@@ -42,16 +42,16 @@ class AutoTable
      */
     generateHeader()
     {
-        
         let row = document.createElement("div");
         row.classList.add(`${this.className}-row`);
+        // row.classList.add(`${this.className}-row__header`);
 
         for(let i=0; i<this.columns.getSize(); i++)
         {
             let cell = document.createElement("div");
             cell.classList.add(`${this.className}`);
-            cell.classList.add(`${this.className}-cell`);
             cell.classList.add(`${this.className}-header`);
+//            cell.classList.add(`${this.className}-cell`);
             cell.style.alignItems = "center";
             cell.style.margin = "0";
             if(i === this.columns.getSize()-1)
@@ -79,7 +79,10 @@ class AutoTable
     {
         for(let i=0; i<this.data.length; i++)
         {
-            this.container.appendChild(i === this.data.length-1 ? this.getRowContent(this.data[i], true) : this.getRowContent(this.data[i]));
+            let row = i === this.data.length-1 ? this.getRowContent(this.data[i], true) : this.getRowContent(this.data[i]);
+            this.rows.push(row);
+            
+            this.container.appendChild(row);
         }
     }
 
@@ -106,6 +109,12 @@ class AutoTable
             row.appendChild(cell);
         }
 
-        return row
+        return row;
     }
+    
+    toggleRow(index, show)
+    {
+        this.rows[index].classList.toggle("display__none", !show);
+    }
+    
 }

@@ -107,34 +107,29 @@ function removeAllChildren(element)
         element.removeChild(element.firstChild);
     }
 }
+
 function searchTable(searchValue)
 {
     if(searchValue.length > 1)
     {
-        let temparray = [];
-        
-        data.forEach(user => {
-            if(user.firstName.toLowerCase().startsWith(searchValue))
+        for(let i=0; i<table.data.length; i++)
+        {
+            if(table.data[i].firstName.toLowerCase().startsWith(searchValue)
+            || table.data[i].lastName.toLowerCase().startsWith(searchValue))
             {
-                temparray.push(user);
+                table.toggleRow(i, true);
             }
-
-        });
-       
-       table.data = temparray;
-       
-       removeAllChildren(table.container);
-       
-       table.generateTable();
-       main.appendChild(table.container);
+            else
+            {
+                table.toggleRow(i, false);
+            }
+        }
     }
     else
     {
-        if(table.data !== data)
+        for(let i=0; i<table.rows.length; i++)
         {
-            table.data = data;
-            removeAllChildren(table.container);
-            table.generateTable();
+            table.toggleRow(i, true);
         }
     }
 }
