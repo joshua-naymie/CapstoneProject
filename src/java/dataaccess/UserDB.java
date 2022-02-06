@@ -6,6 +6,7 @@ package dataaccess;
 import models.User;
 import java.util.List;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 /**
  *
@@ -38,12 +39,46 @@ public User get (String email) throws Exception {
         }       
     }
     
-    //agambeer
-    // getting a list of users based on matching last name
-    
+    public List<User> getUserByLastName(String lastName) throws Exception {
+        List<User> users = getAll();
+        List<User> userList = null;
+        for (User user : users) {
+            if (user.getLastName().equals(lastName)) {
+                userList.add(user);
+            }
+        }
+        return userList;
+    }
+
     //agambeer
     // Insert for creating users
-    
+    public void insert(User user) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            em.persist(user);
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
+        } finally {
+            em.close();
+        }
+    }
+
     //agambeer
     // update for editing users
+    public void update(User user) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            em.merge(user);
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
+        } finally {
+            em.close();
+        }
+    }
 }
