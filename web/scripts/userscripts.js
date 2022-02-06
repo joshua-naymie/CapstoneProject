@@ -18,7 +18,11 @@ function load()
         birthdayInput = new InputGroup(CSS_INPUTGROUP_MAIN, "birthday"),
         streetInput = new InputGroup(CSS_INPUTGROUP_MAIN, "street"),
         cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "city"),
-        postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "postalcode");
+        postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "postalcode"),
+        passwordInput = new InputGroup(CSS_INPUTGROUP_MAIN, "password"),
+        signupDateInput = new InputGroup(CSS_INPUTGROUP_MAIN, "signupdate"),
+        adminInput = new InputGroup(CSS_INPUTGROUP_MAIN, "admin"),
+        activeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "active");
 
     
     firstNameInput.setLabelText("First Name:");
@@ -63,18 +67,46 @@ function load()
     containerRight.appendChild(streetInput.container);
     
     cityInput.setLabelText("City:");
-    cityInput.input.type = "date";
     cityInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
 //    cityInput.setEnterFunction(phoneInput);
     containerLeft.appendChild(cityInput.container);
     
     postalCodeInput.setLabelText("Postal Code:");
-    postalCodeInput.input.type = "date";
     postalCodeInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     postalCodeInput.addValidator(REGEX_POSTAL_CODE, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
 //    postalCodeInput.setEnterFunction(phoneInput);
     containerRight.appendChild(postalCodeInput.container);
+    
+    passwordInput.setLabelText("Password:");
+    passwordInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
+//    cityInput.setEnterFunction(phoneInput);
+    containerLeft.appendChild(passwordInput.container);
+    
+    signupDateInput.setLabelText("Signup Date:");
+    signupDateInput.input.type = "date";
+    signupDateInput.input.value = new Date().toISOString().substring(0,10);
+    signupDateInput.input.disabled = "true";
+    signupDateInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
+//    cityInput.setEnterFunction(phoneInput);
+    containerRight.appendChild(signupDateInput.container);
+    
+    
+//    let checkboxDiv = document.createElement("div");
+//    checkboxDiv.style.display = "flex";
+    
+    adminInput.setLabelText("Admin:");
+    adminInput.input.type = "checkbox";
+//    postalCodeInput.setEnterFunction(phoneInput);
+    containerLeft.appendChild(adminInput.container);
+    
+    activeInput.setLabelText("Active:");
+    activeInput.input.type = "checkbox";
+//    postalCodeInput.setEnterFunction(phoneInput);
+    containerRight.appendChild(activeInput.container);
+    
+//    containerRight.appendChild(checkboxDiv);
 
+    
 
     //--------------
 //
