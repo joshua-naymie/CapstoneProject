@@ -31,7 +31,7 @@ public class AccountServlet extends HttpServlet {
         List<User> test = entityManager.createNamedQuery("User.findAll").getResultList();
         User user = test.get(0);
         request.setAttribute("user", user);
-        getServletContext().getRequestDispatcher("/WEB-INF/User.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/userlist.jsp").forward(request, response);
         
     }
 

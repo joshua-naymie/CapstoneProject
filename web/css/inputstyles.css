@@ -1,0 +1,205 @@
+/*.body
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.main
+{
+    padding: 100px;
+    background-color: white;
+    border-radius: 10px;
+    border: 4px solid gray;
+}*/
+
+.main-input
+{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.main-input__label
+{
+    margin-bottom: 5px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.main-input__label--default
+{
+    color: black;
+    transition: color 0.3s;
+}
+
+.main-input__label--warning
+{
+    color: orange;
+    font-style: italic;
+    transition: color 0.3s;
+}
+
+.main-input__label--error
+{
+    color: red;
+    font-weight: bold;
+    text-decoration: underline;
+    transition: color 0.3s;
+}
+
+.main-input__input
+{
+    width: 100%;
+    box-sizing: border-box;
+    border-width: 3px;
+    border-style: solid;
+}
+
+.main-input__input--default
+{
+    border-color: black;
+    transition: border-color 0.3s;
+}
+
+.main-input__input--warning
+{
+    border-color: orange;
+    transition: border-color 0.3s;
+}
+
+.main-input__input--error
+{
+    border-color: red;
+    transition: border-color 0.3s;
+}
+
+.main-input__message
+{
+    /* position: absolute; */
+    /* left: 80px; */
+    /* top: 55px; */
+    align-self: center;
+    margin-bottom: 10px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.main-input__message--default
+{
+    opacity: 0;
+    /* transition: opacity 0.3s; */
+}
+
+.main-input__message--warning
+{
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.main-input__message--error
+{
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.secondary-input
+{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.secondary-input__label
+{
+    margin-bottom: 5px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.secondary-input__label--default
+{
+    color: gray;
+    text-decoration: underline;
+    transition: color 0.3s;
+}
+
+.secondary-input__label--warning
+{
+    color: royalblue;
+    font-weight: bold;
+    text-decoration: line-through;
+    transition: color 0.3s;
+}
+
+.secondary-input__label--error
+{
+    color: goldenrod;
+    font-style: italic;
+    transition: color 0.3s;
+}
+
+.secondary-input__input
+{
+    width: 100%;
+    box-sizing: border-box;
+    border-width: 3px;
+    border-style: solid;
+}
+
+.secondary-input__input--default
+{
+    border-color: green;
+    transition: border-color 0.3s;
+}
+
+.secondary-input__input--warning
+{
+    border-color: royalblue;
+    transition: border-color 0.3s;
+}
+
+.secondary-input__input--error
+{
+    border-color: goldenrod;
+    transition: border-color 0.3s;
+}
+
+.secondary-input__message
+{
+    align-self: center;
+    margin-bottom: 10px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.secondary-input__message--default
+{
+    opacity: 0;
+}
+
+.secondary-input__message--warning
+{
+    color: orange;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.secondary-input__message--error
+{
+    color: red;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
