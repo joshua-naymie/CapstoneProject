@@ -1,10 +1,44 @@
+.body
+{
+    display: flex;
+    flex-direction: column;
+}
+
 .main
 {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 80px;
 }
+
+.table-controls
+{
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 80%;
+    max-width: 1024px;
+    margin-bottom: 20px;
+}
+
+.table-controls div input
+{
+    width: 80%;
+    height: 1.1rem;
+    /*font-size: 1.1rem;*/
+}
+
+.table-controls div button
+{
+    margin-right: 10px;
+    width: 30%;
+    justify-self: center;
+}
+/*.table-controls button
+{
+    float: right;
+}*/
+
 
 .table
 {

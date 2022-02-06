@@ -19,8 +19,23 @@
         <script type="text/javascript" src="scripts/rowmanager.js"></script>
     </head>
     <body id="body" class="body">
+        <div style="display: flex; justify-content: center;">
+            <div class="table-controls">
+                <div style=""></div>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <input id="searchbar" type="text" placeholder="Name" />
+                </div>
+                
+                <div style="display: flex; justify-content: flex-end">
+                    <button>Add User</button>
+                </div>
+                
+            </div>
+        </div>
+        
+        
         <div id="main" class="main">
-            <input id="searchbar" type="text" class=""/>
+            
         </div>
     </body>
 </html>

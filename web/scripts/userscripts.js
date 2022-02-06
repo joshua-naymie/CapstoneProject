@@ -114,8 +114,8 @@ function searchTable(searchValue)
     {
         for(let i=0; i<table.data.length; i++)
         {
-            if(table.data[i].firstName.toLowerCase().startsWith(searchValue)
-            || table.data[i].lastName.toLowerCase().startsWith(searchValue))
+            if(table.data[i].firstName.toLowerCase().startsWith(searchValue.toLowerCase())
+            || table.data[i].lastName.toLowerCase().startsWith(searchValue.toLowerCase()))
             {
                 table.toggleRow(i, true);
             }
@@ -133,4 +133,3 @@ function searchTable(searchValue)
         }
     }
 }
-
