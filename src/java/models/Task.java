@@ -226,7 +226,8 @@ public class Task implements Serializable {
     public void setTeamId(Team teamId) {
         this.teamId = teamId;
     }
-
+    
+    // Fix this data to be one general task data, and puts it into a program based on what was chosen
     public HotlineData getHotlineData() {
         return hotlineData;
     }

@@ -109,5 +109,4 @@ public class ProgramTraining implements Serializable {
     public String toString() {
         return "dataaccess.ProgramTraining[ programTrainingPK=" + programTrainingPK + " ]";
     }
-    
 }
