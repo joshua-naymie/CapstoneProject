@@ -84,9 +84,9 @@ public class AccountServlet extends HttpServlet {
                     break;
 
                 case "Cancel":
-                    request.setAttribute("editview", false);
-                    request.setAttribute("editAdminView", false);
-                    response.sendRedirect("admin");
+//                    request.setAttribute("editview", false);
+//                    request.setAttribute("editAdminView", false);
+                    response.sendRedirect("Account");
                     break;
             }
         } catch (Exception e) {
