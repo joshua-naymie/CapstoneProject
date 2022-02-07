@@ -49,11 +49,11 @@ class AutoTable
         for(let i=0; i<this.columns.getSize(); i++)
         {
             let cell = document.createElement("div");
-            cell.classList.add(`${this.className}`);
+//            cell.classList.add(`${this.className}`);
             cell.classList.add(`${this.className}-header`);
 //            cell.classList.add(`${this.className}-cell`);
-            cell.style.alignItems = "center";
-            cell.style.margin = "0";
+//            cell.style.alignItems = "center";
+//            cell.style.margin = "0";
             if(i === this.columns.getSize()-1)
             {
                 cell.classList.add(`${this.className}-cell__last-column`);

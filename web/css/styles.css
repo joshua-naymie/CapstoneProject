@@ -1,14 +1,27 @@
-.body
+:root
 {
-    display: flex;
-    flex-direction: column;
+    --primary: #FAAE30;
+    --secondary: #E6C169;
+    --accent1: #9FCA6A;
+    --accent2: #F2F2F7;
+    --header: #174690;
 }
 
-.main
+.body
+{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.table-container
 {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .table-controls
@@ -16,9 +29,11 @@
     display: grid;
     justify-content: center;
     grid-template-columns: 1fr 1fr 1fr;
-    width: 80%;
+    width: 100%;
     max-width: 1024px;
     margin-bottom: 20px;
+    padding: 0 10% 0 10%;
+    /*align-items: flex-end;*/
 }
 
 .table-controls div input
@@ -31,8 +46,7 @@
 .table-controls div button
 {
     margin-right: 10px;
-    width: 30%;
-    justify-self: center;
+    width: 50%;
 }
 /*.table-controls button
 {

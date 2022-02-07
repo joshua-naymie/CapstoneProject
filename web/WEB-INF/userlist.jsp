@@ -18,10 +18,10 @@
         <script type="text/javascript" src="scripts/customcolumn.js"></script>
         <script type="text/javascript" src="scripts/rowmanager.js"></script>
     </head>
-    <body id="body">
+    <body>
         <%@ include file="navbar.jsp" %>
         <div class="body">
-            <div style="display: flex; justify-content: center;">
+            <!--<div style="display: flex; justify-content: center;">-->
                 <div class="table-controls">
                     <div style=""></div>
                     <div style="display: flex; justify-content: center; align-items: center;">
@@ -33,10 +33,10 @@
                     </div>
 
                 </div>
-            </div>
+            <!--</div>-->
 
 
-            <div id="main" class="main">
+            <div id="main" class="table-container">
 
             </div>
         </div>
