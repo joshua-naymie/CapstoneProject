@@ -42,7 +42,7 @@ public class AccountServices {
     public void insert(String userId, boolean isAdmin, String userCity, String firstName, String lastName, boolean isActive, String userPassword, Date dateOfBirth, String phoneNumber, String homeAddress, String postalCode, Date registrationDate, int teamId) throws Exception {
         UserDB userDB = new UserDB();
         User user = new User(userId, isAdmin, firstName, lastName, isActive, userPassword, registrationDate);
-
+        
         user.setTeamId(new Team(teamId));
         user.setUserCity(userCity);
         user.setDateOfBirth(dateOfBirth);
@@ -59,7 +59,7 @@ public class AccountServices {
     public void update(String userId, boolean isAdmin, String userCity, String firstName, String lastName, boolean isActive, String userPassword, Date dateOfBirth, String phoneNumber, String homeAddress, String postalCode, Date registrationDate, int teamId) throws Exception {
         UserDB userDB = new UserDB();
         User user = userDB.get(userId);
-
+        
         user.setIsAdmin(isAdmin);
         user.setTeamId(new Team(teamId));
         user.setUserCity(userCity);

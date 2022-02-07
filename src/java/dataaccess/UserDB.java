@@ -3,51 +3,55 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dataaccess;
+
 import models.User;
 import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Query;
 
 /**
  *
  * @author DWEI
  */
 public class UserDB {
-    
+
     // irina
     // getAll for getting all users
-public List<User> getAll() throws Exception {
-    EntityManager em = DBUtil.getEMFactory().createEntityManager();
-    try {
-      List<User> allUsers= em.createNamedQuery("User.findAll", User.class).getResultList();
-      return allUsers;
-    } finally {
-      em.close();
+    public List<User> getAll() throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {
+//            List<User> allUsers = em.createNamedQuery("User.findAll", User.class).getResultList();
+            Query q = em.createQuery("SELECT u FROM User u ORDER BY u.lastName, u.firstName", User.class);
+             List<User> allUsers = q.getResultList();
+            return allUsers;
+        } finally {
+            em.close();
+        }
     }
-    }
-    
+
     //irina
     // get for getting a specific user
-
-public User get (String email) throws Exception {
-      EntityManager em = DBUtil.getEMFactory().createEntityManager();
-      try {
+    public User get(String email) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {
             User user = em.find(User.class, email);
             return user;
         } finally {
             em.close();
-        }       
-    }
-    
-    public List<User> getUserByLastName(String lastName) throws Exception {
-        List<User> users = getAll();
-        List<User> userList = null;
-        for (User user : users) {
-            if (user.getLastName().equals(lastName)) {
-                userList.add(user);
-            }
         }
-        return userList;
+    }
+
+    public List<User> getUserByLastName(String lastName) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        Query q = em.createQuery("SELECT u FROM User u WHERE u.lastName LIKE :keyword ORDER BY u.lastName, u.firstName", User.class);
+        q.setParameter("keyword", lastName + "%");
+        try {
+            List<User> allUsers = q.getResultList();
+            return allUsers;
+        } finally {
+            em.close();
+        }
     }
 
     //agambeer
@@ -81,4 +85,5 @@ public User get (String email) throws Exception {
             em.close();
         }
     }
+
 }

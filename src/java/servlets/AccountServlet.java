@@ -29,11 +29,11 @@ public class AccountServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Initial testing
-        EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
-        List<User> test = entityManager.createNamedQuery("User.findAll").getResultList();
+//        EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
+//        List<User> test = entityManager.createNamedQuery("User.findAll").getResultList();
         //User user = test.get(0);
-        request.setAttribute("users", test);
-        getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
+//        request.setAttribute("users", test);
+//        getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
 
         // Retrieve user Data
         // directing the page to the appropriate Jsp based on what the user clicks (edit, change status, create)
@@ -49,6 +49,16 @@ public class AccountServlet extends HttpServlet {
 //                break;
 //        }
         // loading the jsp
+        // actual code
+        AccountServices as = new AccountServices();
+        List<User> allUsers = null;
+        try {
+            allUsers = as.getAll();  //get a list of all users
+        } catch (Exception ex) {
+            Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.setAttribute("users", allUsers);
+        getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
     }
 
     // david
@@ -77,10 +87,14 @@ public class AccountServlet extends HttpServlet {
                     // request.setAttribute("editview", true);
                     edit(request, response);
                     break;
-
+                
                 // saving account status change
                 case "Save":
                     save(request, response);
+                    break;
+
+                case "Search":
+                    search(request, response);
                     break;
 
                 case "Cancel":
@@ -92,6 +106,7 @@ public class AccountServlet extends HttpServlet {
         } catch (Exception e) {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, e);
             System.err.println("Error Occured carrying out action:" + action);
+//            log("Error Occured carrying out action:" + action);
         }
         // work on exporting if we have time before use case is due
     }
@@ -129,7 +144,7 @@ public class AccountServlet extends HttpServlet {
                     request.getParameter("user_postalcode"),
                     registrationDate,
                     2);
-            
+
             request.setAttribute("users", accService.getAll());
 
             getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
@@ -195,6 +210,35 @@ public class AccountServlet extends HttpServlet {
                     0);
 
             request.setAttribute("users", accService.getAll());
+            getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void search(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String lastName = request.getParameter("lastName");
+            AccountServices as = new AccountServices();
+            List<User> allUsers = null;
+            if (lastName != null && lastName.length() > 0) {
+                try {
+                    allUsers = as.getUserByLastName(lastName);  //get a list of users with matching last names
+                    if (allUsers.size() == 0) {
+                        request.setAttribute("userMessage", "No matching users found.");
+                        log("here");
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, ex);
+                }
+            } else {
+                try {
+                    allUsers = as.getAll();
+                } catch (Exception ex) {
+                    Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, ex);
+                }
+            }
+            request.setAttribute("users", allUsers);
             getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
