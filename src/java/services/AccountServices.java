@@ -59,7 +59,7 @@ public class AccountServices {
     public void update(String userId, boolean isAdmin, String userCity, String firstName, String lastName, boolean isActive, String userPassword, Date dateOfBirth, String phoneNumber, String homeAddress, String postalCode, Date registrationDate, int teamId) throws Exception {
         UserDB userDB = new UserDB();
         User user = userDB.get(userId);
-        
+        // check if the user exists
         user.setIsAdmin(isAdmin);
         user.setTeamId(new Team(teamId));
         user.setUserCity(userCity);
