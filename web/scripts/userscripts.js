@@ -106,6 +106,24 @@ function load()
     
 //    containerRight.appendChild(checkboxDiv);
 
+    // Create buttons for the form
+    let submitButton = document.createElement("button");
+    submitButton.innerHTML = "Submit";
+    submitButton.type = "submit";
+    submitButton.className = "btn";
+    submitButton.id = "submit-button";
+    
+    
+    let cancelButton = document.createElement("button");
+    cancelButton.innerHTML = "Cancel";
+    cancelButton.type = "reset";
+    cancelButton.className = "btn";
+    cancelButton.id = "cancel-button";
+    
+    // Add "Submit" and "Cancel" button to the DOM
+    containerLeft.appendChild(cancelButton)
+    containerRight.appendChild(submitButton);
+
     
 
     //--------------

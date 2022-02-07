@@ -10,12 +10,12 @@
 
 .container
 {
-    background-color: white;
+    background-color: var(--accent-two-color);
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     width: 80%;
-    border: 3px solid orange;
+    border: 3px solid var(--primary-color);
     padding: 30px;
     max-width: 1024px;
 }
@@ -24,4 +24,40 @@
 {
     display: flex;
     flex-direction: column;
+}
+
+.input-column input
+{
+	padding-left: 5px;
+}
+
+.main .container .input-column .btn 
+{
+	padding: 0.8em 0.3em;
+	font-size: 1.1em;
+	font-weight: bold;
+	border: none;
+	background-color: var(--accent-two-color);
+	cursor: pointer;
+	color: var(--header-color);
+}
+
+#submit-button
+{
+	background-color: var(--primary-color);
+}
+
+#submit-button:hover
+{
+	background-color: var(--secondary-color);
+}
+
+#cancel-button
+{
+	background-color: var(--accent-one-color);
+}
+
+#cancel-button:hover
+{
+	background-color: var(--secondary-color);
 }
