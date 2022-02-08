@@ -50,7 +50,7 @@ const data = [
 const detailsContent = (element) => {
     let editButton = document.createElement("div");
     editButton.innerText = "Edit";
-    editButton.addEventListener("click", () => showDetails(element));
+    editButton.addEventListener("click", () => showDetails(element.email));
 
     return editButton;
 };
@@ -98,10 +98,13 @@ function load()
 
 function showDetails(user)
 {
-    alert(`Id: ${user.id}\n` +
-          `Name: ${user.firstName} ${user.lastName}\n` +
-          `Address: ${user.address}\n` + 
-          `Phone #: ${user.phoneNum}`);
+    document.getElementById("userid").value = user;
+    
+    postAction("edit", "submit-form", "Account");
+//    alert(`Id: ${user.id}\n` +
+//          `Name: ${user.firstName} ${user.lastName}\n` +
+//          `Address: ${user.address}\n` + 
+//          `Phone #: ${user.phoneNum}`);
 }
 
 function removeAllChildren(element)

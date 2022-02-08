@@ -17,6 +17,7 @@
         <script type="text/javascript" src="scripts/datacolumn.js"></script>
         <script type="text/javascript" src="scripts/customcolumn.js"></script>
         <script type="text/javascript" src="scripts/rowmanager.js"></script>
+        <script type="text/javascript" src="scripts/functions.js"></script>
     </head>
     <body>
         <div class="base">
@@ -37,5 +38,9 @@
                 </div>
             </div>  
         </div>
+            <form id="submit-form">
+                <input id="action" name="action" type="hidden">
+                <input id="userid" name="userid" type="hidden">
+            </form>
     </body>
 </html>
