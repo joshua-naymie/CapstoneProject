@@ -32,7 +32,7 @@
                         <button>Add User</button>
                     </div>
                 </div>
-                <div id="main" class="table-container">
+                <div id="table-container" class="table-container">
 
                 </div>
             </div>  

@@ -26,7 +26,7 @@ class RowManager
      */
     addColumn(column, position)
     {
-        column.setClassName(this.className);
+//        column.setClassName(this.className);
         if(typeof position !== "number")
         {
             this.columns.push(column);
@@ -70,14 +70,50 @@ class RowManager
         return this.columns[index].keyName;
     }
 
+    generateHeader()
+    {
+        let row = document.createElement("div");
+//        row.classList.add(`${this.className}-row`);
+        row.classList.add(this.className);
+        
+        let i;
+        for(i=0; i<this.columns.length; i++)
+        {
+            let cell = document.createElement("div");
+            cell.classList.add(`${this.className}-header`);
+            
+            if(i === this.getSize()-1)
+            {
+                cell.classList.add("last-column");
+            }
+
+            let content = document.createElement("p");
+            content.classList.add(`${this.className}-content`);
+            content.innerText = this.columns[i].header;
+
+            cell.appendChild(content);
+            row.appendChild(cell);
+        }
+        
+        return row;
+    }
+
     /**
      * Generates the content for the specefied column based off the given element
      * @param {number} index The index of the column to generate content for
-     * @param {*} element    The element to generate content from
+     * @param {*} entity     The entity to generate content from
      * @returns The generated content
      */
-    generateContent(index, element)
+    generateContent(index, entity, isLast)
     {
-        return this.columns[index].generateContent(element);
+        let row = document.createElement("div");
+        row.classList.add(this.className);
+        let i;
+        for(i=0; i<this.columns.length-1; i++)
+        {
+            row.appendChild(this.columns[i].generateContent(entity));
+        }
+        row.appendChild(this.columns[i].generateContent(entity, true));
+        return row;
     }
 }

@@ -41,7 +41,6 @@ class InputGroupCollection
      */
     validateAll()
     {
-        console.log(this.inputGroups);
         let allValid = true;
 
         this.inputGroups.forEach(group => {
