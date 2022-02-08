@@ -11,15 +11,15 @@ function load()
     let containerLeft = document.getElementById("container-left"),
         containerRight = document.getElementById("container-right");
     
-    let firstNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "fname"),
-        lastNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "lname"),
-        emailInput = new InputGroup(CSS_INPUTGROUP_MAIN, "email"),
-        phoneInput = new InputGroup(CSS_INPUTGROUP_MAIN, "phone"),
+    let firstNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_firstname"),
+        lastNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_lastname"),
+        emailInput = new InputGroup(CSS_INPUTGROUP_MAIN, "username"),
+        phoneInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_phone"),
         birthdayInput = new InputGroup(CSS_INPUTGROUP_MAIN, "birthday"),
         streetInput = new InputGroup(CSS_INPUTGROUP_MAIN, "street"),
-        cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "city"),
-        postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "postalcode"),
-        passwordInput = new InputGroup(CSS_INPUTGROUP_MAIN, "password"),
+        cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_city"),
+        postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_postalcode"),
+        passwordInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_password"),
         signupDateInput = new InputGroup(CSS_INPUTGROUP_MAIN, "signupdate"),
         adminInput = new InputGroup(CSS_INPUTGROUP_MAIN, "admin"),
         activeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "active");
