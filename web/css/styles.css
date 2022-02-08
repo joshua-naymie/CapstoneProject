@@ -34,6 +34,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .table-controls
@@ -56,17 +57,27 @@
     height: 110%;
 }
 
-.table-controls div button
+.add-user__button
 {
+    border-radius: 6px;
+    border: 1px solid black;
+    color: black;
     margin-right: 10px;
     padding: 3px 10px 3px 10px;
     min-width: 79px;
+    background-color: var(--accent-two-color);
+    text-decoration: none;
 }
-/*.table-controls button
-{
-    float: right;
-}*/
 
+.add-user__button:hover
+{
+    background-color: var(--accent-one-color);
+}
+
+.add-user__button:active
+{
+    background-color: var(--secondary-color);
+}
 
 .table
 {

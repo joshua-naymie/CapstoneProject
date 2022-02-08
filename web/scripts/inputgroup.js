@@ -50,8 +50,8 @@ class InputGroup
         this.label.classList.add(`${this.className}__label`);
         this.container.appendChild(this.label);
 
-        this.input.id = `${id}__input`;
-        this.input.name = `${id}__input`;
+        this.input.id = id;
+        this.input.name = id;
         this.input.classList.add(`${this.className}__input`);
         this.container.appendChild(this.input);
 

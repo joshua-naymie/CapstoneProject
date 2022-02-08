@@ -50,7 +50,7 @@ const CSS_TABLE_CELL = "table-cell";
 const detailsContent = (element) => {
     let editButton = document.createElement("div");
     editButton.innerText = "Edit";
-    editButton.addEventListener("click", () => showDetails(element));
+    editButton.addEventListener("click", () => showDetails(element.email));
 
     return editButton;
 };
@@ -80,12 +80,11 @@ var main;
 function load()
 {
     document.getElementById("searchbar").addEventListener("input", (e) => {searchTable(e.target.value);});
-    
     main = document.getElementById("table-container");
 
     let col1 = new DataColumn("First Name", "firstName", CSS_TABLE_CELL);
     let col2 = new DataColumn("Last Name", "lastName", CSS_TABLE_CELL);
-    let col3 = new DataColumn("Email", "id", CSS_TABLE_CELL, addressLink);
+    let col3 = new DataColumn("Email", "email", CSS_TABLE_CELL, addressLink);
     let col4 = new CustomColumn("Edit", "table-cell__edit", detailsContent);
     // let col4 = new CustomColumn("Full Name", fullName);
 
@@ -99,10 +98,13 @@ function load()
 
 function showDetails(user)
 {
-    alert(`Id: ${user.id}\n` +
-          `Name: ${user.firstName} ${user.lastName}\n` +
-          `Address: ${user.address}\n` + 
-          `Phone #: ${user.phoneNum}`);
+    document.getElementById("userid").value = user;
+    
+    postAction("edit", "submit-form", "Account");
+//    alert(`Id: ${user.id}\n` +
+//          `Name: ${user.firstName} ${user.lastName}\n` +
+//          `Address: ${user.address}\n` + 
+//          `Phone #: ${user.phoneNum}`);
 }
 
 function removeAllChildren(element)
