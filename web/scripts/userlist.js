@@ -80,7 +80,6 @@ var main;
 function load()
 {
     document.getElementById("searchbar").addEventListener("input", (e) => {searchTable(e.target.value);});
-    
     main = document.getElementById("table-container");
 
     let col1 = new DataColumn("First Name", "firstName", CSS_TABLE_CELL);

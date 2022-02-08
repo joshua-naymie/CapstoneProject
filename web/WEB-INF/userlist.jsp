@@ -23,13 +23,13 @@
             <%@ include file="navbar.jsp" %>
             <div class="body">
                 <div class="table-controls">
-                    <div style=""></div>
+                    <div id="dummy"></div>
                     <div style="display: flex; justify-content: center; align-items: center;">
                         <input id="searchbar" type="text" placeholder="Name" />
                     </div>
 
                     <div style="display: flex; justify-content: flex-end">
-                        <button>Add User</button>
+                        <a class="add-user__button" href="/ECSSENPro/add">Add User</a>
                     </div>
                 </div>
                 <div id="table-container" class="table-container">
