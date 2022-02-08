@@ -24,13 +24,10 @@
     <body id="body">
         <div class="main">
             <h2>Add User</h2>
-<!--            <div id="container" class="container">-->
-		    <form id="container" class="container">
-			<div id="container-left" class="input-column"></div>
-			<div id="container-right" class="input-column"></div>
-		    </form>
-
-            <!--</div>-->
+            <form id="container" class="container">
+                <div id="container-left" class="input-column"></div>
+                <div id="container-right" class="input-column"></div>
+            </form>
         </div>
     </body>
 </html>
