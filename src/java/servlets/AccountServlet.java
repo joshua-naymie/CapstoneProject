@@ -58,7 +58,21 @@ public class AccountServlet extends HttpServlet {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("users", allUsers);
-        getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
+        
+        
+        // Json to be tested
+        StringBuilder returnData = new StringBuilder();
+        String OUTPUT_FORMAT = "{\"id:\":%s, \"firstName\":\"%s\", \"lastName\":%s, \"phoneNum\":%s, \"address\":%s},";
+        returnData.append("[");
+        for (User u : allUsers) {
+            returnData.append(String.format(OUTPUT_FORMAT, u.getUserId(), u.getFirstName(), u.getLastName(), u.getPhoneNumber(),u.getHomeAddress()));
+        }
+        returnData.deleteCharAt(returnData.length() - 1);
+        returnData.append("]");
+        response.setContentType("text/html");
+        response.getWriter().write(returnData.toString());
+        
+        getServletContext().getRequestDispatcher("/WEB-INF/userlist.jsp").forward(request, response);
     }
 
     // david
@@ -87,7 +101,7 @@ public class AccountServlet extends HttpServlet {
                     // request.setAttribute("editview", true);
                     edit(request, response);
                     break;
-                
+
                 // saving account status change
                 case "Save":
                     save(request, response);
