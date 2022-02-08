@@ -84,7 +84,7 @@ function load()
 
     let col1 = new DataColumn("First Name", "firstName", CSS_TABLE_CELL);
     let col2 = new DataColumn("Last Name", "lastName", CSS_TABLE_CELL);
-    let col3 = new DataColumn("Email", "email", CSS_TABLE_CELL, addressLink);
+    let col3 = new DataColumn("Email", "id", CSS_TABLE_CELL, addressLink);
     let col4 = new CustomColumn("Edit", "table-cell__edit", detailsContent);
     // let col4 = new CustomColumn("Full Name", fullName);
 

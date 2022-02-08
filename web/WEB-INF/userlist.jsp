@@ -20,7 +20,7 @@
 
         <script>var data = ${userData};</script>
 
-        <%--<script type="text/javascript" src="scripts/functions.js"></script>--%>
+        <script type="text/javascript" src="scripts/functions.js"></script>
 
     </head>
     <body>
