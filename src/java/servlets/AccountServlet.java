@@ -58,7 +58,7 @@ public class AccountServlet extends HttpServlet {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("users", allUsers);
-        getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/userlist.jsp").forward(request, response);
     }
 
     // david

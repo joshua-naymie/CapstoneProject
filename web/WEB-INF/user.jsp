@@ -15,7 +15,7 @@
         
         <link rel="stylesheet" href="css/user.css">
         <link rel="stylesheet" href="css/inputstyles.css">
-        <script type="text/javascript" src="scripts/userscripts.js"></script>
+        <script type="text/javascript" src="scripts/user.js"></script>
         <script type="text/javascript" src="scripts/inputgroup.js"></script>
         <script type="text/javascript" src="scripts/inputgroupcollection.js"></script>
         <script type="text/javascript" src="scripts/regexs.js"></script>

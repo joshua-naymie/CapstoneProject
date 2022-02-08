@@ -12,7 +12,7 @@
         <title>Users</title>
         <link rel="stylesheet" href="css/styles.css">
         <script src="https://kit.fontawesome.com/7eb48072cc.js" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="scripts/userlistcripts.js"></script>
+        <script type="text/javascript" src="scripts/userlist.js"></script>
         <script type="text/javascript" src="scripts/autotable.js"></script>
         <script type="text/javascript" src="scripts/datacolumn.js"></script>
         <script type="text/javascript" src="scripts/customcolumn.js"></script>
@@ -21,7 +21,6 @@
     <body>
         <%@ include file="navbar.jsp" %>
         <div class="body">
-            <!--<div style="display: flex; justify-content: center;">-->
                 <div class="table-controls">
                     <div style=""></div>
                     <div style="display: flex; justify-content: center; align-items: center;">
@@ -31,11 +30,7 @@
                     <div style="display: flex; justify-content: flex-end">
                         <button>Add User</button>
                     </div>
-
                 </div>
-            <!--</div>-->
-
-
             <div id="main" class="table-container">
 
             </div>
