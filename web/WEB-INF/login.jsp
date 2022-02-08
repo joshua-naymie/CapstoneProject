@@ -12,11 +12,12 @@
         <title>Login - Eccssen Pro</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
         <div class="base">
             <%@ include file="navbar.jsp" %>
-            <div >
-                
+            <div class="body">
+                <div>
+                    <p>testasdfasdfasfasfsaf</p>
+                </div>
             </div>
         </div>
     </body>
