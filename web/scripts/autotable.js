@@ -12,7 +12,7 @@ class AutoTable
         this.container.classList.add(className);
         this.className = className;
         this.data = data;
-        this.columns = new RowManager(this.className, columnMaps);
+        this.columns = new RowManager(`${this.className}-row`, columnMaps);
         
         this.rows = [];
     }
@@ -44,16 +44,12 @@ class AutoTable
     {
         let row = document.createElement("div");
         row.classList.add(`${this.className}-row`);
-        // row.classList.add(`${this.className}-row__header`);
 
         for(let i=0; i<this.columns.getSize(); i++)
         {
             let cell = document.createElement("div");
-//            cell.classList.add(`${this.className}`);
             cell.classList.add(`${this.className}-header`);
-//            cell.classList.add(`${this.className}-cell`);
-//            cell.style.alignItems = "center";
-//            cell.style.margin = "0";
+            
             if(i === this.columns.getSize()-1)
             {
                 cell.classList.add(`${this.className}-cell__last-column`);
@@ -61,15 +57,12 @@ class AutoTable
 
             let content = document.createElement("p");
             content.classList.add(`${this.className}-content`);
-            content.style.margin = "10px 0 10px 0";
-            
-            
             content.innerText = this.columns.columns[i].header;
 
             cell.appendChild(content);
             row.appendChild(cell);
         }
-        this.container.appendChild(row);
+        this.container.appendChild(this.columns.generateHeader());
     }
 
     /**
@@ -79,8 +72,11 @@ class AutoTable
     {
         for(let i=0; i<this.data.length; i++)
         {
-            let row = i === this.data.length-1 ? this.getRowContent(this.data[i], true) : this.getRowContent(this.data[i]);
+//            let row = i === this.data.length-1 ? this.getRowContent(this.data[i], true) : this.getRowContent(this.data[i]);
+            
+            let row = i === this.data.length-1 ? this.columns.generateContent(i, data[i]) : this.columns.generateContent(i, data[i], true);
             this.rows.push(row);
+            
             
             this.container.appendChild(row);
         }
@@ -116,5 +112,4 @@ class AutoTable
     {
         this.rows[index].classList.toggle("display__none", !show);
     }
-    
 }

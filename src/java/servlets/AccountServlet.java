@@ -62,17 +62,27 @@ public class AccountServlet extends HttpServlet {
         
         // Json to be tested
         StringBuilder returnData = new StringBuilder();
-        String OUTPUT_FORMAT = "{\"id:\":%s, \"firstName\":\"%s\", \"lastName\":%s, \"phoneNum\":%s, \"address\":%s},";
+        String OUTPUT_FORMAT = "{\"id\":%s, \"firstName\":%s, \"lastName\":%s, \"phoneNum\":%s, \"address\":%s},";
         returnData.append("[");
         for (User u : allUsers) {
-            returnData.append(String.format(OUTPUT_FORMAT, u.getUserId(), u.getFirstName(), u.getLastName(), u.getPhoneNumber(),u.getHomeAddress()));
+            returnData.append(String.format(OUTPUT_FORMAT, checkNull(u.getUserId()), checkNull(u.getFirstName()), 
+                                            checkNull(u.getLastName()), checkNull(u.getPhoneNumber()), checkNull(u.getHomeAddress())));
         }
         returnData.deleteCharAt(returnData.length() - 1);
         returnData.append("]");
-        response.setContentType("text/html");
-        response.getWriter().write(returnData.toString());
-        
+        //response.setContentType("text/html");
+        //response.getWriter().write(returnData.toString());
+        request.setAttribute("userData", returnData);
         getServletContext().getRequestDispatcher("/WEB-INF/userlist.jsp").forward(request, response);
+    }
+    
+    // checking if the string value is null so it can be appropriately returned to the
+    // json file
+    private String checkNull(String check){
+        if(check == null){
+            return "null";
+        }
+        return "\""+check+"\"";
     }
 
     // david

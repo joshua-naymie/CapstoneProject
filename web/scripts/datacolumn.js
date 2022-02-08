@@ -6,7 +6,7 @@ class DataColumn
      * @param {string} keyName              They key name of the data to display in the column
      * @param {Function} contentGenerator   A function to create custom content. Must return an appendable HTML object. Optional
      */
-    constructor(header, keyName, contentGenerator)
+    constructor(header, keyName, className, contentGenerator)
     {
         if(typeof header !== "string")
         {
@@ -19,6 +19,7 @@ class DataColumn
 
         this.header = header;
         this.keyName = keyName;
+        this.className = className;
 
         this.contentGenerator = contentGenerator == null ? this.generateContentText : contentGenerator;
     }
@@ -31,10 +32,10 @@ class DataColumn
     generateContent(element)
     {
         let cell = document.createElement("div");
-        cell.classList.add(`${this.className}-cell`);
+        cell.classList.add(this.className);
         
         let content = this.contentGenerator(element[this.keyName]);
-        content.classList.add(`${this.className}-content`);
+//        content.classList.add(`${this.className}-content`);
 
         cell.appendChild(content);
         
@@ -49,10 +50,10 @@ class DataColumn
      */
     generateContentText(value)
     {
-        let cell = document.createElement("p");
-        cell.innerText = value;
+        let content = document.createElement("p");
+        content.innerText = value;
 
-        return cell;
+        return content;
     }
 
     /**
