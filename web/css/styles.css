@@ -1,11 +1,13 @@
-:root
+@import "colorscheme.css";
+
+/*:root
 {
     --primary: #FAAE30;
     --secondary: #E6C169;
     --accent1: #9FCA6A;
     --accent2: #F2F2F7;
     --header: #174690;
-}
+}*/
 
 .base
 {
@@ -18,6 +20,7 @@
 
 .body
 {
+    /*font-family: sans-serif;*/
     margin-top: 50px;
     display: flex;
     flex-direction: column;
@@ -57,6 +60,7 @@
 {
     margin-right: 10px;
     padding: 3px 10px 3px 10px;
+    min-width: 79px;
 }
 /*.table-controls button
 {
@@ -76,8 +80,8 @@
 .table-row-header
 {
     
-    background-color: var(--secondary);
-    color: black;
+    background-color: var(--secondary-color);
+    color: var(--header-color);
     justify-content: center;
     align-items: center;
     border-width: 1px 0 1px 1px;
@@ -107,6 +111,11 @@
     width: 100%;
 }
 
+.table-row:hover
+{
+    background-color: #eefdff;
+}
+
 .table-cell
 {
     width: 100%;
@@ -134,7 +143,10 @@
 
 .table-cell a
 {
-    color: var(--header);
+    width: auto;
+    margin-right: 100%;
+    margin-left: 0;
+    color: var(--header-color);
     text-decoration: none;
 }
 
@@ -153,15 +165,13 @@
     align-items: center;
     border-bottom: 1px solid black;
     border-left: 1px solid black;
-/*    min-height: 0;
-    min-width: 0;*/
     margin: 0;
     padding: 0;
 }
 
 .table-cell__edit div
 {
-    background-color: var(--accent2);
+    background-color: var(--accent-two-color);
     width: 100%;
     height: 100%;
     display: flex;
@@ -171,7 +181,7 @@
 
 .table-cell__edit div:hover
 {
-    background-color: var(--accent1);
+    background-color: var(--accent-one-color);
 }
 
 .last-column

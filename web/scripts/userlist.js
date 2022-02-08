@@ -56,11 +56,14 @@ const detailsContent = (element) => {
 };
 
 const addressLink = (value) => {
+    let container = document.createElement("div");
     let link = document.createElement("a");
     link.href = `mailto:${value}`;
     link.innerText = value;
+    
+    container.appendChild(link);
 
-    return link;
+    return container;
 }
 
 // const fullName = (user) => {
