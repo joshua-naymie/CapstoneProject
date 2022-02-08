@@ -19,8 +19,9 @@
         <script type="text/javascript" src="scripts/rowmanager.js"></script>
     </head>
     <body>
-        <%@ include file="navbar.jsp" %>
-        <div class="body">
+        <div class="base">
+            <%@ include file="navbar.jsp" %>
+            <div class="body">
                 <div class="table-controls">
                     <div style=""></div>
                     <div style="display: flex; justify-content: center; align-items: center;">
@@ -31,10 +32,10 @@
                         <button>Add User</button>
                     </div>
                 </div>
-            <div id="main" class="table-container">
+                <div id="main" class="table-container">
 
-            </div>
+                </div>
+            </div>  
         </div>
-        
     </body>
 </html>
