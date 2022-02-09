@@ -223,3 +223,151 @@
 {
     display: none;
 }
+
+
+
+
+
+
+
+
+/*----------------*/
+
+.main-input
+{
+    display: flex;
+    flex-direction: column;
+/*    justify-content: center;
+    align-items: center;*/
+}
+
+.main-input__label
+{
+    margin: 0 0 0 10px;
+    font-family: fancyfont;
+}
+
+.main-input__label--default
+{
+    color: black;
+    transition: color 0.3s;
+}
+
+.main-input__label--warning
+{
+    ;
+}
+
+.main-input__label--error
+{
+    ;
+}
+
+.main-input__input
+{
+    /*text-align: center;*/
+    width: 250px;
+    height: 30px;
+    margin: 0;
+    padding-left: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    outline: none !important;
+    transition: border-color 0.33s;
+}
+
+.main-input__input--default
+{
+    border-color: black;
+    transition: border-color 0.33s;
+}
+
+.main-input__input--warning
+{
+    border-color: goldenrod;
+    transition: border-color 0.33s;
+}
+
+.main-input__input--error
+{
+    border-color: red;
+    transition: border-color 0.33s;
+}
+
+.main-input__message
+{
+    align-self: center;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0;
+    border-radius: 0 0 8px 8px;
+    /*color: white;*/
+    padding: 0px 8px 2px 8px;
+    transition: opacity 0.33s;
+}
+
+.main-input__message--default
+{
+    color: black;
+    opacity: 0;
+    background-color: var(--secondary-gray);
+    transition: opacity 0.33s;
+}
+
+.main-input__message--warning
+{
+    color: black;
+    opacity: 1;
+    background-color: var(--highlight-yellow);
+    transition: opacity 0.33s;
+}
+
+.main-input__message--error
+{
+    opacity: 1;
+    background-color: var(--highlight-red);
+    transition: opacity 0.33s;
+}
+
+
+/*----------------*/
+
+.input-area
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.input-area hr
+{
+    width: 100%;
+    color: lightgray;
+}
+
+.login-button
+{
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 0 5px 0;
+    background-color: var(--primary-color);
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.login-button:hover
+{
+    cursor: pointer;
+}
+
+.login-button:active
+{
+    background-color: var(--secondary-color);
+}
