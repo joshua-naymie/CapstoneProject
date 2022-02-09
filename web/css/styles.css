@@ -21,22 +21,20 @@
 .body
 {
     /*font-family: sans-serif;*/
-    padding-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    overflow-y: scroll;
-    height: 100vh;
+    height: 100%;
 }
 
 .table-container
 {
     display: flex;
     justify-content: center;
-    align-items: center;
+    /*align-items: center;*/
     width: 100%;
-    margin-bottom: 20px;
+    /*height: 100%;*/
 }
 
 .table-controls
@@ -46,7 +44,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     width: 80%;
     max-width: 1024px;
-    margin-bottom: 20px;
+    margin: 50px 0 20px 0;
     padding: 0 .1rem 0 0;
     /*align-items: flex-end;*/
 }
@@ -87,7 +85,10 @@
     display: flex;
     flex-direction: column;
     max-width: 1024px;
-    
+    max-height: 85vh;
+    overflow-y: scroll;
+/*    -ms-overflow-style: none;   IE and Edge 
+    scrollbar-width: none;   Firefox */
 }
 
 .test /*test removing scrollbar*/
@@ -96,12 +97,12 @@
     scrollbar-width: none;  /* Firefox */
 }
 
-.test::-webkit-scrollbar
+.table::-webkit-scrollbar
 {
     display: none;
 }
 
-.table-row-header
+.table-cell-header
 {
     
     background-color: var(--secondary-color);
@@ -119,13 +120,22 @@
     white-space: nowrap;
 }
 
-.table-row-header p
+.table-cell-header p
 {
     margin: .5rem 0 .5rem 0;
     text-decoration: underline;
     font-weight: bold;
     color: var(--header);
     overflow: hidden;
+}
+
+.table-row-header
+{
+    display: grid;
+    grid-template-columns: .75fr .75fr 1fr .5fr;
+    width: 100%;
+    position: sticky;
+    top: 0;
 }
 
 .table-row
@@ -191,6 +201,7 @@
     border-left: 1px solid black;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 .table-cell__edit div
