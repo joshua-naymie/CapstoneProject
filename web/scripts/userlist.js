@@ -50,7 +50,8 @@ const CSS_TABLE_CELL = "table-cell";
 const detailsContent = (element) => {
     let editButton = document.createElement("div");
     editButton.innerText = "Edit";
-    editButton.addEventListener("click", () => showDetails(element.email));
+    let x = element.email;
+    editButton.addEventListener("click", () => showDetails(element.id));
 
     return editButton;
 };
@@ -98,7 +99,7 @@ function load()
 
 function showDetails(user)
 {
-    document.getElementById("userid").value = user;
+    document.getElementById("username").value = user;
     
     postAction("edit", "submit-form", "Account");
 //    alert(`Id: ${user.id}\n` +

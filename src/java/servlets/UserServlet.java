@@ -4,12 +4,14 @@
  */
 package servlets;
 
+import com.sun.jndi.toolkit.url.Uri;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import models.User;
 
 /**
  *
@@ -30,6 +32,11 @@ public class UserServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String id = request.getParameter("username");
+        
+        System.out.println("ID: " + id);
+//        User test = (User) request.getAttribute("editUser");
+//        System.out.println(test.getFirstName());
         getServletContext().getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
     }
 
