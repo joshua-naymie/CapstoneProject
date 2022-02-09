@@ -32,6 +32,8 @@ var main;
  */
 function load()
 {
+    window.addEventListener("resize", setListHeight);
+    
     document.getElementById("searchbar").addEventListener("input", (e) => {searchTable(e.target.value);});
     main = document.getElementById("table-container");
 
@@ -46,6 +48,8 @@ function load()
     table.generateTable();
 
     main.appendChild(table.container);
+    
+    setListHeight();
     
     document.getElementById("content-section").appendChild(document.createElement("div"));
 }
@@ -81,4 +85,13 @@ function searchTable(searchValue)
             table.toggleRow(i, true);
         }
     }
+}
+
+function setListHeight()
+{
+    
+    let controls = document.getElementById("controls");
+    table.container.style.maxHeight = (window.innerHeight - 96 - 20) + "px";
+    
+    console.log(controls.offsetHeight);
 }

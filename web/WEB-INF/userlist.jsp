@@ -27,7 +27,7 @@
         <div class="base">
             <%@ include file="navbar.jsp" %>
             <div id="content-section" class="body">
-                <div class="table-controls">
+                <div id="controls" class="table-controls">
                     <div id="dummy"></div>
                     <div style="display: flex; justify-content: center; align-items: center;">
                         <input id="searchbar" type="text" placeholder="Name" />
