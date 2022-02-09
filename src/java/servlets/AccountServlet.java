@@ -163,8 +163,6 @@ public class AccountServlet extends HttpServlet {
             AccountServices accService = new AccountServices();
             // use the account services to retrieve the account info for editing
             User editUser = accService.get(request.getParameter("username"));
-            
-            System.out.println(request.getParameter("username"));
 
             try {
                 request.setAttribute("users", accService.getAll());

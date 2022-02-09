@@ -193,6 +193,7 @@
 .table-cell__edit div:hover
 {
     background-color: var(--accent-one-color);
+    cursor: pointer;
 }
 
 .last-column

@@ -47,16 +47,16 @@ const CSS_TABLE_CELL = "table-cell";
 //                }
 //            ];
 
-const detailsContent = (element) => {
+const editContent = (element) => {
     let editButton = document.createElement("div");
     editButton.innerText = "Edit";
     let x = element.email;
-    editButton.addEventListener("click", () => showDetails(element.id));
+    editButton.addEventListener("click", () => editPressed(element.id));
 
     return editButton;
 };
 
-const addressLink = (value) => {
+const emailLink = (value) => {
     let container = document.createElement("div");
     let link = document.createElement("a");
     link.href = `mailto:${value}`;
@@ -85,8 +85,8 @@ function load()
 
     let col1 = new DataColumn("First Name", "firstName", CSS_TABLE_CELL);
     let col2 = new DataColumn("Last Name", "lastName", CSS_TABLE_CELL);
-    let col3 = new DataColumn("Email", "id", CSS_TABLE_CELL, addressLink);
-    let col4 = new CustomColumn("Edit", "table-cell__edit", detailsContent);
+    let col3 = new DataColumn("Email", "id", CSS_TABLE_CELL, emailLink);
+    let col4 = new CustomColumn("Edit", "table-cell__edit", editContent);
     // let col4 = new CustomColumn("Full Name", fullName);
 
     table = new AutoTable("table", data, [col2, col1, col4]);
@@ -97,23 +97,11 @@ function load()
     main.appendChild(table.container);
 }
 
-function showDetails(user)
+function editPressed(email)
 {
-    document.getElementById("username").value = user;
+    document.getElementById("username").value = email;
     
     postAction("edit", "submit-form", "Account");
-//    alert(`Id: ${user.id}\n` +
-//          `Name: ${user.firstName} ${user.lastName}\n` +
-//          `Address: ${user.address}\n` + 
-//          `Phone #: ${user.phoneNum}`);
-}
-
-function removeAllChildren(element)
-{
-    while(element.firstChild)
-    {
-        element.removeChild(element.firstChild);
-    }
 }
 
 function searchTable(searchValue)
