@@ -280,7 +280,7 @@
 
 .main-input__input--default
 {
-    border-color: black;
+    border-color: gray;
     transition: border-color 0.33s;
 }
 
@@ -352,7 +352,9 @@
     text-align: center;
     border-radius: 5px;
     padding: 5px 0 5px 0;
+    border: 2px solid var(--primary-color);
     background-color: var(--primary-color);
+    transition: border-color 0.2s;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -365,6 +367,8 @@
 .login-button:hover
 {
     cursor: pointer;
+    border-color: var(--header-color);
+    transition: border-color 0.2s;
 }
 
 .login-button:active

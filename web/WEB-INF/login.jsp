@@ -21,6 +21,7 @@
     <body>
         <div class="base">
             <div class="body">
+                <img src="content/images/logo-vert.png" width="170px" alt="Ecclogo"/>
                 <h2>Login</h2>
                 <form id="login-form">
                     <input id="action" name="action" type="hidden">
