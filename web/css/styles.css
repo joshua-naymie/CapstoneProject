@@ -204,7 +204,7 @@
     overflow: hidden;
 }
 
-.table-cell__edit div
+.table-cell__edit a
 {
     background-color: var(--accent-two-color);
     width: 100%;
@@ -212,9 +212,11 @@
     display: flex;
     justify-content: center;
     align-items: center; 
+    color: black;
+    text-decoration: none;
 }
 
-.table-cell__edit div:hover
+.table-cell__edit a:hover
 {
     background-color: var(--accent-one-color);
     cursor: pointer;

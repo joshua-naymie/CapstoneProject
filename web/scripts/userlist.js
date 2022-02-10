@@ -2,22 +2,26 @@ document.addEventListener('DOMContentLoaded', load, false);
 
 const CSS_TABLE_CELL = "table-cell";
 
-const editContent = (element) => {
-    let editButton = document.createElement("div");
+const editContent = (user) => {
+    let editButton = document.createElement("a");
     editButton.innerText = "Edit";
-    
-    let x = element.email;
-    editButton.addEventListener("click", () => editPressed(element.id));
+    editButton.href = `add?username=${user.id}`;
+//    editButton.addEventListener("click", () => editPressed(user.id));
 
     return editButton;
 };
 
-const emailLink = (value) => {
+/**
+ * Creates an email link within a table cell
+ * @param {string} email The email to create the link with
+ * @returns {Element} The table cell with an email link in it
+ */
+const emailLink = (email) => {
     let container = document.createElement("div");
     
     let link = document.createElement("a");
-    link.href = `mailto:${value}`;
-    link.innerText = value;
+    link.href = `mailto:${email}`;
+    link.innerText = email;
     
     container.appendChild(link);
 
@@ -89,7 +93,6 @@ function searchTable(searchValue)
 
 function setListHeight()
 {
-    
     let controls = document.getElementById("controls");
     table.container.style.maxHeight = (window.innerHeight - 96 - 20) + "px";
     

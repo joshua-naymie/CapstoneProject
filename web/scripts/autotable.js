@@ -11,17 +11,9 @@ class AutoTable
         this.container = document.createElement("div");
         this.container.classList.add(className);
         
-//        this.headerdiv = document.createElement("div");     //change
-//        this.container.appendChild(this.headerdiv);         //change
-//        this.contentdiv = document.createElement("div");    //change
-//        this.contentdiv.style.overflowY = "scroll";         //change
-//        this.contentdiv.style.height = "80vh";              //change
-//        this.contentdiv.classList.add("test");              //change
-//        this.container.appendChild(this.contentdiv);        //change
-        
         this.className = className;
         this.data = data;
-        this.columns = new RowManager(`${this.className}-row`, columnMaps);
+        this.rowManager = new RowManager(`${this.className}-row`, columnMaps);
         
         this.rows = [];
     }
@@ -34,7 +26,7 @@ class AutoTable
      */
     addColumn(column, position)
     {
-        this.columns.addColumn(column, position);
+        this.rowManager.addColumn(column, position);
     }
 
     /**
@@ -51,27 +43,7 @@ class AutoTable
      */
     generateHeader()
     {
-//        let row = document.createElement("div");
-//        row.classList.add(`${this.className}-row`);//table-row-header
-//
-//        for(let i=0; i<this.columns.getSize(); i++)
-//        {
-//            let cell = document.createElement("div");
-//            cell.classList.add(`${this.className}-header`);
-//            
-//            if(i === this.columns.getSize()-1)
-//            {
-//                cell.classList.add(`${this.className}-cell__last-column`);
-//            }
-//
-//            let content = document.createElement("p");
-//            content.classList.add(`${this.className}-content`);
-//            content.innerText = this.columns.columns[i].header;
-//
-//            cell.appendChild(content);
-//            row.appendChild(cell);
-//        }
-        this.container.appendChild(this.columns.generateHeader());  //change
+        this.container.appendChild(this.rowManager.generateHeader());
     }
 
     /**
@@ -81,7 +53,7 @@ class AutoTable
     {
         for(let i=0; i<this.data.length; i++)
         {
-            let row = i === this.data.length-1 ? this.columns.generateContent(i, data[i]) : this.columns.generateContent(i, data[i], true);
+            let row = i === this.data.length-1 ? this.rowManager.generateContent(i, data[i]) : this.rowManager.generateContent(i, data[i], true);
             this.rows.push(row);
             
             
@@ -94,12 +66,12 @@ class AutoTable
         let row = document.createElement("div");
             row.classList.add(`${this.className}-row`);
     
-        for(let j=0; j<this.columns.getSize(); j++)
+        for(let j=0; j<this.rowManager.getSize(); j++)
         {
-            let cell = this.columns.generateContent(j, data);
+            let cell = this.rowManager.generateContent(j, data);
             cell.classList.add(this.className);
 
-            if(j === this.columns.getSize() - 1)
+            if(j === this.rowManager.getSize() - 1)
             {
                 cell.classList.add(`${this.className}-cell__last-column`);
             }

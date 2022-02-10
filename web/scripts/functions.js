@@ -2,25 +2,25 @@
  * POST's to server. Can specify form to submit and action value
  * @param {string} anAction The action the server will perform
  *                          Ex: "edit"
- * @param {string} form The form id or name? that you want to submit to the server 
+ * @param {string} form The form id that you want to submit to the server 
  * @param {string} page The page to submit the form too
  *                      Ex: "login"
  */
-function postAction(anAction, form, page)
+function postAction(anAction, formId, page)
 {
     var input = document.getElementById("action").value = anAction;
     
-    postActionToInput(anAction, input, form, page);
+    postActionToInput(anAction, input, formId, page);
 }
 
-function postActionToInput(anAction, input, form, page)
+function postActionToInput(anAction, input, formId, page)
 {
-    console.log(anAction);
+    let form = document.getElementById(formId);
     input.value = anAction;
     
-    document.getElementById(form).action = page;
-    document.getElementById(form).method = "POST";
-    document.getElementById(form).submit();
+    form.action = page;
+    form.method = "POST";
+    form.submit();
 }
 
 /**
