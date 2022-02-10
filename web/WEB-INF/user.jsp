@@ -22,6 +22,7 @@
         <script type="text/javascript" src="scripts/validator.js"></script>
     </head>
     <body id="body">
+                <%@ include file="navbar.jsp" %>
         <div class="main">
             <h2>Add User</h2>
             <form id="container" class="container" method="post" action="/ECSSENPro?action=add">
