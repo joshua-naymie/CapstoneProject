@@ -1,7 +1,7 @@
 class RowManager
 {
     /**
-     * 
+     * Constructor for RowManager.
      * @param {string} className                            The CSS class name to be applied to the columns
      * @param {Array<DataColumn | CustomColumn>} columnMaps An array of DataColumns/CustomColumns
      */
@@ -26,7 +26,6 @@ class RowManager
      */
     addColumn(column, position)
     {
-//        column.setClassName(this.className);
         if(typeof position !== "number")
         {
             this.columns.push(column);
@@ -70,10 +69,14 @@ class RowManager
         return this.columns[index].keyName;
     }
 
+/**
+ * Generates and returns the header row of the table. Consists of each column's
+ * name in a paragraph
+ * @returns {Element} The table row of header table cells.
+ */
     generateHeader()
     {
         let row = document.createElement("div");
-//        row.classList.add(`${this.className}-row`);
         row.classList.add("table-row-header");
         
         let i;
@@ -100,11 +103,10 @@ class RowManager
 
     /**
      * Generates the content for the specefied column based off the given element
-     * @param {number} index The index of the column to generate content for
      * @param {*} entity     The entity to generate content from
-     * @returns The generated content
+     * @returns The generated content within a table cell
      */
-    generateContent(index, entity, isLast)
+    generateContent(entity)
     {
         let row = document.createElement("div");
         row.classList.add(this.className);
