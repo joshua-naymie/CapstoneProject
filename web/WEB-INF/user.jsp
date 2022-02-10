@@ -24,7 +24,7 @@
     <body id="body">
         <div class="main">
             <h2>Add User</h2>
-            <form id="container" class="container" method="post" action="/ECSSENPro?action=add">
+            <form id="container" class="container" method="post" action="">
                 <div id="container-left" class="input-column"></div>
                 <div id="container-right" class="input-column"></div>
             </form>

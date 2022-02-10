@@ -40,6 +40,7 @@ public class AccountServices {
     //agambeer
     // Insert for creating users
     public void insert(String userId, boolean isAdmin, String userCity, String firstName, String lastName, boolean isActive, String userPassword, Date dateOfBirth, String phoneNumber, String homeAddress, String postalCode, Date registrationDate, int teamId) throws Exception {
+        
         UserDB userDB = new UserDB();
         User user = new User(userId, isAdmin, firstName, lastName, isActive, userPassword, registrationDate);
         

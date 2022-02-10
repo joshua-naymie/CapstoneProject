@@ -112,7 +112,8 @@ function load()
     submitButton.type = "submit";
     submitButton.className = "btn";
     submitButton.id = "submit-button";
-    
+    submitButton.name = "action";
+    submitButton.value = "Add";
     
     let cancelButton = document.createElement("button");
     cancelButton.innerHTML = "Cancel";
