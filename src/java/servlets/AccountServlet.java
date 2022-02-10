@@ -57,10 +57,11 @@ public class AccountServlet extends HttpServlet {
         request.setAttribute("users", allUsers);
         
         
-        // Json to be tested
+        // sending Json data of all user info to the front end
         StringBuilder returnData = new StringBuilder();
         String OUTPUT_FORMAT = "{\"id\":%s, \"firstName\":%s, \"lastName\":%s, \"phoneNum\":%s, \"address\":%s},";
         returnData.append("[");
+        // looping through each individual user and grabbing their data
         for (User u : allUsers) {
             returnData.append(String.format(OUTPUT_FORMAT, checkNull(u.getUserId()), checkNull(u.getFirstName()), 
                                             checkNull(u.getLastName()), checkNull(u.getPhoneNumber()), checkNull(u.getHomeAddress())));
