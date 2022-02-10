@@ -18,10 +18,9 @@
                 <th>Edit</th>
                 <th>Change status</th>
             </tr>
-
+            
             <form action="" method="post">
-                Search By Last Name: <input type="text" name="lastName">
-                <input type ="submit" value="Search" name="action">
+                <input type ="submit" value="Export" name="action">
             </form>
 
             <form action="" method="get">
