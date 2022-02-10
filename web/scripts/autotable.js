@@ -53,38 +53,12 @@ class AutoTable
     {
         for(let i=0; i<this.data.length; i++)
         {
-            let row = i === this.data.length-1 ? this.rowManager.generateContent(i, data[i]) : this.rowManager.generateContent(i, data[i], true);
+            let row = i === this.data.length-1 ? this.rowManager.generateContent(data[i]) : this.rowManager.generateContent(data[i], true);
             this.rows.push(row);
             
             
             this.container.appendChild(row);   //change
         }
-    }
-
-    getRowContent(data, isLastRow)
-    {
-        let row = document.createElement("div");
-            row.classList.add(`${this.className}-row`);
-    
-        for(let j=0; j<this.rowManager.getSize(); j++)
-        {
-            let cell = this.rowManager.generateContent(j, data);
-            cell.classList.add(this.className);
-
-            if(j === this.rowManager.getSize() - 1)
-            {
-                cell.classList.add(`${this.className}-cell__last-column`);
-            }
-
-            if(isLastRow)
-            {
-                cell.classList.add(`${this.className}-cell__last-row`);
-            }
-
-            row.appendChild(cell);
-        }
-
-        return row;
     }
     
     toggleRow(index, show)
