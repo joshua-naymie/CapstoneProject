@@ -86,6 +86,7 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         // Obtain the action from the JSP
         // get parameter name from front end
         String action = request.getParameter("action");
@@ -112,6 +113,7 @@ public class AccountServlet extends HttpServlet {
 //            log("Error Occured carrying out action:" + action);
         }
         // work on exporting if we have time before use case is due
+
     }
 
     private void add(HttpServletRequest request, HttpServletResponse response) {
