@@ -74,13 +74,13 @@ class RowManager
     {
         let row = document.createElement("div");
 //        row.classList.add(`${this.className}-row`);
-        row.classList.add(this.className);
+        row.classList.add("table-row-header");
         
         let i;
         for(i=0; i<this.columns.length; i++)
         {
             let cell = document.createElement("div");
-            cell.classList.add(`${this.className}-header`);
+            cell.classList.add(`table-cell-header`);
             
             if(i === this.getSize()-1)
             {

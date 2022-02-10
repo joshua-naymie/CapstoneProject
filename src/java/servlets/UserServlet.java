@@ -36,6 +36,11 @@ public class UserServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String id = request.getParameter("username");
+        
+        System.out.println("ID: " + id);
+//        User test = (User) request.getAttribute("editUser");
+//        System.out.println(test.getFirstName());
         getServletContext().getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
     }
 
@@ -87,7 +92,7 @@ public class UserServlet extends HttpServlet
                     break;
             }
         } catch (Exception e) {
-            Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, e);
+            Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
             System.err.println("Error Occured carrying out action:" + action);
 //            log("Error Occured carrying out action:" + action);
         }
@@ -135,7 +140,7 @@ public class UserServlet extends HttpServlet
             //getServletContext().getRequestDispatcher("/WEB-INF/userlist.jsp").forward(request, response);
             return;
         } catch (Exception e) {
-            Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, e);
+            Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
         }
 
     }
@@ -152,7 +157,7 @@ public class UserServlet extends HttpServlet
                 request.setAttribute("users", accService.getAll());
             } catch (Exception e) {
                 e.printStackTrace();
-                Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, e);
                 System.err.println("Error Occured retrieving user data");
                 throw new Exception();
             }
@@ -163,11 +168,11 @@ public class UserServlet extends HttpServlet
             try {
                 getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
             } catch (Exception ex) {
-                Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, ex);
+                Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, ex);
                 throw new Exception();
             }
         } catch (Exception ex) {
-            Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, ex);
+            Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, ex);
         }
 
     }

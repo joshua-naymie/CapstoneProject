@@ -2,61 +2,19 @@ document.addEventListener('DOMContentLoaded', load, false);
 
 const CSS_TABLE_CELL = "table-cell";
 
-//const data = [
-//                { 
-//                    email: "d.wei@telus.net",
-//                    firstName: "David",
-//                    lastName: "Wei",
-//                    phoneNum: "111-222-3333",
-//                    address: "123 1st St."
-//                },
-//                {
-//                    email: "t.mutter@aol.com",
-//                    firstName: "Tara",
-//                    lastName: "Mutter",
-//                    phoneNum: "999-888-7654",
-//                    address: "333 3rd Ave."
-//                },
-//                {
-//                    email: "s.adhikari@hotmail.com",
-//                    firstName: "Saurav",
-//                    lastName: "Adhikari",
-//                    phoneNum: "147-369-0258",
-//                    address: "3002 Rickam Rd."
-//                },
-//                { 
-//                    email: "i.skatchedub@yahoo.ca",
-//                    firstName: "Irina",
-//                    lastName: "Skatchedub",
-//                    phoneNum: "444-555-6666",
-//                    address: "1101 Deli Dr."
-//                },
-//                { 
-//                    email: "l.xiaomeng@gmail.com",
-//                    firstName: "Xiaomeng",
-//                    lastName: "Li",
-//                    phoneNum: "777-888-9999",
-//                    address: "54 Main St."
-//                },
-//                { 
-//                    email: "a.brar@gmail.com",
-//                    firstName: "Agambeer",
-//                    lastName: "Brar",
-//                    phoneNum: "987-654-3210",
-//                    address: "99 Percent Wy."
-//                }
-//            ];
-
-const detailsContent = (element) => {
+const editContent = (element) => {
     let editButton = document.createElement("div");
     editButton.innerText = "Edit";
-    editButton.addEventListener("click", () => showDetails(element.email));
+    
+    let x = element.email;
+    editButton.addEventListener("click", () => editPressed(element.id));
 
     return editButton;
 };
 
-const addressLink = (value) => {
+const emailLink = (value) => {
     let container = document.createElement("div");
+    
     let link = document.createElement("a");
     link.href = `mailto:${value}`;
     link.innerText = value;
@@ -66,53 +24,41 @@ const addressLink = (value) => {
     return container;
 }
 
-// const fullName = (user) => {
-//     let content = document.createElement("p");
-//     content.innerText = `${user.firstName} ${user.lastName}`;
-//     content.style.margin = "0";
-
-//     return content;
-// }
-
 var table;
 var main;
 
+/**
+ * Run when DOM loaded
+ */
 function load()
 {
+    window.addEventListener("resize", setListHeight);
+    
     document.getElementById("searchbar").addEventListener("input", (e) => {searchTable(e.target.value);});
     main = document.getElementById("table-container");
 
-    let col1 = new DataColumn("First Name", "firstName", CSS_TABLE_CELL);
-    let col2 = new DataColumn("Last Name", "lastName", CSS_TABLE_CELL);
-    let col3 = new DataColumn("Email", "id", CSS_TABLE_CELL, addressLink);
-    let col4 = new CustomColumn("Edit", "table-cell__edit", detailsContent);
-    // let col4 = new CustomColumn("Full Name", fullName);
+    // Create columns
+    let fNameCol = new DataColumn("First Name", "firstName", CSS_TABLE_CELL);
+    let lNameCOl = new DataColumn("Last Name", "lastName", CSS_TABLE_CELL);
+    let emailCol = new DataColumn("Email", "id", CSS_TABLE_CELL, emailLink);
+    let editCol = new CustomColumn("Edit", "table-cell__edit", editContent);
 
-    table = new AutoTable("table", data, [col2, col1, col4]);
-    table.addColumn(col3, 2);
-
+    // Create and generate table with declared columns
+    table = new AutoTable("table", data, [fNameCol, lNameCOl, emailCol, editCol]);
     table.generateTable();
 
     main.appendChild(table.container);
+    
+    setListHeight();
+    
+    document.getElementById("content-section").appendChild(document.createElement("div"));
 }
 
-function showDetails(user)
+function editPressed(email)
 {
-    document.getElementById("userid").value = user;
+    document.getElementById("username").value = email;
     
     postAction("edit", "submit-form", "Account");
-//    alert(`Id: ${user.id}\n` +
-//          `Name: ${user.firstName} ${user.lastName}\n` +
-//          `Address: ${user.address}\n` + 
-//          `Phone #: ${user.phoneNum}`);
-}
-
-function removeAllChildren(element)
-{
-    while(element.firstChild)
-    {
-        element.removeChild(element.firstChild);
-    }
 }
 
 function searchTable(searchValue)
@@ -139,4 +85,13 @@ function searchTable(searchValue)
             table.toggleRow(i, true);
         }
     }
+}
+
+function setListHeight()
+{
+    
+    let controls = document.getElementById("controls");
+    table.container.style.maxHeight = (window.innerHeight - 96 - 20) + "px";
+    
+    console.log(controls.offsetHeight);
 }

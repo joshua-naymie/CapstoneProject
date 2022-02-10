@@ -26,8 +26,8 @@
     <body>
         <div class="base">
             <%@ include file="navbar.jsp" %>
-            <div class="body">
-                <div class="table-controls">
+            <div id="content-section" class="body">
+                <div id="controls" class="table-controls">
                     <div id="dummy"></div>
                     <div style="display: flex; justify-content: center; align-items: center;">
                         <input id="searchbar" type="text" placeholder="Name" />
@@ -44,7 +44,7 @@
         </div>
             <form id="submit-form">
                 <input id="action" name="action" type="hidden">
-                <input id="userid" name="userid" type="hidden">
+                <input id="username" name="username" type="hidden">
             </form>
     </body>
 </html>
