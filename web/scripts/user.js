@@ -6,23 +6,36 @@ const MESSAGE_INVALID = "invalid";
 
 var inputCollection;
 
+var firstNameInput,
+    lastNameInput,
+    emailInput,
+    phoneInput,
+    birthdayInput,
+    streetInput,
+    cityInput,
+    postalCodeInput,
+    passwordInput,
+    signupDateInput,
+    adminInput,
+    activeInput;
+
 function load()
 {
     let containerLeft = document.getElementById("container-left"),
         containerRight = document.getElementById("container-right");
     
-    let firstNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_firstname"),
-        lastNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_lastname"),
-        emailInput = new InputGroup(CSS_INPUTGROUP_MAIN, "username"),
-        phoneInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_phone"),
-        birthdayInput = new InputGroup(CSS_INPUTGROUP_MAIN, "birthday"),
-        streetInput = new InputGroup(CSS_INPUTGROUP_MAIN, "street"),
-        cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_city"),
-        postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_postalcode"),
-        passwordInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_password"),
-        signupDateInput = new InputGroup(CSS_INPUTGROUP_MAIN, "signupdate"),
-        adminInput = new InputGroup(CSS_INPUTGROUP_MAIN, "admin"),
-        activeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "active");
+    firstNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_firstname"),
+    lastNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_lastname"),
+    emailInput = new InputGroup(CSS_INPUTGROUP_MAIN, "username"),
+    phoneInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_phone"),
+    birthdayInput = new InputGroup(CSS_INPUTGROUP_MAIN, "birthday"),
+    streetInput = new InputGroup(CSS_INPUTGROUP_MAIN, "street"),
+    cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_city"),
+    postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_postalcode"),
+    passwordInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_password"),
+    signupDateInput = new InputGroup(CSS_INPUTGROUP_MAIN, "signupdate"),
+    adminInput = new InputGroup(CSS_INPUTGROUP_MAIN, "admin"),
+    activeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "active");
 
     
     firstNameInput.setLabelText("First Name:");
@@ -89,6 +102,7 @@ function load()
     signupDateInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
 //    cityInput.setEnterFunction(phoneInput);
     containerRight.appendChild(signupDateInput.container);
+    console.log(signupDateInput.input.value);
     
     
 //    let checkboxDiv = document.createElement("div");
@@ -139,9 +153,32 @@ function load()
     inputCollection.add(streetInput);
     inputCollection.add(cityInput);
     inputCollection.add(postalCodeInput);
+    
+    if(typeof editUser !== "undefined")
+    {
+        document.getElementById("header").innerText = "Edit User";
+        populateFields();
+    }
 }
 
 function validateUserInfo()
 {
     document.getElementById("body").style.backgroundColor = inputCollection.validateAll() ? "green" : "red";
+}
+
+function populateFields()
+{
+    firstNameInput.setInputText(editUser.firstName);
+    lastNameInput.setInputText(editUser.lastName);
+    emailInput.setInputText(editUser.email);
+    phoneInput.setInputText(editUser.phone);
+    birthdayInput.setInputText(editUser.DOB);
+    streetInput.setInputText(editUser.street);
+    cityInput.setInputText(editUser.city);
+    postalCodeInput.setInputText(editUser.postalCode);
+    passwordInput.setInputText(editUser.password);
+    signupDateInput.setInputText(editUser.regDate);
+    
+    adminInput.input.checked = editUser.isAdmin;
+    activeInput.input.checked = editUser.isActive;
 }
