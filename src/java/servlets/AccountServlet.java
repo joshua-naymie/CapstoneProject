@@ -4,10 +4,7 @@
  */
 package servlets;
 
-import dataaccess.DBUtil;
-import jakarta.persistence.EntityManager;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -89,6 +86,7 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         // Obtain the action from the JSP
         // get parameter name from front end
         String action = request.getParameter("action");
@@ -101,31 +99,13 @@ public class AccountServlet extends HttpServlet {
         try {
             switch (action) {
                 // creating a new user
-                case "Add":
+                case "edit":
                     // request.setAttribute("startView", true);
-                    add(request, response);
-                    break;
-
-                // editing a current user
-                case "Edit":
-                    // request.setAttribute("editview", true);
                     edit(request, response);
                     break;
-
-                // saving account status change
-                case "Save":
-                    save(request, response);
-                    break;
-
-                case "Search":
-                    search(request, response);
-                    break;
-
-                case "Cancel":
-//                    request.setAttribute("editview", false);
-//                    request.setAttribute("editAdminView", false);
-                    response.sendRedirect("Account");
-                    break;
+                    
+                default:
+                    throw new Exception();
             }
         } catch (Exception e) {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, e);
@@ -133,6 +113,7 @@ public class AccountServlet extends HttpServlet {
 //            log("Error Occured carrying out action:" + action);
         }
         // work on exporting if we have time before use case is due
+
     }
 
     private void add(HttpServletRequest request, HttpServletResponse response) {
@@ -195,10 +176,11 @@ public class AccountServlet extends HttpServlet {
             }
 
             request.setAttribute("editUser", editUser);
-            request.setAttribute("userName", editUser.getUserId());
+//            request.setAttribute("userName", editUser.getUserId());
 
             try {
-                getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
+                response.sendRedirect("edit?username=" + editUser.getUserId());  
+//                getServletContext().getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
             } catch (Exception ex) {
                 Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, ex);
                 throw new Exception();
