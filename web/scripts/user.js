@@ -104,10 +104,6 @@ function load()
     containerRight.appendChild(signupDateInput.container);
     console.log(signupDateInput.input.value);
     
-    
-//    let checkboxDiv = document.createElement("div");
-//    checkboxDiv.style.display = "flex";
-    
     adminInput.setLabelText("Admin:");
     adminInput.input.type = "checkbox";
 //    postalCodeInput.setEnterFunction(phoneInput);
@@ -136,7 +132,7 @@ function load()
     cancelButton.id = "cancel-button";
     
     // Add "Submit" and "Cancel" button to the DOM
-    containerLeft.appendChild(cancelButton)
+    containerLeft.appendChild(cancelButton);
     containerRight.appendChild(submitButton);
 
     
