@@ -31,6 +31,8 @@ public class AccountServices {
 
 
 }
+    //agambeer
+    // get for searching users by last name
     public List<User> getUserByLastName(String lastName) throws Exception {
         UserDB userDB = new UserDB();
         List<User> users = userDB.getUserByLastName(lastName);
@@ -39,11 +41,14 @@ public class AccountServices {
 
     //agambeer
     // Insert for creating users
-    public void insert(String userId, boolean isAdmin, String userCity, String firstName, String lastName, boolean isActive, String userPassword, Date dateOfBirth, String phoneNumber, String homeAddress, String postalCode, Date registrationDate, int teamId) throws Exception {
-        
+    public String insert(String userId, boolean isAdmin, String userCity, String firstName, String lastName, boolean isActive, String userPassword, Date dateOfBirth, String phoneNumber, String homeAddress, String postalCode, Date registrationDate, int teamId) throws Exception {
         UserDB userDB = new UserDB();
+        User checkUser = userDB.get(userId);
+        if (checkUser != null) {
+            return "User with " + userId + " already exists!";
+        }
         User user = new User(userId, isAdmin, firstName, lastName, isActive, userPassword, registrationDate);
-        
+
         user.setTeamId(new Team(teamId));
         user.setUserCity(userCity);
         user.setDateOfBirth(dateOfBirth);
@@ -52,15 +57,19 @@ public class AccountServices {
         user.setPostalCode(postalCode);
 
         userDB.insert(user);
+        return "User with " + userId + " successfully added!";
     }
 
     //agambeer
     // update for editing users
     // account status change
-    public void update(String userId, boolean isAdmin, String userCity, String firstName, String lastName, boolean isActive, String userPassword, Date dateOfBirth, String phoneNumber, String homeAddress, String postalCode, Date registrationDate, int teamId) throws Exception {
+    public String update(String userId, boolean isAdmin, String userCity, String firstName, String lastName, boolean isActive, String userPassword, Date dateOfBirth, String phoneNumber, String homeAddress, String postalCode, Date registrationDate, int teamId) throws Exception {
         UserDB userDB = new UserDB();
         User user = userDB.get(userId);
-        // check if the user exists
+        if (user == null) {
+            return "User does not exist!";
+        }
+
         user.setIsAdmin(isAdmin);
         user.setTeamId(new Team(teamId));
         user.setUserCity(userCity);
@@ -74,6 +83,8 @@ public class AccountServices {
         user.setPostalCode(postalCode);
 
         userDB.update(user);
+
+        return "User with " + userId + " successfully updated!";
     }
     
 }

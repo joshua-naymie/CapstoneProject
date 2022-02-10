@@ -36,6 +36,11 @@
                     <div style="display: flex; justify-content: flex-end">
                         <a class="add-user__button" href="/ECSSENPro/add">Add User</a>
                     </div>
+                    
+                    <form action="" method="post">
+                            <input type ="submit" value="Export" name="action">
+                    </form>
+                    
                 </div>
                 <div id="table-container" class="table-container">
 
