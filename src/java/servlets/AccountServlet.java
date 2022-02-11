@@ -107,7 +107,7 @@ public class AccountServlet extends HttpServlet {
                     edit(request, response);
                     break;
                     
-                case "Export":
+                case "export":
                     export(request, response);
                     break;
                     
