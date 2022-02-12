@@ -1,3 +1,4 @@
+
 *
 {
     box-sizing: border-box;
@@ -19,7 +20,8 @@ body
     background-color: rgb(255, 255, 255);
     color: white;
     height: 100%;
-    padding: 10px;
+    padding: 10px 10px 10px 0; 
+    
 }
 
 .logo
@@ -37,16 +39,16 @@ body
 
 .logo img
 {
-    width: 180px;
+    width: 220px;
     padding-bottom: 20px;
 }
 
 hr {
-     width: 140px;
+    width: 140px;
 }
 
-a:hover {
-  background-color: #FAAE30;
+.navbartxtandimg:hover {
+    background-color: #FAAE30;
 }
 
 .navbar-links
@@ -55,6 +57,7 @@ a:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
 }
 .navbar-links ul
 {
@@ -62,22 +65,29 @@ a:hover {
     padding: 0;
     display: flex;
     flex-direction: column;
-    
+
 }
 
-.navbar-links li
+.navbartxtandimg
 {
     list-style: none;
     display: flex;
     align-items: center;
+    width: 100%;
+    padding-left: 10px;
 }
 
-.navbar-links li img
+.navbartxtandimg img
 {
     height: 2rem;
 }
 
-.navbar-links li a
+.navbartxtandimg a
+{
+   text-decoration: none;
+}
+
+.navbartxtandimg span
 {
     padding: 0.55rem;
     text-decoration: none;
@@ -89,39 +99,49 @@ a:hover {
 
 @media (max-width: 900px)
 {
-    .navbar-links li a
+    .navbartxtandimg span
     {
         display: none;
     }
     
-    .logo
+    .navbartxtandimg
 {
+    list-style: none;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    width: 100%;
+    padding-left: 20px;
+    padding-top: 5px;
 }
-    
+
+    .logo
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
     .littlelogo img
     {
-    width: 100px;
-    padding-bottom: 10px;
-    display: block;
+        width: 120px;
+        padding-bottom: 10px;
+        display: block;
     }
-    
+
     .logo img
     {
         display: none;
     }
-    
-    .navbar-links li img
-{
-    height: 3rem;
-    padding-bottom: 10px;
-}
 
-hr {
-     width: 50px;
-}
- 
+    .navbartxtandimg img
+    {
+        height: 3rem;
+        padding-bottom: 10px;
+    }
+
+    hr {
+        width: 80px;
+    }
+
 }

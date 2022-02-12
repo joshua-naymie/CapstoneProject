@@ -1,3 +1,4 @@
+   
 <%-- 
     Document   : navbar
     Created on : Feb 6, 2022, 1:17:57 PM
@@ -15,16 +16,19 @@
         <hr>
         <div class="navbar-links">
             <ul>
-                <li><a href="#"><img src="content/images/005-home.png">Home</a></li>
-                <li><img src="content/images/003-to-do-list.png"><a href="#">Tasks</a></li>
-                <li><img src="content/images/004-history.png"><a href="#">History</a></li>
-                <li><img src="content/images/group.png"><a href="#">Users</a></li>
-                <li><img src="content/images/006-report.png"><a href="#">Reports</a></li>
-                <li><img src="content/images/001-heart.png"><a href="#">Donations</a></li>
-                <li><img src="content/images/007-code.png"><a href="#">Programs</a></li>
-                <li><img src="content/images/009-user.png"><a href="#">Admin</a></li>
+                <li><br></li>
+                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/005-home.png"><span>Home</span></a></div></li>
+                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/003-to-do-list.png"><span>Tasks</span></a></div></li>
+                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/004-history.png"><span>History</span></a></div></li>
+                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/group.png"><span>Users</span></a></div></li>
+                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/006-report.png"><span>Reports</span></a></div></li>
+                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/001-heart.png"><span>Donations</span></a></div></li>
+                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/007-code.png"><span>Programs</span></a></div></li>
+                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/009-user.png"><span>Admin</span></a></div></li>
+                <li><br></li>
                 <li><hr></li>
-                <li><img src="content/images/008-user-2.png"><a href="#">Account</a></li>
+                <li><br></li>
+                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/008-user-2.png"><span>Account</span></a></div></li>
             </ul>
         </div>
     </nav>
