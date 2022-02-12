@@ -43,12 +43,12 @@ function load()
 
     // Create columns
     let fNameCol = new DataColumn("First Name", "firstName", CSS_TABLE_CELL);
-    let lNameCOl = new DataColumn("Last Name", "lastName", CSS_TABLE_CELL);
+    let lNameCol = new DataColumn("Last Name", "lastName", CSS_TABLE_CELL);
     let emailCol = new DataColumn("Email", "id", CSS_TABLE_CELL, emailLink);
     let editCol = new CustomColumn("Edit", "table-cell__edit", editContent);
 
     // Create and generate table with declared columns
-    table = new AutoTable("table", data, [fNameCol, lNameCOl, emailCol, editCol]);
+    table = new AutoTable("table", data, [lNameCol, fNameCol, emailCol, editCol]);
     table.generateTable();
 
     main.appendChild(table.container);
@@ -68,6 +68,11 @@ function editPressed(email)
 function exportPressed()
 {
     postAction("export", "submit-form", "users");
+}
+
+function exportCSVPressed()
+{
+    postAction("export-csv", "submit-form", "users");
 }
 
 function searchTable(searchValue)
@@ -100,6 +105,4 @@ function setListHeight()
 {
     let controls = document.getElementById("controls");
     table.container.style.maxHeight = (window.innerHeight - 96 - 20) + "px";
-    
-    console.log(controls.offsetHeight);
 }
