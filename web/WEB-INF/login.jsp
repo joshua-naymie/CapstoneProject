@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login - Ecssen Pro</title>
+        <title>Login - ECSSEN Pro</title>
         <link rel="stylesheet" href="css/styles.css">
         <script type="text/javascript" src="scripts/login.js"></script>
         <script type="text/javascript" src="scripts/inputgroup.js"></script>
