@@ -15,6 +15,21 @@ import models.*;
 public class AccountServices {
     // If we want to let users update their password through a secure email, we have to add a clolumn to the database
     
+
+
+public User login(String email, String password) {
+        UserDB userDB = new UserDB();
+        
+        try {
+            User user = userDB.get(email);
+            if (password.equals(user.getUserPassword())) {
+                return user;
+            }
+        } catch (Exception e) {
+        }
+        
+        return null;
+    }
     // irina
     // getAll for getting all users
     public List<User> getAll() throws Exception {

@@ -166,10 +166,10 @@ function populateFields()
 {
     firstNameInput.setInputText(editUser.firstName);
     lastNameInput.setInputText(editUser.lastName);
-    emailInput.setInputText(editUser.email);
-    phoneInput.setInputText(editUser.phone);
+    emailInput.setInputText(editUser.id);
+    phoneInput.setInputText(editUser.phoneNum);
     birthdayInput.setInputText(editUser.DOB);
-    streetInput.setInputText(editUser.street);
+    streetInput.setInputText(editUser.address);
     cityInput.setInputText(editUser.city);
     postalCodeInput.setInputText(editUser.postalCode);
     passwordInput.setInputText(editUser.password);

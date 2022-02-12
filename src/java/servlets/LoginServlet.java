@@ -9,6 +9,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import models.User;
+import services.AccountServices;
 
 /**
  *
@@ -29,8 +32,15 @@ public class LoginServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-    }
+     HttpSession session = request.getSession();
+        session.invalidate();
+
+    getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        
+      
+}
+
+    
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -44,6 +54,29 @@ public class LoginServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        AccountServices as = new AccountServices();
+        User user = as.login(username, password);
+
+        if (user == null || !user.getIsActive()) {
+
+            request.setAttribute("msg", "Invalide username or password.");
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+            return;
+        }
+
+    HttpSession session = request.getSession();
+    session.setAttribute("email", user.getUserId());
+
+
+        if (user.getIsAdmin()){
+            response.sendRedirect("users");
+        }
+        else {
+            response.sendRedirect("add");
+        }
         
     }
 
