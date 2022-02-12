@@ -48,24 +48,23 @@ public class UserServlet extends HttpServlet {
             StringBuilder returnData = new StringBuilder();
             String OUTPUT_FORMAT = "var editUser = {\"id\":%s, \"firstName\":%s, \"lastName\":%s, \"phoneNum\":%s, \"address\":%s,"
                     + "\"isAdmin\":%b,\"city\":%s,\"isActive\":%b, \"DOB\":%s, \"address\":%s, \"postalCode\":%s,"
-                    + "\"regDate\":%s, \"teamId\":%s,}";
+                    + "\"regDate\":%s, \"teamId\":%s}";
 
-            returnData.append("[");
+            
             // turning DOB and registration date into strings
             String DOB = dateToString(editUser.getDateOfBirth());
             String regDate = dateToString(editUser.getRegistrationDate());
             // converting team Id to string
-            String teamId = editUser.getTeamId().toString();
+            //String teamId = editUser.getTeamId().toString();
             
             // appending json data to be returned into a string builder
             returnData.append(String.format(OUTPUT_FORMAT, checkNull(editUser.getUserId()), checkNull(editUser.getFirstName()),
                     checkNull(editUser.getLastName()), checkNull(editUser.getPhoneNumber()), checkNull(editUser.getHomeAddress()),
                     editUser.getIsAdmin(), checkNull(editUser.getUserCity()), editUser.getIsActive(), DOB, checkNull(editUser.getHomeAddress()),
-                    checkNull(editUser.getPostalCode()), regDate, teamId));
-
-            returnData.deleteCharAt(returnData.length() - 1);
-            returnData.append("]");
-
+                    checkNull(editUser.getPostalCode()), regDate, "2"));
+            
+            
+            
             request.setAttribute("userData", returnData);
         }
         System.out.println("ID: " + id);
@@ -84,11 +83,12 @@ public class UserServlet extends HttpServlet {
     }
     
     // convert a date object to string
+    // adds quotes to the dates
     private String dateToString(Date date) {
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         
-        return simpleDateFormat.format(date);
+        return "\"" + simpleDateFormat.format(date) + "\"";
     }
 
     /**
