@@ -9,10 +9,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.*;
-import models.User;
+import models.*;
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import services.AccountServices;
                
 import org.apache.poi.ss.usermodel.*;
@@ -62,19 +64,46 @@ public class AccountServlet extends HttpServlet {
         
         // sending Json data of all user info to the front end
         StringBuilder returnData = new StringBuilder();
-        String OUTPUT_FORMAT = "{\"id\":%s, \"firstName\":%s, \"lastName\":%s, \"phoneNum\":%s, \"address\":%s},";
-        returnData.append("[");
-        // looping through each individual user and grabbing their data
-        for (User u : allUsers) {
-            returnData.append(String.format(OUTPUT_FORMAT, checkNull(u.getUserId()), checkNull(u.getFirstName()), 
-                                            checkNull(u.getLastName()), checkNull(u.getPhoneNumber()), checkNull(u.getHomeAddress())));
-        }
-        returnData.deleteCharAt(returnData.length() - 1);
-        returnData.append("]");
+//        String OUTPUT_FORMAT = "{\"id\":%s, \"firstName\":%s, \"lastName\":%s, \"phoneNum\":%s, \"address\":%s},";
+        returnData.append("var data = [");
+//        for (User u : allUsers) {
+//            returnData.append(String.format(OUTPUT_FORMAT, checkNull(u.getUserId()), checkNull(u.getFirstName()), 
+//                                            checkNull(u.getLastName()), checkNull(u.getPhoneNumber()), checkNull(u.getHomeAddress())));
+//        }
+//        returnData.deleteCharAt(returnData.length() - 1);
+//        returnData.append("];");
         //response.setContentType("text/html");
         //response.getWriter().write(returnData.toString());
+        
+        // Create keys
+        JSONKey[] keys = { new JSONKey("id", true),
+                           new JSONKey("firstName", true),
+                           new JSONKey("lastName", true) };
+        
+        JSONBuilder builder = new JSONBuilder(keys);
+        
+        // Create user JSON objects
+        int i;
+        for(i=0; i<allUsers.size()-1; i++)
+        {
+            returnData.append(buildUserJSON(allUsers.get(i), builder));
+            returnData.append(',');
+        }
+        returnData.append(buildUserJSON(allUsers.get(i), builder));
+        returnData.append("];");
+        
+        
         request.setAttribute("userData", returnData);
         getServletContext().getRequestDispatcher("/WEB-INF/userlist.jsp").forward(request, response);
+    }
+    
+    private String buildUserJSON(User user, JSONBuilder builder)
+    {
+        Object[] userValues = { user.getUserId(),
+                                user.getFirstName(),
+                                user.getLastName() };
+            
+        return builder.buildJSON(userValues);
     }
     
     // checking if the string value is null so it can be appropriately returned to the
@@ -110,6 +139,10 @@ public class AccountServlet extends HttpServlet {
                     
                 case "export":
                     export(request, response);
+                    break;
+                    
+                case "export-csv":
+                    exportCSV(request, response);
                     break;
                     
                 default:
@@ -227,6 +260,60 @@ public class AccountServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    
+    private void exportCSV(HttpServletRequest request, HttpServletResponse response)
+    {
+        try
+        {
+            response.setHeader("Content-Type", "text/csv");
+            response.setHeader("Content-Disposition", "attachment;filename=\"userlist.csv\"");
+
+            AccountServices as = new AccountServices();
+            List<User> users = as.getAll();
+            
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+            CSVBuilder builder = new CSVBuilder();
+            
+            String[] tableHeader = { "Email",
+                                     "Last Name",
+                                     "First Name",
+                                     "Phone Number",
+                                     "Street Address",
+                                     "City",
+                                     "Postal Code",
+                                     "Date of Birth" };
+            
+            builder.addRecord(tableHeader);
+            
+            for(User user : users)
+            {
+                String dateOfBirth = user.getDateOfBirth() == null
+                                                            ? null
+                                                            : dateFormat.format(user.getDateOfBirth());
+                
+                Object[] recordData = { user.getUserId(),
+                                        user.getFirstName(),
+                                        user.getLastName(),
+                                        user.getPhoneNumber(),
+                                        user.getHomeAddress(),
+                                        user.getUserCity(),
+                                        user.getPostalCode(),
+                                        dateOfBirth };
+                
+                builder.addRecord(recordData);
+            }
+            
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-32"));
+            writer.write(builder.printFile());
+            writer.flush();
+            
+            return;
+        }
+        catch (Exception ex)
+        {
+            Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

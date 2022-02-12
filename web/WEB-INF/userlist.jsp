@@ -18,7 +18,7 @@
         <script type="text/javascript" src="scripts/customcolumn.js"></script>
         <script type="text/javascript" src="scripts/rowmanager.js"></script>
 
-        <script>var data = ${userData};</script>
+        <script>${userData}</script>
 
         <script type="text/javascript" src="scripts/functions.js"></script>
 
@@ -28,7 +28,10 @@
             <%@ include file="navbar.jsp" %>
             <div id="content-section" class="body">
                 <div id="controls" class="table-controls">
-                    <div><a class="add-user__button" onclick="exportPressed();">Export All</a></div>
+                    <div>
+                        <a class="add-user__button" onclick="exportPressed();">Export All</a>
+                        <a class="add-user__button" onclick="exportCSVPressed();">Export CSV</a>
+                    </div>
                     <div style="display: flex; justify-content: center; align-items: center;">
                         <input id="searchbar" type="text" placeholder="Name" />
                     </div>
