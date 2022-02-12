@@ -28,7 +28,7 @@
             <%@ include file="navbar.jsp" %>
             <div id="content-section" class="body">
                 <div id="controls" class="table-controls">
-                    <div id="dummy"></div>
+                    <div><a class="add-user__button" onclick="exportPressed();">Export All</a></div>
                     <div style="display: flex; justify-content: center; align-items: center;">
                         <input id="searchbar" type="text" placeholder="Name" />
                     </div>
@@ -38,7 +38,7 @@
                     </div>
                     
                     <form action="" method="post">
-                            <input type ="submit" value="Export" name="action">
+                            
                     </form>
                     
                 </div>

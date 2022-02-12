@@ -14,7 +14,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
-        <url-pattern>/Account</url-pattern>
+        <url-pattern>/users</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
@@ -34,6 +34,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>Account</welcome-file>
+        <welcome-file>login</welcome-file>
     </welcome-file-list>
 </web-app>

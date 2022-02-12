@@ -62,7 +62,12 @@ function editPressed(email)
 {
     document.getElementById("username").value = email;
     
-    postAction("edit", "submit-form", "Account");
+    postAction("edit", "submit-form", "users");
+}
+
+function exportPressed()
+{
+    postAction("export", "submit-form", "users");
 }
 
 function searchTable(searchValue)

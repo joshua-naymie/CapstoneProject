@@ -108,7 +108,7 @@ public class AccountServlet extends HttpServlet {
                     edit(request, response);
                     break;
                     
-                case "Export":
+                case "export":
                     export(request, response);
                     break;
                     
@@ -235,7 +235,7 @@ public class AccountServlet extends HttpServlet {
           try {
             
             response.setContentType("application/vnd.ms-excel;charset=UTF-8");
-            response.setHeader("Content-Disposition", "attachment;filename=User_List.xlsx");
+            response.setHeader("Content-Disposition", "attachment;filename=User_List");
              
             try (XSSFWorkbook wb = new XSSFWorkbook()) {
                  
