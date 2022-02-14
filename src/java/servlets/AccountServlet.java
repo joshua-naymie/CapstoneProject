@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.*;
 import models.*;
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import services.AccountServices;
                
 import org.apache.poi.ss.usermodel.*;
@@ -80,6 +79,7 @@ public class AccountServlet extends HttpServlet {
                            new JSONKey("firstName", true),
                            new JSONKey("lastName", true) };
         
+        // Create builder with above keys
         JSONBuilder builder = new JSONBuilder(keys);
         
         // Create user JSON objects
@@ -97,6 +97,12 @@ public class AccountServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/WEB-INF/userlist.jsp").forward(request, response);
     }
     
+    /**
+     * Creates a user JSON object
+     * @param user  The User to populate the JSON with
+     * @param builder The JSONBuilder to create the JSON with
+     * @return A User JSON as a String
+     */
     private String buildUserJSON(User user, JSONBuilder builder)
     {
         Object[] userValues = { user.getUserId(),
@@ -294,8 +300,8 @@ public class AccountServlet extends HttpServlet {
                                                             : dateFormat.format(user.getDateOfBirth());
                 
                 Object[] recordData = { user.getUserId(),
-                                        user.getFirstName(),
                                         user.getLastName(),
+                                        user.getFirstName(),
                                         user.getPhoneNumber(),
                                         user.getHomeAddress(),
                                         user.getUserCity(),
