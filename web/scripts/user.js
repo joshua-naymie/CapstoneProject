@@ -69,7 +69,7 @@ function load()
     birthdayInput.setLabelText("Birthday:");
     birthdayInput.input.type = "date";
     birthdayInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    birthdayInput.addValidator(REGEX_EMAIL, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
+//    birthdayInput.addValidator(REGEX_EMAIL, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
 //    birthdayInput.setEnterFunction(phoneInput);
     containerLeft.appendChild(birthdayInput.container);
     
@@ -122,8 +122,13 @@ function load()
     submitButton.type = "submit";
     submitButton.className = "btn";
     submitButton.id = "submit-button";
-    submitButton.name = "action";
-    submitButton.value = "Add";
+    submitButton.addEventListener("click", function(event){
+	    event.preventDefault();
+	    validateUserInfo();
+	    if (inputCollection.validateAll()) {
+		document.addUserForm.submit();
+	    }
+    });
     
     let cancelButton = document.createElement("button");
     cancelButton.innerHTML = "Cancel";
@@ -155,6 +160,7 @@ function load()
         document.getElementById("header").innerText = "Edit User";
         populateFields();
     }
+    
 }
 
 function validateUserInfo()

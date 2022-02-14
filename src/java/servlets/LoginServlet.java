@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet
 
         if (user == null || !user.getIsActive()) {
 
-            request.setAttribute("msg", "Invalide username or password.");
+            request.setAttribute("msg", "Invalid username or password.");
             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
             return;
         }
