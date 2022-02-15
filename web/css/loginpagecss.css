@@ -298,7 +298,6 @@ background: rgb(248,248,248);
     display: flex;
     flex-direction: column;
     margin: auto;
-  width: 75%;
 /*    justify-content: center;
     align-items: center;*/
 }
