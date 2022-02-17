@@ -161,10 +161,10 @@ public class UserServlet extends HttpServlet {
 //            int teamId = Integer.parseInt(sTeamId);
 
             //dummy date to be deleted
-//            Date registrationDate = new SimpleDateFormat("yyyy-MM-dd").parse("2022-02-06");
+            //Date registrationDate = new SimpleDateFormat("yyyy-MM-dd").parse("2022-02-06");
             // inserting the new user
             // need to match the parameter names with the front end
-            accService.insert(request.getParameter("username"),
+            String userMsg = accService.insert(request.getParameter("username"),
                     //is admin
                     false,
                     request.getParameter("user_city"),
@@ -174,9 +174,9 @@ public class UserServlet extends HttpServlet {
                     true,
                     request.getParameter("user_password"),
                     // DOB
-                    dateOfBirth,
+                    null,
                     request.getParameter("user_phone"),
-                    request.getParameter("user_address"),
+                    request.getParameter("street"),
                     request.getParameter("user_postalcode"),
                     // registration date
                     registrationDate,
@@ -185,9 +185,11 @@ public class UserServlet extends HttpServlet {
             //System.out.println(request.getParameter("username") + request.getParameter("user_firstname"));
 
             request.setAttribute("users", accService.getAll());
+            request.setAttribute("userMessage", userMsg);
+            
             // Redirect back to the account page
-            response.sendRedirect("Account");
-            return;
+            response.sendRedirect("users");
+            
         } catch (Exception e) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
         }
