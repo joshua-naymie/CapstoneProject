@@ -174,13 +174,13 @@ public class UserServlet extends HttpServlet {
                     true,
                     request.getParameter("user_password"),
                     // DOB
-                    null,
+                    dateOfBirth,
                     request.getParameter("user_phone"),
                     request.getParameter("street"),
                     request.getParameter("user_postalcode"),
                     // registration date
                     registrationDate,
-                    2);
+                    1);
             // test print statements to be deleted
             //System.out.println(request.getParameter("username") + request.getParameter("user_firstname"));
 
@@ -232,29 +232,39 @@ public class UserServlet extends HttpServlet {
     private void save(HttpServletRequest request, HttpServletResponse response) {
         try {
             AccountServices accService = new AccountServices();
+            //parsing dates
+            String dobDate = request.getParameter("birthday");
+            Date dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").parse(dobDate);
 
+            String regDate = request.getParameter("signupdate");
+            Date registrationDate = new SimpleDateFormat("yyyy-MM-dd").parse(regDate);
             // insert parameters into account services to save user
             // change parameters to match front end
-            accService.update(request.getParameter("saveusername"),
+            String userMsg = accService.update(request.getParameter("username"),
                     //is admin
                     false,
-                    // request.getParameter("user_city"),
-                    "Calgary",
-                    request.getParameter("saveuser_firstname"),
-                    request.getParameter("saveuser_lastname"),
+                    request.getParameter("user_city"),
+                    request.getParameter("user_firstname"),
+                    request.getParameter("user_lastname"),
                     // is active
                     true,
-                    // request.getParameter("saveuser_password"),
-                    "password",
-                    null,
+                    request.getParameter("user_password"),
+                    // DOB
+                    dateOfBirth,
                     request.getParameter("user_phone"),
-                    request.getParameter("user_address"),
+                    request.getParameter("street"),
                     request.getParameter("user_postalcode"),
-                    null,
-                    0);
+                    // registration date
+                    registrationDate,
+                    1);
 
+            //request.setAttribute("users", accService.getAll());
+            //getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
             request.setAttribute("users", accService.getAll());
-            getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
+            request.setAttribute("userMessage", userMsg);
+            
+            // Redirect back to the account page
+            response.sendRedirect("users");
         } catch (Exception e) {
             e.printStackTrace();
         }
