@@ -29,28 +29,8 @@ public class AccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Initial testing
-//        EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
-//        List<User> test = entityManager.createNamedQuery("User.findAll").getResultList();
-        //User user = test.get(0);
-//        request.setAttribute("users", test);
-//        getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
 
-        // Retrieve user Data
-        // directing the page to the appropriate Jsp based on what the user clicks (edit, change status, create)
-//        switch (request.getServletPath()) {
-//            case "/login":
-//                request.setAttribute(PAGE_STATE, "\"login\"");
-//                break;
-//            case "/signup":
-//                request.setAttribute(PAGE_STATE, "\"signup\"");
-//                break;
-//            default:
-//                request.setAttribute(PAGE_STATE, "WRONG");
-//                break;
-//        }
-        // loading the jsp
-        // actual code
+        // getting a list of all users and sending it to the jsp as json data
         AccountServices as = new AccountServices();
         List<User> allUsers = null;
         try {
@@ -59,7 +39,6 @@ public class AccountServlet extends HttpServlet {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("users", allUsers);
-        
         
         // sending Json data of all user info to the front end
         StringBuilder returnData = new StringBuilder();
@@ -163,50 +142,6 @@ public class AccountServlet extends HttpServlet {
 
     }
 
-    private void add(HttpServletRequest request, HttpServletResponse response) {
-        AccountServices accService = new AccountServices();
-
-        try {
-            // converting Strings to Date variables for DOB / registration date
-//            String dobDate = request.getParameter("user_DOB");
-//            Date dateOfBirth = new SimpleDateFormat("yyyy/MM/dd").parse(dobDate);
-
-//            String regDate = request.getParameter("user_registration");
-//            Date registrationDate = new SimpleDateFormat("yyyy/MM/dd").parse(regDate);
-            // parsing team id from string to int
-//            String sTeamId = request.getParameter("user_teamId");
-//            int teamId = Integer.parseInt(sTeamId);
-            //dummy date
-            Date registrationDate = new SimpleDateFormat("yyyy-MM-dd").parse("2022-02-06");
-
-            // inserting the new user
-            // need to match the parameter names with the front end
-            accService.insert(request.getParameter("username"),
-                    //is admin
-                    false,
-                    request.getParameter("user_city"),
-                    request.getParameter("user_firstname"),
-                    request.getParameter("user_lastname"),
-                    // is active
-                    true,
-                    request.getParameter("user_password"),
-                    null,
-                    request.getParameter("user_phone"),
-                    request.getParameter("user_address"),
-                    request.getParameter("user_postalcode"),
-                    registrationDate,
-                    2);
-
-            request.setAttribute("users", accService.getAll());
-
-            getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
-            return;
-        } catch (Exception e) {
-            Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, e);
-        }
-
-    }
-
     private void edit(HttpServletRequest request, HttpServletResponse response) {
         try {
             AccountServices accService = new AccountServices();
@@ -236,37 +171,6 @@ public class AccountServlet extends HttpServlet {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, ex);
         }
 
-    }
-
-    private void save(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            AccountServices accService = new AccountServices();
-
-            // insert parameters into account services to save user
-            // change parameters to match front end
-            accService.update(request.getParameter("saveusername"),
-                    //is admin
-                    false,
-                    // request.getParameter("user_city"),
-                    "Calgary",
-                    request.getParameter("saveuser_firstname"),
-                    request.getParameter("saveuser_lastname"),
-                    // is active
-                    true,
-                    // request.getParameter("saveuser_password"),
-                    "password",
-                    null,
-                    request.getParameter("user_phone"),
-                    request.getParameter("user_address"),
-                    request.getParameter("user_postalcode"),
-                    null,
-                    0);
-
-            request.setAttribute("users", accService.getAll());
-            getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
     
     private void exportCSV(HttpServletRequest request, HttpServletResponse response)

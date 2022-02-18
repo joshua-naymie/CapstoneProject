@@ -26,7 +26,7 @@
                 <%@ include file="navbar.jsp" %>
         <div class="main">
             <h2 id="header">Add User</h2>
-            <form id="container" class="container" method="post" action="?action=Add" name="addUserForm">
+            <form id="container" class="container" method="post" action="">
                 <div id="container-left" class="input-column"></div>
                 <div id="container-right" class="input-column"></div>
             </form>

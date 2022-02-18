@@ -10,43 +10,43 @@
 }*/
 
 body {
-  /*       background-image: linear-gradient(to right, rgba(255,215,0,0.3), rgba(139,0,0,1));
-/*         background-image: url("content/images/login_background.png");*/
-  /* gradient generator: https://www.joshwcomeau.com/css/make-beautiful-gradients/ */
- background-image: linear-gradient(
-  90deg,
-  hsl(55deg 68% 76%) 0%,
-  hsl(51deg 71% 75%) 1%,
-  hsl(48deg 73% 74%) 3%,
-  hsl(45deg 74% 74%) 4%,
-  hsl(42deg 76% 73%) 6%,
-  hsl(40deg 77% 72%) 9%,
-  hsl(37deg 78% 71%) 11%,
-  hsl(35deg 79% 71%) 14%,
-  hsl(33deg 79% 70%) 17%,
-  hsl(31deg 80% 69%) 21%,
-  hsl(28deg 80% 69%) 24%,
-  hsl(26deg 80% 68%) 28%,
-  hsl(24deg 80% 68%) 32%,
-  hsl(22deg 79% 68%) 37%,
-  hsl(20deg 78% 67%) 42%,
-  hsl(17deg 77% 67%) 47%,
-  hsl(15deg 76% 67%) 53%,
-  hsl(12deg 75% 66%) 59%,
-  hsl(9deg 73% 66%) 66%,
-  hsl(6deg 71% 66%) 74%,
-  hsl(3deg 69% 66%) 85%,
-  hsl(0deg 66% 65%) 100%
-);
-    }
-    
-    h1 {
-        text-align: center;
+    /*       background-image: linear-gradient(to right, rgba(255,215,0,0.3), rgba(139,0,0,1));
+  /*         background-image: url("content/images/login_background.png");*/
+    /* gradient generator: https://www.joshwcomeau.com/css/make-beautiful-gradients/ */
+    background-image: linear-gradient(
+        90deg,
+        hsl(55deg 68% 76%) 0%,
+        hsl(51deg 71% 75%) 1%,
+        hsl(48deg 73% 74%) 3%,
+        hsl(45deg 74% 74%) 4%,
+        hsl(42deg 76% 73%) 6%,
+        hsl(40deg 77% 72%) 9%,
+        hsl(37deg 78% 71%) 11%,
+        hsl(35deg 79% 71%) 14%,
+        hsl(33deg 79% 70%) 17%,
+        hsl(31deg 80% 69%) 21%,
+        hsl(28deg 80% 69%) 24%,
+        hsl(26deg 80% 68%) 28%,
+        hsl(24deg 80% 68%) 32%,
+        hsl(22deg 79% 68%) 37%,
+        hsl(20deg 78% 67%) 42%,
+        hsl(17deg 77% 67%) 47%,
+        hsl(15deg 76% 67%) 53%,
+        hsl(12deg 75% 66%) 59%,
+        hsl(9deg 73% 66%) 66%,
+        hsl(6deg 71% 66%) 74%,
+        hsl(3deg 69% 66%) 85%,
+        hsl(0deg 66% 65%) 100%
+        );
+}
+
+h1 {
+    text-align: center;
     font-family: 'Patrick Hand', cursive;
     font-size: 50px;
     color: rgb(23, 69, 144);
-    }
-    
+}
+
 .base
 {
     display: flex;
@@ -59,20 +59,20 @@ body {
 .body
 {
     /*font-family: sans-serif;*/
-/*    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 100%;*/
-background: rgb(248,248,248);
+    /*    display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 100%;*/
+    background: rgb(248,248,248);
     border: 1px solid black;
     border-radius: 25px;
-        box-shadow: 2px 2px 12px darkslategrey;
-        width: 370px;
-        min-width: 370px;
-        padding: 20px;
-        margin-bottom: 10px;
-        margin-left: 37%;
+    box-shadow: 2px 2px 12px darkslategrey;
+    width: 370px;
+    min-width: 370px;
+    padding: 20px;
+    margin-bottom: 10px;
+    margin-left: 37%;
 }
 
 .table-container
@@ -134,8 +134,8 @@ background: rgb(248,248,248);
     max-width: 1024px;
     /*max-height: 85vh;*/
     overflow-y: scroll;
-/*    -ms-overflow-style: none;   IE and Edge 
-    scrollbar-width: none;   Firefox */
+    /*    -ms-overflow-style: none;   IE and Edge 
+        scrollbar-width: none;   Firefox */
 }
 
 .test /*test removing scrollbar*/
@@ -151,7 +151,7 @@ background: rgb(248,248,248);
 
 .table-cell-header
 {
-    
+
     background-color: var(--secondary-color);
     color: var(--header-color);
     justify-content: center;
@@ -206,17 +206,17 @@ background: rgb(248,248,248);
     align-items: center;
     border-bottom: 1px solid black;
     border-left: 1px solid black;
-/*    border-width: 0 0 1px 1px;
-    border-style: solid;
-    border-color: black;*/
+    /*    border-width: 0 0 1px 1px;
+        border-style: solid;
+        border-color: black;*/
     /* margin-left: 33%; */
     min-height: 0;
     min-width: 0;
-    
+
 }
 .table-cell *
 {
-    margin: 10px 5px 5px 10px; 
+    margin: 10px 5px 5px 10px;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
@@ -258,7 +258,7 @@ background: rgb(248,248,248);
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
     color: black;
     text-decoration: none;
 }
@@ -298,8 +298,8 @@ background: rgb(248,248,248);
     display: flex;
     flex-direction: column;
     margin: auto;
-/*    justify-content: center;
-    align-items: center;*/
+    /*    justify-content: center;
+        align-items: center;*/
 }
 
 .main-input__label
@@ -420,11 +420,11 @@ background: rgb(248,248,248);
     transition: border-color 0.2s;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          supported by Chrome, Edge, Opera and Firefox */
 }
 
 .login-button:hover
@@ -438,4 +438,3 @@ background: rgb(248,248,248);
 {
     background-color: var(--secondary-color);
 }
-
