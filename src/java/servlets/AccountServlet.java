@@ -62,13 +62,16 @@ public class AccountServlet extends HttpServlet {
         JSONBuilder builder = new JSONBuilder(keys);
         
         // Create user JSON objects
-        int i;
-        for(i=0; i<allUsers.size()-1; i++)
+        if(allUsers.size() > 0)
         {
-            returnData.append(buildUserJSON(allUsers.get(i), builder));
-            returnData.append(',');
+            int i;
+            for(i=0; i<allUsers.size()-1; i++)
+            {
+                returnData.append(buildUserJSON(allUsers.get(i), builder));
+                returnData.append(',');
+            }
+            returnData.append(buildUserJSON(allUsers.get(i), builder));         
         }
-        returnData.append(buildUserJSON(allUsers.get(i), builder));
         returnData.append("];");
         
         

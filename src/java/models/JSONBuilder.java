@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.management.openmbean.InvalidKeyException;
 
 public class JSONBuilder
 {
@@ -50,8 +51,13 @@ public class JSONBuilder
         // Amount of keys and values must match
         if(values.length != keys.size())
         {
-            throw new IllegalArgumentException("values length '" + values.length + "' "
+            throw new IllegalArgumentException("number of values '" + values.length + "' "
                                              + "does not match keys size '" + keys.size() + "'");
+        }
+        // Keys size must not be 0
+        else if(keys.size() == 0)
+        {
+            throw new InvalidKeyException("Cannot create JSON object with 0 keys");
         }
 
         // Build the JSON object

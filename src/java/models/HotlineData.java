@@ -96,7 +96,7 @@ public class HotlineData implements Serializable {
 
     @Override
     public String toString() {
-        return "dataaccess.HotlineData[ taskHotlineId=" + taskHotlineId + " ]";
+        return "models.HotlineData[ taskHotlineId=" + taskHotlineId + " ]";
     }
     
 }

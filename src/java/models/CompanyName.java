@@ -89,7 +89,7 @@ public class CompanyName implements Serializable {
 
     @Override
     public String toString() {
-        return "dataaccess.CompanyName[ companyId=" + companyId + " ]";
+        return "models.CompanyName[ companyId=" + companyId + " ]";
     }
     
 }

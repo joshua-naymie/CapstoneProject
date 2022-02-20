@@ -5,14 +5,14 @@
 package models;
 
 import java.io.Serializable;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -49,7 +49,7 @@ public class ProgramTraining implements Serializable {
         this.programTrainingPK = programTrainingPK;
     }
 
-    public ProgramTraining(String userId, short roleId, short programId) {
+    public ProgramTraining(int userId, short roleId, short programId) {
         this.programTrainingPK = new ProgramTrainingPK(userId, roleId, programId);
     }
 
@@ -107,6 +107,7 @@ public class ProgramTraining implements Serializable {
 
     @Override
     public String toString() {
-        return "dataaccess.ProgramTraining[ programTrainingPK=" + programTrainingPK + " ]";
+        return "models.ProgramTraining[ programTrainingPK=" + programTrainingPK + " ]";
     }
+    
 }

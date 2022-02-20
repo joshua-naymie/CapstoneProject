@@ -47,14 +47,14 @@ public class Team implements Serializable {
     private Short teamSize;
     @Column(name = "team_supervisor")
     private String teamSupervisor;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamId", fetch = FetchType.EAGER)
-    private List<Task> taskList;
     @JoinColumn(name = "program_id", referencedColumnName = "program_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Program programId;
     @JoinColumn(name = "store_id", referencedColumnName = "store_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Store storeId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamId", fetch = FetchType.EAGER)
+    private List<Task> taskList;
     @OneToMany(mappedBy = "teamId", fetch = FetchType.EAGER)
     private List<User> userList;
 
@@ -89,15 +89,6 @@ public class Team implements Serializable {
         this.teamSupervisor = teamSupervisor;
     }
 
-    @XmlTransient
-    public List<Task> getTaskList() {
-        return taskList;
-    }
-
-    public void setTaskList(List<Task> taskList) {
-        this.taskList = taskList;
-    }
-
     public Program getProgramId() {
         return programId;
     }
@@ -112,6 +103,15 @@ public class Team implements Serializable {
 
     public void setStoreId(Store storeId) {
         this.storeId = storeId;
+    }
+
+    @XmlTransient
+    public List<Task> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(List<Task> taskList) {
+        this.taskList = taskList;
     }
 
     @XmlTransient
@@ -145,7 +145,7 @@ public class Team implements Serializable {
 
     @Override
     public String toString() {
-        return "dataaccess.Team[ teamId=" + teamId + " ]";
+        return "models.Team[ teamId=" + teamId + " ]";
     }
     
 }

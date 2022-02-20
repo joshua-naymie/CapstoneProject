@@ -116,7 +116,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "dataaccess.Role[ roleId=" + roleId + " ]";
+        return "models.Role[ roleId=" + roleId + " ]";
     }
     
 }

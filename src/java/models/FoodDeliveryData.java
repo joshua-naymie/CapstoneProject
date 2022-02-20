@@ -16,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -52,6 +52,12 @@ public class FoodDeliveryData implements Serializable {
     private Short foodAmount;
     @Column(name = "family_count")
     private Short familyCount;
+    @JoinColumn(name = "organization_id", referencedColumnName = "organization_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Organization organizationId;
+    @JoinColumn(name = "package_id", referencedColumnName = "package_id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private PackageType packageId;
     @JoinColumn(name = "store_id", referencedColumnName = "store_id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Store storeId;
@@ -114,6 +120,22 @@ public class FoodDeliveryData implements Serializable {
         this.familyCount = familyCount;
     }
 
+    public Organization getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Organization organizationId) {
+        this.organizationId = organizationId;
+    }
+
+    public PackageType getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(PackageType packageId) {
+        this.packageId = packageId;
+    }
+
     public Store getStoreId() {
         return storeId;
     }
@@ -152,7 +174,7 @@ public class FoodDeliveryData implements Serializable {
 
     @Override
     public String toString() {
-        return "dataaccess.FoodDeliveryData[ taskFdId=" + taskFdId + " ]";
+        return "models.FoodDeliveryData[ taskFdId=" + taskFdId + " ]";
     }
     
 }

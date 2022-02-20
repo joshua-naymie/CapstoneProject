@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Program.findAll", query = "SELECT p FROM Program p"),
     @NamedQuery(name = "Program.findByProgramId", query = "SELECT p FROM Program p WHERE p.programId = :programId"),
     @NamedQuery(name = "Program.findByProgramName", query = "SELECT p FROM Program p WHERE p.programName = :programName"),
-    @NamedQuery(name = "Program.findByManagerName", query = "SELECT p FROM Program p WHERE p.managerName = :managerName")})
+    @NamedQuery(name = "Program.findByManagerName", query = "SELECT p FROM Program p WHERE p.managerName = :managerName"),
+    @NamedQuery(name = "Program.findByIsActive", query = "SELECT p FROM Program p WHERE p.isActive = :isActive")})
 public class Program implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,18 +46,26 @@ public class Program implements Serializable {
     private String programName;
     @Column(name = "manager_name")
     private String managerName;
+    @Basic(optional = false)
+    @Column(name = "is_active")
+    private boolean isActive;
+    @OneToMany(mappedBy = "programId", fetch = FetchType.EAGER)
+    private List<Team> teamList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "program", fetch = FetchType.EAGER)
     private List<ProgramTraining> programTrainingList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId", fetch = FetchType.EAGER)
     private List<Task> taskList;
-    @OneToMany(mappedBy = "programId", fetch = FetchType.EAGER)
-    private List<Team> teamList;
 
     public Program() {
     }
 
     public Program(Short programId) {
         this.programId = programId;
+    }
+
+    public Program(Short programId, boolean isActive) {
+        this.programId = programId;
+        this.isActive = isActive;
     }
 
     public Short getProgramId() {
@@ -83,6 +92,23 @@ public class Program implements Serializable {
         this.managerName = managerName;
     }
 
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    @XmlTransient
+    public List<Team> getTeamList() {
+        return teamList;
+    }
+
+    public void setTeamList(List<Team> teamList) {
+        this.teamList = teamList;
+    }
+
     @XmlTransient
     public List<ProgramTraining> getProgramTrainingList() {
         return programTrainingList;
@@ -99,15 +125,6 @@ public class Program implements Serializable {
 
     public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
-    }
-
-    @XmlTransient
-    public List<Team> getTeamList() {
-        return teamList;
-    }
-
-    public void setTeamList(List<Team> teamList) {
-        this.teamList = teamList;
     }
 
     @Override
@@ -132,7 +149,7 @@ public class Program implements Serializable {
 
     @Override
     public String toString() {
-        return "dataaccess.Program[ programId=" + programId + " ]";
+        return "models.Program[ programId=" + programId + " ]";
     }
     
 }

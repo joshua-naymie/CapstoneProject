@@ -34,6 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Store.findByStreetAddress", query = "SELECT s FROM Store s WHERE s.streetAddress = :streetAddress"),
     @NamedQuery(name = "Store.findByPostalCode", query = "SELECT s FROM Store s WHERE s.postalCode = :postalCode"),
     @NamedQuery(name = "Store.findByStoreCity", query = "SELECT s FROM Store s WHERE s.storeCity = :storeCity"),
+    @NamedQuery(name = "Store.findByPhoneNum", query = "SELECT s FROM Store s WHERE s.phoneNum = :phoneNum"),
+    @NamedQuery(name = "Store.findByContact", query = "SELECT s FROM Store s WHERE s.contact = :contact"),
     @NamedQuery(name = "Store.findByIsActive", query = "SELECT s FROM Store s WHERE s.isActive = :isActive")})
 public class Store implements Serializable {
 
@@ -52,6 +54,10 @@ public class Store implements Serializable {
     @Basic(optional = false)
     @Column(name = "store_city")
     private String storeCity;
+    @Column(name = "phone_num")
+    private String phoneNum;
+    @Column(name = "contact")
+    private String contact;
     @Basic(optional = false)
     @Column(name = "is_active")
     private boolean isActive;
@@ -107,6 +113,22 @@ public class Store implements Serializable {
         this.storeCity = storeCity;
     }
 
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
     public boolean getIsActive() {
         return isActive;
     }
@@ -155,7 +177,7 @@ public class Store implements Serializable {
 
     @Override
     public String toString() {
-        return "dataaccess.Store[ storeId=" + storeId + " ]";
+        return "models.Store[ storeId=" + storeId + " ]";
     }
     
 }

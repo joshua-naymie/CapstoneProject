@@ -32,9 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Donation.findByDonationId", query = "SELECT d FROM Donation d WHERE d.donationId = :donationId"),
     @NamedQuery(name = "Donation.findByDonationAmount", query = "SELECT d FROM Donation d WHERE d.donationAmount = :donationAmount"),
     @NamedQuery(name = "Donation.findByDonationDate", query = "SELECT d FROM Donation d WHERE d.donationDate = :donationDate"),
-    @NamedQuery(name = "Donation.findByDonationType", query = "SELECT d FROM Donation d WHERE d.donationType = :donationType"),
-    @NamedQuery(name = "Donation.findByDonor", query = "SELECT d FROM Donation d WHERE d.donor = :donor"),
-    @NamedQuery(name = "Donation.findByDonationQuantity", query = "SELECT d FROM Donation d WHERE d.donationQuantity = :donationQuantity")})
+    @NamedQuery(name = "Donation.findByDonor", query = "SELECT d FROM Donation d WHERE d.donor = :donor")})
 public class Donation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,13 +49,8 @@ public class Donation implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date donationDate;
     @Basic(optional = false)
-    @Column(name = "donation_type")
-    private String donationType;
-    @Basic(optional = false)
     @Column(name = "donor")
     private String donor;
-    @Column(name = "donation_quantity")
-    private String donationQuantity;
 
     public Donation() {
     }
@@ -66,10 +59,9 @@ public class Donation implements Serializable {
         this.donationId = donationId;
     }
 
-    public Donation(Integer donationId, Date donationDate, String donationType, String donor) {
+    public Donation(Integer donationId, Date donationDate, String donor) {
         this.donationId = donationId;
         this.donationDate = donationDate;
-        this.donationType = donationType;
         this.donor = donor;
     }
 
@@ -97,28 +89,12 @@ public class Donation implements Serializable {
         this.donationDate = donationDate;
     }
 
-    public String getDonationType() {
-        return donationType;
-    }
-
-    public void setDonationType(String donationType) {
-        this.donationType = donationType;
-    }
-
     public String getDonor() {
         return donor;
     }
 
     public void setDonor(String donor) {
         this.donor = donor;
-    }
-
-    public String getDonationQuantity() {
-        return donationQuantity;
-    }
-
-    public void setDonationQuantity(String donationQuantity) {
-        this.donationQuantity = donationQuantity;
     }
 
     @Override
@@ -143,7 +119,7 @@ public class Donation implements Serializable {
 
     @Override
     public String toString() {
-        return "dataaccess.Donation[ donationId=" + donationId + " ]";
+        return "models.Donation[ donationId=" + donationId + " ]";
     }
     
 }

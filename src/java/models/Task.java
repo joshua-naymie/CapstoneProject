@@ -16,11 +16,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -46,7 +45,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Task.findByIsApproved", query = "SELECT t FROM Task t WHERE t.isApproved = :isApproved"),
     @NamedQuery(name = "Task.findByApprovingManager", query = "SELECT t FROM Task t WHERE t.approvingManager = :approvingManager"),
     @NamedQuery(name = "Task.findByTaskDescription", query = "SELECT t FROM Task t WHERE t.taskDescription = :taskDescription"),
-    @NamedQuery(name = "Task.findByTaskCity", query = "SELECT t FROM Task t WHERE t.taskCity = :taskCity")})
+    @NamedQuery(name = "Task.findByTaskCity", query = "SELECT t FROM Task t WHERE t.taskCity = :taskCity"),
+    @NamedQuery(name = "Task.findByIsSubmitted", query = "SELECT t FROM Task t WHERE t.isSubmitted = :isSubmitted"),
+    @NamedQuery(name = "Task.findByApprovalNotes", query = "SELECT t FROM Task t WHERE t.approvalNotes = :approvalNotes"),
+    @NamedQuery(name = "Task.findByIsDissaproved", query = "SELECT t FROM Task t WHERE t.isDissaproved = :isDissaproved")})
 public class Task implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -81,21 +83,24 @@ public class Task implements Serializable {
     @Basic(optional = false)
     @Column(name = "task_city")
     private String taskCity;
-    @JoinTable(name = "user_task", joinColumns = {
-        @JoinColumn(name = "task_id", referencedColumnName = "task_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id")})
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<User> userList;
+    @Column(name = "is_submitted")
+    private Boolean isSubmitted;
+    @Column(name = "approval_notes")
+    private String approvalNotes;
+    @Column(name = "is_dissaproved")
+    private Boolean isDissaproved;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "task", fetch = FetchType.EAGER)
     private FoodDeliveryData foodDeliveryData;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "task", fetch = FetchType.EAGER)
+    private List<UserTask> userTaskList;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "task", fetch = FetchType.EAGER)
+    private HotlineData hotlineData;
     @JoinColumn(name = "program_id", referencedColumnName = "program_id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Program programId;
     @JoinColumn(name = "team_id", referencedColumnName = "team_id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Team teamId;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "task", fetch = FetchType.EAGER)
-    private HotlineData hotlineData;
 
     public Task() {
     }
@@ -194,13 +199,28 @@ public class Task implements Serializable {
         this.taskCity = taskCity;
     }
 
-    @XmlTransient
-    public List<User> getUserList() {
-        return userList;
+    public Boolean getIsSubmitted() {
+        return isSubmitted;
     }
 
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
+    public void setIsSubmitted(Boolean isSubmitted) {
+        this.isSubmitted = isSubmitted;
+    }
+
+    public String getApprovalNotes() {
+        return approvalNotes;
+    }
+
+    public void setApprovalNotes(String approvalNotes) {
+        this.approvalNotes = approvalNotes;
+    }
+
+    public Boolean getIsDissaproved() {
+        return isDissaproved;
+    }
+
+    public void setIsDissaproved(Boolean isDissaproved) {
+        this.isDissaproved = isDissaproved;
     }
 
     public FoodDeliveryData getFoodDeliveryData() {
@@ -209,6 +229,23 @@ public class Task implements Serializable {
 
     public void setFoodDeliveryData(FoodDeliveryData foodDeliveryData) {
         this.foodDeliveryData = foodDeliveryData;
+    }
+
+    @XmlTransient
+    public List<UserTask> getUserTaskList() {
+        return userTaskList;
+    }
+
+    public void setUserTaskList(List<UserTask> userTaskList) {
+        this.userTaskList = userTaskList;
+    }
+
+    public HotlineData getHotlineData() {
+        return hotlineData;
+    }
+
+    public void setHotlineData(HotlineData hotlineData) {
+        this.hotlineData = hotlineData;
     }
 
     public Program getProgramId() {
@@ -225,15 +262,6 @@ public class Task implements Serializable {
 
     public void setTeamId(Team teamId) {
         this.teamId = teamId;
-    }
-    
-    // Fix this data to be one general task data, and puts it into a program based on what was chosen
-    public HotlineData getHotlineData() {
-        return hotlineData;
-    }
-
-    public void setHotlineData(HotlineData hotlineData) {
-        this.hotlineData = hotlineData;
     }
 
     @Override
@@ -258,7 +286,7 @@ public class Task implements Serializable {
 
     @Override
     public String toString() {
-        return "dataaccess.Task[ taskId=" + taskId + " ]";
+        return "models.Task[ taskId=" + taskId + " ]";
     }
     
 }

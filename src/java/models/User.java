@@ -12,9 +12,10 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
@@ -35,24 +36,31 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findByUserId", query = "SELECT u FROM User u WHERE u.userId = :userId"),
+    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByIsAdmin", query = "SELECT u FROM User u WHERE u.isAdmin = :isAdmin"),
     @NamedQuery(name = "User.findByUserCity", query = "SELECT u FROM User u WHERE u.userCity = :userCity"),
     @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName"),
     @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName"),
     @NamedQuery(name = "User.findByIsActive", query = "SELECT u FROM User u WHERE u.isActive = :isActive"),
-    @NamedQuery(name = "User.findByUserPassword", query = "SELECT u FROM User u WHERE u.userPassword = :userPassword"),
     @NamedQuery(name = "User.findByDateOfBirth", query = "SELECT u FROM User u WHERE u.dateOfBirth = :dateOfBirth"),
     @NamedQuery(name = "User.findByPhoneNumber", query = "SELECT u FROM User u WHERE u.phoneNumber = :phoneNumber"),
     @NamedQuery(name = "User.findByHomeAddress", query = "SELECT u FROM User u WHERE u.homeAddress = :homeAddress"),
     @NamedQuery(name = "User.findByPostalCode", query = "SELECT u FROM User u WHERE u.postalCode = :postalCode"),
-    @NamedQuery(name = "User.findByRegistrationDate", query = "SELECT u FROM User u WHERE u.registrationDate = :registrationDate")})
+    @NamedQuery(name = "User.findByRegistrationDate", query = "SELECT u FROM User u WHERE u.registrationDate = :registrationDate"),
+    @NamedQuery(name = "User.findByResetPasswordUuid", query = "SELECT u FROM User u WHERE u.resetPasswordUuid = :resetPasswordUuid"),
+    @NamedQuery(name = "User.findByPasswordSalt", query = "SELECT u FROM User u WHERE u.passwordSalt = :passwordSalt"),
+    @NamedQuery(name = "User.findByPasswordHash", query = "SELECT u FROM User u WHERE u.passwordHash = :passwordHash")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "user_id")
-    private String userId;
+    private Integer userId;
+    @Basic(optional = false)
+    @Column(name = "email")
+    private String email;
     @Basic(optional = false)
     @Column(name = "is_admin")
     private boolean isAdmin;
@@ -67,9 +75,6 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "is_active")
     private boolean isActive;
-    @Basic(optional = false)
-    @Column(name = "user_password")
-    private String userPassword;
     @Column(name = "date_of_birth")
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
@@ -83,8 +88,16 @@ public class User implements Serializable {
     @Column(name = "registration_date")
     @Temporal(TemporalType.DATE)
     private Date registrationDate;
-    @ManyToMany(mappedBy = "userList", fetch = FetchType.EAGER)
-    private List<Task> taskList;
+    @Column(name = "reset_password_uuid")
+    private String resetPasswordUuid;
+    @Basic(optional = false)
+    @Column(name = "password_salt")
+    private String passwordSalt;
+    @Basic(optional = false)
+    @Column(name = "password_hash")
+    private String passwordHash;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    private List<UserTask> userTaskList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private List<ProgramTraining> programTrainingList;
     @JoinColumn(name = "team_id", referencedColumnName = "team_id")
@@ -94,26 +107,36 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String userId) {
+    public User(Integer userId) {
         this.userId = userId;
     }
 
-    public User(String userId, boolean isAdmin, String firstName, String lastName, boolean isActive, String userPassword, Date registrationDate) {
+    public User(Integer userId, String email, boolean isAdmin, String firstName, String lastName, boolean isActive, Date registrationDate, String passwordSalt, String passwordHash) {
         this.userId = userId;
+        this.email = email;
         this.isAdmin = isAdmin;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isActive = isActive;
-        this.userPassword = userPassword;
         this.registrationDate = registrationDate;
+        this.passwordSalt = passwordSalt;
+        this.passwordHash = passwordHash;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public boolean getIsAdmin() {
@@ -156,14 +179,6 @@ public class User implements Serializable {
         this.isActive = isActive;
     }
 
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
@@ -204,13 +219,37 @@ public class User implements Serializable {
         this.registrationDate = registrationDate;
     }
 
-    @XmlTransient
-    public List<Task> getTaskList() {
-        return taskList;
+    public String getResetPasswordUuid() {
+        return resetPasswordUuid;
     }
 
-    public void setTaskList(List<Task> taskList) {
-        this.taskList = taskList;
+    public void setResetPasswordUuid(String resetPasswordUuid) {
+        this.resetPasswordUuid = resetPasswordUuid;
+    }
+
+    public String getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    @XmlTransient
+    public List<UserTask> getUserTaskList() {
+        return userTaskList;
+    }
+
+    public void setUserTaskList(List<UserTask> userTaskList) {
+        this.userTaskList = userTaskList;
     }
 
     @XmlTransient
@@ -252,7 +291,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "dataaccess.User[ userId=" + userId + " ]";
+        return "models.User[ userId=" + userId + " ]";
     }
-
+    
 }
