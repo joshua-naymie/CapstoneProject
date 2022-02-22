@@ -85,5 +85,17 @@ public class UserDB {
             em.close();
         }
     }
+    
+    public User getByUUID(String uuid) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        
+        try{
+            Query q = em.createNamedQuery("User.findByResetPasswordUuid");
+            q.setParameter("resetPasswordUuid", uuid);
+            return (User) q.getSingleResult();
+        }finally{
+            em.close();
+        } 
+    }
 
 }

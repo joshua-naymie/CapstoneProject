@@ -2,24 +2,24 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="ECSSENProPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>models.Organization</class>
+        <class>models.Program</class>
+        <class>models.PackageType</class>
+        <class>models.Store</class>
+        <class>models.Role</class>
+        <class>models.ProgramTraining</class>
+        <class>models.FoodDeliveryData</class>
+        <class>models.HotlineData</class>
+        <class>models.UserTask</class>
+        <class>models.Team</class>
+        <class>models.Task</class>
+        <class>models.User</class>
+        <class>models.Donation</class>
+        <class>models.CompanyName</class>
     <non-jta-data-source>java:/comp/env/jdbc/ecssendb</non-jta-data-source>
-    <class>models.Organization</class>
-    <class>models.Program</class>
-    <class>models.PackageType</class>
-    <class>models.Store</class>
-    <class>models.Role</class>
-    <class>models.ProgramTraining</class>
-    <class>models.FoodDeliveryData</class>
-    <class>models.HotlineData</class>
-    <class>models.UserTask</class>
-    <class>models.Team</class>
-    <class>models.Task</class>
-    <class>models.User</class>
-    <class>models.Donation</class>
-    <class>models.CompanyName</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <!--<property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>-->
+<!--      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>-->
     </properties>
   </persistence-unit>
 </persistence>

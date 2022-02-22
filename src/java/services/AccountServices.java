@@ -6,6 +6,10 @@ package services;
 
 import dataaccess.UserDB;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import models.*;
 
 /**
@@ -43,8 +47,6 @@ public User login(String email, String password) {
         UserDB userDB = new UserDB();
         User user = userDB.get(email);
         return user;
-
-
 }
     //agambeer
     // get for searching users by last name
@@ -102,4 +104,61 @@ public User login(String email, String password) {
         return "User with " + userId + " successfully updated!";
     }
     
+        
+    public boolean resetPassword(String email, String path, String url) throws Exception{
+        UserDB userDB = new UserDB();
+        
+        if(userDB.get(email) == null){
+            return false;
+        }
+        
+        User user = userDB.get(email);
+        
+        Context env = (Context) new InitialContext().lookup("java:comp/env");
+        
+            String to = (String) env.lookup("webmail-username");
+            //String to =  user.getEmail();
+                String subject = "Ecssen Pro";
+                String template = path + "/emailtemplates/accountinfo.html";
+                
+                HashMap<String, String> tags = new HashMap<>();
+                tags.put("firstname", user.getFirstName());
+                tags.put("lastname", user.getLastName());
+                tags.put("email", user.getEmail());
+                tags.put("link", url);
+                
+        try {       
+            GmailService.sendMail(to, subject, template, tags);
+        } catch (Exception ex) {
+            Logger.getLogger(AccountServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return true;
+    }
+    
+    public boolean changePassword(String uuid, String password) {
+        //UserService us = new UserService();
+        UserDB userDB = new UserDB();
+        
+        try {
+            User user = userDB.getByUUID(uuid);
+            //user.set
+            //user.setResetPasswordUUID(null);
+            user.setResetPasswordUuid(null);
+            updateNoCheck(user);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+    
+    public void updateNoCheck(User user){
+        UserDB userDB = new UserDB();
+        try {
+            userDB.update(user);
+        } catch (Exception ex) {
+            Logger.getLogger(AccountServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+    }
 }
