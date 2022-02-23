@@ -124,7 +124,7 @@ public class AccountServices {
 
         User user = userDB.get(email);
 
-        Context env = (Context) new InitialContext().lookup("java:comp/env");
+        //Context env = (Context) new InitialContext().lookup("java:comp/env");
 
         //String to = (String) env.lookup("webmail-username");
         String to =  user.getEmail();
@@ -133,8 +133,8 @@ public class AccountServices {
 
         HashMap<String, String> tags = new HashMap<>();
         tags.put("firstname", user.getFirstName());
-        tags.put("lastname", user.getLastName());
-        tags.put("email", user.getEmail());
+        //tags.put("lastname", user.getLastName());
+        //tags.put("email", user.getEmail());
         tags.put("link", url);
 
         try {

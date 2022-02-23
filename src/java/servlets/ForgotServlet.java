@@ -33,7 +33,6 @@ public class ForgotServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/WEB-INF/forgot.jsp").forward(request, response);
         }
         else{           
-            //String uuidH = (String) session.getAttribute("uuid");
             String uuidH = (String) request.getParameter("uuid");
             request.setAttribute("uuid", uuidH);
             getServletContext().getRequestDispatcher("/WEB-INF/resetNewPassword.jsp").forward(request, response);
@@ -57,7 +56,6 @@ public class ForgotServlet extends HttpServlet {
         if(request.getParameter("uuid") != ""){
             uuidC = request.getParameter("uuid");
             String password = request.getParameter("nPassword");
-            
             as.changePassword(uuidC, password);
             response.sendRedirect("login");
             return;
@@ -77,21 +75,35 @@ public class ForgotServlet extends HttpServlet {
                 user = as.get(username);
             } catch (Exception ex) {
                 Logger.getLogger(ForgotServlet.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+            
+            if(user == null){
+                    request.setAttribute("emailCheck", true);
+                    session.setAttribute("uuid", null);
+                    getServletContext().getRequestDispatcher("/WEB-INF/forgot.jsp").forward(request, response);
+                    return;
             }
 
+            
+            //request.setAttribute("emailCheck", true);
+            //request.setAttribute("userMessage", "Sending...");
+            //getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+            //response.sendRedirect("forgot?userMessage=Sending...");
+            
             user.setResetPasswordUuid(uuid);
+            
             try {
-                //as.update(user);
                 as.updateNoCheck(user);
             } catch (Exception ex) {
                 Logger.getLogger(ForgotServlet.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("User could not be updated.");
             }
 
             String fEmail = "";
             fEmail = request.getParameter("fEmail");
 
             try {
+
                 if(as.resetPassword(fEmail, path, link)){
                     request.setAttribute("emailConfirm", true);
                     response.sendRedirect("login");
@@ -103,11 +115,7 @@ public class ForgotServlet extends HttpServlet {
                 }
             } catch (Exception ex) {
                 Logger.getLogger(ForgotServlet.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("There is a problem with resetting password.");
             }
-
-
-     
     }
 
 }
