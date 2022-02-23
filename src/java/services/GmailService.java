@@ -58,7 +58,7 @@ public class GmailService {
         props.put("mail.smtps.auth", "true");
         props.put("mail.smtps.quitwait", "false");
         Session session = Session.getDefaultInstance(props);
-        session.setDebug(true);
+        //session.setDebug(true);
 
         // create a message
         Message message = new MimeMessage(session);

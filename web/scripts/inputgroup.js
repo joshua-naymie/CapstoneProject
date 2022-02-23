@@ -194,7 +194,9 @@ class InputGroup
 
     /**
      * Adds a Validator to the InputGroup.
-     * @param {RegExp} validation         The RegExp object to be checked against
+     * @param {function|RegExp} validation  The method of validation the validator will use.
+     *                                      Can be a Function or RegExp object.
+     *                                      Function must return true/false if valid/invalid.
      * @param {string} invalidState  The state the InputGroup will be set to if input is invalid.
      *                               Ex: INPUT_GROUP_WARNING_STATE
      * @param {string} message       The message shown if input is invalid
@@ -205,7 +207,7 @@ class InputGroup
     }
 
     /**
-     * Removes a Validator with a matching RegExp object.
+     * Removes a Validator with a matching Function or RegExp object.
      * @param {RegExp} validation  The RegExp object to match.
      */
     removeValidator(validation)

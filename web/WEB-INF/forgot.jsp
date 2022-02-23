@@ -28,7 +28,7 @@
                 <input type="hidden" name="uuid" value="${uuid}">
                 
             </form>
-            
+             <p>${userMessage}</p>
             <c:if test="${emailCheck}">
                 <p style="color: red" > Invalid email. Please try again.</p>
             </c:if>
