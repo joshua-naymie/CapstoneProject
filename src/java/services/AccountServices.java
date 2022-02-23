@@ -26,7 +26,7 @@ public User login(String email, String password) {
         
         try {
             User user = userDB.get(email);
-            if (password.equals(user.getUserPassword())) {
+            if (password.equals(user.getPasswordSalt())) {
                 return user;
             }
         } catch (Exception e) {

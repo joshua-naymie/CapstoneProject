@@ -109,7 +109,6 @@ public class AccountServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Obtain the action from the JSP
-        // get parameter name from front end
         String action = request.getParameter("action");
 
         // edit user
