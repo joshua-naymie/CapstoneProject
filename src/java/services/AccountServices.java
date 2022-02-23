@@ -126,8 +126,8 @@ public class AccountServices {
 
         Context env = (Context) new InitialContext().lookup("java:comp/env");
 
-        String to = (String) env.lookup("webmail-username");
-        //String to =  user.getEmail();
+        //String to = (String) env.lookup("webmail-username");
+        String to =  user.getEmail();
         String subject = "Ecssen Pro";
         String template = path + "/emailtemplates/accountinfo.html";
 
@@ -152,8 +152,10 @@ public class AccountServices {
 
         try {
             User user = userDB.getByUUID(uuid);
-            //user.set
-            //user.setResetPasswordUUID(null);
+            String passwordSalt = getSalt();
+            String passwordHash = getHash(password, passwordSalt);
+            user.setPasswordSalt(passwordSalt);
+            user.setPasswordHash(passwordHash);
             user.setResetPasswordUuid(null);
             updateNoCheck(user);
             return true;
