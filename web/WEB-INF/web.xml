@@ -45,8 +45,12 @@
         <url-pattern>/programs</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ProgramTestServlet</servlet-name>
-        <url-pattern>/ProgramTestServlet</url-pattern>
+        <servlet-name>ForgotServlet</servlet-name>
+        <url-pattern>/forgot</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddTaskServlet</servlet-name>
+        <url-pattern>/addTask</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
