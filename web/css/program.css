@@ -10,8 +10,8 @@
     text-align: center;
     font-family: serif;
     color: rgb(23, 69, 144);
-    margin-top: 70px;
     margin-bottom: 35px;
+    margin-top: -1px;
 }
 
 .content
@@ -22,20 +22,22 @@
 }
 
 .container {
+    
+}
+
+.left-panel
+{
+    /*display: block;
+    width: 300px;
+    max-height: 600px; */
     background: rgb(248,248,248);
     border: 1px solid black;
     border-radius: 25px;
     box-shadow: 2px 2px 12px darkslategrey;
     min-width: 370px;
     padding: 50px;
+    margin-top: 80px;
     margin-bottom: 10px;
-}
-
-.left-panel
-{
-    display: block;
-    width: 300px;
-    max-height: 600px;
 }
 
 .panel-header
@@ -72,6 +74,7 @@
 {
     width: 300px;
     max-height: 600px;
+    margin-top: 90px;
 }
 
 .store-list__base
