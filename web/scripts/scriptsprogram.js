@@ -40,16 +40,16 @@ function load()
 
     // create Store Name inputgroup
     let storeNameInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "store-name");
-    storeNameInput.setLabelText("Store Name");
+    storeNameInput.setLabelText("Program Name");
     storeNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    storeNameInput.setPlaceHolderText("eg. Starbucks");
+    storeNameInput.setPlaceHolderText("eg. Hotline");
     storeNameInput.container = document.getElementById("store-name__input");
     configCustomInput(storeNameInput);
 
     let streetAddressInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "street-address");
-    streetAddressInput.setLabelText("Street Address");
+    streetAddressInput.setLabelText("Manager Name");
     streetAddressInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    streetAddressInput.setPlaceHolderText("eg. 123 Main St. SW");
+    streetAddressInput.setPlaceHolderText("eg. Jin Chen");
     streetAddressInput.container = document.getElementById("street-address__input");
     configCustomInput(streetAddressInput);
 
