@@ -68,7 +68,7 @@ function load()
     phoneInput.container = document.getElementById("phone__input");
     configCustomInput(phoneInput);
 
-    inputs = new InputGroupCollection();
+    inputs = new InputGroupCollectionProgram();
     inputs.add(storeNameInput);
     inputs.add(streetAddressInput);
     inputs.add(cityInput);
