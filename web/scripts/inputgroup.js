@@ -9,6 +9,7 @@ const INPUTGROUP_STATE_ERROR   = "error";
  */
 class InputGroup
 {
+    
     /**
      * Constructor for InputGroup
      * @param {string} className  The base CSS class name used.
@@ -242,4 +243,5 @@ class InputGroup
 
         return true;
     }
+    
 }

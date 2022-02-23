@@ -29,13 +29,13 @@
                     </div>
                     <div class="left-panel__top-buttons">
                         <input id="search-input" type="search" class="search-stores__input" placeholder="name, address, phone#">
-                        <input id="" type="button" class="add-store__button" onclick="" value="+">
+                        <input id="notempty" type="button" class="add-store__button" onclick="hideShowAddProgram()" value="+">
                     </div>
                     <div id="list-base" class="store-list__base">
                         
                     </div>
                     </div>
-                <div class="right-panel" id="input-area">
+                <div class="right-panel" id="input-area"  style="display:none">
 <!--                    <h3 class="panel-header">Add Program</h3>-->
                     <div id="store-name__input" style="margin: 37px 0 30px 0;"></div>
                     <div id="street-address__input"></div>
