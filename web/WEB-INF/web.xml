@@ -16,6 +16,18 @@
         <servlet-name>ProgramServlet</servlet-name>
         <servlet-class>servlets.ProgramServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProgramTestServlet</servlet-name>
+        <servlet-class>servlets.ProgramTestServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ForgotServlet</servlet-name>
+        <servlet-class>servlets.ForgotServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddTaskServlet</servlet-name>
+        <servlet-class>servlets.AddTaskServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
         <url-pattern>/users</url-pattern>
@@ -36,6 +48,18 @@
         <servlet-name>ProgramServlet</servlet-name>
         <url-pattern>/programs</url-pattern>
     </servlet-mapping>
+       <servlet-mapping>
+        <servlet-name>ProgramTestServlet</servlet-name>
+        <url-pattern>/programtest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ForgotServlet</servlet-name>
+        <url-pattern>/forgot</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddTaskServlet</servlet-name>
+        <url-pattern>/addTask</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -44,4 +68,14 @@
     <welcome-file-list>
         <welcome-file>login</welcome-file>
     </welcome-file-list>
+    <env-entry>
+        <env-entry-name>webmail-username</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>ecssenpro@gmail.com</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <env-entry-name>webmail-password</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>3cssenPr%22</env-entry-value>
+    </env-entry>
 </web-app>

@@ -35,8 +35,13 @@ public class UserDB {
     public User get(String email) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
-            User user = em.find(User.class, email);
-            return user;
+            List<User> users = getAll();
+            for (User user : users) {
+                if (user.getEmail().equals(email)) {
+                    return user;
+                }
+            }
+            return null;
         } finally {
             em.close();
         }
@@ -84,6 +89,18 @@ public class UserDB {
         } finally {
             em.close();
         }
+    }
+    
+    public User getByUUID(String uuid) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        
+        try{
+            Query q = em.createNamedQuery("User.findByResetPasswordUuid");
+            q.setParameter("resetPasswordUuid", uuid);
+            return (User) q.getSingleResult();
+        }finally{
+            em.close();
+        } 
     }
 
 }
