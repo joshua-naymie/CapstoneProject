@@ -16,6 +16,10 @@
         <servlet-name>ProgramServlet</servlet-name>
         <servlet-class>servlets.ProgramServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProgramTestServlet</servlet-name>
+        <servlet-class>servlets.ProgramTestServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
         <url-pattern>/users</url-pattern>
@@ -35,6 +39,10 @@
     <servlet-mapping>
         <servlet-name>ProgramServlet</servlet-name>
         <url-pattern>/programs</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProgramTestServlet</servlet-name>
+        <url-pattern>/ProgramTestServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
