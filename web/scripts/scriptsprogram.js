@@ -6,8 +6,6 @@ const CSS_INPUTGROUP_MAIN = "main-input";
 var data = [ { "storeId":1,
                 "street":"Calgary",
                 "city":"Manager Name",
-                "prov":"AB",
-                "postal":"C2C1V8",
                 "company":"Cobbs Bread",
                 "phone":"9875554434",
                 "active":true },
@@ -15,8 +13,6 @@ var data = [ { "storeId":1,
                 { "storeId":2,
                 "street":"Edmonton",
                 "city":"Manager Name",
-                "prov":"AB",
-                "postal":"C2D1X1",
                 "company":"Hotline",
                 "phone":"5555551234",
                 "active":true },
@@ -24,8 +20,6 @@ var data = [ { "storeId":1,
                 { "storeId":1,
                 "street":"Red Deer",
                 "city":"Manager Name",
-                "prov":"AB",
-                "postal":"C2C1V8",
                 "company":"Other",
                 "phone":"9875554434",
                 "active":false } ];
@@ -45,28 +39,28 @@ function load()
     currentListData = data;
 
     // create Store Name inputgroup
-    let storeNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-name");
-    storeNameInput.setLabelText("Store Name");
+    let storeNameInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "store-name");
+    storeNameInput.setLabelText("Program Name");
     storeNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    storeNameInput.setPlaceHolderText("eg. Starbucks");
+    storeNameInput.setPlaceHolderText("eg. Hotline");
     storeNameInput.container = document.getElementById("store-name__input");
     configCustomInput(storeNameInput);
 
-    let streetAddressInput = new InputGroup(CSS_INPUTGROUP_MAIN, "street-address");
-    streetAddressInput.setLabelText("Street Address");
+    let streetAddressInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "street-address");
+    streetAddressInput.setLabelText("Manager Name");
     streetAddressInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    streetAddressInput.setPlaceHolderText("eg. 123 Main St. SW");
+    streetAddressInput.setPlaceHolderText("eg. Jin Chen");
     streetAddressInput.container = document.getElementById("street-address__input");
     configCustomInput(streetAddressInput);
 
-    let cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "city");
+    let cityInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "city");
     cityInput.setLabelText("City");
     cityInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     cityInput.setPlaceHolderText("eg. Calgary");
     cityInput.container = document.getElementById("city__input");
     configCustomInput(cityInput);
     
-    let phoneInput = new InputGroup(CSS_INPUTGROUP_MAIN, "phone");
+    let phoneInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "phone");
     phoneInput.setLabelText("Phone");
     phoneInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     phoneInput.addValidator(REGEX_PHONE, INPUTGROUP_STATE_WARNING, "*invalid");
@@ -78,8 +72,6 @@ function load()
     inputs.add(storeNameInput);
     inputs.add(streetAddressInput);
     inputs.add(cityInput);
-    inputs.add(provinceInput);
-    inputs.add(postalCodeInput);
     inputs.add(phoneInput);
 
     document.getElementById("search-input").addEventListener("input", searchList);
@@ -136,7 +128,7 @@ function generateRow(data)
 
     let remainingAddress = document.createElement("p");
     remainingAddress.classList.add("secondary-card__field");
-    remainingAddress.innerText = `${data.city}, ${data.prov}  ${formatPostal(data.postal)}`;
+    remainingAddress.innerText = `${data.city}`;
 
     addressDiv.appendChild(streetAddress);
     addressDiv.appendChild(remainingAddress);
@@ -165,11 +157,6 @@ function generateRow(data)
 function formatPhone(phone)
 {
     return `(${phone.substr(0,3)}) ${phone.substr(3,3)}-${phone.substr(6,4)}`;
-}
-
-function formatPostal(postal)
-{
-    return `${postal.substr(0,3)} ${postal.substr(3,3)}`;
 }
 
 function searchList()
