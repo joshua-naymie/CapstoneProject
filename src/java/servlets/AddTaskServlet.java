@@ -23,14 +23,14 @@ public class AddTaskServlet extends HttpServlet {
             throws ServletException, IOException {
         
         
-        getServletContext().getRequestDispatcher("/WEB-INF/addTaskTest.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/addTask.jsp").forward(request, response);
     }
 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/WEB-INF/addTaskTest.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/addTask.jsp").forward(request, response);
     }
 
 }
