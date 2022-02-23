@@ -201,4 +201,10 @@ function  hideShowAddProgram() {
   } else {
     x.style.display = "none";
   }
+ 
 }
+
+function resetAddProgramForm(){
+   document.getElementById("addProgramForm").reset();
+    document.getElementById("input-area").style.display = "none";
+ } 

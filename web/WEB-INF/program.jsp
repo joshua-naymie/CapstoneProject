@@ -35,7 +35,8 @@
                         
                     </div>
                     </div>
-                <div class="right-panel" id="input-area"  style="display:none">
+                  <form id = "addProgramForm"><div class="right-panel" id="input-area"  style="display:none">
+
 <!--                    <h3 class="panel-header">Add Program</h3>-->
                     <div id="store-name__input" style="margin: 37px 0 30px 0;"></div>
                     <div id="street-address__input"></div>
@@ -55,8 +56,9 @@
                         </div>
                     </div>
                     <div class="edit-store__buttons">
-                        <input class="cancel__button" type="button" value="Cancel">
+                        <input class="cancel__button" type="button" value="Cancel" onClick = "resetAddProgramForm()">
                         <input id="ok__button" class="ok__buton" type="button" value="Save">
+                        </form>
                     </div>
                 </div>
             </div>
