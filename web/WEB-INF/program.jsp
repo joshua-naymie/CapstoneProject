@@ -15,12 +15,14 @@
     <body>
             <%@ include file="navbar.jsp" %>
                      
-                    <div class="main">            
-        <div class="container">            
+                    <div class="main">  
+                        
+        <div class="container">          
+            <h1>ECSSEN Program Manager</h1>
             <div class="content">
                 
                 <div class="left-panel">
-                    <h1>ECSSEN Program Manager</h1>
+                    
 <!--                    <h3 class="panel-header">Programs</h3>-->
                     <div>
                         <label style="color: gray;">Show Inactive</label>
