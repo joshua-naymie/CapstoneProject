@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.*;
 import models.*;
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import services.AccountServices;
                
 import org.apache.poi.ss.usermodel.*;
@@ -59,16 +58,20 @@ public class AccountServlet extends HttpServlet {
                            new JSONKey("firstName", true),
                            new JSONKey("lastName", true) };
         
+        // Create builder with above keys
         JSONBuilder builder = new JSONBuilder(keys);
         
         // Create user JSON objects
-        int i;
-        for(i=0; i<allUsers.size()-1; i++)
+        if(allUsers.size() > 0)
         {
-            returnData.append(buildUserJSON(allUsers.get(i), builder));
-            returnData.append(',');
+            int i;
+            for(i=0; i<allUsers.size()-1; i++)
+            {
+                returnData.append(buildUserJSON(allUsers.get(i), builder));
+                returnData.append(',');
+            }
+            returnData.append(buildUserJSON(allUsers.get(i), builder));         
         }
-        returnData.append(buildUserJSON(allUsers.get(i), builder));
         returnData.append("];");
         
         
@@ -76,9 +79,15 @@ public class AccountServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/WEB-INF/userlist.jsp").forward(request, response);
     }
     
+    /**
+     * Creates a user JSON object
+     * @param user  The User to populate the JSON with
+     * @param builder The JSONBuilder to create the JSON with
+     * @return A User JSON as a String
+     */
     private String buildUserJSON(User user, JSONBuilder builder)
     {
-        Object[] userValues = { user.getUserId(),
+        Object[] userValues = { user.getEmail(),
                                 user.getFirstName(),
                                 user.getLastName() };
             
@@ -100,7 +109,6 @@ public class AccountServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Obtain the action from the JSP
-        // get parameter name from front end
         String action = request.getParameter("action");
 
         // edit user
@@ -197,9 +205,9 @@ public class AccountServlet extends HttpServlet {
                                                             ? null
                                                             : dateFormat.format(user.getDateOfBirth());
                 
-                Object[] recordData = { user.getUserId(),
-                                        user.getFirstName(),
+                Object[] recordData = { user.getEmail(),
                                         user.getLastName(),
+                                        user.getFirstName(),
                                         user.getPhoneNumber(),
                                         user.getHomeAddress(),
                                         user.getUserCity(),

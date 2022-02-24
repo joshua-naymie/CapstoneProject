@@ -1,5 +1,7 @@
 package models;
 
+import java.security.InvalidParameterException;
+
 public class CSVBuilder
 {
     /**
@@ -37,6 +39,11 @@ public class CSVBuilder
      */
     public void addRecord(Object[] data)
     {
+        if(data.length == 0)
+        {
+            throw new InvalidParameterException("Cannot add empty record. Object[] length is 0");
+        }
+        
         int i;
         for(i=0; i<data.length-1; i++)
         {

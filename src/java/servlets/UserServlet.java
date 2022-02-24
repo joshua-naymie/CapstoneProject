@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.JSONBuilder;
+import models.JSONKey;
 import models.User;
 import services.AccountServices;
 
@@ -44,24 +46,57 @@ public class UserServlet extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, ex);
             }
+            
+            JSONKey[] userKeys = { new JSONKey("id", true),
+                                   new JSONKey("firstName", true),
+                                   new JSONKey("lastName", true),
+                                   new JSONKey("phoneNum", true),
+                                   new JSONKey("address", true),
+                                   new JSONKey("isAdmin", false),
+                                   new JSONKey("city", true),
+                                   new JSONKey("isActive", false),
+                                   new JSONKey("DOB", true),
+                                   new JSONKey("postalCode", true),
+                                   new JSONKey("regDate", true),
+                                   new JSONKey("teamId", true) };
+            
+            JSONBuilder userBuilder = new JSONBuilder(userKeys);
             // make the user object into json data
             StringBuilder returnData = new StringBuilder();
-            String OUTPUT_FORMAT = "var editUser = {\"id\":%s, \"firstName\":%s, \"lastName\":%s, \"phoneNum\":%s, \"address\":%s,"
-                    + "\"isAdmin\":%b,\"city\":%s,\"isActive\":%b, \"DOB\":%s, \"address\":%s, \"postalCode\":%s,"
-                    + "\"regDate\":%s, \"teamId\":%s}";
+            
+            returnData.append("var editUser = ");
+            
+            Object[] userData = { editUser.getEmail(),
+                                  editUser.getFirstName(),
+                                  editUser.getLastName(),
+                                  editUser.getPhoneNumber(),
+                                  editUser.getHomeAddress(),
+                                  editUser.getIsAdmin(),
+                                  editUser.getUserCity(),
+                                  editUser.getIsActive(),
+                                  editUser.getDateOfBirth(),
+                                  editUser.getPostalCode(),
+                                  editUser.getRegistrationDate(),
+                                  editUser.getTeamId() };
+            
+            returnData.append(userBuilder.buildJSON(userData));
+            returnData.append(";");
+//            String OUTPUT_FORMAT = "var editUser = {\"id\":%s, \"firstName\":%s, \"lastName\":%s, \"phoneNum\":%s, \"address\":%s,"
+//                    + "\"isAdmin\":%b,\"city\":%s,\"isActive\":%b, \"DOB\":%s, \"address\":%s, \"postalCode\":%s,"
+//                    + "\"regDate\":%s, \"teamId\":%s}";
 
             
             // turning DOB and registration date into strings
-            String DOB = dateToString(editUser.getDateOfBirth());
-            String regDate = dateToString(editUser.getRegistrationDate());
-            // converting team Id to string
-            //String teamId = editUser.getTeamId().toString();
-            
-            // appending json data to be returned into a string builder
-            returnData.append(String.format(OUTPUT_FORMAT, checkNull(editUser.getUserId()), checkNull(editUser.getFirstName()),
-                    checkNull(editUser.getLastName()), checkNull(editUser.getPhoneNumber()), checkNull(editUser.getHomeAddress()),
-                    editUser.getIsAdmin(), checkNull(editUser.getUserCity()), editUser.getIsActive(), DOB, checkNull(editUser.getHomeAddress()),
-                    checkNull(editUser.getPostalCode()), regDate, "2"));
+//            String DOB = dateToString(editUser.getDateOfBirth());
+//            String regDate = dateToString(editUser.getRegistrationDate());
+//            // converting team Id to string
+//            //String teamId = editUser.getTeamId().toString();
+//            
+//            // appending json data to be returned into a string builder
+//            returnData.append(String.format(OUTPUT_FORMAT, checkNull(editUser.getUserId()), checkNull(editUser.getFirstName()),
+//                    checkNull(editUser.getLastName()), checkNull(editUser.getPhoneNumber()), checkNull(editUser.getHomeAddress()),
+//                    editUser.getIsAdmin(), checkNull(editUser.getUserCity()), editUser.getIsActive(), DOB, checkNull(editUser.getHomeAddress()),
+//                    checkNull(editUser.getPostalCode()), regDate, "2"));
             
             
             
