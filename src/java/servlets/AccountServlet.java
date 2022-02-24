@@ -226,7 +226,7 @@ public class AccountServlet extends HttpServlet {
           try {
             
             response.setContentType("application/vnd.ms-excel;charset=UTF-8");
-            response.setHeader("Content-Disposition", "attachment;filename=User_List");
+            response.setHeader("Content-Disposition", "attachment;filename=User_List.xlsx");
              
             try (XSSFWorkbook wb = new XSSFWorkbook()) {
                  
