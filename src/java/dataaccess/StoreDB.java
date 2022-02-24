@@ -2,61 +2,56 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package dataaccess;
-
-
-import dataaccess.DBUtil;
+import models.Store;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Query;
 import java.util.List;
-import models.Program;
+
 /**
  *
  * @author 840979
  */
-public class ProgramDB {
+public class StoreDB {
 
 
- public List<Program> getAll() throws Exception {
+public List<Store> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {         
 
-            List<Program> allPrograms = em.createNamedQuery("Program.findAll", Program.class).getResultList();
-            return allPrograms;
+            List<Store> allStores = em.createNamedQuery("Store.findAll", models.Store.class).getResultList();
+            return allStores;
         } finally {
             em.close();
         }
     }
 
-
- public Program get(short programId) throws Exception {
+    public Store get(int storeId) throws Exception {
       EntityManager em = DBUtil.getEMFactory().createEntityManager();
       try {
-            Program p = em.find(Program.class, programId);
-            return p;
+            Store s = em.find(Store.class, storeId);
+            return s;
         } finally {
             em.close();
         }
     }
-public Program getByProgramName(String programName) throws Exception {
+
+    public Store getByStreetAddress(String streetAddress) throws Exception {
       EntityManager em = DBUtil.getEMFactory().createEntityManager();
       try {
-            Program p = em.find(Program.class, programName);
-            return p;
+            Store s = em.find(Store.class, streetAddress);
+            return s;
         } finally {
             em.close();
         }
     }
 
-
- public void insert(Program program) throws Exception {
+    public void insert(Store store) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         try {
             trans.begin();
-            em.persist(program);
+            em.persist(store);
             trans.commit();
         } catch (Exception ex) {
             trans.rollback();
@@ -64,14 +59,14 @@ public Program getByProgramName(String programName) throws Exception {
             em.close();
         }
     }
-    
 
-public void update(Program program) throws Exception {
+
+     public void update(Store store) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         try {
             trans.begin();
-            em.merge(program);
+            em.merge(store);
             trans.commit();
         } catch (Exception ex) {
             trans.rollback();
@@ -80,4 +75,5 @@ public void update(Program program) throws Exception {
         }
     }
 }
+
 
