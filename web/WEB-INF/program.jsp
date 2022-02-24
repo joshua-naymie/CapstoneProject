@@ -8,6 +8,7 @@
         <script type="text/javascript" src="scripts/regexprogram.js"></script>
         <script type="text/javascript" src="scripts/scriptsprogram.js"></script>
         <script type="text/javascript" src="scripts/validator.js"></script>
+        <script type="text/javascript" src="scripts/functions.js"></script>
         <link rel="stylesheet" href="css/program.css">
         <title>ECSSEN Programs</title>
     </head>
@@ -26,16 +27,18 @@
                         <input id="program-filter" type="checkbox">
                     </div>
                     <div class="left-panel__top-buttons">
-                        <input id="search-input" type="search" class="search-programs__input" placeholder="Enter Name, Address or Phone">
+                        <input id="search-input" type="search" class="search-programs__input" placeholder="Enter Name, Manager, City">
                         <input id="notempty" type="button" class="add-program__button" onclick="hideShowAddProgram()" value="+">
                     </div>
                     <div id="list-base" class="program-list__base">
                         
                     </div>
                     </div>
-                  <form id ="addProgramForm"><div class="right-panel" id="input-area"  style="display:none">
+                  <form id ="addProgramForm"><div class="right-panel" id="input-area">
 
 <!--                    <h3 class="panel-header">Add Program</h3>-->
+                    <input id="action" name="action" type="hidden" value="add">
+                    <input id="program-num" name="program-num" type="text">
                     <div id="program-name__input" style="margin: 37px 0 30px 0;"></div>
                     <div id="manager-name__input"></div>
                     <div class="address-inputs">
@@ -46,7 +49,7 @@
                     <div class="phone-status-inputs">
                         <div id="phone__input"></div>
                         <div id="status__input" >
-                            <select name="status">
+                            <select id="status" name="status">
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
                             </select>
@@ -54,8 +57,8 @@
                         </div>
                     </div>
                     <div class="edit-program__buttons">
-                        <input class="cancel__button" type="button" value="Cancel" onClick = "resetAddProgramForm()">
-                        <input id="ok__button" class="ok__buton" type="button" value="Save">
+                        <input class="cancel__button" type="button" value="Cancel" onClick = "hideShowAddProgram()">
+                        <input id="ok__button" class="ok__buton" type="button" value="Add" onclick="submitForm();">
                         </form>
                     </div>
                 </div>

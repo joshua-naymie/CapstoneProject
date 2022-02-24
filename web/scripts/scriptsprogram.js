@@ -3,35 +3,54 @@ document.addEventListener('DOMContentLoaded', load, false);
 
 const CSS_INPUTGROUP_MAIN = "main-input";
 
-var data = [{"storeId": 1,
+var data = [{"programId": 1,
         "city": "Calgary",
         "manager": "Jin Chen",
         "program": "Cobbs Bread",
         "phone": "9875554434",
         "active": true},
 
-    {"storeId": 2,
+    {"programId": 2,
         "city": "Edmonton",
         "manager": "Jin Chen",
         "program": "Hotline",
         "phone": "5555551234",
         "active": true},
 
-    {"storeId": 1,
+    {"programId": 1,
         "city": "Red Deer",
         "manager": "Jin Chen",
         "program": "Other",
         "phone": "9875554434",
         "active": false}];
+
 var inputs;
 var currentListData;
 var searchInput;
 var filterCheckbox;
+var submitButton;
+var actionInput;
+var isAdd;
+
+var programNameInput,
+    managerNameInput,
+    cityInput,
+    phoneInput,
+    statusInput;
 
 function load()
 {
+    document.getElementById("addProgramForm").reset();
+    
+    actionInput = document.getElementById("action");
+    
+    statusInput = document.getElementById("status");
+    submitButton = document.getElementById("ok__button");
+    
     searchInput = document.getElementById("search-input");
     searchInput.value = "";
+
+    isAdd = true;
 
     filterCheckbox = document.getElementById("program-filter");
     filterCheckbox.checked = false;
@@ -40,28 +59,28 @@ function load()
     currentListData = data;
 
     // create Store Name inputgroup
-    let programNameInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "program-name");
+    programNameInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "program-name");
     programNameInput.setLabelText("Program Name");
     programNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     programNameInput.setPlaceHolderText("eg. Hotline");
     programNameInput.container = document.getElementById("program-name__input");
     configCustomInput(programNameInput);
 
-    let managerNameInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "manager-name");
+    managerNameInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "manager-name");
     managerNameInput.setLabelText("Manager Name");
     managerNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     managerNameInput.setPlaceHolderText("eg. Jin Chen");
     managerNameInput.container = document.getElementById("manager-name__input");
     configCustomInput(managerNameInput);
 
-    let cityInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "city");
+    cityInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "city");
     cityInput.setLabelText("City");
     cityInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     cityInput.setPlaceHolderText("eg. Calgary");
     cityInput.container = document.getElementById("city__input");
     configCustomInput(cityInput);
 
-    let phoneInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "phone");
+    phoneInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "phone");
     phoneInput.setLabelText("Phone");
     phoneInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     phoneInput.addValidator(REGEX_PHONE, INPUTGROUP_STATE_WARNING, "*invalid");
@@ -119,6 +138,7 @@ function generateRow(data)
 {
     let item = document.createElement("div");
     item.classList.add("list-item");
+    item.addEventListener("click", () => { populateFields(data); });
 
     let addressDiv = document.createElement("div");
     addressDiv.classList.add("address");
@@ -182,30 +202,52 @@ function searchList()
     generateList();
 }
 
-function removeAllChildren(element)
-{
-    while (element.firstChild)
-    {
-        element.removeChild(element.firstChild);
-    }
-}
-
 function okPressed()
 {
     inputs.validateAll();
 }
 
 function  hideShowAddProgram() {
-    var x = document.getElementById("input-area");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
-
+//    var x = document.getElementById("input-area");
+//    if (x.style.display === "none") {
+//        x.style.display = "block";
+//    } else {
+//        x.style.display = "none";
+//    }
+    
+    document.getElementById("addProgramForm").reset();
+    submitButton.value = "Add";
+    isAdd = true;
 }
 
 function resetAddProgramForm() {
     document.getElementById("addProgramForm").reset();
     document.getElementById("input-area").style.display = "none";
-} 
+}
+
+function populateFields(data)
+{
+    submitButton.value = "Update";
+    
+    programNameInput.setInputText(data.program);
+    managerNameInput.setInputText(data.manager);
+    cityInput.setInputText(data.city);
+    phoneInput.setInputText(data.phone);
+    statusInput.value = data.active ? "active" : "inactive";
+    
+
+    document.getElementById("program-num").value = data.programId;
+
+    isAdd = false;
+}
+
+
+function submitForm()
+{
+    if(inputs.validateAll())
+    {
+        postAction(isAdd ? "add" : "update", "addProgramForm", "programtest");
+    }
+}
+
+
