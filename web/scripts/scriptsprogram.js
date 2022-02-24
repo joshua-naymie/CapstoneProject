@@ -246,7 +246,7 @@ function submitForm()
 {
     if(inputs.validateAll())
     {
-        postAction(isAdd ? "Add" : "Update", "addProgramForm", "programs");
+        postAction(isAdd ? "add" : "update", "addProgramForm", "programs");
     }
 }
 

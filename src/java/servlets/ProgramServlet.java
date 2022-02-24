@@ -45,7 +45,7 @@ public class ProgramServlet extends HttpServlet {
         returnData.append("var data = [");
         
         // Create keys
-        JSONKey[] keys = { new JSONKey("storeId", false),
+        JSONKey[] keys = { new JSONKey("programId", false),
                            new JSONKey("program", true),
                            new JSONKey("manager", true), 
                            new JSONKey("active", false)};
@@ -101,7 +101,7 @@ public class ProgramServlet extends HttpServlet {
         try {
             switch (action) {
                 // add new program
-                case "Add":
+                case "add":
                     add(request, response);
                     break;
                 // edit current programs
@@ -110,7 +110,7 @@ public class ProgramServlet extends HttpServlet {
                     edit(request, response);
                     break;
                 // save edit changes
-                case "Update":
+                case "update":
                     save(request, response);
                     break;
                 // throw exception if the action is none of the above    
