@@ -3,8 +3,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script type="text/javascript" src="scripts/inputgroupprogram.js"></script>
-        <script type="text/javascript" src="scripts/inputgroupcollectionprogram.js"></script>
+        <script type="text/javascript" src="scripts/inputgroup.js"></script>
+        <script type="text/javascript" src="scripts/inputgroupcollection.js"></script>
         <script type="text/javascript" src="scripts/regexprogram.js"></script>
         <script type="text/javascript" src="scripts/scriptsprogram.js"></script>
         <script type="text/javascript" src="scripts/validator.js"></script>
@@ -37,7 +37,7 @@
                   <form id ="addProgramForm"><div class="right-panel" id="input-area">
 
 <!--                    <h3 class="panel-header">Add Program</h3>-->
-                    <input id="action" name="action" type="hidden" value="add">
+                    <input id="action" name="action" type="hidden">
                     <input id="program-num" name="program-num" type="text">
                     <div id="program-name__input" style="margin: 37px 0 30px 0;"></div>
                     <div id="manager-name__input"></div>
