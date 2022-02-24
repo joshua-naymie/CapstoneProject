@@ -63,8 +63,8 @@ public class Program implements Serializable {
         this.programId = programId;
     }
 
-    public Program(Short programId, boolean isActive, String programName, String managerName) {
-        this.programId = programId;
+    public Program(boolean isActive, String programName, String managerName) {
+       
         this.isActive = isActive;
         this.managerName = managerName;
         this.programName = programName;

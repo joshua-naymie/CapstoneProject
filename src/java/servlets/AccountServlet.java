@@ -87,7 +87,7 @@ public class AccountServlet extends HttpServlet {
      */
     private String buildUserJSON(User user, JSONBuilder builder)
     {
-        Object[] userValues = { user.getUserId(),
+        Object[] userValues = { user.getEmail(),
                                 user.getFirstName(),
                                 user.getLastName() };
             
@@ -205,7 +205,7 @@ public class AccountServlet extends HttpServlet {
                                                             ? null
                                                             : dateFormat.format(user.getDateOfBirth());
                 
-                Object[] recordData = { user.getUserId(),
+                Object[] recordData = { user.getEmail(),
                                         user.getLastName(),
                                         user.getFirstName(),
                                         user.getPhoneNumber(),

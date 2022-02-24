@@ -32,14 +32,14 @@ public Program get (short progId)throws Exception{
 
 }
 
-public String insert (Short programId, boolean isActive, String programName, String managerName) throws Exception{
+public String insert (boolean isActive, String programName, String managerName) throws Exception{
          ProgramDB progDB = new ProgramDB();
-         Program checkProgram = progDB.get(programId);
+         Program checkProgram = progDB.getByProgramName(programName);
                 if (checkProgram != null){
                 return "This program already exists";
 }
 
-        Program newProgram = new Program (programId, isActive,programName, managerName);
+        Program newProgram = new Program (isActive,programName, managerName);
 
         progDB.insert(newProgram);
 
