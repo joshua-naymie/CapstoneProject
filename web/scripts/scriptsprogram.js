@@ -3,64 +3,84 @@ document.addEventListener('DOMContentLoaded', load, false);
 
 const CSS_INPUTGROUP_MAIN = "main-input";
 
-var data = [ { "storeId":1,
-                "street":"Calgary",
-                "city":"Manager Name",
-                "company":"Cobbs Bread",
-                "phone":"9875554434",
-                "active":true },
+var data = [{"programId": 1,
+        "city": "Calgary",
+        "manager": "Jin Chen",
+        "program": "Cobbs Bread",
+        "phone": "9875554434",
+        "active": true},
 
-                { "storeId":2,
-                "street":"Edmonton",
-                "city":"Manager Name",
-                "company":"Hotline",
-                "phone":"5555551234",
-                "active":true },
+    {"programId": 2,
+        "city": "Edmonton",
+        "manager": "Jin Chen",
+        "program": "Hotline",
+        "phone": "5555551234",
+        "active": true},
 
-                { "storeId":1,
-                "street":"Red Deer",
-                "city":"Manager Name",
-                "company":"Other",
-                "phone":"9875554434",
-                "active":false } ];
+    {"programId": 1,
+        "city": "Red Deer",
+        "manager": "Jin Chen",
+        "program": "Other",
+        "phone": "9875554434",
+        "active": false}];
+
 var inputs;
 var currentListData;
 var searchInput;
 var filterCheckbox;
+var submitButton;
+var actionInput;
+var isAdd;
+
+var programNameInput,
+    managerNameInput,
+    cityInput,
+    phoneInput,
+    statusInput;
+
 function load()
 {
+    document.getElementById("addProgramForm").reset();
+    
+    actionInput = document.getElementById("action");
+    
+    statusInput = document.getElementById("status");
+    submitButton = document.getElementById("ok__button");
+    
     searchInput = document.getElementById("search-input");
     searchInput.value = "";
 
-    filterCheckbox = document.getElementById("store-filter");
+    isAdd = true;
+
+    filterCheckbox = document.getElementById("program-filter");
     filterCheckbox.checked = false;
     filterCheckbox.addEventListener("change", searchList);
 
     currentListData = data;
 
     // create Store Name inputgroup
-    let storeNameInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "store-name");
-    storeNameInput.setLabelText("Program Name");
-    storeNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    storeNameInput.setPlaceHolderText("eg. Hotline");
-    storeNameInput.container = document.getElementById("store-name__input");
-    configCustomInput(storeNameInput);
+    programNameInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "program-name");
+    programNameInput.setLabelText("Program Name");
+    programNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
+    programNameInput.setPlaceHolderText("eg. Hotline");
+    programNameInput.container = document.getElementById("program-name__input");
+    configCustomInput(programNameInput);
 
-    let streetAddressInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "street-address");
-    streetAddressInput.setLabelText("Manager Name");
-    streetAddressInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    streetAddressInput.setPlaceHolderText("eg. Jin Chen");
-    streetAddressInput.container = document.getElementById("street-address__input");
-    configCustomInput(streetAddressInput);
+    managerNameInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "manager-name");
+    managerNameInput.setLabelText("Manager Name");
+    managerNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
+    managerNameInput.setPlaceHolderText("eg. Jin Chen");
+    managerNameInput.container = document.getElementById("manager-name__input");
+    configCustomInput(managerNameInput);
 
-    let cityInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "city");
+    cityInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "city");
     cityInput.setLabelText("City");
     cityInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     cityInput.setPlaceHolderText("eg. Calgary");
     cityInput.container = document.getElementById("city__input");
     configCustomInput(cityInput);
-    
-    let phoneInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "phone");
+
+    phoneInput = new InputGroupProgram(CSS_INPUTGROUP_MAIN, "phone");
     phoneInput.setLabelText("Phone");
     phoneInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     phoneInput.addValidator(REGEX_PHONE, INPUTGROUP_STATE_WARNING, "*invalid");
@@ -68,9 +88,9 @@ function load()
     phoneInput.container = document.getElementById("phone__input");
     configCustomInput(phoneInput);
 
-    inputs = new InputGroupCollection();
-    inputs.add(storeNameInput);
-    inputs.add(streetAddressInput);
+    inputs = new InputGroupCollectionProgram();
+    inputs.add(programNameInput);
+    inputs.add(managerNameInput);
     inputs.add(cityInput);
     inputs.add(phoneInput);
 
@@ -82,7 +102,7 @@ function load()
 
 function configCustomInput(group)
 {
-    group.container.classList.add("store__custom-input");
+    group.container.classList.add("program__custom-input");
     group.container.appendChild(group.input);
 
     let labelMessageDiv = document.createElement("div");
@@ -96,14 +116,14 @@ function configCustomInput(group)
 function generateList()
 {
     removeAllChildren(document.getElementById("list-base"));
-    let showAll = document.getElementById("store-filter").checked;
-    
-    if(currentListData.length > 0)
+    let showAll = document.getElementById("program-filter").checked;
+
+    if (currentListData.length > 0)
     {
         let i;
-        for(i=0; i<currentListData.length-1; i++)
+        for (i = 0; i < currentListData.length - 1; i++)
         {
-            if(showAll ? true : currentListData[i].active)
+            if (showAll ? true : currentListData[i].active)
             {
 
             }
@@ -118,34 +138,35 @@ function generateRow(data)
 {
     let item = document.createElement("div");
     item.classList.add("list-item");
+    item.addEventListener("click", () => { populateFields(data); });
 
     let addressDiv = document.createElement("div");
     addressDiv.classList.add("address");
 
-    let streetAddress = document.createElement("p");
-    streetAddress.classList.add("address__street");
-    streetAddress.innerText = data.street;
+    let cityLocation = document.createElement("p");
+    cityLocation.classList.add("city__location");
+    cityLocation.innerText = data.city;
 
     let remainingAddress = document.createElement("p");
     remainingAddress.classList.add("secondary-card__field");
-    remainingAddress.innerText = `${data.city}`;
+    remainingAddress.innerText = `${data.manager}`;
 
-    addressDiv.appendChild(streetAddress);
+    addressDiv.appendChild(cityLocation);
     addressDiv.appendChild(remainingAddress);
 
     let rightDiv = document.createElement("div");
     rightDiv.classList.add("right-align");
 
-    let companyName = document.createElement("p");
-    companyName.classList.add("company-name");
-    companyName.innerText = data.company;
+    let programName = document.createElement("p");
+    programName.classList.add("program-name");
+    programName.innerText = data.program;
 
     let phoneNum = document.createElement("p");
     phoneNum.classList.add("secondary-card__field");
     phoneNum.innerText = formatPhone(data.phone);
 
-    
-    rightDiv.appendChild(companyName);
+
+    rightDiv.appendChild(programName);
     rightDiv.appendChild(phoneNum);
 
     item.appendChild(addressDiv);
@@ -156,7 +177,7 @@ function generateRow(data)
 
 function formatPhone(phone)
 {
-    return `(${phone.substr(0,3)}) ${phone.substr(3,3)}-${phone.substr(6,4)}`;
+    return `(${phone.substr(0, 3)}) ${phone.substr(3, 3)}-${phone.substr(6, 4)}`;
 }
 
 function searchList()
@@ -164,14 +185,14 @@ function searchList()
     currentListData = [];
     let searchText = searchInput.value.toLowerCase();
 
-    for(let i=0; i<data.length; i++)
+    for (let i = 0; i < data.length; i++)
     {
-        if(data[i].city.toLowerCase().includes(searchText)
-        || data[i].street.toLowerCase().includes(searchText)
-        || data[i].company.toLowerCase().includes(searchText)
-        || data[i].phone.toLowerCase().startsWith(searchText))
+        if (data[i].manager.toLowerCase().includes(searchText)
+                || data[i].city.toLowerCase().includes(searchText)
+                || data[i].program.toLowerCase().includes(searchText)
+                || data[i].phone.toLowerCase().startsWith(searchText))
         {
-            if(filterCheckbox.checked ? true : data[i].active)
+            if (filterCheckbox.checked ? true : data[i].active)
             {
                 currentListData.push(data[i]);
             }
@@ -181,24 +202,52 @@ function searchList()
     generateList();
 }
 
-function removeAllChildren(element)
-{
-    while(element.firstChild)
-    {
-        element.removeChild(element.firstChild);
-    }
-}
-
 function okPressed()
 {
     inputs.validateAll();
 }
 
 function  hideShowAddProgram() {
-  var x = document.getElementById("input-area");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
+//    var x = document.getElementById("input-area");
+//    if (x.style.display === "none") {
+//        x.style.display = "block";
+//    } else {
+//        x.style.display = "none";
+//    }
+    
+    document.getElementById("addProgramForm").reset();
+    submitButton.value = "Add";
+    isAdd = true;
 }
+
+function resetAddProgramForm() {
+    document.getElementById("addProgramForm").reset();
+    document.getElementById("input-area").style.display = "none";
+}
+
+function populateFields(data)
+{
+    submitButton.value = "Update";
+    
+    programNameInput.setInputText(data.program);
+    managerNameInput.setInputText(data.manager);
+    cityInput.setInputText(data.city);
+    phoneInput.setInputText(data.phone);
+    statusInput.value = data.active ? "active" : "inactive";
+    
+
+    document.getElementById("program-num").value = data.programId;
+
+    isAdd = false;
+}
+
+
+function submitForm()
+{
+    if(inputs.validateAll())
+    {
+        postAction(isAdd ? "add" : "update", "addProgramForm", "programtest");
+    }
+}
+
+

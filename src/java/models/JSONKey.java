@@ -47,11 +47,9 @@ public final class JSONKey
         if(value == null)
         {
             builder.append("null");
-            return builder.toString();
         }
-
         // Write value
-        if(hasQuotes)
+        else if(hasQuotes)
         {
             builder.append('"');
             builder.append(value);
