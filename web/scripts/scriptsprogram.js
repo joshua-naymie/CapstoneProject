@@ -185,10 +185,7 @@ function searchList()
 
     for (let i = 0; i < data.length; i++)
     {
-        if (data[i].manager.toLowerCase().includes(searchText)
-                || data[i].city.toLowerCase().includes(searchText)
-                || data[i].program.toLowerCase().includes(searchText)
-                || data[i].phone.toLowerCase().startsWith(searchText))
+        if(data[i].program.toLowerCase().includes(searchText))
         {
             if (filterCheckbox.checked ? true : data[i].active)
             {
