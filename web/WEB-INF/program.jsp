@@ -9,18 +9,21 @@
         <script type="text/javascript" src="scripts/scriptsprogram.js"></script>
         <script type="text/javascript" src="scripts/validator.js"></script>
         <script type="text/javascript" src="scripts/functions.js"></script>
+        <script>${programData}</script>
         <link rel="stylesheet" href="css/program.css">
         <title>ECSSEN Programs</title>
     </head>
     <body>
             <%@ include file="navbar.jsp" %>
                      
-                    <div class="main">            
-        <div class="container">            
+                    <div class="main">  
+                        
+        <div class="container">          
+            <h1>ECSSEN Program Manager</h1>
             <div class="content">
                 
                 <div class="left-panel">
-                    <h1>ECSSEN Program Manager</h1>
+                    
 <!--                    <h3 class="panel-header">Programs</h3>-->
                     <div>
                         <label style="color: gray;">Show Inactive</label>
@@ -38,7 +41,7 @@
 
 <!--                    <h3 class="panel-header">Add Program</h3>-->
                     <input id="action" name="action" type="hidden">
-                    <input id="program-num" name="program-num" type="text">
+                    <input id="program-num" name="program-ID" type="hidden">
                     <div id="program-name__input" style="margin: 37px 0 30px 0;"></div>
                     <div id="manager-name__input"></div>
                     <div class="address-inputs">

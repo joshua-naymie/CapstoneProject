@@ -3,26 +3,26 @@ document.addEventListener('DOMContentLoaded', load, false);
 
 const CSS_INPUTGROUP_MAIN = "main-input";
 
-var data = [{"programId": 1,
-        "city": "Calgary",
-        "manager": "Jin Chen",
-        "program": "Cobbs Bread",
-        "phone": "9875554434",
-        "active": true},
-
-    {"programId": 2,
-        "city": "Edmonton",
-        "manager": "Jin Chen",
-        "program": "Hotline",
-        "phone": "5555551234",
-        "active": true},
-
-    {"programId": 1,
-        "city": "Red Deer",
-        "manager": "Jin Chen",
-        "program": "Other",
-        "phone": "9875554434",
-        "active": false}];
+//var data = [{"programId": 1,
+//        "city": "Calgary",
+//        "manager": "Jin Chen",
+//        "program": "Cobbs Bread",
+//        "phone": "9875554434",
+//        "active": true},
+//
+//    {"programId": 2,
+//        "city": "Edmonton",
+//        "manager": "Jin Chen",
+//        "program": "Hotline",
+//        "phone": "5555551234",
+//        "active": true},
+//
+//    {"programId": 1,
+//        "city": "Red Deer",
+//        "manager": "Jin Chen",
+//        "program": "Other",
+//        "phone": "9875554434",
+//        "active": false}];
 
 var inputs;
 var currentListData;
@@ -175,7 +175,7 @@ function generateRow(data)
 
 function formatPhone(phone)
 {
-    return `(${phone.substr(0, 3)}) ${phone.substr(3, 3)}-${phone.substr(6, 4)}`;
+//    return `(${phone.substr(0, 3)}) ${phone.substr(3, 3)}-${phone.substr(6, 4)}`;
 }
 
 function searchList()
@@ -221,7 +221,7 @@ function  hideShowAddProgram()
 function populateFields(data)
 {
     submitButton.value = "Update";
-    
+
     programNameInput.setInputText(data.program);
     managerNameInput.setInputText(data.manager);
     cityInput.setInputText(data.city);
@@ -229,7 +229,7 @@ function populateFields(data)
     statusInput.value = data.active ? "active" : "inactive";
     
 
-    document.getElementById("program-num").value = data.programId;
+    document.getElementById("program-ID").value = data.programId;
 
     isAdd = false;
 }
@@ -239,6 +239,6 @@ function submitForm()
 {
     if(inputs.validateAll())
     {
-        postAction(isAdd ? "add" : "update", "addProgramForm", "programtest");
+        postAction(isAdd ? "Add" : "Update", "addProgramForm", "programs");
     }
 }

@@ -98,7 +98,7 @@ function load()
     signupDateInput.setLabelText("Signup Date:");
     signupDateInput.input.type = "date";
     signupDateInput.input.value = new Date().toISOString().substring(0,10);
-    signupDateInput.input.disabled = "true";
+//    signupDateInput.input.disabled = "true";
     signupDateInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
 //    cityInput.setEnterFunction(phoneInput);
     containerRight.appendChild(signupDateInput.container);
@@ -154,6 +154,8 @@ function load()
     {
         document.getElementById("header").innerText = "Edit User";
         populateFields();
+        submitButton.name = "action";
+        submitButton.value = "Save";
     }
 }
 
