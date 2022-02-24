@@ -1,11 +1,6 @@
 const INPUTGROUP_STATE_DEFAULT = "default";
 const INPUTGROUP_STATE_WARNING = "warning";
 const INPUTGROUP_STATE_ERROR   = "error";
-
-const INPUTGROUP_POSITION_START = 0;
-const INPUTGROUP_POSITION_MIDDLE = 1;
-const INPUTGROUP_POSITION_END = 2;
-
 /**
  * Creates and manages label, input and user message elements for user input.
  * Allows for multiple validations of the inputs value.
@@ -246,18 +241,4 @@ class InputGroupProgram
 
         return true;
     }
-
-    setElementPosition(element, position)
-    {
-        if(element !== this.label
-        && element !== this.input
-        && element !== this.message)
-        {
-            throw "element to move does not belong to this InputGroup";
-        }
-
-        this.container.insertBefore(element, this.container.childNodes.item(position));
-    }
-    
-   
 }

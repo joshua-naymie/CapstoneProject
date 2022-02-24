@@ -3,8 +3,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script type="text/javascript" src="scripts/inputgroupprogram.js"></script>
-        <script type="text/javascript" src="scripts/inputgroupcollectionprogram.js"></script>
+        <script type="text/javascript" src="scripts/inputgroup.js"></script>
+        <script type="text/javascript" src="scripts/inputgroupcollection.js"></script>
         <script type="text/javascript" src="scripts/regexprogram.js"></script>
         <script type="text/javascript" src="scripts/scriptsprogram.js"></script>
         <script type="text/javascript" src="scripts/validator.js"></script>
