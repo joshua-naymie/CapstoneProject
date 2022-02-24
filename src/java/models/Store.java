@@ -5,25 +5,20 @@
 package models;
 
 import java.io.Serializable;
-import java.util.List;
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Main
+ * @author DWEI
  */
 @Entity
 @Table(name = "store")
@@ -61,10 +56,6 @@ public class Store implements Serializable {
     @Basic(optional = false)
     @Column(name = "is_active")
     private boolean isActive;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "storeId", fetch = FetchType.EAGER)
-    private List<FoodDeliveryData> foodDeliveryDataList;
-    @OneToMany(mappedBy = "storeId", fetch = FetchType.EAGER)
-    private List<Team> teamList;
 
     public Store() {
     }
@@ -74,7 +65,6 @@ public class Store implements Serializable {
     }
 
     public Store(String streetAddress, String postalCode, String storeCity, boolean isActive, String phoneNum, String contact) {
-        //this.storeId = storeId;
         this.streetAddress = streetAddress;
         this.postalCode = postalCode;
         this.storeCity = storeCity;
@@ -137,24 +127,6 @@ public class Store implements Serializable {
 
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
-    }
-
-    @XmlTransient
-    public List<FoodDeliveryData> getFoodDeliveryDataList() {
-        return foodDeliveryDataList;
-    }
-
-    public void setFoodDeliveryDataList(List<FoodDeliveryData> foodDeliveryDataList) {
-        this.foodDeliveryDataList = foodDeliveryDataList;
-    }
-
-    @XmlTransient
-    public List<Team> getTeamList() {
-        return teamList;
-    }
-
-    public void setTeamList(List<Team> teamList) {
-        this.teamList = teamList;
     }
 
     @Override

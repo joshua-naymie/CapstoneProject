@@ -10,6 +10,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import models.Task;
+import services.TaskService;
 
 /**
  *
@@ -22,6 +27,15 @@ public class AddTaskServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+//        TaskService ts = new TaskService();
+//        
+//                List<Task> allTasks = null;
+//        try {
+//            allTasks = ts.getAll();  //get a list of all users
+//        } catch (Exception ex) {
+//            Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        request.setAttribute("tasks", allTasks);
         
         getServletContext().getRequestDispatcher("/WEB-INF/addTaskTest.jsp").forward(request, response);
     }
