@@ -73,8 +73,8 @@ public class Store implements Serializable {
         this.storeId = storeId;
     }
 
-    public Store(Integer storeId, String streetAddress, String postalCode, String storeCity, boolean isActive, String phoneNum, String contact) {
-        this.storeId = storeId;
+    public Store(String streetAddress, String postalCode, String storeCity, boolean isActive, String phoneNum, String contact) {
+        //this.storeId = storeId;
         this.streetAddress = streetAddress;
         this.postalCode = postalCode;
         this.storeCity = storeCity;

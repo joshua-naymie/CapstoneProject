@@ -36,6 +36,16 @@ public List<Store> getAll() throws Exception {
         }
     }
 
+    public Store getByStreetAddress(String streetAddress) throws Exception {
+      EntityManager em = DBUtil.getEMFactory().createEntityManager();
+      try {
+            Store s = em.find(Store.class, streetAddress);
+            return s;
+        } finally {
+            em.close();
+        }
+    }
+
     public void insert(Store store) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
