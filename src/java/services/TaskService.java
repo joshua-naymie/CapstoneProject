@@ -14,9 +14,14 @@ import models.Task;
  * @author srvad
  */
 public class TaskService {
-        public List<Task> getAll() throws Exception {
+    public List<Task> getAll() throws Exception {
         TaskDB taskDB = new TaskDB();
         List<Task> tasks = taskDB.getAll();
         return tasks;
+    }
+    
+    public void insert(Task task) throws Exception {
+        TaskDB taskDB  = new TaskDB();
+        taskDB.insert(task);
     }
 }
