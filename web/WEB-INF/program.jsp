@@ -3,12 +3,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script type="text/javascript" src="scripts/inputgroupprogram.js"></script>
-        <script type="text/javascript" src="scripts/inputgroupcollectionprogram.js"></script>
+        <script type="text/javascript" src="scripts/inputgroup.js"></script>
+        <script type="text/javascript" src="scripts/inputgroupcollection.js"></script>
         <script type="text/javascript" src="scripts/regexprogram.js"></script>
         <script type="text/javascript" src="scripts/scriptsprogram.js"></script>
         <script type="text/javascript" src="scripts/validator.js"></script>
         <script type="text/javascript" src="scripts/functions.js"></script>
+        <script>${programData}</script>
         <link rel="stylesheet" href="css/program.css">
         <title>ECSSEN Programs</title>
     </head>
@@ -39,14 +40,10 @@
                   <form id ="addProgramForm"><div class="right-panel" id="input-area">
 
 <!--                    <h3 class="panel-header">Add Program</h3>-->
-                    <input id="action" name="action" type="hidden" value="add">
-                    <input id="program-num" name="program-num" type="text">
+                    <input id="action" name="action" type="hidden">
+                    <input id="program-ID" name="program-ID" type="hidden">
                     <div id="program-name__input" style="margin: 37px 0 30px 0;"></div>
                     <div id="manager-name__input"></div>
-                    <div class="address-inputs">
-                        <div id="city__input"></div>
-                        <div id="province__input"></div>
-                        <div id="postal-code__input"></div>
                     </div>
                     <div class="phone-status-inputs">
                         <div id="phone__input"></div>

@@ -37,7 +37,7 @@ public String insert (boolean isActive, String programName, String managerName) 
          Program checkProgram = progDB.getByProgramName(programName);
                 if (checkProgram != null){
                 return "This program already exists";
-}
+            }
 
         Program newProgram = new Program (isActive,programName, managerName);
 
@@ -47,7 +47,7 @@ public String insert (boolean isActive, String programName, String managerName) 
 
 }
 
-public String update (short programId, String programName, String managerName) throws Exception{
+public String update (short programId, boolean isActive, String programName, String managerName) throws Exception{
         ProgramDB progDB = new ProgramDB();
         Program toUpdate = progDB.get(programId);
 
@@ -56,6 +56,7 @@ public String update (short programId, String programName, String managerName) t
 }
         toUpdate.setManagerName(managerName);
         toUpdate.setProgramName(programName);
+        toUpdate.setIsActive(isActive);
         progDB.update(toUpdate);
         return "Program has been updated";
 }

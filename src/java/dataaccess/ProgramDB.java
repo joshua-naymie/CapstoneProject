@@ -9,6 +9,7 @@ package dataaccess;
 import dataaccess.DBUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import java.util.List;
 import models.Program;
@@ -43,8 +44,15 @@ public class ProgramDB {
 public Program getByProgramName(String programName) throws Exception {
       EntityManager em = DBUtil.getEMFactory().createEntityManager();
       try {
-            Program p = em.find(Program.class, programName);
-            return p;
+//            Program p = em.find(Program.class, programName);
+              Query getprogram = em.createNamedQuery("Program.findByProgramName", Program.class);
+              try{
+              Program p = (Program) getprogram.setParameter("programName", programName).getSingleResult();
+              return p;
+              } catch (NoResultException e){
+                  return null;
+              }
+            
         } finally {
             em.close();
         }
