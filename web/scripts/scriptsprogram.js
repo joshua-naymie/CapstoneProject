@@ -34,8 +34,6 @@ var isAdd;
 
 var programNameInput,
     managerNameInput,
-    cityInput,
-    phoneInput,
     statusInput;
 
 function load()
@@ -71,26 +69,9 @@ function load()
     managerNameInput.container = document.getElementById("manager-name__input");
     configCustomInput(managerNameInput);
 
-    cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "city");
-    cityInput.setLabelText("City");
-    cityInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    cityInput.setPlaceHolderText("eg. Calgary");
-    cityInput.container = document.getElementById("city__input");
-    configCustomInput(cityInput);
-
-    phoneInput = new InputGroup(CSS_INPUTGROUP_MAIN, "phone");
-    phoneInput.setLabelText("Phone");
-    phoneInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    phoneInput.addValidator(REGEX_PHONE, INPUTGROUP_STATE_WARNING, "*invalid");
-    phoneInput.setPlaceHolderText("555-555-5555");
-    phoneInput.container = document.getElementById("phone__input");
-    configCustomInput(phoneInput);
-
     inputs = new InputGroupCollection();
     inputs.add(programNameInput);
     inputs.add(managerNameInput);
-    inputs.add(cityInput);
-    inputs.add(phoneInput);
 
     document.getElementById("search-input").addEventListener("input", searchList);
     document.getElementById("ok__button").addEventListener("click", okPressed);
@@ -185,10 +166,7 @@ function searchList()
 
     for (let i = 0; i < data.length; i++)
     {
-        if (data[i].manager.toLowerCase().includes(searchText)
-                || data[i].city.toLowerCase().includes(searchText)
-                || data[i].program.toLowerCase().includes(searchText)
-                || data[i].phone.toLowerCase().startsWith(searchText))
+        if(data[i].program.toLowerCase().includes(searchText))
         {
             if (filterCheckbox.checked ? true : data[i].active)
             {
@@ -224,8 +202,6 @@ function populateFields(data)
 
     programNameInput.setInputText(data.program);
     managerNameInput.setInputText(data.manager);
-    cityInput.setInputText(data.city);
-    phoneInput.setInputText(data.phone);
     statusInput.value = data.active ? "active" : "inactive";
     
 

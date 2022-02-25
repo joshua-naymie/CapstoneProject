@@ -44,10 +44,6 @@
                     <input id="program-ID" name="program-ID" type="hidden">
                     <div id="program-name__input" style="margin: 37px 0 30px 0;"></div>
                     <div id="manager-name__input"></div>
-                    <div class="address-inputs">
-                        <div id="city__input"></div>
-                        <div id="province__input"></div>
-                        <div id="postal-code__input"></div>
                     </div>
                     <div class="phone-status-inputs">
                         <div id="phone__input"></div>
