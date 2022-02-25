@@ -37,6 +37,27 @@ public class AccountServices {
 
         return null;
     }
+    // get user by matching ID
+    public User getByID (long ID)throws Exception{
+        UserDB userDB = new UserDB();
+        User user = userDB.getByID(ID);
+        return user;
+    }
+    
+    // get a user by matching full name
+    public User getUserByFullName(String firstName, String lastName) throws Exception {
+        UserDB userDB = new UserDB();
+        User userUpdate = userDB.getUserByFullName(firstName, lastName);
+        return userUpdate;
+    }
+    
+    // get all active users, used for a searched list
+    public List<User> getAllActive() throws Exception {
+        UserDB userDB = new UserDB();
+        List<User> users = userDB.getAllActive();
+        return users;
+    }
+    
     // irina
     // getAll for getting all users
     public List<User> getAll() throws Exception {
