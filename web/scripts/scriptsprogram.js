@@ -202,8 +202,6 @@ function populateFields(data)
 
     programNameInput.setInputText(data.program);
     managerNameInput.setInputText(data.manager);
-    cityInput.setInputText(data.city);
-    phoneInput.setInputText(data.phone);
     statusInput.value = data.active ? "active" : "inactive";
     
 
