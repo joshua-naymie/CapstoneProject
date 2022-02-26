@@ -184,7 +184,9 @@ function cancelPressed()
     currentAction = "none";
     
     fadeOutIn(inputArea, listArea);
-    setTimeout(() => { document.getElementById("addProgramForm").reset(); }, 100);
+    setTimeout(() => {
+        document.getElementById("addProgramForm").reset();
+        inputs.resetInputs() }, 100);
 }
 
 function addProgram()

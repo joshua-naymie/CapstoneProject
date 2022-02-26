@@ -49,4 +49,15 @@ class InputGroupCollection
 
         return allValid;
     }
+    
+    
+    /**
+     * Sets all InputGroup's to their default state.
+     */
+    resetInputs()
+    {
+        this.inputGroups.forEach(group => {
+            group.setState(INPUTGROUP_STATE_DEFAULT);
+        })
+    }
 }
