@@ -24,35 +24,52 @@ const CSS_INPUTGROUP_MAIN = "main-input";
 //        "phone": "9875554434",
 //        "active": false}];
 
-var inputs;
+
 var currentListData;
+var currentAction = "none";
+
+var listArea;
+var inputArea
+
 var searchInput;
 var filterCheckbox;
+
+var inputForm;
 var submitButton;
 var actionInput;
-var isAdd;
 
+var inputs;
 var programNameInput,
     managerNameInput,
     statusInput;
 
 function load()
 {
-    document.getElementById("addProgramForm").reset();
-    isAdd = true;
+    currentListData = data;
+    
+    inputArea = document.getElementById("input-area");
+    inputArea.style.display = "none";
+    
+    listArea = document.getElementById("list-area");
+    listArea.classList.add("visible");
+    
+    inputForm = document.getElementById("addProgramForm");
+    inputForm.reset();
     
     actionInput = document.getElementById("action");
     statusInput = document.getElementById("status");
     submitButton = document.getElementById("ok__button");
     
+    document.getElementById("cancel__button").addEventListener("click", cancelPressed);
+    submitButton.addEventListener("click", () => { submitForm(currentAction) });
+    
     searchInput = document.getElementById("search-input");
     searchInput.value = "";
+    searchInput.addEventListener("input", searchList);
 
     filterCheckbox = document.getElementById("program-filter");
     filterCheckbox.checked = false;
     filterCheckbox.addEventListener("change", searchList);
-
-    currentListData = data;
 
     // create Store Name inputgroup
     programNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "program-name");
@@ -64,7 +81,6 @@ function load()
 
     managerNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "manager-name");
     managerNameInput.setLabelText("Manager Name");
-    managerNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     managerNameInput.setPlaceHolderText("eg. Jin Chen");
     managerNameInput.container = document.getElementById("manager-name__input");
     configCustomInput(managerNameInput);
@@ -72,9 +88,6 @@ function load()
     inputs = new InputGroupCollection();
     inputs.add(programNameInput);
     inputs.add(managerNameInput);
-
-    document.getElementById("search-input").addEventListener("input", searchList);
-    document.getElementById("ok__button").addEventListener("click", okPressed);
 
     searchList();
 }
@@ -115,48 +128,33 @@ function generateList()
 
 function generateRow(data)
 {
+    // item card
     let item = document.createElement("div");
     item.classList.add("list-item");
-    item.addEventListener("click", () => { populateFields(data); });
+    item.addEventListener("click", () => { editProgram(data); });
 
-    let addressDiv = document.createElement("div");
-    addressDiv.classList.add("address");
+    let managerDiv = document.createElement("div");
+    managerDiv.classList.add("manager-area");
 
-    let cityLocation = document.createElement("p");
-    cityLocation.classList.add("city__location");
-    cityLocation.innerText = data.city;
+    let managerName = document.createElement("p");
+    managerName.classList.add("manager-name");
+    managerName.innerText = data.manager;
+    
+    managerDiv.appendChild(managerName);
 
-    let remainingAddress = document.createElement("p");
-    remainingAddress.classList.add("secondary-card__field");
-    remainingAddress.innerText = `${data.manager}`;
-
-    addressDiv.appendChild(cityLocation);
-    addressDiv.appendChild(remainingAddress);
-
-    let rightDiv = document.createElement("div");
-    rightDiv.classList.add("right-align");
+    let programDiv = document.createElement("div");
+    programDiv.classList.add("program-area");
 
     let programName = document.createElement("p");
     programName.classList.add("program-name");
     programName.innerText = data.program;
 
-    let phoneNum = document.createElement("p");
-    phoneNum.classList.add("secondary-card__field");
-    phoneNum.innerText = formatPhone(data.phone);
+    programDiv.appendChild(programName);
 
-
-    rightDiv.appendChild(programName);
-    rightDiv.appendChild(phoneNum);
-
-    item.appendChild(addressDiv);
-    item.appendChild(rightDiv);
+    item.appendChild(programDiv);
+    item.appendChild(managerDiv);
 
     return item;
-}
-
-function formatPhone(phone)
-{
-//    return `(${phone.substr(0, 3)}) ${phone.substr(3, 3)}-${phone.substr(6, 4)}`;
 }
 
 function searchList()
@@ -164,10 +162,13 @@ function searchList()
     currentListData = [];
     let searchText = searchInput.value.toLowerCase();
 
+    // checks if search text is included in either the program name or manager name
     for (let i = 0; i < data.length; i++)
     {
-        if(data[i].program.toLowerCase().includes(searchText))
+        if(data[i].program.toLowerCase().includes(searchText)
+        || ((data[i].program != null) && data[i].manager.toLowerCase().includes(searchText)))
         {
+            // adds program depending on whether "show inactive" is checked
             if (filterCheckbox.checked ? true : data[i].active)
             {
                 currentListData.push(data[i]);
@@ -178,43 +179,55 @@ function searchList()
     generateList();
 }
 
-function okPressed()
+function cancelPressed()
 {
-    inputs.validateAll();
-}
-
-function  hideShowAddProgram()
-{
+    currentAction = "none";
     
-    document.getElementById("addProgramForm").reset();
-    submitButton.value = "Add";
-    isAdd = true;
+    fadeOutIn(inputArea, listArea);
+    setTimeout(() => { document.getElementById("addProgramForm").reset(); }, 100);
 }
 
-//function resetAddProgramForm() {
-//    document.getElementById("addProgramForm").reset();
-//    document.getElementById("input-area").style.display = "none";
-//}
-
-function populateFields(data)
+function addProgram()
 {
+    currentAction = "add";
+    submitButton.value = "Add";
+    
+    fadeOutIn(listArea, inputArea);
+}
+
+function editProgram(program)
+{
+    currentAction = "update";
     submitButton.value = "Update";
 
-    programNameInput.setInputText(data.program);
-    managerNameInput.setInputText(data.manager);
-    statusInput.value = data.active ? "active" : "inactive";
-    
+    programNameInput.setInputText(program.program);
+    managerNameInput.setInputText(program.manager);
+    statusInput.value = program.active ? "active" : "inactive";
 
-    document.getElementById("program-ID").value = data.programId;
+    document.getElementById("program-ID").value = program.programId;
 
-    isAdd = false;
+
+    fadeOutIn(listArea, inputArea);
 }
 
 
-function submitForm()
+function submitForm(action)
 {
     if(inputs.validateAll())
     {
-        postAction(isAdd ? "add" : "update", "addProgramForm", "programs");
+        postAction(action, "addProgramForm", "programs");
     }
+}
+
+function fadeOutIn(outElement, inElement)
+{
+    outElement.classList.remove("visible");
+    
+    setTimeout(() => {
+        outElement.style.display = "none";
+        
+        inElement.style.display = "block";
+        setTimeout(() => {inElement.classList.add("visible");}, 50);
+        
+    }, 100)
 }

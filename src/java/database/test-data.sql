@@ -53,7 +53,13 @@ INSERT INTO `ecssendb`.`organization` (`street_address`, `postal_code`,
 -- -----------------------------------------------------
 -- PROGRAM
 -- -----------------------------------------------------
-INSERT INTO `program` (`program_name`, `is_active`) VALUES ('test program', True);
+INSERT INTO `program` (`program_name`, `manager_name`, `is_active`) VALUES ('Chinese Emotional Support Hotline', 'Jilin Wang', true);
+INSERT INTO `program` (`program_name`, `manager_name`, `is_active`) VALUES ('Community Outreach', 'Jane Doe', true);
+INSERT INTO `program` (`program_name`, `manager_name`, `is_active`) VALUES ('Employment Incubator Program', 'Charlie Brown', false);
+INSERT INTO `program` (`program_name`, `manager_name`, `is_active`) VALUES ('Special Needs Children Development and Support Program', 'Sarah Connor', false);
+INSERT INTO `program` (`program_name`, `manager_name`, `is_active`) VALUES ('Youth Development Initiative', 'Bob Bodel', false);
+INSERT INTO `program` (`program_name`, `manager_name`, `is_active`) VALUES ('University Students Practicum', 'Carrie Calaway', false);
+INSERT INTO `program` (`program_name`, `manager_name`, `is_active`) VALUES ('Bursary and Scholarship Program', 'Alan Aderson', false);
 
 
 -- -----------------------------------------------------

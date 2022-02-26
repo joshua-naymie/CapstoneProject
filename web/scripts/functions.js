@@ -34,3 +34,18 @@ function removeAllChildren(element)
         element.removeChild(element.firstChild);
     }
 }
+
+
+/**
+ * Formats a phone number. Only works with 10 digit phone numbers with no formatting.
+ * @param {type} phone  The phone number to format. Must not be formatted.
+ * @returns {String}    The formatted phone number eg. (123) 456-7890.
+ */
+function formatPhone(phone)
+{
+    if(phone.length !== 10)
+    {
+        return phone;
+    }
+    return `(${phone.substr(0, 3)}) ${phone.substr(3, 3)}-${phone.substr(6, 4)}`;
+}
