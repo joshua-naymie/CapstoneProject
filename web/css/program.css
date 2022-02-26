@@ -1,8 +1,20 @@
+.body
+{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .main
 {
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-left: 200px;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
 }
 
 .main h1
@@ -11,40 +23,34 @@
     font-family: serif;
     color: rgb(23, 69, 144);
     margin-bottom: 35px;
-    margin-top: -1px;
-}
-
-.content
-{
-    display: flex;
-    flex-direction: row;
-    gap: 40px;
+    margin-top: 0;
 }
 
 .container {
-     background: rgb(248,248,248);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgb(248,248,248);
     border: 1px solid black;
     border-radius: 25px;
     box-shadow: 2px 2px 12px darkslategrey;
     min-width: 370px;
-    padding: 50px;
-    margin-top: 80px;
-    margin-bottom: 10px;
+    padding: 40px;
+    margin: 80px 0 10px 0;
+    height: 537px;
+    width: 700px;
+/*    max-width: 900px;
+    min-width: 500px;*/
 }
 
-.left-panel
+.list-panel
 {
-   display: block;
-    width: 300px;
+    display: block;
+    width: 640px;
     max-height: 600px;
-    /*background: rgb(248,248,248);
-    border: 1px solid black;
-    border-radius: 25px;
-    box-shadow: 2px 2px 12px darkslategrey;
-    min-width: 370px;
-    padding: 50px;
-    margin-top: 80px;
-    margin-bottom: 10px;*/
+    opacity: 0;
+    
+    transition: opacity 0.1s;
 }
 
 .panel-header
@@ -69,7 +75,8 @@
 
 .add-program__button
 {
-    width: 40px;
+    width: auto;
+    padding: 0 10px 0 10px;
 }
 
 .add-program__button:hover
@@ -77,11 +84,13 @@
     cursor: pointer;
 }
 
-.right-panel
+.input-panel
 {
-    width: 300px;
+    width: 500px;
     max-height: 600px;
+    opacity: 0;
     
+    transition: opacity 0.1s;
 }
 
 .program-list__base
@@ -92,6 +101,7 @@
     border-radius: 6px;
     padding: 4px 2% 4px 2%;
     height: 315px;
+    width: 640px;
     overflow-y: auto;
 }
 
@@ -104,14 +114,18 @@
 
 .list-item
 {
-    display: flex;
+    display: grid;
+    grid-template-columns: 0.85fr 0.15fr;
+    padding: 8px 2% 8px 2%;
+    /*max-width: 500px*/
+/*    display: flex;
     flex-direction: row;
     padding: 4px 2% 4px 2%;
     transition: background-color 0.1s;
     border-radius: 3px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center;*/
 }
 
 .list-item:hover
@@ -127,36 +141,36 @@
     padding: 0;
     display: flex;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    max-width: 160px;
     overflow: hidden;
     white-space: nowrap;
 }
 
-.company-name
+.program-name
 {
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 1.1rem;
+    /*overflow: hidden;*/
 }
 
-.secondary-card__field
+
+.manager-name
 {
-    color: gray;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
 }
 
-.right-align
+.manager-area
 {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
 }
 
-.address-inputs
+.program-area
 {
-    display: grid;
-    grid-template-columns: 1.8fr 0.5fr 1fr;
-    gap: 10px;
-    margin-bottom: 30px;
+    overflow: hidden;
+    margin-right: 10px;
+    padding-right: 10px;
+    border-right: 1px solid rgb(200,200,200);
 }
 
 
@@ -206,25 +220,25 @@
     border-width: 1px;
     border-style: solid;
     outline: none !important;
-    transition: border-color 0.33s;
+    transition: border-color 0.2s;
 }
 
 .main-input__input--default
 {
     border-color: gray;
-    transition: border-color 0.33s;
+    transition: border-color 0.2s;
 }
 
 .main-input__input--warning
 {
     border-color: goldenrod;
-    transition: border-color 0.33s;
+    transition: border-color 0.2s;
 }
 
 .main-input__input--error
 {
     border-color: red;
-    transition: border-color 0.33s;
+    transition: border-color 0.2s;
 }
 
 .main-input__message
@@ -235,7 +249,7 @@
     margin: 0;
     border-radius: 0 0 8px 8px;
     padding: 0px 8px 2px 8px;
-    transition: opacity 0.33s;
+    transition: opacity 0.2s;
 }
 
 .main-input__message--default
@@ -243,7 +257,7 @@
     color: black;
     opacity: 0;
     background-color: var(--secondary-gray);
-    transition: opacity 0.33s;
+    transition: opacity 0.2s;
 }
 
 .main-input__message--warning
@@ -251,14 +265,14 @@
     color: black;
     opacity: 1;
     background-color: var(--highlight-yellow);
-    transition: opacity 0.33s;
+    transition: opacity 0.2s;
 }
 
 .main-input__message--error
 {
     opacity: 1;
     background-color: var(--highlight-red);
-    transition: opacity 0.33s;
+    transition: opacity 0.2s;
 }
 
 .label-message__container
@@ -277,14 +291,14 @@
     width: 100%;
 }
 
-.phone-status-inputs
+.status-input
 {
     display: grid;
     grid-template-columns: 1fr 0.25fr;
     gap: 10px;
 }
 
-.phone-status-inputs select
+.status-input select
 {
     height: 30px;
 }
@@ -294,22 +308,22 @@
     margin-left: 6px;
 }
 
-.edit-program__buttons
+.input-action-buttons
 {
     display: flex;
     justify-content: space-between;
     margin-top: 50px;
 }
 
-.edit-program__buttons input
+.input-action-buttons input
 {
-    width: 45%;
+    width: 35%;
     height: 30px;
     border: 1px solid black;
     border-radius: 4px;
 }
 
-.edit-program__buttons input:hover
+.input-action-buttons input:hover
 {
     cursor: pointer;
 }
@@ -332,4 +346,11 @@
 {
     background-color: #9FCA6A;
     transition: background-color 0.2s;
+}
+
+.visible
+{
+    opacity: 1;
+    
+    transition: opacity 0.1s;
 }
