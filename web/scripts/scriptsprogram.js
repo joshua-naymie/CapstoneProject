@@ -179,30 +179,13 @@ function searchList()
     generateList();
 }
 
-function okPressed()
-{
-    inputs.validateAll();
-}
-
-function  hideShowAddProgram()
-{
-    
-    document.getElementById("addProgramForm").reset();
-    submitButton.value = "Add";
-}
-
 function cancelPressed()
 {
     currentAction = "none";
     
     fadeOutIn(inputArea, listArea);
-    document.getElementById("addProgramForm").reset();
+    setTimeout(() => { document.getElementById("addProgramForm").reset(); }, 100);
 }
-
-//function resetAddProgramForm() {
-//    document.getElementById("addProgramForm").reset();
-//    document.getElementById("input-area").style.display = "none";
-//}
 
 function addProgram()
 {
