@@ -113,6 +113,7 @@ function load()
     inputs.add(managerNameInput);
 
     searchList();
+    
 }
 
 /**
@@ -283,7 +284,9 @@ function submitForm()
 {
     if(inputs.validateAll())
     {
-        postAction(currentAction, "addProgramForm", "programs");
+        showModal(`Are you sure you want to ${currentAction} this program?`, () => {
+            postAction(currentAction, "addProgramForm", "programs")
+        });
     }
 }
 
@@ -332,15 +335,6 @@ function compareProgram(program1, program2)
 function setContainerWidth(widthClass)
 {
     let container = document.getElementById("container");
-//    switch(container)
-//    {
-//        case "container--list-size":
-//            container.classList.remove(currentWidthClass);
-//            currentWidthClass = widthClass;
-//            container.classList.add(currentWidthClass);
-//            
-//            break;
-//    }
     container.classList.remove(currentWidthClass);
     currentWidthClass = widthClass;
     container.classList.add(currentWidthClass);

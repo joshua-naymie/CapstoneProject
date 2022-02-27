@@ -14,7 +14,10 @@
         <title>ECSSEN Programs</title>
     </head>
     <body class="body">
-        <%@ include file="navbar.jsp" %>       
+        <%@ include file="ConfirmationModal.jsp" %>
+        <%@ include file="navbar.jsp" %>
+        
+        
         <div class="main">      
             <div id="container" class="container container--list-size">          
                 <h1>Programs</h1>
@@ -26,7 +29,7 @@
                         <label style="color: gray;">Show Inactive</label>
                         <input id="program-filter" type="checkbox">
                     </div>
-                    <div class="left-panel__top-buttons">
+                    <div class="list-panel__top-buttons">
                         <input id="search-input" type="search" class="search-programs__input" placeholder="Search by Program, Manager">
                         <input id="notempty" type="button" class="add-program__button" onclick="addProgram()" value="New Program">
                     </div>
@@ -46,10 +49,9 @@
                             <div class="DUMMY"></div>
                             <div id="status__input" >
                                 <select class="status__select" id="status" name="status">
-                                    <optgroup>
-                                        <option value="active">Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </optgroup>
+                                    <option disabled hidden style='display: none' value=''></option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
                                 </select>
                                 <label class="status__label">Status</label>
                             </div>
