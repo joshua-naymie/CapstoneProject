@@ -15,6 +15,51 @@ import jakarta.persistence.Query;
  * @author DWEI
  */
 public class UserDB {
+    
+    // get and return a user with matching PK ID
+    // get for getting a specific user
+    public User getByID(long ID) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {
+            List<User> users = getAll();
+            for (User user : users) {
+                if (user.getUserId() == ID) {
+                    return user;
+                }
+            }
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+    
+    // get user by full name
+    public User getUserByFullName(String firstName, String lastName) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        Query q = em.createQuery("SELECT u FROM User u WHERE u.firstName LIKE :firstName AND u.lastName LIKE :lastName", User.class);
+        q.setParameter("firstName", firstName);
+        q.setParameter("lastName", lastName);
+        try {
+            User foundUser = (User) q.getSingleResult();
+            return foundUser;
+        } finally {
+            em.close();
+        }
+    }
+    
+    
+    // getAll active users only
+    public List<User> getAllActive() throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {
+            Query q = em.createQuery("SELECT u FROM User u WHERE u.isActive = :isActive", User.class);
+            q.setParameter("isActive", true);
+            List<User> allUsers = q.getResultList();
+            return allUsers;
+        } finally {
+            em.close();
+        }
+    }
 
     // irina
     // getAll for getting all users
