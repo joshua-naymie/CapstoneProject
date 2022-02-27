@@ -14,54 +14,56 @@
         <title>ECSSEN Programs</title>
     </head>
     <body class="body">
-        <%@ include file="ConfirmationModal.jsp" %>
+        <%@ include file="confirmationModal.jsp" %>
         <%@ include file="navbar.jsp" %>
         
         
-        <div class="main">      
-            <div id="container" class="container container--list-size">          
-                <h1>Programs</h1>
-                <!--<h3 id="input-panel__header" class="panel-header">Add</h3>-->
-                <div class="list-panel" id="list-area">
+        <div class="main">
+            <div style="margin: 40px 0 40px 0;">
+                <div id="container" class="container container--list-size">          
+                    <h1>Programs</h1>
+                    <!--<h3 id="input-panel__header" class="panel-header">Add</h3>-->
+                    <div class="list-panel" id="list-area">
 
-<!--                    <h3 class="panel-header">Programs</h3>-->
-                    <div>
-                        <label style="color: gray;">Show Inactive</label>
-                        <input id="program-filter" type="checkbox">
-                    </div>
-                    <div class="list-panel__top-buttons">
-                        <input id="search-input" type="search" class="search-programs__input" placeholder="Search by Program, Manager">
-                        <input id="notempty" type="button" class="add-program__button" onclick="addProgram()" value="New Program">
-                    </div>
-                    <div id="list-base" class="program-list__base">
+    <!--                    <h3 class="panel-header">Programs</h3>-->
+                        <div>
+                            <label style="color: gray;">Show Inactive</label>
+                            <input id="program-filter" type="checkbox">
+                        </div>
+                        <div class="list-panel__top-buttons">
+                            <input id="search-input" type="search" class="search-programs__input" placeholder="Search by Program, Manager">
+                            <input id="notempty" type="button" class="add-program__button" onclick="addProgram()" value="New Program">
+                        </div>
+                        <div id="list-base" class="program-list__base">
 
+                        </div>
                     </div>
-                </div>
-                <div class="input-panel" id="input-area">
-                    <h3 id="input-panel__header" class="panel-header">Add Program</h3>
-                    <form id="addProgramForm">
-                        <input id="action" name="action" type="hidden">
-                        <input id="program-ID" name="program-ID" type="hidden">
-                        <div id="program-name__input" style="margin: 30px 0 30px 0;"></div>
-                        <div id="manager-name__input"></div>
+                    <div class="input-panel" id="input-area">
+                        <h3 id="input-panel__header" class="panel-header">Add Program</h3>
+                        <form id="addProgramForm">
+                            <input id="action" name="action" type="hidden">
+                            <input id="program-ID" name="program-ID" type="hidden">
+                            <div id="program-name__input" style="margin: 30px 0 30px 0;"></div>
+                            <div id="manager-name__input"></div>
 
-                        <div class="status-input">
-                            <div class="DUMMY"></div>
-                            <div id="status__input" >
-                                <select class="status__select" id="status" name="status">
-                                    <option disabled hidden style='display: none' value=''></option>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                </select>
-                                <label class="status__label">Status</label>
+                            <div class="status-input">
+                                <div class="DUMMY"></div>
+                                <div id="status__input" >
+                                    <select class="status__select" id="status" name="status">
+                                        <option disabled hidden style='display: none' value=''></option>
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                    <label class="status__label">Status</label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="input-action-buttons">
-                            <input id="cancel__button" class="cancel__button" type="button" value="Cancel">
-                            <input id="ok__button" class="ok__buton" type="button" value="Add">
-                        </div>
-                    </form>
-                  </div>
+                            <div class="input-action-buttons">
+                                <input id="cancel__button" class="cancel__button" type="button" value="Cancel">
+                                <input id="ok__button" class="ok__buton" type="button" value="Add">
+                            </div>
+                        </form>
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -11,7 +11,7 @@ var yesButton,
 function load()
 {
     background = document.getElementById("modal-body");
-    modalWindow = document.getElementById("modal-window__container");
+    modalWindow = document.getElementById("modal-container");
     
     modalMessage = document.getElementById("modal-message");
     
@@ -37,8 +37,9 @@ function setVisibleCss()
     background.classList.remove("modal-background--invisible");
     background.classList.add("modal-background--visible");
 
-    modalWindow.classList.remove("modal-window--invisible");
-    modalWindow.classList.add("modal-window--visible");
+    modalWindow.classList.remove("modal-container--invisible");
+    modalWindow.classList.add("modal-container--visible");
+    document.getElementById("modal-window").classList.add("modal-test");
 }
 
 
@@ -57,6 +58,6 @@ function setInvisibleCss()
     background.classList.add("modal-background--invisible");
     background.classList.remove("modal-background--visible");
 
-    modalWindow.classList.add("modal-window--invisible");
-    modalWindow.classList.remove("modal-window--visible");
+    modalWindow.classList.add("modal-container--invisible");
+    modalWindow.classList.remove("modal-container--visible");
 }
