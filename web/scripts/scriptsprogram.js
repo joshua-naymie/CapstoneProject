@@ -54,7 +54,6 @@ var programNameInput,
 
 /**
  * Run when DOM loads
- * 
  */
 function load()
 {
@@ -197,7 +196,6 @@ function generateRow(currentRow)
 /**
  * Filters the list by matching program name or manager name.
  * Regenerates the list with filtered programs
- * @returns {undefined}
  */
 function searchList()
 {
@@ -278,13 +276,14 @@ function editProgram(program)
 
 
 /**
- * Submits the form with the currentAction
+ * Checks input validation and gets user confirmation.
+ * Submits the form with the currentAction.
  */
 function submitForm()
 {
     if(inputs.validateAll())
     {
-        showModal(`Are you sure you want to ${currentAction} this program?`, () => {
+        showConfirmationModal(`Are you sure you want to ${currentAction} this program?`, () => {
             postAction(currentAction, "addProgramForm", "programs")
         });
     }
@@ -332,6 +331,11 @@ function compareProgram(program1, program2)
     
 }
 
+/**
+ * Removes the current container CSS class specifying max-width and replaces it
+ * with the specified one.
+ * @param {string} widthClass The new CSS class specifying max-width to replace the old class with.
+ */
 function setContainerWidth(widthClass)
 {
     let container = document.getElementById("container");

@@ -19,7 +19,7 @@ function load()
     noButton = document.getElementById("no-button");
 }
 
-function showModal(message, onYes, onNo)
+function showConfirmationModal(message, onYes, onNo)
 {
     background.style.display = "flex";
     modalWindow.style.display = "flex";
@@ -28,8 +28,8 @@ function showModal(message, onYes, onNo)
     
     modalMessage.innerText = message;
 
-    yesButton.addEventListener("click", onYes != null ? onYes : hideModal);
-    noButton.addEventListener("click", onNo != null ? onNo : hideModal);
+    yesButton.addEventListener("click", onYes != null ? onYes : hideConfirmationModal);
+    noButton.addEventListener("click", onNo != null ? onNo : hideConfirmationModal);
 }
 
 function setVisibleCss()
@@ -43,7 +43,7 @@ function setVisibleCss()
 }
 
 
-function hideModal()
+function hideConfirmationModal()
 {
     setInvisibleCss();
     

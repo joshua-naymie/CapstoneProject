@@ -14,7 +14,7 @@
         <title>ECSSEN Programs</title>
     </head>
     <body class="body">
-        <%@ include file="confirmationModal.jsp" %>
+        <%@ include file="confirmation-modal.jsp" %>
         <%@ include file="navbar.jsp" %>
         
         
