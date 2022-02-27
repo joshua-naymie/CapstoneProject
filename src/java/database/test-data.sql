@@ -60,7 +60,7 @@ INSERT INTO `program` (`program_name`, `manager_name`, `is_active`) VALUES ('Spe
 INSERT INTO `program` (`program_name`, `manager_name`, `is_active`) VALUES ('Youth Development Initiative', 'Bob Bodel', false);
 INSERT INTO `program` (`program_name`, `manager_name`, `is_active`) VALUES ('University Students Practicum', 'Carrie Calaway', false);
 INSERT INTO `program` (`program_name`, `manager_name`, `is_active`) VALUES ('Bursary and Scholarship Program', 'Alan Aderson', false);
-
+INSERT INTO `program` (`program_name`, `is_active`) VALUES ('New Program', false);
 
 -- -----------------------------------------------------
 -- STORE

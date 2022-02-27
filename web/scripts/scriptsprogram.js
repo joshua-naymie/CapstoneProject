@@ -25,8 +25,16 @@ const CSS_INPUTGROUP_MAIN = "main-input";
 //        "active": false}];
 
 
+/**
+ * @type Array  The current, filtered list of programs
+ */
 var currentListData;
+
+/**
+ * @type String  The action the server will take on POST
+ */
 var currentAction = "none";
+var currentWidthClass = "container--list-size";
 
 var listArea;
 var inputArea
@@ -37,41 +45,54 @@ var filterCheckbox;
 var inputForm;
 var submitButton;
 var actionInput;
+var inputHeader;
 
 var inputs;
 var programNameInput,
     managerNameInput,
     statusInput;
 
+/**
+ * Run when DOM loads
+ * 
+ */
 function load()
 {
-    currentListData = data;
+    // sort list
+    currentListData = data.sort(compareProgram);
     
+    // setup input area
     inputArea = document.getElementById("input-area");
     inputArea.style.display = "none";
     
+    // setup list area
     listArea = document.getElementById("list-area");
     listArea.classList.add("visible");
     
+    // setup input form
     inputForm = document.getElementById("addProgramForm");
     inputForm.reset();
     
-    actionInput = document.getElementById("action");
     statusInput = document.getElementById("status");
-    submitButton = document.getElementById("ok__button");
     
+    inputHeader = document.getElementById("input-panel__header");
+    
+    // setup form buttons
+    submitButton = document.getElementById("ok__button");
     document.getElementById("cancel__button").addEventListener("click", cancelPressed);
     submitButton.addEventListener("click", () => { submitForm(currentAction) });
     
+    // setup list search input
     searchInput = document.getElementById("search-input");
     searchInput.value = "";
     searchInput.addEventListener("input", searchList);
 
+    // setup 'Show Inactive' checkbox
     filterCheckbox = document.getElementById("program-filter");
     filterCheckbox.checked = false;
     filterCheckbox.addEventListener("change", searchList);
 
-    // create Store Name inputgroup
+    // setup store name InputGroup
     programNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "program-name");
     programNameInput.setLabelText("Program Name");
     programNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
@@ -79,12 +100,14 @@ function load()
     programNameInput.container = document.getElementById("program-name__input");
     configCustomInput(programNameInput);
 
+    // setup manager name InputGroup
     managerNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "manager-name");
     managerNameInput.setLabelText("Manager Name");
     managerNameInput.setPlaceHolderText("eg. Jin Chen");
     managerNameInput.container = document.getElementById("manager-name__input");
     configCustomInput(managerNameInput);
 
+    // add InputGroups to a collection
     inputs = new InputGroupCollection();
     inputs.add(programNameInput);
     inputs.add(managerNameInput);
@@ -92,8 +115,16 @@ function load()
     searchList();
 }
 
+/**
+ * Creates a custom layout for an InputGroup. Adds input first then label, message.
+ * @param {InputGroup} group The InputGroup to customize
+ */
 function configCustomInput(group)
 {
+    if(!group instanceof InputGroup)
+    {
+        throw `not an InputGroup - ${group}`;
+    }
     group.container.classList.add("program__custom-input");
     group.container.appendChild(group.input);
 
@@ -105,6 +136,10 @@ function configCustomInput(group)
     group.container.appendChild(labelMessageDiv);
 }
 
+/**
+ * Generates the list of programs displayed to the user.
+ * Creates program cards and inserts line breaks between them.
+ */
 function generateList()
 {
     removeAllChildren(document.getElementById("list-base"));
@@ -115,10 +150,6 @@ function generateList()
         let i;
         for (i = 0; i < currentListData.length - 1; i++)
         {
-            if (showAll ? true : currentListData[i].active)
-            {
-
-            }
             document.getElementById("list-base").appendChild(generateRow(currentListData[i]));
             document.getElementById("list-base").appendChild(document.createElement("hr"));
         }
@@ -126,19 +157,24 @@ function generateList()
     }
 }
 
-function generateRow(data)
+/**
+ * Creates and returns a row in a program list
+ * @param {program} currentRow  The program whose info will populate the row
+ * @returns {Element}  A div representing a row in a program list.
+ */
+function generateRow(currentRow)
 {
     // item card
     let item = document.createElement("div");
     item.classList.add("list-item");
-    item.addEventListener("click", () => { editProgram(data); });
+    item.addEventListener("click", () => { editProgram(currentRow); });
 
     let managerDiv = document.createElement("div");
     managerDiv.classList.add("manager-area");
 
     let managerName = document.createElement("p");
     managerName.classList.add("manager-name");
-    managerName.innerText = data.manager;
+    managerName.innerText = currentRow.manager;
     
     managerDiv.appendChild(managerName);
 
@@ -147,7 +183,7 @@ function generateRow(data)
 
     let programName = document.createElement("p");
     programName.classList.add("program-name");
-    programName.innerText = data.program;
+    programName.innerText = currentRow.program;
 
     programDiv.appendChild(programName);
 
@@ -157,6 +193,11 @@ function generateRow(data)
     return item;
 }
 
+/**
+ * Filters the list by matching program name or manager name.
+ * Regenerates the list with filtered programs
+ * @returns {undefined}
+ */
 function searchList()
 {
     currentListData = [];
@@ -165,8 +206,9 @@ function searchList()
     // checks if search text is included in either the program name or manager name
     for (let i = 0; i < data.length; i++)
     {
+        // searches for programs with matching program name or manager name
         if(data[i].program.toLowerCase().includes(searchText)
-        || ((data[i].program != null) && data[i].manager.toLowerCase().includes(searchText)))
+        ||((data[i].manager != null) && data[i].manager.toLowerCase().includes(searchText)))
         {
             // adds program depending on whether "show inactive" is checked
             if (filterCheckbox.checked ? true : data[i].active)
@@ -179,48 +221,77 @@ function searchList()
     generateList();
 }
 
+/**
+ * Called when the cancel button on the input panel is clicked.
+ * Sets the currentAction and resets the input form.
+ * Fades ui back to list panel.
+ */
 function cancelPressed()
 {
     currentAction = "none";
     
+    setContainerWidth("container--list-size");
     fadeOutIn(inputArea, listArea);
     setTimeout(() => {
         document.getElementById("addProgramForm").reset();
-        inputs.resetInputs() }, 100);
+        inputs.resetInputs() }, 200);
 }
 
+/**
+ * Called when the new program button is clicked.
+ * Sets the currentAction and the submit button text.
+ * Fades ui to input panel.
+ */
 function addProgram()
 {
     currentAction = "add";
     submitButton.value = "Add";
+    inputHeader.innerText = "New";
     
+    setContainerWidth("container--input-size");
     fadeOutIn(listArea, inputArea);
 }
 
+/**
+ * Called when an item in the program list is clicked.
+ * Sets the currentAction and the submit button text.
+ * Fades ui to pre-populated input panel.
+ * @param {type} program
+ * @returns {undefined}
+ */
 function editProgram(program)
 {
     currentAction = "update";
     submitButton.value = "Update";
+    inputHeader.innerText = "Edit";
 
     programNameInput.setInputText(program.program);
     managerNameInput.setInputText(program.manager);
     statusInput.value = program.active ? "active" : "inactive";
 
     document.getElementById("program-ID").value = program.programId;
-
-
+    
+    setContainerWidth("container--input-size");
     fadeOutIn(listArea, inputArea);
 }
 
 
-function submitForm(action)
+/**
+ * Submits the form with the currentAction
+ */
+function submitForm()
 {
     if(inputs.validateAll())
     {
-        postAction(action, "addProgramForm", "programs");
+        postAction(currentAction, "addProgramForm", "programs");
     }
 }
 
+/**
+ * Fades out one element, then fades in another.
+ * @param {type} outElement The element to fade out.
+ * @param {type} inElement The element to fade in.
+ */
 function fadeOutIn(outElement, inElement)
 {
     outElement.classList.remove("visible");
@@ -232,4 +303,45 @@ function fadeOutIn(outElement, inElement)
         setTimeout(() => {inElement.classList.add("visible");}, 50);
         
     }, 100)
+}
+
+/**
+ * Sorting algorithm for program objects.
+ * Sorts by program name.
+ * @param {type} program1   the first program to compare
+ * @param {type} program2   the second program to compare
+ * @returns {Number}
+ */
+function compareProgram(program1, program2)
+{
+    if(program1.program > program2.program)
+    {
+        return 1;
+    }
+    else if(program1.program < program2.program)
+    {
+        return -1;
+    }
+    else
+    {
+        return 0;
+    }
+    
+}
+
+function setContainerWidth(widthClass)
+{
+    let container = document.getElementById("container");
+//    switch(container)
+//    {
+//        case "container--list-size":
+//            container.classList.remove(currentWidthClass);
+//            currentWidthClass = widthClass;
+//            container.classList.add(currentWidthClass);
+//            
+//            break;
+//    }
+    container.classList.remove(currentWidthClass);
+    currentWidthClass = widthClass;
+    container.classList.add(currentWidthClass);
 }

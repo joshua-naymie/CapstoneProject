@@ -16,8 +16,8 @@
     <body class="body">
         <%@ include file="navbar.jsp" %>       
         <div class="main">      
-            <div class="container">          
-                <h1>ECSSEN Program Manager</h1>
+            <div id="container" class="container container--list-size">          
+                <h1>Programs</h1>
                 <!--<h3 id="input-panel__header" class="panel-header">Add</h3>-->
                 <div class="list-panel" id="list-area">
 
@@ -27,7 +27,7 @@
                         <input id="program-filter" type="checkbox">
                     </div>
                     <div class="left-panel__top-buttons">
-                        <input id="search-input" type="search" class="search-programs__input" placeholder="Enter Name, Manager, City">
+                        <input id="search-input" type="search" class="search-programs__input" placeholder="Search by Program, Manager">
                         <input id="notempty" type="button" class="add-program__button" onclick="addProgram()" value="New Program">
                     </div>
                     <div id="list-base" class="program-list__base">
@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="input-panel" id="input-area">
-
+                    <h3 id="input-panel__header" class="panel-header">Add Program</h3>
                     <form id="addProgramForm">
                         <input id="action" name="action" type="hidden">
                         <input id="program-ID" name="program-ID" type="hidden">
@@ -45,9 +45,11 @@
                         <div class="status-input">
                             <div class="DUMMY"></div>
                             <div id="status__input" >
-                                <select id="status" name="status">
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
+                                <select class="status__select" id="status" name="status">
+                                    <optgroup>
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </optgroup>
                                 </select>
                                 <label class="status__label">Status</label>
                             </div>
