@@ -16,10 +16,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.CompanyName;
 import models.Program;
+import models.Store;
 import models.Task;
 import services.AccountServices;
+import services.CompanyService;
 import services.ProgramServices;
+import services.StoreServices;
 import services.TaskService;
 import services.TeamServices;
 
@@ -59,6 +63,38 @@ public class AddTaskServlet extends HttpServlet {
 //         System.out.println(p.getProgramId());
 //     }
     request.setAttribute("allPrograms", allPrograms);
+    
+    CompanyService cs = new CompanyService();
+        List<CompanyName> allCompanies = null;
+    
+        try {
+            allCompanies = cs.getAll();
+        } catch (Exception ex) {
+            Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    request.setAttribute("allCompanies", allCompanies);
+    
+    StoreServices ss = new StoreServices();
+//    String companyAdd = (String) request.getParameter("companyAdd");
+//    String[] parts = companyAdd.split(";");
+//            
+//    String companyAddName = parts[0];
+//    Short companyAddId = Short.valueOf(parts[1]);
+    Short companyAddId = 1234;
+    
+  
+    
+    List<Store> allStores = null;
+    
+        try {
+            allStores = cs.get(companyAddId).getStoreList();
+        } catch (Exception ex) {
+            Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    request.setAttribute("allStores", allStores);               
+               
     
     getServletContext().getRequestDispatcher("/WEB-INF/addTaskTest.jsp").forward(request, response);
     }
@@ -118,7 +154,7 @@ public class AddTaskServlet extends HttpServlet {
                 }
 
             if(programAddName.equals("Hotline")){
-                //log("here");
+                     
                
             }else{
                 log("missed");

@@ -45,7 +45,7 @@ public List<Store> getAll() throws Exception {
             em.close();
         }
     }
-
+   
     public void insert(Store store) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();

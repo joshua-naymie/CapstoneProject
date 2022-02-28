@@ -5,20 +5,12 @@
 package models;
 
 import java.io.Serializable;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author DWEI
+ * @author srvad
  */
 @Entity
 @Table(name = "store")
@@ -27,6 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Store.findAll", query = "SELECT s FROM Store s"),
     @NamedQuery(name = "Store.findByStoreId", query = "SELECT s FROM Store s WHERE s.storeId = :storeId"),
     @NamedQuery(name = "Store.findByStreetAddress", query = "SELECT s FROM Store s WHERE s.streetAddress = :streetAddress"),
+    @NamedQuery(name = "Store.findByStoreName", query = "SELECT s FROM Store s WHERE s.storeName = :storeName"),
     @NamedQuery(name = "Store.findByPostalCode", query = "SELECT s FROM Store s WHERE s.postalCode = :postalCode"),
     @NamedQuery(name = "Store.findByStoreCity", query = "SELECT s FROM Store s WHERE s.storeCity = :storeCity"),
     @NamedQuery(name = "Store.findByPhoneNum", query = "SELECT s FROM Store s WHERE s.phoneNum = :phoneNum"),
@@ -44,6 +37,9 @@ public class Store implements Serializable {
     @Column(name = "street_address")
     private String streetAddress;
     @Basic(optional = false)
+    @Column(name = "store_name")
+    private String storeName;
+    @Basic(optional = false)
     @Column(name = "postal_code")
     private String postalCode;
     @Basic(optional = false)
@@ -56,6 +52,9 @@ public class Store implements Serializable {
     @Basic(optional = false)
     @Column(name = "is_active")
     private boolean isActive;
+    @JoinColumn(name = "company_id", referencedColumnName = "company_id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private CompanyName companyId;
 
     public Store() {
     }
@@ -64,13 +63,13 @@ public class Store implements Serializable {
         this.storeId = storeId;
     }
 
-    public Store(String streetAddress, String postalCode, String storeCity, boolean isActive, String phoneNum, String contact) {
+    public Store(Integer storeId, String streetAddress, String storeName, String postalCode, String storeCity, boolean isActive) {
+        this.storeId = storeId;
         this.streetAddress = streetAddress;
+        this.storeName = storeName;
         this.postalCode = postalCode;
         this.storeCity = storeCity;
         this.isActive = isActive;
-        this.phoneNum = phoneNum;
-        this.contact = contact;
     }
 
     public Integer getStoreId() {
@@ -87,6 +86,14 @@ public class Store implements Serializable {
 
     public void setStreetAddress(String streetAddress) {
         this.streetAddress = streetAddress;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     public String getPostalCode() {
@@ -127,6 +134,14 @@ public class Store implements Serializable {
 
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public CompanyName getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(CompanyName companyId) {
+        this.companyId = companyId;
     }
 
     @Override
