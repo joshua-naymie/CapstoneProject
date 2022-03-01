@@ -5,20 +5,14 @@
 package models;
 
 import java.io.Serializable;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
+import java.util.List;
+import jakarta.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Main
+ * @author srvad
  */
 @Entity
 @Table(name = "company_name")
@@ -38,6 +32,8 @@ public class CompanyName implements Serializable {
     @Basic(optional = false)
     @Column(name = "company_name")
     private String companyName;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "companyId", fetch = FetchType.EAGER)
+    private List<Store> storeList;
 
     public CompanyName() {
     }
@@ -65,6 +61,15 @@ public class CompanyName implements Serializable {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    @XmlTransient
+    public List<Store> getStoreList() {
+        return storeList;
+    }
+
+    public void setStoreList(List<Store> storeList) {
+        this.storeList = storeList;
     }
 
     @Override

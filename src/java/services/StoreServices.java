@@ -28,19 +28,20 @@ public List<Store> getAll() throws Exception {
         Store store = storeDB.get(storeId);
         return store;
     }
+  
 
-public String insert (String streetAddress, String postalCode, String storeCity, boolean isActive, String phoneNum, String contact) throws Exception{
-       StoreDB storeDB = new StoreDB();
-         Store checkStore = storeDB.getByStreetAddress(streetAddress);
-                if (checkStore != null){
-                return "This store already exists";
-}
-        Store newStore = new Store (streetAddress, postalCode, storeCity, isActive, phoneNum, contact);
-
-        storeDB.insert(newStore);
-
-        return "Store has been created";
-
-}
+//public String insert (String streetAddress, String postalCode, String storeCity, boolean isActive, String phoneNum, String contact) throws Exception{
+//       StoreDB storeDB = new StoreDB();
+//         Store checkStore = storeDB.getByStreetAddress(streetAddress);
+//                if (checkStore != null){
+//                return "This store already exists";
+//}
+//        Store newStore = new Store (streetAddress, postalCode, storeCity, isActive, phoneNum, contact);
+//
+//        storeDB.insert(newStore);
+//
+//        return "Store has been created";
+//
+//}
 
 }
