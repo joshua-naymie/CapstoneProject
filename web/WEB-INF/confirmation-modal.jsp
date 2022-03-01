@@ -6,8 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<link rel="stylesheet" href="css/modal.css">
-<script type="text/javascript" src="scripts/modal.js"></script>
+<link rel="stylesheet" href="css/confirmation-modal.css">
+<script type="text/javascript" src="scripts/confirmation-modal.js"></script>
 
 
 <div>

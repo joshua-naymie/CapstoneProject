@@ -5,7 +5,6 @@
     <class>models.Organization</class>
     <class>models.Program</class>
     <class>models.PackageType</class>
-    <class>models.Store</class>
     <class>models.Role</class>
     <class>models.ProgramTraining</class>
     <class>models.FoodDeliveryData</class>
@@ -15,14 +14,15 @@
     <class>models.Task</class>
     <class>models.User</class>
     <class>models.Donation</class>
-    <class>models.CompanyName</class>
     <non-jta-data-source>java:/comp/env/jdbc/ecssendb</non-jta-data-source>
     <class>models.PackageType</class>
     <class>models.UserTask</class>
     <class>models.Organization</class>
+    <class>models.Store</class>
+    <class>models.CompanyName</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-<!--      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>-->
+      <!--      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>-->
     </properties>
   </persistence-unit>
 </persistence>

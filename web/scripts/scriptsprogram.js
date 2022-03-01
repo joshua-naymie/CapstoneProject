@@ -54,7 +54,6 @@ var programNameInput,
 
 /**
  * Run when DOM loads
- * 
  */
 function load()
 {
@@ -74,6 +73,8 @@ function load()
     inputForm.reset();
     
     statusInput = document.getElementById("status");
+    statusInput.addEventListener("change", setStatusSelectColor);
+    setStatusSelectColor();
     
     inputHeader = document.getElementById("input-panel__header");
     
@@ -197,7 +198,6 @@ function generateRow(currentRow)
 /**
  * Filters the list by matching program name or manager name.
  * Regenerates the list with filtered programs
- * @returns {undefined}
  */
 function searchList()
 {
@@ -248,6 +248,7 @@ function addProgram()
     currentAction = "add";
     submitButton.value = "Add";
     inputHeader.innerText = "New";
+    setStatusSelectColor();
     
     setContainerWidth("container--input-size");
     fadeOutIn(listArea, inputArea);
@@ -269,6 +270,7 @@ function editProgram(program)
     programNameInput.setInputText(program.program);
     managerNameInput.setInputText(program.manager);
     statusInput.value = program.active ? "active" : "inactive";
+    setStatusSelectColor();
 
     document.getElementById("program-ID").value = program.programId;
     
@@ -278,13 +280,14 @@ function editProgram(program)
 
 
 /**
- * Submits the form with the currentAction
+ * Checks input validation and gets user confirmation.
+ * Submits the form with the currentAction.
  */
 function submitForm()
 {
     if(inputs.validateAll())
     {
-        showModal(`Are you sure you want to ${currentAction} this program?`, () => {
+        showConfirmationModal(`Are you sure you want to ${currentAction} this program?`, () => {
             postAction(currentAction, "addProgramForm", "programs")
         });
     }
@@ -332,10 +335,32 @@ function compareProgram(program1, program2)
     
 }
 
+/**
+ * Removes the current container CSS class specifying max-width and replaces it
+ * with the specified one.
+ * @param {string} widthClass The new CSS class specifying max-width to replace the old class with.
+ */
 function setContainerWidth(widthClass)
 {
     let container = document.getElementById("container");
     container.classList.remove(currentWidthClass);
     currentWidthClass = widthClass;
     container.classList.add(currentWidthClass);
+}
+
+function setStatusSelectColor()
+{
+    switch(statusInput.value)
+    {
+        case "active":
+            statusInput.style.borderColor = "#00a200";
+            break;
+            
+        case "inactive":
+            statusInput.style.borderColor = "#f20000";
+            break;
+        
+        default:
+            statusInput.style.borderColor = "black";
+    }
 }

@@ -72,13 +72,20 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `ecssendb`.`store` (
 	`store_id` INT NOT NULL AUTO_INCREMENT,
+    `company_id` SMALLINT UNSIGNED NOT NULL,
 	`street_address` VARCHAR(100) NOT NULL UNIQUE,
+    `store_name` VARCHAR(100) NOT NULL UNIQUE,
 	`postal_code` CHAR(6) NOT NULL,
 	`store_city` VARCHAR(50) NOT NULL,
 	`phone_num` VARCHAR(15),
 	`contact` VARCHAR(100),
 	`is_active` BOOLEAN NOT NULL,
 	PRIMARY KEY (`store_id`),
+CONSTRAINT `fk_store_company_id`
+    FOREIGN KEY (`company_id`)
+    REFERENCES `ecssendb`.`company_name` (`company_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
 	CONSTRAINT `ck_store_postal_code`
 		CHECK (REGEXP_LIKE(`postal_code`, '[0-9][0-9][0-9][0-9][0-9]') OR
 					REGEXP_LIKE(`postal_code`, '[0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]') OR
@@ -360,5 +367,4 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
 

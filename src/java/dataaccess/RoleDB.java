@@ -3,55 +3,69 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dataaccess;
-import models.Store;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Query;
 import java.util.List;
+import models.Program;
+import models.Role;
+
 
 /**
  *
  * @author 840979
  */
-public class StoreDB {
+public class RoleDB {
 
-
-public List<Store> getAll() throws Exception {
+public List<models.Role> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {         
 
-            List<Store> allStores = em.createNamedQuery("Store.findAll", models.Store.class).getResultList();
-            return allStores;
+            List<models.Role> allRoles = em.createNamedQuery("Role.findAll", models.Role.class).getResultList();
+            return allRoles;
         } finally {
             em.close();
         }
     }
 
-    public Store get(int storeId) throws Exception {
+    public Role get(short roleId) throws Exception {
       EntityManager em = DBUtil.getEMFactory().createEntityManager();
-      try {
-            Store s = em.find(Store.class, storeId);
-            return s;
-        } finally {
-            em.close();
-        }
+    try{
+
+    Role role = em.find(Role.class, roleId);
+    return role;
+}
+    finally {
+    em.close();
+}
     }
 
-    public Store getByStreetAddress(String streetAddress) throws Exception {
+     public Role getByRoleName(String roleName) throws Exception {
       EntityManager em = DBUtil.getEMFactory().createEntityManager();
       try {
-            Store s = em.find(Store.class, streetAddress);
-            return s;
+
+              Query getrole = em.createNamedQuery("Role.findByRoleName", Program.class);
+              try{
+              Role r = (Role) getrole.setParameter("roleName", roleName).getSingleResult();
+              return r;
+              } catch (NoResultException e){
+                  return null;
+              }
+            
         } finally {
             em.close();
         }
     }
-   
-    public void insert(Store store) throws Exception {
+    
+
+public void insert(Role role) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         try {
             trans.begin();
-            em.persist(store);
+            em.persist(role);
             trans.commit();
         } catch (Exception ex) {
             trans.rollback();
@@ -60,13 +74,12 @@ public List<Store> getAll() throws Exception {
         }
     }
 
-
-     public void update(Store store) throws Exception {
+public void update(Role role) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         try {
             trans.begin();
-            em.merge(store);
+            em.merge(role);
             trans.commit();
         } catch (Exception ex) {
             trans.rollback();
@@ -75,5 +88,3 @@ public List<Store> getAll() throws Exception {
         }
     }
 }
-
-

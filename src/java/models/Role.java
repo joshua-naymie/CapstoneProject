@@ -56,8 +56,8 @@ public class Role implements Serializable {
         this.roleId = roleId;
     }
 
-    public Role(Short roleId, String roleName) {
-        this.roleId = roleId;
+    public Role(String roleName, String roleDescription) {
+        this.roleDescription = roleDescription;
         this.roleName = roleName;
     }
 

@@ -15,7 +15,7 @@
         <title>ECSSEN Programs</title>
     </head>
     <body class="body">
-        <%@ include file="confirmationModal.jsp" %>
+        <%@ include file="confirmation-modal.jsp" %>
         <%@ include file="navbar.jsp" %>
         
         
@@ -27,7 +27,7 @@
                     <div class="list-panel" id="list-area">
 
     <!--                    <h3 class="panel-header">Programs</h3>-->
-                        <div>
+                        <div class="list-panel__filter">
                             <label style="color: gray;">Show Inactive</label>
                             <input id="program-filter" type="checkbox">
                         </div>
