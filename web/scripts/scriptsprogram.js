@@ -73,6 +73,8 @@ function load()
     inputForm.reset();
     
     statusInput = document.getElementById("status");
+    statusInput.addEventListener("change", setStatusSelectColor);
+    setStatusSelectColor();
     
     inputHeader = document.getElementById("input-panel__header");
     
@@ -246,6 +248,7 @@ function addProgram()
     currentAction = "add";
     submitButton.value = "Add";
     inputHeader.innerText = "New";
+    setStatusSelectColor();
     
     setContainerWidth("container--input-size");
     fadeOutIn(listArea, inputArea);
@@ -267,6 +270,7 @@ function editProgram(program)
     programNameInput.setInputText(program.program);
     managerNameInput.setInputText(program.manager);
     statusInput.value = program.active ? "active" : "inactive";
+    setStatusSelectColor();
 
     document.getElementById("program-ID").value = program.programId;
     
@@ -342,4 +346,21 @@ function setContainerWidth(widthClass)
     container.classList.remove(currentWidthClass);
     currentWidthClass = widthClass;
     container.classList.add(currentWidthClass);
+}
+
+function setStatusSelectColor()
+{
+    switch(statusInput.value)
+    {
+        case "active":
+            statusInput.style.borderColor = "#00a200";
+            break;
+            
+        case "inactive":
+            statusInput.style.borderColor = "#f20000";
+            break;
+        
+        default:
+            statusInput.style.borderColor = "black";
+    }
 }

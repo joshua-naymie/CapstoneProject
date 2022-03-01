@@ -10,6 +10,7 @@
         <script type="text/javascript" src="scripts/validator.js"></script>
         <script type="text/javascript" src="scripts/functions.js"></script>
         <script>${programData}</script>
+        <script>${userData}</script>
         <link rel="stylesheet" href="css/program.css">
         <title>ECSSEN Programs</title>
     </head>
@@ -26,7 +27,7 @@
                     <div class="list-panel" id="list-area">
 
     <!--                    <h3 class="panel-header">Programs</h3>-->
-                        <div>
+                        <div class="list-panel__filter">
                             <label style="color: gray;">Show Inactive</label>
                             <input id="program-filter" type="checkbox">
                         </div>

@@ -38,10 +38,10 @@ public class ProgramServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-       // getting a list of all programs
-       ProgramServices ps = new ProgramServices();
-       List<Program> allPrograms = null;
+
+        // getting a list of all programs
+        ProgramServices ps = new ProgramServices();
+        List<Program> allPrograms = null;
         try {
             //get a list of all programs
             allPrograms = ps.getAll();
@@ -49,91 +49,92 @@ public class ProgramServlet extends HttpServlet {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, ex);
         }
         //request.setAttribute("programs", allPrograms);
-        
+
         // sending jason data
         StringBuilder returnData = new StringBuilder();
         returnData.append("var data = [");
-        
+
         // Create keys
-        JSONKey[] keys = { new JSONKey("programId", false),
-                           new JSONKey("program", true),
-                           new JSONKey("manager", true), 
-                           new JSONKey("active", false)};
-        
-         // Create builder with above keys
+        JSONKey[] keys = {new JSONKey("programId", false),
+            new JSONKey("program", true),
+            new JSONKey("manager", true),
+            new JSONKey("active", false)};
+
+        // Create builder with above keys
         JSONBuilder builder = new JSONBuilder(keys);
-        
+
         // Create user JSON objects
-        if(allPrograms.size() > 0)
-        {
+        if (allPrograms.size() > 0) {
             int i;
-            for(i=0; i<allPrograms.size()-1; i++)
-            {
+            for (i = 0; i < allPrograms.size() - 1; i++) {
                 returnData.append(buildProgramJSON(allPrograms.get(i), builder));
                 returnData.append(',');
             }
-            returnData.append(buildProgramJSON(allPrograms.get(i), builder));         
+            returnData.append(buildProgramJSON(allPrograms.get(i), builder));
         }
-         
-        // sending all active user full names
-        // Create keys
-//        JSONKey[] userKeys = { new JSONKey("ID", false),
-//                               new JSONKey("name", true) };
-//        
-//        // Create builder with above keys
-//        JSONBuilder userBuilder = new JSONBuilder(userKeys);
-//        
-//        // Create user JSON objects
-//        if(allUsers.size() > 0)
-//        {
-//            int i;
-//            for(i=0; i<allUsers.size()-1; i++)
-//            {
-//                returnData.append(buildUserJSON(allUsers.get(i), builder));
-//                returnData.append(',');
-//            }
-//            returnData.append(buildUserJSON(allUsers.get(i), builder));         
-//        }
-        
         returnData.append("];");
-        
+
         // setting program data attribute for the front end to use
         request.setAttribute("programData", returnData);
-        
+
+        // sending all active user full names
+        StringBuilder userReturnData = new StringBuilder();
+        userReturnData.append("var userData = [");
+        // Create keys
+        JSONKey[] userKeys = {new JSONKey("ID", false),
+            new JSONKey("name", true)};
+
+        // Create builder with above keys
+        JSONBuilder userBuilder = new JSONBuilder(userKeys);
+
+        // Create user JSON objects
+        if (allUsers.size() > 0) {
+            int i;
+            for (i = 0; i < allUsers.size() - 1; i++) {
+                userReturnData.append(buildUserJSON(allUsers.get(i), userBuilder));
+                userReturnData.append(',');
+            }
+            userReturnData.append(buildUserJSON(allUsers.get(i), userBuilder));
+        }
+        userReturnData.append("];");
+
+        // setting user data attribute for the front end to use
+        request.setAttribute("userData", userReturnData);
+
         // forwards data to jsp
         getServletContext().getRequestDispatcher("/WEB-INF/program.jsp").forward(request, response);
 
     }
-    
+
     /**
      * Creates a user JSON object
-     * @param user  The User to populate the JSON with
+     *
+     * @param user The User to populate the JSON with
      * @param builder The JSONBuilder to create the JSON with
      * @return A User JSON as a String
      */
-    private String buildUserJSON(User user, JSONBuilder builder)
-    {
-        Object[] userValues = { user.getUserId(),
-                                user.getFirstName() + " " +
-                                user.getLastName() };
-            
+    private String buildUserJSON(User user, JSONBuilder builder) {
+        Object[] userValues = {user.getUserId(),
+            user.getFirstName() + " "
+            + user.getLastName()};
+
         return builder.buildJSON(userValues);
     }
-    
+
     /**
      * Creates a program JSON object
+     *
      * @param program The program to populate the JSON data
      * @param builder The JSONBuilder to create the JSON with
      * @return A program JSON as a string
      */
-    private String buildProgramJSON(Program program, JSONBuilder builder)
-    {
+    private String buildProgramJSON(Program program, JSONBuilder builder) {
         // retrieving program values into an array
-        Object[] programValues = { program.getProgramId(),
-                                program.getProgramName(),
-                                program.getManagerName(),
-                                program.getIsActive()};
-            
+        Object[] programValues = {program.getProgramId(),
+            program.getProgramName(),
+            program.getManagerName(),
+            program.getIsActive()};
+
         return builder.buildJSON(programValues);
     }
 
@@ -172,23 +173,23 @@ public class ProgramServlet extends HttpServlet {
     private void add(HttpServletRequest request, HttpServletResponse response) {
         // program services to have data access
         ProgramServices proService = new ProgramServices();
-        
+
         // user services to create program_training data
         AccountServices accService = new AccountServices();
-        
+
         // getting user entered values and insert new program
         try {
             // getting program status
             String status = request.getParameter("status");
             boolean isActive = status.equals("active");
-            
+
             // programs are always active on creation
             String userMsg = proService.insert(isActive,
                     // obtaining user entered program name
                     request.getParameter("program-name"),
                     // obtaining user entered manager name
                     request.getParameter("manager-name"));
-            
+
             // change the role of the manager name typed to the matching program role
             // get user entered user name (match with frontend)
 //            String userName = request.getParameter("userName");
@@ -202,38 +203,50 @@ public class ProgramServlet extends HttpServlet {
 //            
 //            // retrieve the user with the matching name
 //            User updateRole = accService.getUserByFullName(firstName, lastName);
+            // get user entered user name (match with frontend)  
+            int userId = Integer.parseInt(request.getParameter("userID"));
 
-              // get user entered user name (match with frontend)  
-//              long userID = Long.parseLong(request.getParameter("userID"));
-//              
-//              // retrieve the user with the matching ID
-//              User updateRole = accService.getByID(userID);
-//              
-//              // get current programs the user entered is linked to
-//              List<ProgramTraining> currentRoles = updateRole.getProgramTrainingList();
-//              
-//              // 
-//              if(currentRoles == null){
-//                  
-//              }
-//              
-//              for(ProgramTraining pt : currentRoles)
-              
+            // retrieve the user with the matching ID
+            User updateRole = accService.getByID(userId);
+
+            // get current programs the user entered is linked to
+            List<ProgramTraining> currentRoles = updateRole.getProgramTrainingList();
+
+            // get newly created programId
+            short programId = proService.getProgramId(request.getParameter("program-name"), request.getParameter("manager-name"));
+
+            // get roleId, fully implement when theres a page
+            short roleId = 1;
+
+            // if current user is not a manager change their role to manager
+            if (currentRoles == null) {
+                // get manager and programId to match
+                ProgramTraining roleAdd = new ProgramTraining(userId, roleId, programId);
+            } else {
+                for (ProgramTraining pt : currentRoles) {
+                    if((pt.getProgram().getProgramId() == programId)&& 
+                            (pt.getUser().getUserId() == userId)){
+                        // to be implemented
+                        // pt.setRole(role);
+                    }
+                }
+            }
+
             response.sendRedirect("programs");
         } catch (Exception e) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
         }
-        
+
     }
 
     private void edit(HttpServletRequest request, HttpServletResponse response) {
         // program services to have data access
         ProgramServices proService = new ProgramServices();
-        
+
         try {
             // getting the program that is to be edited
             Program editProgram = proService.get(Short.parseShort(request.getParameter("programID")));
-            
+
             // setting program attribute to edit
             request.setAttribute("editProgram", editProgram);
             getServletContext().getRequestDispatcher("/WEB-INF/program.jsp").forward(request, response);
@@ -245,16 +258,16 @@ public class ProgramServlet extends HttpServlet {
     private void save(HttpServletRequest request, HttpServletResponse response) {
         // program services to have data access
         ProgramServices proService = new ProgramServices();
-        
+
         // getting user entered values and editing program data
         try {
             // getting program ID
             short programID = Short.parseShort(request.getParameter("program-ID"));
-            
+
             // getting program status
             String status = request.getParameter("status");
             boolean isActive = status.equals("active");
-            
+
             // updating program
             String userMsg = proService.update(programID,
                     // is active (change later with front end connect)
@@ -263,7 +276,7 @@ public class ProgramServlet extends HttpServlet {
                     request.getParameter("program-name"),
                     // obtaining user entered manager name
                     request.getParameter("manager-name"));
-            
+
             response.sendRedirect("programs");
         } catch (Exception e) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
