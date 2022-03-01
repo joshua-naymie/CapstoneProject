@@ -56,6 +56,7 @@
                             <div class="status-input">
                                 <div class="DUMMY">
                                     <div id="manager-name__input"></div>
+                                    <input id="user-search" placeholder="Search Users">
                                     <div id="user-list"></div>
                                 </div>
                                 
