@@ -81,10 +81,17 @@ public class AddTaskServlet extends HttpServlet {
 //            
 //    String companyAddName = parts[0];
 //    Short companyAddId = Short.valueOf(parts[1]);
-    Short companyAddId = 1234;
+    //Short companyAddId = 1234;
+    //log("here");
+    String company = "";
     
-  
-    
+    try{
+        company = request.getParameter("company");
+        log(company);
+        String[] parts = company.split(";");
+        String companyAddName = parts[0];
+        Short companyAddId = Short.valueOf(parts[1]);
+
     List<Store> allStores = null;
     
         try {
@@ -93,9 +100,12 @@ public class AddTaskServlet extends HttpServlet {
             Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    request.setAttribute("allStores", allStores);               
-               
-    
+    request.setAttribute("allStores", allStores);  
+        
+    }catch (Exception ex){
+        
+    }
+
     getServletContext().getRequestDispatcher("/WEB-INF/addTaskTest.jsp").forward(request, response);
     }
 

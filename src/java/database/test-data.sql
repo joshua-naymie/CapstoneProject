@@ -18,6 +18,7 @@ INSERT INTO `donation` ( `donation_amount`,`donation_date`,
 -- -----------------------------------------------------
 INSERT INTO `company_name` (`company_id`, `company_name`) VALUES (1234, 'COBS');
 
+INSERT INTO `company_name` (`company_id`, `company_name`) VALUES (12, 'Starbucks');
 
 -- -----------------------------------------------------
 -- ROLE
@@ -68,8 +69,10 @@ INSERT INTO `program` (`program_name`, `is_active`) VALUES ('New Program', false
 -- STORE
 -- -----------------------------------------------------
 INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, `is_active`,`phone_num`, `contact`,`company_id`, `store_name`) 
-	 VALUES (12345, '10 17 Ave SW', 'A9A9A9', 'Calgary', True, '123-2345', 'Jane Doe', 1234, 'Kensingston Starbucks');
+	 VALUES (12345, '10 17 Ave SW', 'A9A9A9', 'Calgary', True, '123-2345', 'Jane Doe', 1234, 'Kensingston COBS');
 
+INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, `is_active`,`phone_num`, `contact`,`company_id`, `store_name`) 
+	 VALUES (123, '17 Ave SW', 'A9A9A3', 'Calgary', True, '123-2345', 'John Doe', 12, 'Kensingston Starbucks');
 -- -----------------------------------------------------
 -- TEAM
 -- -----------------------------------------------------
