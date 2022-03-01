@@ -48,9 +48,29 @@ var actionInput;
 var inputHeader;
 
 var inputs;
+var userTable;
 var programNameInput,
     managerNameInput,
     statusInput;
+
+const generateUserCell = (user) => {
+    let cell = document.createElement("div");
+    cell.classList.add("user__cell");
+    cell.addEventListener("click", () => {setManager(user)});
+    
+    let name = document.createElement("p");
+    name.classList.add("user__cell-content__name");
+    name.innerText = user.name;
+    
+    let email = document.createElement("p");
+    email.classList.add("user__cell-content__email");
+    email.innerText = user.email;
+    
+    cell.appendChild(name);
+    cell.appendChild(email);
+    
+    return cell;
+}
 
 /**
  * Run when DOM loads
@@ -105,8 +125,17 @@ function load()
     managerNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "manager-name");
     managerNameInput.setLabelText("Manager Name");
     managerNameInput.setPlaceHolderText("eg. Jin Chen");
+    managerNameInput.input.setAttribute("autocomplete", "off");
+    managerNameInput.input.addEventListener("input", () => {searchUsers(managerNameInput.input.value)});
     managerNameInput.container = document.getElementById("manager-name__input");
     configCustomInput(managerNameInput);
+    
+    // Create columns
+    let mainCol = new CustomColumn("User", "user__cell", generateUserCell);
+    userTable = new AutoTable("table", userData, [mainCol], false);
+    userTable.generateTable();
+
+    document.getElementById("user-list").appendChild(userTable.container);
 
     // add InputGroups to a collection
     inputs = new InputGroupCollection();
@@ -288,6 +317,7 @@ function submitForm()
     if(inputs.validateAll())
     {
         showConfirmationModal(`Are you sure you want to ${currentAction} this program?`, () => {
+            managerNameInput.input.value = managerNameInput.input.value.split(":")[0];
             postAction(currentAction, "addProgramForm", "programs")
         });
     }
@@ -363,4 +393,27 @@ function setStatusSelectColor()
         default:
             statusInput.style.borderColor = "black";
     }
+}
+
+
+function searchUsers(search)
+{
+    for(let i=0; i<userTable.data.length; i++)
+    {
+        if(userTable.data[i].name.toLowerCase().includes(search)
+        || userTable.data[i].email.toLowerCase().includes(search))
+        {
+            userTable.toggleRow(i, true);
+        }
+        else
+        {
+            userTable.toggleRow(i, false);
+        }
+    }
+}
+
+function setManager(user)
+{
+    managerNameInput.setInputText(user.name);
+    document.getElementById("manager-ID").value = user.ID;
 }

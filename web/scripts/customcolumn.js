@@ -17,7 +17,7 @@ class CustomColumn
         }
 
         let content = this.contentGenerator(entity);
-//        content.classList.add(`${this.className}-content`);
+        content.classList.add(`${this.className}-content`);
 
         cell.appendChild(content);
         

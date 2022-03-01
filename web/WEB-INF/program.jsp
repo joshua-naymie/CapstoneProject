@@ -8,6 +8,10 @@
         <script type="text/javascript" src="scripts/regexprogram.js"></script>
         <script type="text/javascript" src="scripts/scriptsprogram.js"></script>
         <script type="text/javascript" src="scripts/validator.js"></script>
+        <script type="text/javascript" src="scripts/autotable.js"></script>
+        <script type="text/javascript" src="scripts/rowmanager.js"></script>
+        <script type="text/javascript" src="scripts/datacolumn.js"></script>
+        <script type="text/javascript" src="scripts/customcolumn.js"></script>
         <script type="text/javascript" src="scripts/functions.js"></script>
         <script>${programData}</script>
         <script>${userData}</script>
@@ -44,11 +48,18 @@
                         <form id="addProgramForm">
                             <input id="action" name="action" type="hidden">
                             <input id="program-ID" name="program-ID" type="hidden">
+                            <input id="manager-ID" name="manager-ID" type="hidden">
                             <div id="program-name__input" style="margin: 30px 0 30px 0;"></div>
-                            <div id="manager-name__input"></div>
+                            
+                            <!--<div id="user-list"></div>-->
 
                             <div class="status-input">
-                                <div class="DUMMY"></div>
+                                <div class="DUMMY">
+                                    <div id="manager-name__input"></div>
+                                    <div id="user-list"></div>
+                                </div>
+                                
+                                <!--<div class="DUMMY"></div>-->
                                 <div id="status__input" >
                                     <select class="status__select" id="status" name="status">
                                         <option disabled hidden style='display: none' value=''></option>
