@@ -13,52 +13,53 @@ import models.Program;
  * @author 840979
  */
 public class ProgramServices {
+    
+    public short getProgramId(String programName, String managerName)throws Exception{
+        ProgramDB progDB = new ProgramDB();
+        short programId = progDB.getProgramId(programName, managerName);
+        return programId;
+    }
 
-
-
-  public List<Program> getAll() throws Exception {
+    public List<Program> getAll() throws Exception {
         ProgramDB progDB = new ProgramDB();
         List<Program> programs = progDB.getAll();
         return programs;
-    
-}
 
+    }
 
-public Program get (short progId)throws Exception{
+    public Program get(short progId) throws Exception {
         ProgramDB progDB = new ProgramDB();
         Program program = progDB.get(progId);
         return program;
 
+    }
 
-}
+    public String insert(boolean isActive, String programName, String managerName) throws Exception {
+        ProgramDB progDB = new ProgramDB();
+        Program checkProgram = progDB.getByProgramName(programName);
+        if (checkProgram != null) {
+            return "This program already exists";
+        }
 
-public String insert (boolean isActive, String programName, String managerName) throws Exception{
-         ProgramDB progDB = new ProgramDB();
-         Program checkProgram = progDB.getByProgramName(programName);
-                if (checkProgram != null){
-                return "This program already exists";
-            }
-
-        Program newProgram = new Program (isActive,programName, managerName);
+        Program newProgram = new Program(isActive, programName, managerName);
 
         progDB.insert(newProgram);
 
         return "Program " + programName + " has been created";
 
-}
+    }
 
-public String update (short programId, boolean isActive, String programName, String managerName) throws Exception{
+    public String update(short programId, boolean isActive, String programName, String managerName) throws Exception {
         ProgramDB progDB = new ProgramDB();
         Program toUpdate = progDB.get(programId);
 
-            if (toUpdate == null){
-        return "Program does exist";
-}
+        if (toUpdate == null) {
+            return "Program does exist";
+        }
         toUpdate.setManagerName(managerName);
         toUpdate.setProgramName(programName);
         toUpdate.setIsActive(isActive);
         progDB.update(toUpdate);
         return "Program has been updated";
+    }
 }
-}
-

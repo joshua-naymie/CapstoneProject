@@ -10,6 +10,7 @@
         <script type="text/javascript" src="scripts/validator.js"></script>
         <script type="text/javascript" src="scripts/functions.js"></script>
         <script>${programData}</script>
+        <script>${userData}</script>
         <link rel="stylesheet" href="css/program.css">
         <title>ECSSEN Programs</title>
     </head>
