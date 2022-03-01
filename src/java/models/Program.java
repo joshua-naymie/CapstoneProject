@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Program.findByProgramId", query = "SELECT p FROM Program p WHERE p.programId = :programId"),
     @NamedQuery(name = "Program.findByProgramName", query = "SELECT p FROM Program p WHERE p.programName = :programName"),
     @NamedQuery(name = "Program.findByManagerName", query = "SELECT p FROM Program p WHERE p.managerName = :managerName"),
+    @NamedQuery(name = "Program.findByNames", query = "SELECT p FROM Program p WHERE p.managerName = :managerName AND p.programName = :programName"),
     @NamedQuery(name = "Program.findByIsActive", query = "SELECT p FROM Program p WHERE p.isActive = :isActive")})
 public class Program implements Serializable {
 
