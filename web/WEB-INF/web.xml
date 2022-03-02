@@ -32,6 +32,10 @@
         <servlet-name>RoleServlet</servlet-name>
         <servlet-class>servlets.RoleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetDataServlet</servlet-name>
+        <servlet-class>servlets.GetDataServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
         <url-pattern>/users</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>RoleServlet</servlet-name>
         <url-pattern>/role</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetDataServlet</servlet-name>
+        <url-pattern>/data</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
