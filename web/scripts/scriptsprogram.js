@@ -126,9 +126,13 @@ function load()
     managerNameInput.setLabelText("Manager Name");
     managerNameInput.setPlaceHolderText("eg. Jin Chen");
     managerNameInput.input.setAttribute("autocomplete", "off");
-    managerNameInput.input.addEventListener("input", () => {searchUsers(managerNameInput.input.value)});
+    managerNameInput.input.setAttribute("disabled", "disabled");
+//    managerNameInput.input.addEventListener("input", () => {searchUsers(managerNameInput.input.value)});
     managerNameInput.container = document.getElementById("manager-name__input");
     configCustomInput(managerNameInput);
+    
+    let userSearch = document.getElementById("user-search");
+    userSearch.addEventListener("input", () => {searchUsers(userSearch.value)});;
     
     // Create columns
     let mainCol = new CustomColumn("User", "user__cell", generateUserCell);
