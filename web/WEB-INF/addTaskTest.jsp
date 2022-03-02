@@ -10,7 +10,7 @@
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
                     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
                     crossorigin="anonymous">
-                <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                <script src="https://code.jquery.com/jquery-3.2.1.min.js"
                     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
                     crossorigin="anonymous"></script>
                 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
@@ -91,7 +91,7 @@
                                 <select name="companyAdd" id="companyAdd" class="form-control col-md-5">
                                     <option value="" selected>Choose here</option>
                                     <c:forEach items="${allCompanies}" var="company">
-                                        <option value="${company.getCompanyName()};${company.getCompanyId()}">
+                                        <option value="${company.getCompanyId()}">
                                             ${company.getCompanyName()}
                                         </option>
                                     </c:forEach>
@@ -102,11 +102,6 @@
                                 <label for="storeAdd" class="input-label">Store Name:</label>
                                 <select name="storeAdd" id="storeAdd" class="form-control col-md-5">
                                     <option value="" selected>Choose here</option>
-                                    <c:forEach items="${allStores}" var="store">
-                                        <option value="${store.getStoreName()};${store.getStoreId()}">
-                                            ${store.getStoreName()}
-                                        </option>
-                                    </c:forEach>
                                 </select>
                             </div>
 
@@ -137,11 +132,18 @@
                         let cid = $('#companyAdd').val();
                         $.ajax({
                             type: "GET",
-                            url: "addTask",
-                            data: { company: cid },
-                            success: function (data) {
-                                console.log(cid);
-                            }
+                            url: "data",
+                            data: { "companyId": cid, "operation": "store" },
+                            success:
+                                function (data) {
+                                    console.log(data);
+                                    let obj = $.parseJSON(data);
+                                    $.each(obj, function (key, value) {
+                                        $('#storeAdd').append(
+                                            '<option value="' + value.store_id + '">' + value.store_name + '</option>'
+                                        )
+                                    })
+                                }
                         });
                     }
                 );
