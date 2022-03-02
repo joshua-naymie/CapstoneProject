@@ -3,32 +3,12 @@ document.addEventListener('DOMContentLoaded', load, false);
 
 const CSS_INPUTGROUP_MAIN = "main-input";
 
-//var data = [{"programId": 1,
-//        "city": "Calgary",
-//        "manager": "Jin Chen",
-//        "program": "Cobbs Bread",
-//        "phone": "9875554434",
-//        "active": true},
-//
-//    {"programId": 2,
-//        "city": "Edmonton",
-//        "manager": "Jin Chen",
-//        "program": "Hotline",
-//        "phone": "5555551234",
-//        "active": true},
-//
-//    {"programId": 1,
-//        "city": "Red Deer",
-//        "manager": "Jin Chen",
-//        "program": "Other",
-//        "phone": "9875554434",
-//        "active": false}];
-
-
 /**
  * @type Array  The current, filtered list of programs
  */
 var currentListData;
+var currentUserData;
+var currentManager;
 
 /**
  * @type String  The action the server will take on POST
@@ -124,7 +104,7 @@ function load()
     // setup manager name InputGroup
     managerNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "manager-name");
     managerNameInput.setLabelText("Manager Name");
-    managerNameInput.setPlaceHolderText("eg. Jin Chen");
+    managerNameInput.setPlaceHolderText("No manager");
     managerNameInput.input.setAttribute("autocomplete", "off");
     managerNameInput.input.setAttribute("disabled", "disabled");
 //    managerNameInput.input.addEventListener("input", () => {searchUsers(managerNameInput.input.value)});
@@ -135,11 +115,11 @@ function load()
     userSearch.addEventListener("input", () => {searchUsers(userSearch.value)});;
     
     // Create columns
-    let mainCol = new CustomColumn("User", "user__cell", generateUserCell);
-    userTable = new AutoTable("table", userData, [mainCol], false);
-    userTable.generateTable();
+//    let mainCol = new CustomColumn("User", "user__cell", generateUserCell);
+//    userTable = new AutoTable("table", userData, [mainCol], false);
+//    userTable.generateTable();
 
-    document.getElementById("user-list").appendChild(userTable.container);
+    searchUsers("");
 
     // add InputGroups to a collection
     inputs = new InputGroupCollection();
@@ -297,6 +277,14 @@ function addProgram()
 function editProgram(program)
 {
     currentAction = "update";
+//    currentUserData.unshift(currentUserData.splice(currentUserData.indexOf(program), 1));
+    for(let i=0; i<userData; i++)
+    {
+        if(userData[i].ID === program.manager)
+        {
+            // todo: set manager as currentManager
+        }
+    }
     submitButton.value = "Update";
     inputHeader.innerText = "Edit";
 
@@ -402,18 +390,54 @@ function setStatusSelectColor()
 
 function searchUsers(search)
 {
-    for(let i=0; i<userTable.data.length; i++)
+    removeAllChildren(document.getElementById("user-list"));
+    currentUserData = [];
+    for(let i=0; i<userData.length; i++)
     {
-        if(userTable.data[i].name.toLowerCase().includes(search)
-        || userTable.data[i].email.toLowerCase().includes(search))
+        if(userData[i].name.toLowerCase().includes(search)
+        || userData[i].email.toLowerCase().includes(search))
         {
-            userTable.toggleRow(i, true);
-        }
-        else
-        {
-            userTable.toggleRow(i, false);
+            currentUserData.push(userData[i]);
         }
     }
+    
+    generateUserTable();
+}
+
+function generateUserTable()
+{
+    if(currentUserData.length > 0)
+    {
+        let list = new DocumentFragment();
+        let i;
+        for(i=0; i<currentUserData.length-1; i++)
+        {
+            list.appendChild(generateUserRow(currentUserData[i]));
+            list.appendChild(document.createElement("hr"));
+        }
+        list.appendChild(generateUserRow(currentUserData[i]));
+        document.getElementById("user-list").appendChild(list);
+    }
+}
+
+function generateUserRow(user)
+{
+    let item = document.createElement("div");
+    item.classList.add("user-item");
+    item.addEventListener("click", () => {setManager(user)});
+    
+    let name = document.createElement("p");
+    name.classList.add("user-name");
+    name.innerText = user.name;
+    
+    let email = document.createElement("p");
+    email.classList.add("user-email");
+    email.innerText = user.email;
+
+    item.appendChild(name);
+    item.appendChild(email);
+    
+    return item;
 }
 
 function setManager(user)

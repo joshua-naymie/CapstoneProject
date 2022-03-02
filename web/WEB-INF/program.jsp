@@ -49,18 +49,14 @@
                             <input id="action" name="action" type="hidden">
                             <input id="program-ID" name="program-ID" type="hidden">
                             <input id="manager-ID" name="manager-ID" type="hidden">
-                            <div id="program-name__input" style="margin: 30px 0 30px 0;"></div>
                             
-                            <!--<div id="user-list"></div>-->
-
+                            <div id="program-name__input" style="margin: 2px 0 30px 0;"></div>
+                            
                             <div class="status-input">
                                 <div class="DUMMY">
                                     <div id="manager-name__input"></div>
-                                    <input id="user-search" placeholder="Search Users">
-                                    <div id="user-list"></div>
                                 </div>
                                 
-                                <!--<div class="DUMMY"></div>-->
                                 <div id="status__input" >
                                     <select class="status__select" id="status" name="status">
                                         <option disabled hidden style='display: none' value=''></option>
@@ -70,6 +66,10 @@
                                     <label class="status__label">Status</label>
                                 </div>
                             </div>
+                            
+                            <input id="user-search" class="user-search" placeholder="Search Users">
+                            <div id="user-list" class="user-list"></div>
+                            
                             <div class="input-action-buttons">
                                 <input id="cancel__button" class="cancel__button" type="button" value="Cancel">
                                 <input id="ok__button" class="ok__buton" type="button" value="Add">

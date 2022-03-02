@@ -96,6 +96,11 @@ INSERT INTO `user` (`email`, `is_admin`, `team_id`,`user_city`,`first_name`,`las
 			'321 pizza st s.w.', 'A1A1A1', curdate(),'QZKs/yX2vhFz2oto6NNc3LKuVt6xt/joYJTlvvGsAgQ=', '9e6b196b2c390db4ed171cfa7495b83230a28688029f94eff6c63300f0a3ce66');
 
 INSERT INTO `user` (`email`, `is_admin`, `team_id`,`user_city`,`first_name`,`last_name`,`is_active`
+					,`date_Of_birth`,`phone_number`,`home_address`,`postal_code`,`registration_date` ,`password_salt`, `password_hash` )
+  VALUES ('sarah.connor@termin.ator', False, 1, 'Calgary', 'Sarah', 'Connor', TRUE, curdate(), '123-456-7890', 
+			'321 pizza st s.w.', 'A1A1A1', curdate(),'QZKs/yX2vhFz2oto6NNc3LKuVt6xt/joYJTlvvGsAgQ=', '9e6b196b2c390db4ed171cfa7495b83230a28688029f94eff6c63300f0a3ce66');
+
+INSERT INTO `user` (`email`, `is_admin`, `team_id`,`user_city`,`first_name`,`last_name`,`is_active`
 					,`date_Of_birth`,`phone_number`,`home_address`,`postal_code`,`registration_date`, `password_salt`, `password_hash` )
   VALUES ('rjk4752@gmail.com', True, 1, 'Calgary', 'Ra', 'Ad', TRUE, curdate(), '403-888-8888', 
 			'123 pizza st s.w.', 'A1A1A1', curdate(), 'OloAEOkY3BGzc6wTRedRuL8c1JzkHq3UeCneTaEiIgo=', '94ec65f4df9c528f9e438bf4747366d58111e0eb36c782d20e9ec2c7494e0641');
