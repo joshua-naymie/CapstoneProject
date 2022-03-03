@@ -63,26 +63,33 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label>Date:</label>
-                                    <input class="form-control" type="date" name="program_date" value="" placeholder="">
+                                    <input class="form-control" type="date" name="taskDate" value="" placeholder="">
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label>Start Time:</label>
-                                    <input class="form-control" type="time" name="user_city" value="" placeholder="">
+                                    <input class="form-control" type="time" name="taskStart" value="" placeholder="">
                                 </div>
 
 
                                 <div class="form-group col-md-4">
                                     <label>End Time:</label>
-                                    <input class="form-control" type="time" name="user_firstname" value=""
+                                    <input class="form-control" type="time" name="taskEnd" value=""
                                         placeholder="">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label>Supervisor:</label>
-                                <input class="form-control col-md-5" type="text" name="user_lastname" value=""
-                                    placeholder="">
+                                <label for="supervisorAdd" class="input-label">Supervisor</label>
+                                <select name="supervisorAdd" id="supervisorAdd" class="form-control col-md-5">
+                                    <option value="" selected>Choose here</option>
+                                    <c:forEach items="${allSupervisors}" var="supervisor">
+                                        <option value="${supervisor.getUserId()}">
+                                            ${supervisor.getFirstName()} ${supervisor.getLastName()}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+
                             </div>
 
 
@@ -104,20 +111,12 @@
                                     <option value="" selected>Choose here</option>
                                 </select>
                             </div>
-
+                            
+                            <label for="spotsAdd">Spots: </label>
+                            <input type="number" id="spotsAdd" name="spotsAdd" min="1" max="10" value="1">
+                            
                             <!-- Number of volunteers for the task -->
-                            <!-- <input type="submit" value="Add" name="action"> -->
-
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect2">Example multiple select</label>
-                                <select multiple class="form-control col-6" id="exampleFormControlSelect2">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
+                            <input type="submit" value="Add" name="action"> 
 
                         </form>
                     </div>
@@ -129,6 +128,10 @@
 
                 $company.change(
                     function () {
+                        $('#storeAdd').find('option').remove();
+                        $('#storeAdd').append(
+                                            '<option value="">Choose here'+ '</option>'
+                                        );
                         let cid = $('#companyAdd').val();
                         $.ajax({
                             type: "GET",

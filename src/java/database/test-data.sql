@@ -34,6 +34,9 @@ INSERT INTO `role` (`role_name`, `role_description`)
 INSERT INTO `role` (`role_name`, `role_description`) 
 	 VALUES ('Manager', 'Manager for a program');
 
+INSERT INTO `role` (`role_name`, `role_description`) 
+	 VALUES ('Supervisor', 'Supervisors/Approving Manager');
+
 
 -- -----------------------------------------------------
 -- PACKAGE TYPE
@@ -111,6 +114,9 @@ INSERT INTO `user` (`email`, `is_admin`, `team_id`,`user_city`,`first_name`,`las
 -- -----------------------------------------------------
 INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
 	 VALUES (1,1,1);
+
+INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
+	 VALUES (4,5,1);
 
 -- -----------------------------------------------------
 -- TASK
