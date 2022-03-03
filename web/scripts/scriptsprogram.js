@@ -262,6 +262,7 @@ function addProgram()
     submitButton.value = "Add";
     inputHeader.innerText = "New";
     setStatusSelectColor();
+    searchUsers("");
     
     setContainerWidth("container--input-size");
     fadeOutIn(listArea, inputArea);
@@ -294,6 +295,7 @@ function editProgram(program)
     setStatusSelectColor();
 
     document.getElementById("program-ID").value = program.programId;
+    searchUsers("");
     
     setContainerWidth("container--input-size");
     fadeOutIn(listArea, inputArea);
