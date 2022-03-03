@@ -7,10 +7,8 @@ package models;
 import java.io.Serializable;
 import java.util.List;
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -46,7 +44,7 @@ public class Role implements Serializable {
     private String roleName;
     @Column(name = "role_description")
     private String roleDescription;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "roleId")
     private List<ProgramTraining> programTrainingList;
 
     public Role() {
@@ -56,8 +54,8 @@ public class Role implements Serializable {
         this.roleId = roleId;
     }
 
-    public Role(String roleName, String roleDescription) {
-        this.roleDescription = roleDescription;
+    public Role(Short roleId, String roleName) {
+        this.roleId = roleId;
         this.roleName = roleName;
     }
 

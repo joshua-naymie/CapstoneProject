@@ -8,7 +8,6 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
@@ -39,10 +38,10 @@ public class UserTask implements Serializable {
     @Column(name = "is_chosen")
     private Boolean isChosen;
     @JoinColumn(name = "task_id", referencedColumnName = "task_id", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Task task;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private User user;
 
     public UserTask() {

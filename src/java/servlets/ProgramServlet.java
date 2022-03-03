@@ -180,7 +180,7 @@ public class ProgramServlet extends HttpServlet {
 
         // user services to create program_training data
         AccountServices accService = new AccountServices();
-
+        
         // getting user entered values and insert new program
         try {
             // getting program status
@@ -188,11 +188,11 @@ public class ProgramServlet extends HttpServlet {
             boolean isActive = status.equals("active");
 
             // programs are always active on creation
-            String userMsg = proService.insert(isActive,
-                    // obtaining user entered program name
-                    request.getParameter("program-name"),
-                    // obtaining user entered manager name
-                    request.getParameter("manager-name"));
+//            String userMsg = proService.insert(isActive,
+//                    // obtaining user entered program name
+//                    request.getParameter("program-name"),
+//                    // obtaining user entered manager name
+//                    request.getParameter("manager-name"));
 
             // change the role of the manager name typed to the matching program role
             // get user entered user name (match with frontend)  
@@ -205,7 +205,7 @@ public class ProgramServlet extends HttpServlet {
             List<ProgramTraining> currentRoles = updateRole.getProgramTrainingList();
 
             // get newly created programId
-            short programId = proService.getProgramId(request.getParameter("program-name"), request.getParameter("manager-name"));
+            short programId = proService.getProgramId(request.getParameter("program-name"));
 
             // get roleId, fully implement when theres a page
             short roleId = 1;
@@ -225,7 +225,7 @@ public class ProgramServlet extends HttpServlet {
                     if((pt.getProgram().getProgramId() == programId)&& 
                             (pt.getUser().getUserId() == userId)){
                         // test
-                         pt.setRole(newRole);
+                         //pt.setRole(newRole);
                     }
                 }
             }
@@ -267,13 +267,13 @@ public class ProgramServlet extends HttpServlet {
             boolean isActive = status.equals("active");
 
             // updating program
-            String userMsg = proService.update(programID,
-                    // is active (change later with front end connect)
-                    isActive,
-                    // obtaining user entered program name
-                    request.getParameter("program-name"),
-                    // obtaining user entered manager name
-                    request.getParameter("manager-name"));
+//            String userMsg = proService.update(programID,
+//                    // is active (change later with front end connect)
+//                    isActive,
+//                    // obtaining user entered program name
+//                    request.getParameter("program-name"),
+//                    // obtaining user entered manager name
+//                    request.getParameter("manager-name"));
 
             response.sendRedirect("programs");
         } catch (Exception e) {

@@ -5,20 +5,26 @@
 package models;
 
 import java.io.Serializable;
+import java.util.List;
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author DWEI
+ * @author Main
  */
 @Entity
 @Table(name = "program")
@@ -27,8 +33,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Program.findAll", query = "SELECT p FROM Program p"),
     @NamedQuery(name = "Program.findByProgramId", query = "SELECT p FROM Program p WHERE p.programId = :programId"),
     @NamedQuery(name = "Program.findByProgramName", query = "SELECT p FROM Program p WHERE p.programName = :programName"),
-    @NamedQuery(name = "Program.findByUserId", query = "SELECT p FROM Program p WHERE p.user_id = :user_id"),
-    @NamedQuery(name = "Program.findByNames", query = "SELECT p FROM Program p WHERE p.user_id = :user_id AND p.programName = :programName"),
     @NamedQuery(name = "Program.findByIsActive", query = "SELECT p FROM Program p WHERE p.isActive = :isActive")})
 public class Program implements Serializable {
 
@@ -41,11 +45,18 @@ public class Program implements Serializable {
     @Basic(optional = false)
     @Column(name = "program_name")
     private String programName;
-    @Column(name = "user_id")
-    private User user;
     @Basic(optional = false)
     @Column(name = "is_active")
     private boolean isActive;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @ManyToOne
+    private User userId;
+    @OneToMany(mappedBy = "programId")
+    private List<Team> teamList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "program")
+    private List<ProgramTraining> programTrainingList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
+    private List<Task> taskList;
 
     public Program() {
     }
@@ -54,9 +65,9 @@ public class Program implements Serializable {
         this.programId = programId;
     }
 
-    public Program(boolean isActive, String programName, User user) {
+    public Program(Short programId, String programName, boolean isActive) {
+        this.programId = programId;
         this.programName = programName;
-        this.user = user;
         this.isActive = isActive;
     }
 
@@ -76,24 +87,47 @@ public class Program implements Serializable {
         this.programName = programName;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
-    public int getUserId() {
-        return user.getUserId();
-    }
-    
     public boolean getIsActive() {
         return isActive;
     }
 
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+
+    @XmlTransient
+    public List<Team> getTeamList() {
+        return teamList;
+    }
+
+    public void setTeamList(List<Team> teamList) {
+        this.teamList = teamList;
+    }
+
+    @XmlTransient
+    public List<ProgramTraining> getProgramTrainingList() {
+        return programTrainingList;
+    }
+
+    public void setProgramTrainingList(List<ProgramTraining> programTrainingList) {
+        this.programTrainingList = programTrainingList;
+    }
+
+    @XmlTransient
+    public List<Task> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(List<Task> taskList) {
+        this.taskList = taskList;
     }
 
     @Override

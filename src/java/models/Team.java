@@ -10,7 +10,6 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -48,14 +47,14 @@ public class Team implements Serializable {
     @Column(name = "team_supervisor")
     private String teamSupervisor;
     @JoinColumn(name = "program_id", referencedColumnName = "program_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Program programId;
     @JoinColumn(name = "store_id", referencedColumnName = "store_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Store storeId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamId")
     private List<Task> taskList;
-    @OneToMany(mappedBy = "teamId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "teamId")
     private List<User> userList;
 
     public Team() {

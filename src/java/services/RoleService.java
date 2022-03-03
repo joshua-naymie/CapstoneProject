@@ -29,14 +29,14 @@ public class RoleService {
 
     }
 
-    public String insert(String roleName, String roleDescription) throws Exception {
+    public String insert(short roldId, String roleName, String roleDescription) throws Exception {
         RoleDB roleDB = new RoleDB();
         Role checkRole = roleDB.getByRoleName(roleName);
 
         if (checkRole != null) {
             return "This role already exists";
         }
-        Role newRole = new Role(roleName, roleDescription);
+        Role newRole = new Role(roldId, roleDescription);
         roleDB.insert(newRole);
 
         return "Role " + roleName + " has been created";

@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -53,16 +52,16 @@ public class FoodDeliveryData implements Serializable {
     @Column(name = "family_count")
     private Short familyCount;
     @JoinColumn(name = "organization_id", referencedColumnName = "organization_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Organization organizationId;
     @JoinColumn(name = "package_id", referencedColumnName = "package_id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private PackageType packageId;
     @JoinColumn(name = "store_id", referencedColumnName = "store_id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Store storeId;
     @JoinColumn(name = "task_fd_id", referencedColumnName = "task_id", insertable = false, updatable = false)
-    @OneToOne(optional = false, fetch = FetchType.EAGER)
+    @OneToOne(optional = false)
     private Task task;
 
     public FoodDeliveryData() {
