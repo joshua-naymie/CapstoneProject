@@ -10,7 +10,6 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -47,7 +46,7 @@ public class PackageType implements Serializable {
     @Basic(optional = false)
     @Column(name = "weight_lb")
     private short weightLb;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "packageId", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "packageId")
     private List<FoodDeliveryData> foodDeliveryDataList;
 
     public PackageType() {

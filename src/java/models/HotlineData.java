@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQueries;
@@ -40,7 +39,7 @@ public class HotlineData implements Serializable {
     @Column(name = "hotline_hours_worked")
     private BigDecimal hotlineHoursWorked;
     @JoinColumn(name = "task_hotline_id", referencedColumnName = "task_id", insertable = false, updatable = false)
-    @OneToOne(optional = false, fetch = FetchType.EAGER)
+    @OneToOne(optional = false)
     private Task task;
 
     public HotlineData() {

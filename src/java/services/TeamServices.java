@@ -5,6 +5,7 @@
 package services;
 
 import dataaccess.TeamDB;
+import java.util.List;
 import models.Team;
 
 
@@ -18,5 +19,12 @@ public class TeamServices {
         TeamDB teamDB = new TeamDB();
         Team team = teamDB.get(teamId);
         return team;
+    }
+    
+        public List<Team> getAll() throws Exception {
+        TeamDB teamDB = new TeamDB();
+        List<Team> teams = teamDB.getAll();
+        return teams;
+
     }
 }

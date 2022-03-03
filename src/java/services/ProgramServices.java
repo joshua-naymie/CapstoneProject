@@ -35,14 +35,14 @@ public class ProgramServices {
 
     }
 
-    public String insert(boolean isActive, String programName, User user) throws Exception {
+    public String insert(boolean isActive, String programName, short programId) throws Exception {
         ProgramDB progDB = new ProgramDB();
         Program checkProgram = progDB.getByProgramName(programName);
         if (checkProgram != null) {
             return "This program already exists";
         }
 
-        Program newProgram = new Program(isActive, programName, user);
+        Program newProgram = new Program(programId, programName, isActive);
 
         progDB.insert(newProgram);
 
@@ -57,7 +57,7 @@ public class ProgramServices {
         if (toUpdate == null) {
             return "Program does exist";
         }
-        toUpdate.setUser(user);
+//        toUpdate.setUser(user);
         toUpdate.setProgramName(programName);
         toUpdate.setIsActive(isActive);
         progDB.update(toUpdate);

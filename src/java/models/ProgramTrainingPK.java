@@ -38,7 +38,7 @@ public class ProgramTrainingPK implements Serializable {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-    
+
     public short getProgramId() {
         return programId;
     }

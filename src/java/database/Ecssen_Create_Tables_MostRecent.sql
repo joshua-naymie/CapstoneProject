@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `ecssendb`.`program` (
   PRIMARY KEY (`program_id`),
 CONSTRAINT `fk_program_user_id`
     FOREIGN KEY (`user_id`)
-    REFERENCES `ecssendb`.`program_training` (`user_id`)
+    REFERENCES `ecssendb`.`user` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 )
@@ -77,17 +77,25 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `ecssendb`.`store` (
 	`store_id` INT NOT NULL AUTO_INCREMENT,
+        `company_id` SMALLINT UNSIGNED NOT NULL,
 	`street_address` VARCHAR(100) NOT NULL UNIQUE,
 	`postal_code` CHAR(6) NOT NULL,
 	`store_city` VARCHAR(50) NOT NULL,
 	`phone_num` VARCHAR(15),
 	`contact` VARCHAR(100),
+        `store_name` VARCHAR(100) NOT NULL,
 	`is_active` BOOLEAN NOT NULL,
 	PRIMARY KEY (`store_id`),
+            CONSTRAINT `fk_store_company_id`
+            FOREIGN KEY (`company_id`)
+            REFERENCES `ecssendb`.`company_name` (`company_id`)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
 	CONSTRAINT `ck_store_postal_code`
 		CHECK (REGEXP_LIKE(`postal_code`, '[0-9][0-9][0-9][0-9][0-9]') OR
 					REGEXP_LIKE(`postal_code`, '[0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]') OR
 					REGEXP_LIKE(`postal_code`, '[A-Y][0-9][A-Z][0-9][A-Z][0-9]')))
+        
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------

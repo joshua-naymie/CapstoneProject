@@ -11,7 +11,6 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -96,12 +95,14 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "password_hash")
     private String passwordHash;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<UserTask> userTaskList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userId")
+    private List<Program> programList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<ProgramTraining> programTrainingList;
     @JoinColumn(name = "team_id", referencedColumnName = "team_id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Team teamId;
 
     public User() {
@@ -250,6 +251,15 @@ public class User implements Serializable {
 
     public void setUserTaskList(List<UserTask> userTaskList) {
         this.userTaskList = userTaskList;
+    }
+
+    @XmlTransient
+    public List<Program> getProgramList() {
+        return programList;
+    }
+
+    public void setProgramList(List<Program> programList) {
+        this.programList = programList;
     }
 
     @XmlTransient
