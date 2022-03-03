@@ -12,6 +12,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,6 +26,7 @@ import models.FoodDeliveryData;
 import models.Program;
 import models.Store;
 import models.Task;
+import models.Team;
 import models.User;
 import services.AccountServices;
 import services.CompanyService;
@@ -138,6 +144,53 @@ public class AddTaskServlet extends HttpServlet {
         String action = (String) request.getParameter("action");
 
         if(action != null && action.equals("Add")){
+                        
+            String taskDate = request.getParameter("taskDate");
+            
+            //Date taskDateStart = new Date();
+            //Date taskDateEnd = new Date();
+            LocalDateTime st = LocalDateTime.now();
+            LocalDateTime et = LocalDateTime.now();
+            
+            //Date registrationDate = new SimpleDateFormat("yyyy-MM-dd").parse(regDate);
+            //String registrationDate = regDate;
+            //            Date taskDateEnd = new Date();
+//            try {
+//                taskDateEnd = new SimpleDateFormat("yyyy-MM-dd").parse("2022-08-31");
+//            } catch (ParseException ex) {
+//                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+
+                String taskStart = request.getParameter("taskStart");
+
+                //Date taskStartTime = new SimpleDateFormat("hh:mm").parse(taskStart);
+                //taskDateStart = new Date(registrationDate.getTime() + taskStartTime.getTime());
+
+                String taskEnd = request.getParameter("taskEnd");
+                //Date taskEndTime = new SimpleDateFormat("hh:mm").parse(taskEnd);
+                //String taskEndTime = taskEnd;
+                //log(taskEndTime.toString());
+
+                LocalDate datePart = LocalDate.parse(taskDate);
+                LocalTime timePart = LocalTime.parse(taskEnd);
+                et = LocalDateTime.of(datePart, timePart);
+                
+                LocalDate datePart1 = LocalDate.parse(taskDate);
+                LocalTime timePart1 = LocalTime.parse(taskStart);
+                st = LocalDateTime.of(datePart1, timePart1);
+                //log(st.toString());
+
+//            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+//            SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
+//
+//            String dateAsString = dateFormatter.format(date);
+//            String timeAsString = timeFormatter.format(date);
+
+//taskDateEnd = new Date(registrationDate.getTime() + taskEndTime.getTime());
+            
+            //log(taskDateStart.toString());
+            //log(taskDateEnd.toString());
+                    
             String programAdd = (String) request.getParameter("programAdd");
             
             String[] parts = programAdd.split(";");
@@ -154,48 +207,22 @@ public class AddTaskServlet extends HttpServlet {
 //            } catch (ParseException ex) {
 //                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
 //            }
+            //log(programAddName);
+            //log(programAdd);
             
-            String regDate = request.getParameter("taskDate");
+            ZonedDateTime zdt = st.atZone(ZoneId.systemDefault());
+            Date sTime = Date.from(zdt.toInstant());
             
-            Date taskDateStart = new Date();
-            Date taskDateEnd = new Date();
-            try {
-            Date registrationDate = new SimpleDateFormat("yyyy-MM-dd").parse(regDate);
-
+            ZonedDateTime zdt1 = et.atZone(ZoneId.systemDefault());
+            Date eTime = Date.from(zdt1.toInstant());
             
-//            Date taskDateEnd = new Date();
-//            try {
-//                taskDateEnd = new SimpleDateFormat("yyyy-MM-dd").parse("2022-08-31");
-//            } catch (ParseException ex) {
-//                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-
-            String taskStart = request.getParameter("taskStart");
-            
-            Date taskStartTime = new SimpleDateFormat("hh:mm:ss").parse(taskStart);
-                
-            taskDateStart = new Date(registrationDate.getTime() + taskStartTime.getTime());
-            
-            String taskEnd = request.getParameter("taskEnd");
-            
-            Date taskEndTime = new SimpleDateFormat("hh:mm:ss").parse(taskStart);
-                
-            taskDateEnd = new Date(registrationDate.getTime() + taskEndTime.getTime());
-
-            } catch (ParseException ex) {
-                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            log(taskDateStart.toString());
-            
+            //log(sTime.toString());        
             
             Short spotsAdd = Short.parseShort((String) request.getParameter("spotsAdd"));
             Long supervisorId = Long.parseLong((String) request.getParameter("supervisorAdd"));
             
-            //log(programAddName);
-            //log(programAdd);
             
-            Task addTask = new Task(0L, taskDateStart, taskDateEnd, true, false, "Jane Doe", cityAdd);
+            Task addTask = new Task(0L, sTime, eTime, true, false, "Jane Doe", cityAdd);
                 addTask.setTaskDescription(description);
                 
                 addTask.setMaxUsers(spotsAdd);
@@ -220,10 +247,37 @@ public class AddTaskServlet extends HttpServlet {
                 }
 
             if(programAddName.equals("Food Delivery")){
-//                Integer storeId = Integer.parseInt ((String) request.getParameter("storeAdd"));
+                Integer storeId = Integer.parseInt ((String) request.getParameter("storeAdd"));
 //                FoodDeliveryData fd = new FoodDeliveryData();
 //                fd.setStoreId(new Store(storeId));
 //                addTask.setFoodDeliveryData(fd);
+
+                List<Team> team = null;
+                        
+                try {
+                     team = tes.getAll();
+                } catch (Exception ex) {
+                    Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+                boolean teamCheck = false;
+
+                Team teamAdd = null;
+
+                for(Team t: team){
+                    if( storeId == (t.getStoreId().getStoreId()) ) {
+                        teamCheck = true;
+                        teamAdd = t;
+                    }
+                    if(teamCheck) break;
+                }
+                
+                if(!teamCheck){
+                    //teamAdd = new Team()
+                }
+            
+                addTask.setTeamId(teamAdd);
+
             }else{
                 log("missed");
             }
@@ -234,9 +288,10 @@ public class AddTaskServlet extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+   
+    
         }
-        
+
         response.sendRedirect("addTask");
         //getServletContext().getRequestDispatcher("/WEB-INF/addTaskTest.jsp").forward(request, response);
     }
