@@ -20,9 +20,6 @@ public class ProgramTrainingPK implements Serializable {
     @Column(name = "user_id")
     private int userId;
     @Basic(optional = false)
-    @Column(name = "role_id")
-    private short roleId;
-    @Basic(optional = false)
     @Column(name = "program_id")
     private short programId;
 
@@ -31,7 +28,6 @@ public class ProgramTrainingPK implements Serializable {
 
     public ProgramTrainingPK(int userId, short programId) {
         this.userId = userId;
-        this.roleId = roleId;
         this.programId = programId;
     }
 
