@@ -223,7 +223,7 @@ public class ProgramServlet extends HttpServlet {
             // if current user is not a manager change their role to manager
             if (currentRoles == null) {
                 // get manager and programId to match
-                ProgramTraining roleAdd = new ProgramTraining(userId, roleId, programId);
+                ProgramTraining roleAdd = new ProgramTraining(userId, programId);
             } else {
                 for (ProgramTraining pt : currentRoles) {
                     if((pt.getProgram().getProgramId() == programId)&& 
