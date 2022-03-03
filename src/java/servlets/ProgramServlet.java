@@ -57,7 +57,7 @@ public class ProgramServlet extends HttpServlet {
         // Create keys
         JSONKey[] keys = {new JSONKey("programId", false),
             new JSONKey("program", true),
-            new JSONKey("manager", true),
+            new JSONKey("userId", true),
             new JSONKey("active", false)};
 
         // Create builder with above keys
@@ -81,6 +81,7 @@ public class ProgramServlet extends HttpServlet {
         StringBuilder userReturnData = new StringBuilder();
         userReturnData.append("var userData = [");
         // Create keys
+        // send email as well
         JSONKey[] userKeys = {new JSONKey("ID", false),
                               new JSONKey("name", true),
                               new JSONKey("email", true)};
@@ -133,7 +134,7 @@ public class ProgramServlet extends HttpServlet {
         // retrieving program values into an array
         Object[] programValues = {program.getProgramId(),
             program.getProgramName(),
-            program.getManagerName(),
+            program.getUserId(),
             program.getIsActive()};
 
         return builder.buildJSON(programValues);
@@ -222,7 +223,7 @@ public class ProgramServlet extends HttpServlet {
             // if current user is not a manager change their role to manager
             if (currentRoles == null) {
                 // get manager and programId to match
-                ProgramTraining roleAdd = new ProgramTraining(userId, roleId, programId);
+                ProgramTraining roleAdd = new ProgramTraining(userId, programId);
             } else {
                 for (ProgramTraining pt : currentRoles) {
                     if((pt.getProgram().getProgramId() == programId)&& 

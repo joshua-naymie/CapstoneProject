@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Program.findAll", query = "SELECT p FROM Program p"),
     @NamedQuery(name = "Program.findByProgramId", query = "SELECT p FROM Program p WHERE p.programId = :programId"),
     @NamedQuery(name = "Program.findByProgramName", query = "SELECT p FROM Program p WHERE p.programName = :programName"),
-    @NamedQuery(name = "Program.findByManagerName", query = "SELECT p FROM Program p WHERE p.managerName = :managerName"),
-    @NamedQuery(name = "Program.findByNames", query = "SELECT p FROM Program p WHERE p.managerName = :managerName AND p.programName = :programName"),
+    @NamedQuery(name = "Program.findByUserId", query = "SELECT p FROM Program p WHERE p.user_id = :user_id"),
+    @NamedQuery(name = "Program.findByNames", query = "SELECT p FROM Program p WHERE p.user_id = :user_id AND p.programName = :programName"),
     @NamedQuery(name = "Program.findByIsActive", query = "SELECT p FROM Program p WHERE p.isActive = :isActive")})
 public class Program implements Serializable {
 
@@ -41,8 +41,8 @@ public class Program implements Serializable {
     @Basic(optional = false)
     @Column(name = "program_name")
     private String programName;
-    @Column(name = "manager_name")
-    private String managerName;
+    @Column(name = "user_id")
+    private User user;
     @Basic(optional = false)
     @Column(name = "is_active")
     private boolean isActive;
@@ -54,9 +54,9 @@ public class Program implements Serializable {
         this.programId = programId;
     }
 
-    public Program(boolean isActive, String programName, String managerName) {
+    public Program(boolean isActive, String programName, User user) {
         this.programName = programName;
-        this.managerName = managerName;
+        this.user = user;
         this.isActive = isActive;
     }
 
@@ -76,14 +76,18 @@ public class Program implements Serializable {
         this.programName = programName;
     }
 
-    public String getManagerName() {
-        return managerName;
+    public User getUser() {
+        return user;
     }
 
-    public void setManagerName(String managerName) {
-        this.managerName = managerName;
+    public void setUser(User user) {
+        this.user = user;
     }
-
+    
+    public int getUserId() {
+        return user.getUserId();
+    }
+    
     public boolean getIsActive() {
         return isActive;
     }
