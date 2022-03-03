@@ -84,6 +84,9 @@ INSERT INTO `team` (`program_id`,`store_id`) VALUES (1, 12345);
 INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`) 
 	 VALUES (1, 3,'John Smith',12345);
 
+INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`) 
+	 VALUES (1, 5,'Ra Ad',123);
+
 
 -- -----------------------------------------------------
 -- USER
