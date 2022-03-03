@@ -422,7 +422,7 @@ function generateUserTable()
 
 function generateUserRow(user)
 {
-    let item = document.createElement("div");
+    let item = document.createElement("li");
     item.classList.add("user-item");
     item.addEventListener("click", () => {setManager(user)});
     
