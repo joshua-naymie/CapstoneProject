@@ -3,28 +3,6 @@ document.addEventListener('DOMContentLoaded', load, false);
 
 const CSS_INPUTGROUP_MAIN = "main-input";
 
-//var data = [{"programId": 1,
-//        "city": "Calgary",
-//        "manager": "Jin Chen",
-//        "program": "Cobbs Bread",
-//        "phone": "9875554434",
-//        "active": true},
-//
-//    {"programId": 2,
-//        "city": "Edmonton",
-//        "manager": "Jin Chen",
-//        "program": "Hotline",
-//        "phone": "5555551234",
-//        "active": true},
-//
-//    {"programId": 1,
-//        "city": "Red Deer",
-//        "manager": "Jin Chen",
-//        "program": "Other",
-//        "phone": "9875554434",
-//        "active": false}];
-
-
 /**
  * @type Array  The current, filtered list of programs
  */

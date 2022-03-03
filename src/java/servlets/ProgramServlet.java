@@ -81,6 +81,7 @@ public class ProgramServlet extends HttpServlet {
         StringBuilder userReturnData = new StringBuilder();
         userReturnData.append("var userData = [");
         // Create keys
+        // send email as well
         JSONKey[] userKeys = {new JSONKey("ID", false),
             new JSONKey("name", true)};
 
