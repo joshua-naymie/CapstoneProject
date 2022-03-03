@@ -7,6 +7,8 @@ const CSS_INPUTGROUP_MAIN = "main-input";
  * @type Array  The current, filtered list of programs
  */
 var currentListData;
+var currentUserData;
+var currentManager;
 
 /**
  * @type String  The action the server will take on POST
@@ -26,9 +28,29 @@ var actionInput;
 var inputHeader;
 
 var inputs;
+var userTable;
 var programNameInput,
     managerNameInput,
     statusInput;
+
+const generateUserCell = (user) => {
+    let cell = document.createElement("div");
+    cell.classList.add("user__cell");
+    cell.addEventListener("click", () => {setManager(user)});
+    
+    let name = document.createElement("p");
+    name.classList.add("user__cell-content__name");
+    name.innerText = user.name;
+    
+    let email = document.createElement("p");
+    email.classList.add("user__cell-content__email");
+    email.innerText = user.email;
+    
+    cell.appendChild(name);
+    cell.appendChild(email);
+    
+    return cell;
+}
 
 /**
  * Run when DOM loads
@@ -82,9 +104,22 @@ function load()
     // setup manager name InputGroup
     managerNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "manager-name");
     managerNameInput.setLabelText("Manager Name");
-    managerNameInput.setPlaceHolderText("eg. Jin Chen");
+    managerNameInput.setPlaceHolderText("No manager");
+    managerNameInput.input.setAttribute("autocomplete", "off");
+    managerNameInput.input.setAttribute("disabled", "disabled");
+//    managerNameInput.input.addEventListener("input", () => {searchUsers(managerNameInput.input.value)});
     managerNameInput.container = document.getElementById("manager-name__input");
     configCustomInput(managerNameInput);
+    
+    let userSearch = document.getElementById("user-search");
+    userSearch.addEventListener("input", () => {searchUsers(userSearch.value)});;
+    
+    // Create columns
+//    let mainCol = new CustomColumn("User", "user__cell", generateUserCell);
+//    userTable = new AutoTable("table", userData, [mainCol], false);
+//    userTable.generateTable();
+
+    searchUsers("");
 
     // add InputGroups to a collection
     inputs = new InputGroupCollection();
@@ -242,6 +277,14 @@ function addProgram()
 function editProgram(program)
 {
     currentAction = "update";
+//    currentUserData.unshift(currentUserData.splice(currentUserData.indexOf(program), 1));
+    for(let i=0; i<userData; i++)
+    {
+        if(userData[i].ID === program.manager)
+        {
+            // todo: set manager as currentManager
+        }
+    }
     submitButton.value = "Update";
     inputHeader.innerText = "Edit";
 
@@ -266,6 +309,7 @@ function submitForm()
     if(inputs.validateAll())
     {
         showConfirmationModal(`Are you sure you want to ${currentAction} this program?`, () => {
+            managerNameInput.input.value = managerNameInput.input.value.split(":")[0];
             postAction(currentAction, "addProgramForm", "programs")
         });
     }
@@ -341,4 +385,63 @@ function setStatusSelectColor()
         default:
             statusInput.style.borderColor = "black";
     }
+}
+
+
+function searchUsers(search)
+{
+    removeAllChildren(document.getElementById("user-list"));
+    currentUserData = [];
+    for(let i=0; i<userData.length; i++)
+    {
+        if(userData[i].name.toLowerCase().includes(search)
+        || userData[i].email.toLowerCase().includes(search))
+        {
+            currentUserData.push(userData[i]);
+        }
+    }
+    
+    generateUserTable();
+}
+
+function generateUserTable()
+{
+    if(currentUserData.length > 0)
+    {
+        let list = new DocumentFragment();
+        let i;
+        for(i=0; i<currentUserData.length-1; i++)
+        {
+            list.appendChild(generateUserRow(currentUserData[i]));
+            list.appendChild(document.createElement("hr"));
+        }
+        list.appendChild(generateUserRow(currentUserData[i]));
+        document.getElementById("user-list").appendChild(list);
+    }
+}
+
+function generateUserRow(user)
+{
+    let item = document.createElement("div");
+    item.classList.add("user-item");
+    item.addEventListener("click", () => {setManager(user)});
+    
+    let name = document.createElement("p");
+    name.classList.add("user-name");
+    name.innerText = user.name;
+    
+    let email = document.createElement("p");
+    email.classList.add("user-email");
+    email.innerText = user.email;
+
+    item.appendChild(name);
+    item.appendChild(email);
+    
+    return item;
+}
+
+function setManager(user)
+{
+    managerNameInput.setInputText(user.name);
+    document.getElementById("manager-ID").value = user.ID;
 }

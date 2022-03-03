@@ -38,4 +38,18 @@ public class TaskDB {
             em.close();
         }
     }
+
+    public void update(Task task) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            em.merge(task);
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
+        } finally {
+            em.close();
+        }
+    }
 }

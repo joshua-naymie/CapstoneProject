@@ -24,4 +24,9 @@ public class TaskService {
         TaskDB taskDB  = new TaskDB();
         taskDB.insert(task);
     }
+
+    public void update(Task task) throws Exception {
+        TaskDB taskDB  = new TaskDB();
+        taskDB.update(task);
+    }
 }

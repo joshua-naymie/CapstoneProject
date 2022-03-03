@@ -9,6 +9,9 @@ import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Query;
+import java.util.ArrayList;
+import models.ProgramTraining;
+import models.Role;
 
 /**
  *
@@ -60,6 +63,44 @@ public class UserDB {
             em.close();
         }
     }
+    
+        // getAll active supervisors only
+    public List<User> getAllActiveSupervisors() throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        
+        RoleDB rdb = new RoleDB();
+        Role r = rdb.getByRoleName("Supervisor");
+        Short roleId = r.getRoleId();
+        
+        List<ProgramTraining> allUsers = null;
+        List<User> allSupervisors = new ArrayList<>();
+        try {
+            Query q = em.createQuery("SELECT p FROM ProgramTraining p WHERE p.programTrainingPK.roleId = :roleId", ProgramTraining.class);
+            //q.setParameter("programId",1);
+            q.setParameter("roleId", roleId);
+            allUsers = q.getResultList();
+        } finally {
+            //em.close();
+        }
+        
+        for(ProgramTraining u: allUsers){
+            //EntityManager ema = DBUtil.getEMFactory().createEntityManager();
+                    try {
+            Query q;
+            q = em.createQuery("SELECT u FROM User u WHERE  u.isActive =:isActive AND u.userId=:userId ORDER BY u.lastName, u.firstName", User.class);
+            q.setParameter("isActive", true);
+            q.setParameter("userId", u.getUser().getUserId());
+            
+            User ur = (User) q.getSingleResult();
+            
+            if(ur!=null) allSupervisors.add(ur);
+        } finally {
+            //em.close();
+        }
+    }
+        em.close();
+        return allSupervisors;
+ }
 
     // irina
     // getAll for getting all users

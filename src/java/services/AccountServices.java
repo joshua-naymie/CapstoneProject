@@ -58,6 +58,13 @@ public class AccountServices {
         return users;
     }
     
+    // get all active supervisors
+    public List<User> getAllActiveSupervisors() throws Exception {
+        UserDB userDB = new UserDB();
+        List<User> users = userDB.getAllActiveSupervisors();
+        return users;
+    }
+    
     // irina
     // getAll for getting all users
     public List<User> getAll() throws Exception {

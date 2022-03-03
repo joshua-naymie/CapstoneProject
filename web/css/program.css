@@ -22,14 +22,14 @@
     text-align: center;
     font-family: sans-serif;
     color: rgb(23, 69, 144);
-    margin-bottom: 35px;
+    margin-bottom: 10px;
     margin-top: 0;
 }
 
 .main h3
 {
     font-family: sans-serif;
-    margin: 0 0 40px 0;
+    margin: 0 0 10px 0;
 }
 
 .container
@@ -64,8 +64,8 @@
 {
     max-width: 450px;
     min-width: 450px;
-    max-height: 540px;
-    min-height: 540px;
+    max-height: 640px;
+    min-height: 640px;
     
     transition: max-width 0.2s,
                 min-width 0.2s,
@@ -243,7 +243,7 @@
 {
     margin: 0 0 0 10px;
     font-family: 'Lucida Sans Unicode', sans-serif;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .main-input__label--default
@@ -346,6 +346,13 @@
     width: 100%;
 }
 
+.program__custom-input input:disabled
+{
+    background-color: #0000;
+    border-width: 0;
+    color: black;
+}
+
 .status-input
 {
     display: grid;
@@ -378,7 +385,7 @@ status__select
 .status__label
 {
     margin-left: 6px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-family: 'Lucida Sans Unicode', sans-serif;
 }
 
@@ -386,7 +393,7 @@ status__select
 {
     display: flex;
     justify-content: space-between;
-    margin-top: 90px;
+    margin-top: 30px;
 }
 
 .input-action-buttons input
@@ -425,4 +432,71 @@ status__select
     opacity: 1;
     
     transition: opacity 0.1s;
+}
+
+.user-search
+{
+    border-radius: 10px;
+    font-size: 1rem;
+    border: 1px solid black;
+    padding-left: 10px;
+    width: 50%;
+    margin: 10px 0 10px 25%;
+}
+
+.user-list
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 240px;
+    overflow: auto;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 4px 0 4px 0;
+    cursor: pointer;
+    /*height: calc(100% - 10px);*/
+}
+
+.user-list hr
+{
+    width: 90%;
+    color: gray;
+    margin: 2px;
+}
+
+.user-list p
+{
+    font-family: sans-serif;
+    
+}
+
+.user-item
+{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.user-item:hover
+{
+    background-color: rgb(255, 244, 223);
+}
+
+.user-name
+{
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+.user-email
+{
+    font-size: 0.8rem;
+    color: gray;
+    margin: 0;
+    padding: 0;
+    max-width: 40%;
+    overflow: hidden;
 }

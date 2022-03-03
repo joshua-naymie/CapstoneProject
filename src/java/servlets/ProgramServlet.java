@@ -83,7 +83,8 @@ public class ProgramServlet extends HttpServlet {
         // Create keys
         // send email as well
         JSONKey[] userKeys = {new JSONKey("ID", false),
-            new JSONKey("name", true)};
+                              new JSONKey("name", true),
+                              new JSONKey("email", true)};
 
         // Create builder with above keys
         JSONBuilder userBuilder = new JSONBuilder(userKeys);
@@ -116,8 +117,8 @@ public class ProgramServlet extends HttpServlet {
      */
     private String buildUserJSON(User user, JSONBuilder builder) {
         Object[] userValues = {user.getUserId(),
-            user.getFirstName() + " "
-            + user.getLastName()};
+                               user.getFirstName() + " " + user.getLastName(),
+                               user.getEmail()};
 
         return builder.buildJSON(userValues);
     }
