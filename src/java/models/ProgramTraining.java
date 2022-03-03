@@ -49,8 +49,8 @@ public class ProgramTraining implements Serializable {
         this.programTrainingPK = programTrainingPK;
     }
 
-    public ProgramTraining(int userId, short roleId, short programId) {
-        this.programTrainingPK = new ProgramTrainingPK(userId, roleId, programId);
+    public ProgramTraining(int userId, short programId) {
+        this.programTrainingPK = new ProgramTrainingPK(userId, programId);
     }
 
     public ProgramTrainingPK getProgramTrainingPK() {
@@ -107,7 +107,7 @@ public class ProgramTraining implements Serializable {
 
     @Override
     public String toString() {
-        return "models.ProgramTraining[ programTrainingPK=" + programTrainingPK + " ]";
+        return "models.ProgramTraining[ programTrainingPK=" + programTrainingPK + role.getRoleId() + " ]";
     }
     
 }

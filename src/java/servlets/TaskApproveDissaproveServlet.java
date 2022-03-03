@@ -10,7 +10,7 @@ import java.util.logging.*;
 import models.*;
 import services.*;
 
-public class TaskServlet extends HttpServlet {
+public class TaskApproveDissaproveServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

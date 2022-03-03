@@ -57,7 +57,7 @@ public class ProgramServlet extends HttpServlet {
         // Create keys
         JSONKey[] keys = {new JSONKey("programId", false),
             new JSONKey("program", true),
-            new JSONKey("manager", true),
+            new JSONKey("userId", true),
             new JSONKey("active", false)};
 
         // Create builder with above keys
@@ -134,7 +134,7 @@ public class ProgramServlet extends HttpServlet {
         // retrieving program values into an array
         Object[] programValues = {program.getProgramId(),
             program.getProgramName(),
-            program.getManagerName(),
+            program.getUserId(),
             program.getIsActive()};
 
         return builder.buildJSON(programValues);
