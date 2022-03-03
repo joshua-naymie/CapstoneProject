@@ -7,6 +7,7 @@ package services;
 import dataaccess.ProgramDB;
 import java.util.List;
 import models.Program;
+import models.User;
 
 /**
  *
@@ -14,9 +15,9 @@ import models.Program;
  */
 public class ProgramServices {
     
-    public short getProgramId(String programName, String managerName)throws Exception{
+    public short getProgramId(String programName)throws Exception{
         ProgramDB progDB = new ProgramDB();
-        short programId = progDB.getProgramId(programName, managerName);
+        short programId = progDB.getProgramId(programName);
         return programId;
     }
 
@@ -34,14 +35,14 @@ public class ProgramServices {
 
     }
 
-    public String insert(boolean isActive, String programName, String managerName) throws Exception {
+    public String insert(boolean isActive, String programName, User user) throws Exception {
         ProgramDB progDB = new ProgramDB();
         Program checkProgram = progDB.getByProgramName(programName);
         if (checkProgram != null) {
             return "This program already exists";
         }
 
-        Program newProgram = new Program(isActive, programName, managerName);
+        Program newProgram = new Program(isActive, programName, user);
 
         progDB.insert(newProgram);
 
@@ -49,14 +50,14 @@ public class ProgramServices {
 
     }
 
-    public String update(short programId, boolean isActive, String programName, String managerName) throws Exception {
+    public String update(short programId, boolean isActive, String programName, User user) throws Exception {
         ProgramDB progDB = new ProgramDB();
         Program toUpdate = progDB.get(programId);
 
         if (toUpdate == null) {
             return "Program does exist";
         }
-        toUpdate.setManagerName(managerName);
+        toUpdate.setUser(user);
         toUpdate.setProgramName(programName);
         toUpdate.setIsActive(isActive);
         progDB.update(toUpdate);

@@ -1,4 +1,3 @@
-
 -- -----------------------------------------------------
 -- DO WE NEED THIS?? Ask nicole
 -- -----------------------------------------------------
@@ -60,9 +59,15 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `ecssendb`.`program` (
   `program_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `program_name` VARCHAR(100) NOT NULL UNIQUE,
-  `manager_name` VARCHAR(100),
+  `user_id` INT,
   `is_active` BOOLEAN NOT NULL,
-  PRIMARY KEY (`program_id`))
+  PRIMARY KEY (`program_id`),
+CONSTRAINT `fk_program_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `ecssendb`.`program_training` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+)
 ENGINE = InnoDB;
 
 
@@ -72,20 +77,13 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `ecssendb`.`store` (
 	`store_id` INT NOT NULL AUTO_INCREMENT,
-    `company_id` SMALLINT UNSIGNED NOT NULL,
 	`street_address` VARCHAR(100) NOT NULL UNIQUE,
-    `store_name` VARCHAR(100) NOT NULL UNIQUE,
 	`postal_code` CHAR(6) NOT NULL,
 	`store_city` VARCHAR(50) NOT NULL,
 	`phone_num` VARCHAR(15),
 	`contact` VARCHAR(100),
 	`is_active` BOOLEAN NOT NULL,
 	PRIMARY KEY (`store_id`),
-CONSTRAINT `fk_store_company_id`
-    FOREIGN KEY (`company_id`)
-    REFERENCES `ecssendb`.`company_name` (`company_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
 	CONSTRAINT `ck_store_postal_code`
 		CHECK (REGEXP_LIKE(`postal_code`, '[0-9][0-9][0-9][0-9][0-9]') OR
 					REGEXP_LIKE(`postal_code`, '[0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]') OR
@@ -156,9 +154,8 @@ CREATE TABLE IF NOT EXISTS `ecssendb`.`program_training` (
 `user_id` INT,
 `role_id` TINYINT UNSIGNED,
 `program_id` SMALLINT UNSIGNED,
-PRIMARY KEY (`user_id`, `role_id`, `program_id`),
+PRIMARY KEY (`user_id`, `program_id`),
 INDEX `fk_program_training_user_id_idx` (`user_id` ASC),
-INDEX `fk_program_training_role_id_idx` (`role_id` ASC),
 INDEX `fk_program_training_program_id_idx` (`program_id` ASC),
 CONSTRAINT `fk_program_training_user_id`
     FOREIGN KEY (`user_id`)
@@ -367,4 +364,5 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 

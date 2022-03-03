@@ -18,13 +18,13 @@ import models.Program;
  */
 public class ProgramDB {
     
-    public short getProgramId(String programName, String managerName) throws Exception {
+    public short getProgramId(String programName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
 //            Program p = em.find(Program.class, programName);
             Query getprogram = em.createNamedQuery("Program.findByNames", Program.class);
             try {
-                Program p = (Program) getprogram.setParameter("programName", programName).setParameter("managerName", managerName).getSingleResult();
+                Program p = (Program) getprogram.setParameter("programName", programName).getSingleResult();
                 return p.getProgramId();
             } catch (NoResultException e) {
                 return 0;

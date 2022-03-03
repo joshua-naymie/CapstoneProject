@@ -20,18 +20,14 @@ public class ProgramTrainingPK implements Serializable {
     @Column(name = "user_id")
     private int userId;
     @Basic(optional = false)
-    @Column(name = "role_id")
-    private short roleId;
-    @Basic(optional = false)
     @Column(name = "program_id")
     private short programId;
 
     public ProgramTrainingPK() {
     }
 
-    public ProgramTrainingPK(int userId, short roleId, short programId) {
+    public ProgramTrainingPK(int userId, short programId) {
         this.userId = userId;
-        this.roleId = roleId;
         this.programId = programId;
     }
 
@@ -42,15 +38,7 @@ public class ProgramTrainingPK implements Serializable {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
-    public short getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(short roleId) {
-        this.roleId = roleId;
-    }
-
+    
     public short getProgramId() {
         return programId;
     }
@@ -63,7 +51,6 @@ public class ProgramTrainingPK implements Serializable {
     public int hashCode() {
         int hash = 0;
         hash += (int) userId;
-        hash += (int) roleId;
         hash += (int) programId;
         return hash;
     }
@@ -78,9 +65,6 @@ public class ProgramTrainingPK implements Serializable {
         if (this.userId != other.userId) {
             return false;
         }
-        if (this.roleId != other.roleId) {
-            return false;
-        }
         if (this.programId != other.programId) {
             return false;
         }
@@ -89,7 +73,7 @@ public class ProgramTrainingPK implements Serializable {
 
     @Override
     public String toString() {
-        return "models.ProgramTrainingPK[ userId=" + userId + ", roleId=" + roleId + ", programId=" + programId + " ]";
+        return "models.ProgramTrainingPK[ userId=" + userId + ", programId=" + programId + " ]";
     }
     
 }
