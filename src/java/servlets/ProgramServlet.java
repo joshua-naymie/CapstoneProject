@@ -17,9 +17,11 @@ import models.JSONBuilder;
 import models.JSONKey;
 import models.Program;
 import models.ProgramTraining;
+import models.Role;
 import models.User;
 import services.AccountServices;
 import services.ProgramServices;
+import services.RoleService;
 
 /**
  *
@@ -193,18 +195,6 @@ public class ProgramServlet extends HttpServlet {
                     request.getParameter("manager-name"));
 
             // change the role of the manager name typed to the matching program role
-            // get user entered user name (match with frontend)
-//            String userName = request.getParameter("userName");
-//            
-//            // put the first and last in an array
-//            String[] names = userName.split("\\s+");
-//            
-//            //split into first and last name
-//            String firstName = names[0];
-//            String lastName = names[1];
-//            
-//            // retrieve the user with the matching name
-//            User updateRole = accService.getUserByFullName(firstName, lastName);
             // get user entered user name (match with frontend)  
             int userId = Integer.parseInt(request.getParameter("userID"));
 
@@ -219,6 +209,12 @@ public class ProgramServlet extends HttpServlet {
 
             // get roleId, fully implement when theres a page
             short roleId = 1;
+            
+            // role service to access the role data
+            RoleService rs = new RoleService();
+            
+            // get the role object based on roleId
+            Role newRole = rs.get(roleId);
 
             // if current user is not a manager change their role to manager
             if (currentRoles == null) {
@@ -228,8 +224,8 @@ public class ProgramServlet extends HttpServlet {
                 for (ProgramTraining pt : currentRoles) {
                     if((pt.getProgram().getProgramId() == programId)&& 
                             (pt.getUser().getUserId() == userId)){
-                        // to be implemented
-                        // pt.setRole(role);
+                        // test
+                         pt.setRole(newRole);
                     }
                 }
             }
