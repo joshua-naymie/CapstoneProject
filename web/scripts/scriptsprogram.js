@@ -57,8 +57,15 @@ const generateUserCell = (user) => {
  */
 function load()
 {
+    let temp = {"1":{"name":"test-name-1", "email":"dasd@asd.as"},
+                "2":{"name":"name-2", "email":"2222@22.as"}};
+            
+//    console.log(temp["1"]);
+    
     // sort list
     currentListData = data.sort(compareProgram);
+    
+    
     
     // setup input area
     inputArea = document.getElementById("input-area");
@@ -108,7 +115,7 @@ function load()
     managerNameInput.input.setAttribute("autocomplete", "off");
     managerNameInput.input.setAttribute("disabled", "disabled");
 //    managerNameInput.input.addEventListener("input", () => {searchUsers(managerNameInput.input.value)});
-    managerNameInput.container = document.getElementById("manager-name__input");
+    managerNameInput.container = document.getElementById("manager-name__display");
     configCustomInput(managerNameInput);
     
     let userSearch = document.getElementById("user-search");
@@ -189,7 +196,7 @@ function generateRow(currentRow)
 
     let managerName = document.createElement("p");
     managerName.classList.add("manager-name");
-    managerName.innerText = currentRow.manager;
+    managerName.innerText = userData[currentRow.userId] == null ? "" : userData[currentRow.userId].name;
     
     managerDiv.appendChild(managerName);
 
@@ -262,6 +269,7 @@ function addProgram()
     submitButton.value = "Add";
     inputHeader.innerText = "New";
     setStatusSelectColor();
+    searchUsers("");
     
     setContainerWidth("container--input-size");
     fadeOutIn(listArea, inputArea);
@@ -289,11 +297,12 @@ function editProgram(program)
     inputHeader.innerText = "Edit";
 
     programNameInput.setInputText(program.program);
-    managerNameInput.setInputText(program.manager);
+    managerNameInput.setInputText(userData[program.userId].name);
     statusInput.value = program.active ? "active" : "inactive";
     setStatusSelectColor();
 
     document.getElementById("program-ID").value = program.programId;
+    searchUsers("");
     
     setContainerWidth("container--input-size");
     fadeOutIn(listArea, inputArea);
@@ -406,23 +415,25 @@ function searchUsers(search)
 
 function generateUserTable()
 {
-    if(currentUserData.length > 0)
+    if(true)//currentUserData.length > 0)
     {
+        let temp = Object.keys(userData);
+        
         let list = new DocumentFragment();
         let i;
-        for(i=0; i<currentUserData.length-1; i++)
+        for(i=0; i<temp.length-1; i++)
         {
-            list.appendChild(generateUserRow(currentUserData[i]));
+            list.appendChild(generateUserRow(userData[temp[i]]));
             list.appendChild(document.createElement("hr"));
         }
-        list.appendChild(generateUserRow(currentUserData[i]));
+        list.appendChild(generateUserRow(userData[temp[i]]));
         document.getElementById("user-list").appendChild(list);
     }
 }
 
 function generateUserRow(user)
 {
-    let item = document.createElement("div");
+    let item = document.createElement("li");
     item.classList.add("user-item");
     item.addEventListener("click", () => {setManager(user)});
     

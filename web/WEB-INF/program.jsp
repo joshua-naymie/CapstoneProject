@@ -54,7 +54,7 @@
                             
                             <div class="status-input">
                                 <div class="DUMMY">
-                                    <div id="manager-name__input"></div>
+                                    <div id="manager-name__display" class="manager-name__display"></div>
                                 </div>
                                 
                                 <div id="status__input" >

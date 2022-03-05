@@ -81,11 +81,11 @@ public class ProgramServlet extends HttpServlet {
 
         // sending all active user full names
         StringBuilder userReturnData = new StringBuilder();
-        userReturnData.append("var userData = [");
+        userReturnData.append("var userData = {");
         // Create keys
         // send email as well
-        JSONKey[] userKeys = {new JSONKey("ID", false),
-                              new JSONKey("name", true),
+        
+        JSONKey[] userKeys = {new JSONKey("name", true),
                               new JSONKey("email", true)};
 
         // Create builder with above keys
@@ -95,12 +95,14 @@ public class ProgramServlet extends HttpServlet {
         if (allUsers.size() > 0) {
             int i;
             for (i = 0; i < allUsers.size() - 1; i++) {
+                userReturnData.append("\"" + allUsers.get(i).getUserId() + "\":");
                 userReturnData.append(buildUserJSON(allUsers.get(i), userBuilder));
                 userReturnData.append(',');
             }
+            userReturnData.append("\"" + allUsers.get(i).getUserId() + "\":");
             userReturnData.append(buildUserJSON(allUsers.get(i), userBuilder));
         }
-        userReturnData.append("];");
+        userReturnData.append("};");
 
         // setting user data attribute for the front end to use
         request.setAttribute("userData", userReturnData);
@@ -118,8 +120,7 @@ public class ProgramServlet extends HttpServlet {
      * @return A User JSON as a String
      */
     private String buildUserJSON(User user, JSONBuilder builder) {
-        Object[] userValues = {user.getUserId(),
-                               user.getFirstName() + " " + user.getLastName(),
+        Object[] userValues = {user.getFirstName() + " " + user.getLastName(),
                                user.getEmail()};
 
         return builder.buildJSON(userValues);
@@ -136,7 +137,7 @@ public class ProgramServlet extends HttpServlet {
         // retrieving program values into an array
         Object[] programValues = {program.getProgramId(),
             program.getProgramName(),
-            program.getUserId(),
+            program.getUserId() == null ? null : program.getUserId().getUserId(),
             program.getIsActive()};
 
         return builder.buildJSON(programValues);
