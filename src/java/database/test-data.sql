@@ -43,13 +43,13 @@ INSERT INTO `ecssendb`.`organization` (`street_address`, `postal_code`,
 -- -----------------------------------------------------
 -- PROGRAM
 -- -----------------------------------------------------
-INSERT INTO `program` (`program_name`, `user_id`, `is_active`) VALUES ('Chinese Emotional Support Hotline', 1, true);
-INSERT INTO `program` (`program_name`, `user_id`, `is_active`) VALUES ('Community Outreach', 2, true);
-INSERT INTO `program` (`program_name`, `user_id`, `is_active`) VALUES ('Employment Incubator Program', 1, false);
-INSERT INTO `program` (`program_name`, `user_id`, `is_active`) VALUES ('Special Needs Children Development and Support Program', 2, false);
-INSERT INTO `program` (`program_name`, `user_id`, `is_active`) VALUES ('Youth Development Initiative', 1, false);
-INSERT INTO `program` (`program_name`, `user_id`, `is_active`) VALUES ('University Students Practicum', 2, false);
-INSERT INTO `program` (`program_name`, `user_id`, `is_active`) VALUES ('Bursary and Scholarship Program', 1, false);
+INSERT INTO `program` (`program_name`, `is_active`) VALUES ('Chinese Emotional Support Hotline', true);
+INSERT INTO `program` (`program_name`, `is_active`) VALUES ('Community Outreach', true);
+INSERT INTO `program` (`program_name`, `is_active`) VALUES ('Employment Incubator Program', false);
+INSERT INTO `program` (`program_name`, `is_active`) VALUES ('Special Needs Children Development and Support Program', false);
+INSERT INTO `program` (`program_name`, `is_active`) VALUES ('Youth Development Initiative', false);
+INSERT INTO `program` (`program_name`, `is_active`) VALUES ('University Students Practicum', false);
+INSERT INTO `program` (`program_name`, `is_active`) VALUES ('Bursary and Scholarship Program', false);
 -- INSERT INTO `program` (`program_name`, `is_active`) VALUES ('New Program', false);
 -- -----------------------------------------------------
 -- STORE
@@ -85,6 +85,11 @@ INSERT INTO `user` (`email`, `is_admin`, `team_id`,`user_city`,`first_name`,`las
                     ,`date_Of_birth`,`phone_number`,`home_address`,`postal_code`,`registration_date`, `password_salt`, `password_hash` )
   VALUES ('rjk4752@gmail.com', True, 1, 'Calgary', 'Ra', 'Ad', TRUE, curdate(), '403-888-8888', 
             '123 pizza st s.w.', 'A1A1A1', curdate(), 'OloAEOkY3BGzc6wTRedRuL8c1JzkHq3UeCneTaEiIgo=', '94ec65f4df9c528f9e438bf4747366d58111e0eb36c782d20e9ec2c7494e0641');
+
+UPDATE `program` SET `user_id` = 1 WHERE `program_id` = 1;
+UPDATE `program` SET `user_id` = 2 WHERE `program_id` = 2;
+UPDATE `program` SET `user_id` = 3 WHERE `program_id` = 3;
+
 -- -----------------------------------------------------
 -- PROGRAM TRAINING
 -- -----------------------------------------------------
