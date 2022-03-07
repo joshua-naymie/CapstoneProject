@@ -1,19 +1,19 @@
-let taskDataSet = [
-  {
-    task_id: "1",
-    program_id: "1",
-    team_id: "1",
-    max_users: null,
-    start_time: "2022-03-03 09:30:00.000",
-    end_time: "2022-03-03 10:30:00.000",
-    available: "true",
-    notes: null,
-    is_approved: "false",
-    approving_manager: "test manager",
-    task_description: "pick up food from Starbucks",
-    task_city: "Calgary",
-  },
-];
+//let taskDataSet = [
+//  {
+//    task_id: "1",
+//    program_id: "1",
+//    team_id: "1",
+//    max_users: null,
+//    start_time: "2022-03-03 09:30:00.000",
+//    end_time: "2022-03-03 10:30:00.000",
+//    available: "true",
+//    notes: null,
+//    is_approved: "false",
+//    approving_manager: "test manager",
+//    task_description: "pick up food from Starbucks",
+//    task_city: "Calgary",
+//  },
+//];
 
 window.onload = () => {
   let numOfLastWeek = new Date(new Date().getFullYear(), 11, 31).getWeek();
