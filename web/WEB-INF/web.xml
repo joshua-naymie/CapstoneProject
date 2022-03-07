@@ -44,6 +44,10 @@
         <servlet-name>EditTaskServlet</servlet-name>
         <servlet-class>servlets.EditTaskServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SubmitTaskServlet</servlet-name>
+        <servlet-class>servlets.SubmitTaskServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
         <url-pattern>/users</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>EditTaskServlet</servlet-name>
         <url-pattern>/editTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmitTaskServlet</servlet-name>
+        <url-pattern>/submitTask</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

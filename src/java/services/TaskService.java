@@ -20,6 +20,12 @@ public class TaskService {
         return tasks;
     }
     
+    public List<Task> getAllNotApprovedTasks() throws Exception {
+        TaskDB taskDB = new TaskDB();
+        List<Task> tasks = taskDB.getAllNotApprovedTasks();
+        return tasks;
+    }
+    
     public void insert(Task task) throws Exception {
         TaskDB taskDB  = new TaskDB();
         taskDB.insert(task);

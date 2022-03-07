@@ -70,14 +70,14 @@ public class UserDB {
         
         RoleDB rdb = new RoleDB();
         Role r = rdb.getByRoleName("Supervisor");
-        Short roleId = r.getRoleId();
+        //Short roleId = r.getRoleId();
         
         List<ProgramTraining> allUsers = null;
         List<User> allSupervisors = new ArrayList<>();
         try {
-            Query q = em.createQuery("SELECT p FROM ProgramTraining p WHERE p.programTrainingPK.roleId = :roleId", ProgramTraining.class);
+            Query q = em.createQuery("SELECT p FROM ProgramTraining p WHERE p.roleId = :roleId", ProgramTraining.class);
             //q.setParameter("programId",1);
-            q.setParameter("roleId", roleId);
+            q.setParameter("roleId", r);
             allUsers = q.getResultList();
         } finally {
             //em.close();

@@ -6,6 +6,7 @@ package dataaccess;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Query;
 import java.util.List;
 import models.Task;
 
@@ -19,6 +20,18 @@ public class TaskDB {
         try {         
 
             List<Task> allTasks = em.createNamedQuery("Task.findAll", Task.class).getResultList();
+            return allTasks;
+        } finally {
+            em.close();
+        }
+    }
+     
+    public List<Task> getAllNotApprovedTasks() throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {   
+            
+            Query getTask = em.createNamedQuery("Task.findByIsApproved", Task.class);
+            List<Task> allTasks = getTask.setParameter("isApproved", false).getResultList();
             return allTasks;
         } finally {
             em.close();
