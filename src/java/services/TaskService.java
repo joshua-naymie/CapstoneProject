@@ -19,11 +19,11 @@ public class TaskService {
         List<Task> tasks = taskDB.getAll();
         return tasks;
     }
-    
-    public List<Task> getAllNotApprovedTasks() throws Exception {
+
+    public Task get(long id) throws Exception {
         TaskDB taskDB = new TaskDB();
-        List<Task> tasks = taskDB.getAllNotApprovedTasks();
-        return tasks;
+        Task task = taskDB.get(id);
+        return task;
     }
     
     public void insert(Task task) throws Exception {
