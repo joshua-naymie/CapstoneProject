@@ -1,19 +1,19 @@
-let taskDataSet = [
-  {
-    task_id: "1",
-    program_id: "1",
-    team_id: "1",
-    max_users: null,
-    start_time: "2022-02-15 09:30:00.000",
-    end_time: "2022-02-15 10:30:00.000",
-    available: "true",
-    notes: null,
-    is_approved: "false",
-    approving_manager: "test manager",
-    task_description: "pick up food from Starbucks",
-    task_city: "Calgary",
-  },
-];
+//let taskDataSet = [
+//  {
+//    task_id: "1",
+//    program_id: "1",
+//    team_id: "1",
+//    max_users: null,
+//    start_time: "2022-03-03 09:30:00.000",
+//    end_time: "2022-03-03 10:30:00.000",
+//    available: "true",
+//    notes: null,
+//    is_approved: "false",
+//    approving_manager: "test manager",
+//    task_description: "pick up food from Starbucks",
+//    task_city: "Calgary",
+//  },
+//];
 
 window.onload = () => {
   let numOfLastWeek = new Date(new Date().getFullYear(), 11, 31).getWeek();
@@ -36,7 +36,7 @@ window.onload = () => {
     let accordionBody = document.createElement("div");
 
     //		Create accordion-item wrapper
-    accordionItem.className = "acoordion-item";
+    accordionItem.className = "accordion-item";
 
     //		Accordion header
     accordionHeader.className = "accordion-header";
@@ -50,7 +50,7 @@ window.onload = () => {
     accordionButton.setAttribute("data-bs-target", "#collapse" + i);
     accordionButton.setAttribute("aria-expanded", "true");
     accordionButton.setAttribute("aria-controls", "collapse1");
-    accordionButton.innerText = "Week " + i;
+    accordionButton.innerText = getDateRangeOfWeek(i);
 
     //		Accordion Div
     accordionBodyWrapper.id = "collapse" + i;
@@ -77,45 +77,88 @@ window.onload = () => {
     let accordionSignupButton = document.createElement("button");
     accordionSignupButton.className = "btn btn-secondary";
     accordionSignupButton.setAttribute("type", "button");
-    accordionSignupButton.innerText = "Sign Up";
+    accordionSignupButton.innerText = "SignUp";
 
+    // ------------------------- Table ------------------------------
+    let table = document.createElement("table");
+    table.className = "table table-striped table-hover align-middle";
+
+    // ------------------- Table Header ---------------------
+    let thead = document.createElement("thead");
+    let tr = document.createElement("tr");
+
+    let th_program = document.createElement("th");
+    th_program.innerText = "Program";
+    th_program.setAttribute("scope", "col");
+    tr.appendChild(th_program);
+
+    let th_start_time = document.createElement("th");
+    th_start_time.innerText = "Start Time";
+    th_start_time.setAttribute("scope", "col");
+    tr.appendChild(th_start_time);
+
+    let th_end_time = document.createElement("th");
+    th_end_time.innerText = "End Time";
+    th_end_time.setAttribute("scope", "col");
+    tr.appendChild(th_end_time);
+
+    let th_desc = document.createElement("th");
+    th_desc.innerText = "Description";
+    th_desc.setAttribute("scope", "col");
+    tr.appendChild(th_desc);
+
+    let th_operation = document.createElement("th");
+    th_operation.innerText = "Operation";
+    th_operation.setAttribute("scope", "col");
+    th_operation.setAttribute("colspan", "2");
+    tr.appendChild(th_operation);
+
+    thead.appendChild(tr);
+    table.appendChild(thead);
+
+    // ------------------------- Table Body ----------------------------
+    let tbody = document.createElement("tbody");
+
+    // accordionBody.appendChild(accordionBodyRow);
     taskDataSet.forEach((taskData) => {
-      let taskTime = taskData.time;
-      let taskDate = taskTime.split(" ");
-      if (new Date(taskDate).getWeek() === i) {
-        let accordionBodyRow = document.createElement("div");
-        accordionBodyRow.className = "row";
+      let taskTime = new Date(taskData.start_time);
 
-        let accordionColProgram = document.createElement("div");
-        accordionColProgram.className = "col-2";
-        accordionColProgram.innerText = taskData.program_id;
+      if (taskTime.getWeek() === i) {
+        let tr = document.createElement("tr");
 
-        let accordionColTime = document.createElement("div");
-        accordionColTime.className = "col-2";
-        accordionColTime.innerText =
-          taskData.start_time + " - " + taskData.end_time;
+        let td_program = document.createElement("td");
+        td_program.innerText = taskData.program_id;
+        tr.appendChild(td_program);
 
-        let accordionColDesc = document.createElement("div");
-        accordionColDesc.className = "col-4";
-        accordionColDesc.innerText = taskData.task_description;
+        let td_start_time = document.createElement("td");
+        td_start_time.innerText = new Date(taskData.start_time).toLocaleTimeString();
+        tr.appendChild(td_start_time);
 
-        let accordionColEdit = document.createElement("div");
-        accordionColEdit.className = "col-1";
-        accordionColEdit.appendChild(accordionEditButton);
+        let td_end_time = document.createElement("td");
+        td_end_time.innerText = new Date(taskData.end_time).toLocaleTimeString();
+        tr.appendChild(td_end_time);
 
-        let accordionColSignup = document.createElement("div");
-        accordionColSignup.className = "col-1";
-        accordionColSignup.appendChild(accordionSignupButton);
+        let td_desc = document.createElement("td");
+        td_desc.innerText = taskData.task_description;
+        tr.appendChild(td_desc);
+
+        let td_edit_button = document.createElement("td");
+        td_edit_button.appendChild(accordionEditButton);
+        tr.appendChild(td_edit_button);
+
+        let td_signup_button = document.createElement("td");
+        td_signup_button.appendChild(accordionSignupButton);
+        tr.appendChild(td_signup_button);
+
+        tbody.appendChild(tr);
       }
     });
-
-    for (let i = 0; i <= 5; i++) {
-      accordionBody.appendChild(document.createElement("p", i));
-    }
+    table.appendChild(tbody);
 
     //		Append elements to DOM
     accordionHeader.appendChild(accordionButton);
     accordionItem.appendChild(accordionHeader);
+    accordionBody.appendChild(table);
     accordionBodyWrapper.appendChild(accordionBody);
     accordionItem.appendChild(accordionBodyWrapper);
     bodyNode.appendChild(accordionItem);

@@ -245,8 +245,10 @@ public class AddTaskServlet extends HttpServlet {
                 } catch (Exception ex) {
                     Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            
+            Short foodDeliveryId = 1;
 
-            if(programAddName.equals("Food Delivery")){
+            if(pogramAddId == foodDeliveryId){
                 Integer storeId = Integer.parseInt ((String) request.getParameter("storeAdd"));
 //                FoodDeliveryData fd = new FoodDeliveryData();
 //                fd.setStoreId(new Store(storeId));

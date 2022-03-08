@@ -21,6 +21,7 @@
                     crossorigin="anonymous"></script>
                 <script type="text/javascript"
                     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		    <<link rel="stylesheet" href="css/addTask.css"/>
             </head>
 
             <body>
@@ -29,8 +30,8 @@
                     <div class="container">
 
 
-                        <h2>Add Task</h2>
-                        <form action="" method="post">
+                        <p class="h1 text-center">Add Task</p>
+                        <form action="" method="post" class="mt-3">
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -55,7 +56,9 @@
                                     <select name="cityAdd" id="cityAdd" class="form-control">
                                         <option value="" selected>Choose here</option>
                                         <option value="Calgary">Calgary</option>
-                                        <option value="Calgary">Lethbridge</option>
+                                        <option value="Airdrie">Airdrie</option>
+                                        <option value="Lethbridge">Lethbridge</option>
+                                        <option value="Edmonton">Edmonton</option>
                                     </select>
                                 </div>
                             </div>

@@ -8,10 +8,7 @@
         <script type="text/javascript" src="scripts/regexprogram.js"></script>
         <script type="text/javascript" src="scripts/scriptsprogram.js"></script>
         <script type="text/javascript" src="scripts/validator.js"></script>
-        <script type="text/javascript" src="scripts/autotable.js"></script>
-        <script type="text/javascript" src="scripts/rowmanager.js"></script>
-        <script type="text/javascript" src="scripts/datacolumn.js"></script>
-        <script type="text/javascript" src="scripts/customcolumn.js"></script>
+        <script type="text/javascript" src="scripts/autolist.js"></script>
         <script type="text/javascript" src="scripts/functions.js"></script>
         <script>${programData}</script>
         <script>${userData}</script>
