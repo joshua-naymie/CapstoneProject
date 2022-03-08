@@ -27,30 +27,12 @@ var actionInput;
 var inputHeader;
 
 var inputs;
+var removeManagerInput;
 var userList;
 var programList;
 var programNameInput,
     managerNameDisplay,
     statusInput;
-
-// const generateUserCell = (user) => {
-//     let cell = document.createElement("div");
-//     cell.classList.add("user__cell");
-//     cell.addEventListener("click", () => {setManager(user)});
-    
-//     let name = document.createElement("p");
-//     name.classList.add("user__cell-content__name");
-//     name.innerText = user.name;
-    
-//     let email = document.createElement("p");
-//     email.classList.add("user__cell-content__email");
-//     email.innerText = user.email;
-    
-//     cell.appendChild(name);
-//     cell.appendChild(email);
-    
-//     return cell;
-// }
 
 var userSearchTimer;
 
@@ -168,6 +150,10 @@ function load()
     managerNameDisplay.input.type = "search";
     managerNameDisplay.container = document.getElementById("manager-name__display");
     configCustomInput(managerNameDisplay);
+    
+    // add EventListener to remove manager button
+    removeManagerInput = document.getElementById("remove-manager");
+    removeManagerInput.addEventListener("click", () => { setManager(); });
     
     let userSearchInput = document.getElementById("user-search");
     userSearchInput.addEventListener("input", () => {userSearchInputTimer(userSearchInput.value)});;
@@ -323,7 +309,6 @@ function editProgram(program)
     inputHeader.innerText = "Edit";
 
     programNameInput.setInputText(program.name);
-    console.log(program.managerId);
     setManager(userData[program.managerId]);
     statusInput.value = program.isActive ? "active" : "inactive";
     setStatusSelectColor();
@@ -511,10 +496,14 @@ function setManager(user)
     {
         document.getElementById("manager-ID").value = -1;
         managerNameDisplay.setInputText("");
+        removeManagerInput.classList.remove("remove-manager");
+        removeManagerInput.classList.add("remove-manager--hidden");
     }
     else
     {
         managerNameDisplay.setInputText(user.name);
         document.getElementById("manager-ID").value = user.id;
+        removeManagerInput.classList.add("remove-manager");
+        removeManagerInput.classList.remove("remove-manager--hidden");
     }
 }

@@ -375,6 +375,10 @@ status__select
     border-style: solid;
     border-radius: 8px;
 }
+.status-input select:hover
+{
+    cursor: pointer;
+}
 
 .status-input select option
 {
@@ -510,9 +514,32 @@ status__select
     border-radius: 5px;
     background-color: #fff0;
     margin-right: 20px;
+    
+    transition: background-color 0.1s;
+    transition: opacity 0.05s;
 }
 
 .remove-manager:hover
 {
-    background-color: #dbdbdb;
+    background-color: rgb(255, 124, 124);
+    cursor: pointer;
+    
+    transition: background-color 0.1s;
+}
+
+.remove-manager--hidden
+{
+    height: 18px;
+    border-width: 0;
+    border-radius: 5px;
+    background-color: #fff0;
+    margin-right: 20px;
+    opacity: 0;
+    
+    transition: opacity 0.05s;
+}
+
+remove-manager--hidden:hover
+{
+    cursor: auto;
 }

@@ -52,7 +52,7 @@
                             <div class="status-input">
                                 <div id="manager-name__display" class="manager-name__display"></div>
                                 <!--<img src="content/images/cancel-red_1.png" width="25px">-->
-                                <input type="button" class="remove-manager" value="remove">
+                                <input id="remove-manager" class="remove-manager--hidden" type="button"  value="remove">
                                 <div id="status__input" >
                                     <select class="status__select" id="status" name="status">
                                         <option disabled hidden style='display: none' value=''></option>
