@@ -280,8 +280,9 @@ function addProgram()
     currentAction = "add";
     submitButton.value = "Add";
     inputHeader.innerText = "New";
+    setManager();
     setStatusSelectColor();
-    searchUsers("");
+//    searchUsers("");
     
     setContainerWidth("container--input-size");
     fadeOutIn(listArea, inputArea);

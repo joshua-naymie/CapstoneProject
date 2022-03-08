@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                             
-                            <input id="user-search" class="user-search" placeholder="Search Users">
+                            <input id="user-search" class="user-search" placeholder="Search by Name, Email">
                             <div id="user-list" class="user-list"></div>
                             
                             <div class="input-action-buttons">

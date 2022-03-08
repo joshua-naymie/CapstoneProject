@@ -514,9 +514,10 @@ status__select
     border-radius: 5px;
     background-color: #fff0;
     margin-right: 20px;
+    opacity: 1;
     
     transition: background-color 0.1s;
-    transition: opacity 0.05s;
+    transition: opacity 0.08s;
 }
 
 .remove-manager:hover
@@ -536,7 +537,7 @@ status__select
     margin-right: 20px;
     opacity: 0;
     
-    transition: opacity 0.05s;
+    transition: opacity 0.08s;
 }
 
 remove-manager--hidden:hover
