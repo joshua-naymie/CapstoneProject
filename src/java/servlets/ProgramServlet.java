@@ -54,13 +54,13 @@ public class ProgramServlet extends HttpServlet {
 
         // sending jason data
         StringBuilder returnData = new StringBuilder();
-        returnData.append("var data = [");
+        returnData.append("var programData = [");
 
         // Create keys
         JSONKey[] keys = {new JSONKey("programId", false),
-            new JSONKey("program", true),
-            new JSONKey("userId", true),
-            new JSONKey("active", false)};
+            new JSONKey("name", true),
+            new JSONKey("managerId", true),
+            new JSONKey("isActive", false)};
 
         // Create builder with above keys
         JSONBuilder builder = new JSONBuilder(keys);
@@ -85,7 +85,8 @@ public class ProgramServlet extends HttpServlet {
         // Create keys
         // send email as well
         
-        JSONKey[] userKeys = {new JSONKey("name", true),
+        JSONKey[] userKeys = {new JSONKey("id", false),
+                              new JSONKey("name", true),
                               new JSONKey("email", true)};
 
         // Create builder with above keys
@@ -121,7 +122,8 @@ public class ProgramServlet extends HttpServlet {
      * @return A User JSON as a String
      */
     private String buildUserJSON(User user, JSONBuilder builder) {
-        Object[] userValues = {user.getFirstName() + " " + user.getLastName(),
+        Object[] userValues = {user.getUserId(),
+                               user.getFirstName() + " " + user.getLastName(),
                                user.getEmail()};
 
         return builder.buildJSON(userValues);

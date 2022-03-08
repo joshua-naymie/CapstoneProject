@@ -1,20 +1,15 @@
 class AutoList
 {
-    constructor()
+    constructor(displayType)
     {
         this.container = document.createElement("div");
         this.items = [];
-        // this.contentDisplay = "block";
+        this.contentDisplay = displayType
     }
-
-    // setContentDisplay(display)
-    // {
-    //     this.contentDisplay = display;
-    // }
 
     addItem(content, object)
     {
-        this.items.push(new AutoListItem(content, object));
+        this.items.push(new AutoListItem(content, object, this.contentDisplay));
     }
 
     setFilterMethod(filterMethod)
@@ -50,7 +45,7 @@ class AutoList
 
     sort()
     {
-        if(this.sortMethod)
+        if(this.sortMethod !== null)
         {
             this.items.sort(this.sortMethod);
         }
@@ -62,7 +57,8 @@ class AutoList
 
     generateList()
     {
-        removeAllChildren(this.items);
+        this.sort();
+        removeAllChildren(this.container);
 
         let temp = new DocumentFragment();
         this.items.forEach(item => {
@@ -77,18 +73,19 @@ class AutoList
 
 class AutoListItem
 {
-    constructor(content, object)
+    constructor(content, object, displayType)
     {
         this.content = content;
         this.object = object;
         this.lineBreak = document.createElement("hr");
+        this.contentDisplay = displayType;
     }
 
     setItemVisibility(isVisible)
     {
         if(isVisible)
         {
-            this.content.style.display = "flex";
+            this.content.style.display = this.contentDisplay;
             this.lineBreak.style.display = "block";
         }
         else
@@ -102,7 +99,7 @@ class AutoListItem
     {
         if(isVisible)
         {
-            this.lineBreak.style.display = "block";
+            this.lineBreak.style.display = this.contentDisplay;
         }
         else
         {

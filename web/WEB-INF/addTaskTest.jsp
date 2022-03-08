@@ -30,8 +30,8 @@
                     <div class="container">
 
 
-                        <h2>Add Task</h2>
-                        <form action="" method="post">
+                        <p class="h1 text-center">Add Task</p>
+                        <form action="" method="post" class="mt-3">
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
