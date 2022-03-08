@@ -42,7 +42,7 @@
 
                                 <div class="form-group col-md-4">
                                     <label for="programAdd" class="input-label">Program</label>
-                                    <select name="programAdd" id="task_program" class="form-control">
+                                    <select name="programAdd" id="task_program" class="form-control" id="task_program">
                                         <c:forEach items="${allPrograms}" var="program">
                                             <option value="${program.getProgramName()};${program.getProgramId()}">
                                                 ${program.getProgramName()}
@@ -84,7 +84,6 @@
                             <div class="form-group">
                                 <label for="supervisorAdd" class="input-label">Approving Supervisor</label>
                                 <select name="supervisorAdd" id="supervisorAdd" class="form-control col-md-5">
-                                    <option value="" selected>Choose here</option>
                                     <c:forEach items="${allSupervisors}" var="supervisor">
                                         <option value="${supervisor.getUserId()}">
                                             ${supervisor.getFirstName()} ${supervisor.getLastName()}

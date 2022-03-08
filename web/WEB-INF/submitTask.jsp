@@ -22,6 +22,8 @@
 		<table class="table table-striped table-hover align-middle">
 			<thead>
 				<tr>
+					<th scope="col">Program Name</th>
+					<th scope="col">Date</th>
 					<th scope="col">Start Time</th>
 					<th scope="col">End Time</th>
 					<th scope="col">Description</th>
@@ -31,6 +33,7 @@
 
 			<tbody>
 				<tr>
+					<td scope="col">2022-03-08</td>
 					<td>12:30:00 p.m.</td>
 					<td>3:30:00 p.m.</td>
 					<td>Pickup boxes and drop to Wilson Family</td>

@@ -31,7 +31,7 @@ public class EditTaskServlet extends HttpServlet {
                     new JSONKey("available", true),
                     new JSONKey("notes", false),
                     new JSONKey("task_description", true),
-                    new JSONKey("task_city", false) };
+                    new JSONKey("task_city", true) };
 
             JSONBuilder taskBuilder = new JSONBuilder(taskKeys);
             // make the task object into json data
