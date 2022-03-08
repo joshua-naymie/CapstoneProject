@@ -10,11 +10,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.FoodDeliveryData;
+import models.HotlineData;
 import models.JSONBuilder;
 import models.JSONKey;
+import models.PackageType;
 import models.Program;
 import models.Task;
 import services.TaskService;
@@ -70,8 +74,9 @@ public class SubmitTaskServlet extends HttpServlet {
     
     private String buildTaskJSON(Task task, JSONBuilder builder)
     {
+        Program program = task.getProgramId();
         Object[] taskValues = { task.getTaskId(),
-                new Program(task.getProgramId().getProgramId()).getProgramName(),
+                program.getProgramName(),
                 task.getStartTime(),
                 task.getEndTime(),
                 task.getTaskDescription() };
