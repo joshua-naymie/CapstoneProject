@@ -78,6 +78,7 @@ public class ForgotServlet extends HttpServlet {
         if (user == null) {
             request.setAttribute("emailCheck", true);
             session.setAttribute("uuid", null);
+            request.setAttribute("userMessage", "Please enter a valid email");
             getServletContext().getRequestDispatcher("/WEB-INF/forgot.jsp").forward(request, response);
             return;
         }
@@ -85,7 +86,7 @@ public class ForgotServlet extends HttpServlet {
 // CODE ADDED BY TARA FOR INPUT VALIDATION - PLEASE REVIEW
         if (!user.getIsActive()) {
             session.setAttribute("uuid", null);
-            request.setAttribute("userMessage", "Invalid username or password.");
+            request.setAttribute("userMessage", "Please enter a valid email");
             getServletContext().getRequestDispatcher("/WEB-INF/forgot.jsp").forward(request, response);
             return;
         }
