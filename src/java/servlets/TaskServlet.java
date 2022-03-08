@@ -23,7 +23,7 @@ public class TaskServlet extends HttpServlet {
         request.setAttribute("tasks", taskList);
 
         StringBuilder returnData = new StringBuilder();
-        returnData.append("var data = [");
+        returnData.append("[");
 
         JSONKey[] keys = { new JSONKey("task_id", true),
                 new JSONKey("program_name", true),
