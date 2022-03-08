@@ -43,6 +43,7 @@ INSERT INTO `ecssendb`.`organization` (`street_address`, `postal_code`,
 -- -----------------------------------------------------
 -- PROGRAM
 -- -----------------------------------------------------
+INSERT INTO `program` (`program_name`, `is_active`) VALUES ('Food Delivery', true);
 INSERT INTO `program` (`program_name`, `is_active`) VALUES ('Chinese Emotional Support Hotline', true);
 INSERT INTO `program` (`program_name`, `is_active`) VALUES ('Community Outreach', true);
 INSERT INTO `program` (`program_name`, `is_active`) VALUES ('Employment Incubator Program', false);
