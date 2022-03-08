@@ -65,7 +65,7 @@ public class ProgramServlet extends HttpServlet {
         // Create builder with above keys
         JSONBuilder builder = new JSONBuilder(keys);
 
-        // Create user JSON objects
+        // Create program JSON objects
         if (allPrograms.size() > 0) {
             int i;
             for (i = 0; i < allPrograms.size() - 1; i++) {
@@ -109,6 +109,7 @@ public class ProgramServlet extends HttpServlet {
 
         // forwards data to jsp
         getServletContext().getRequestDispatcher("/WEB-INF/program.jsp").forward(request, response);
+//        getServletContext().getRequestDispatcher("/WEB-INF/programTest.jsp").forward(request, response);
 
     }
 
@@ -188,17 +189,17 @@ public class ProgramServlet extends HttpServlet {
             String status = request.getParameter("status");
             boolean isActive = status.equals("active");
 
-            // programs are always active on creation
-//            String userMsg = proService.insert(isActive,
-//                    // obtaining user entered program name
-//                    request.getParameter("program-name"),
-//                    // obtaining user entered manager name
-//                    request.getParameter("manager-name"));
+            // creating the program through program services
+            String userMsg = proService.insert(isActive,
+                    // obtaining user entered program name
+                    request.getParameter("program-name"),
+                    // obtaining user entered manager name
+                    Long.parseLong(request.getParameter("manager-ID")));
 
             // change the role of the manager name typed to the matching program role
             // get user entered user name (match with frontend)  
             int userId = Integer.parseInt(request.getParameter("userID"));
-
+            
             // retrieve the user with the matching ID
             User updateRole = accService.getByID(userId);
 
@@ -209,7 +210,7 @@ public class ProgramServlet extends HttpServlet {
             short programId = proService.getProgramId(request.getParameter("program-name"));
 
             // get roleId, fully implement when theres a page
-            short roleId = 1;
+            short roleId = 4;
             
             // role service to access the role data
             RoleService rs = new RoleService();
@@ -226,7 +227,7 @@ public class ProgramServlet extends HttpServlet {
                     if((pt.getProgram().getProgramId() == programId)&& 
                             (pt.getUser().getUserId() == userId)){
                         // test
-                         //pt.setRole(newRole);
+                        pt.setRoleId(newRole);
                     }
                 }
             }

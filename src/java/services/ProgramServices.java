@@ -5,6 +5,7 @@
 package services;
 
 import dataaccess.ProgramDB;
+import dataaccess.UserDB;
 import java.util.List;
 import models.Program;
 import models.User;
@@ -35,14 +36,15 @@ public class ProgramServices {
 
     }
 
-    public String insert(boolean isActive, String programName, short programId) throws Exception {
+    public String insert(boolean isActive, String programName, long userId) throws Exception {
         ProgramDB progDB = new ProgramDB();
         Program checkProgram = progDB.getByProgramName(programName);
         if (checkProgram != null) {
             return "This program already exists";
         }
-
-        Program newProgram = new Program(programId, programName, isActive);
+        UserDB findUser = new UserDB();
+        User existingUser = findUser.getByID(userId);
+        Program newProgram = new Program(existingUser, programName, isActive);
 
         progDB.insert(newProgram);
 
