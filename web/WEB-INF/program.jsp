@@ -50,10 +50,9 @@
                             <div id="program-name__input" style="margin: 2px 0 30px 0;"></div>
                             
                             <div class="status-input">
-                                <div class="DUMMY">
-                                    <div id="manager-name__display" class="manager-name__display"></div>
-                                </div>
-                                
+                                <div id="manager-name__display" class="manager-name__display"></div>
+                                <!--<img src="content/images/cancel-red_1.png" width="25px">-->
+                                <input type="button" class="remove-manager" value="remove">
                                 <div id="status__input" >
                                     <select class="status__select" id="status" name="status">
                                         <option disabled hidden style='display: none' value=''></option>

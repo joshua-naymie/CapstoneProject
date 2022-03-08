@@ -165,6 +165,7 @@ function load()
     managerNameDisplay.setPlaceHolderText("No manager");
     managerNameDisplay.input.setAttribute("autocomplete", "off");
     managerNameDisplay.input.setAttribute("disabled", "disabled");
+    managerNameDisplay.input.type = "search";
     managerNameDisplay.container = document.getElementById("manager-name__display");
     configCustomInput(managerNameDisplay);
     
@@ -509,6 +510,7 @@ function setManager(user)
     if(user == null)
     {
         document.getElementById("manager-ID").value = -1;
+        managerNameDisplay.setInputText("");
     }
     else
     {

@@ -358,8 +358,7 @@
 .status-input
 {
     display: grid;
-    grid-template-columns: 1fr 0.25fr;
-    gap: 40px;
+    grid-template-columns: 0.9fr 0.1fr .38fr;
 }
 
 status__select
@@ -502,4 +501,18 @@ status__select
     padding: 0;
     max-width: 40%;
     overflow: hidden;
+}
+
+.remove-manager
+{
+    height: 18px;
+    border-width: 0;
+    border-radius: 5px;
+    background-color: #fff0;
+    margin-right: 20px;
+}
+
+.remove-manager:hover
+{
+    background-color: #dbdbdb;
 }
