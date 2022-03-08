@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', load, false);
 
 const CSS_INPUTGROUP_MAIN = "main-input";
@@ -72,12 +71,12 @@ const userSearchInputTimer = (searchValue) => {
  * Filters a program based on given search value.
  * Checks program and manager name, case-insensitive.
  * @param {type} program The program to filter
- * @param {*} searchValue The value to find in the program or manager name
+ * @param {string} searchValue The value to find in the program or manager name
  * @returns Whether the search value is contained in the program or manager name
  */
 const filterProgram = (program, searchValue) => {
     if (program.name.toLowerCase().includes(searchValue)
-    ||((program.manager != null) && program.manager.toLowerCase().includes(searchValue)))
+    ||((program.managerId != null) && userData[program.managerId].name.toLowerCase().includes(searchValue)))
     {
         return filterCheckbox.checked ? true : program.isActive;
     }
@@ -88,8 +87,8 @@ const filterProgram = (program, searchValue) => {
 /**
  * Filters a user based on given search value.
  * Checks user's name and email, case-insensitive.
- * @param {*} user The user to filter
- * @param {*} searchValue The value to find in the user's name or email
+ * @param {type} user The user to filter
+ * @param {string} searchValue The value to find in the user's name or email
  * @returns Whether the search value is contained in the program or manager name
  */
 const filterUser = (user, searchValue) => {
@@ -110,7 +109,7 @@ function load()
     // setup 'Show Inactive' checkbox
     filterCheckbox = document.getElementById("program-filter");
     filterCheckbox.checked = false;
-    filterCheckbox.addEventListener("change", () => { searchProgramList(); });
+    filterCheckbox.addEventListener("change", () => { searchProgramList(programSearchInput.value); });
 
     programList = new AutoList("grid");
     programList.container = document.getElementById("list-base");
