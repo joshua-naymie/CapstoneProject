@@ -29,7 +29,7 @@
     <body>
         <div class="base">
             <div class="body">
-                <h1>Forgot Password</h1>
+                <h1>Reset Password</h1>
                 <form id="forgot-form">
                     <input id="action" name="action" type="hidden">
                     <div id="inputs" class="input-area">
