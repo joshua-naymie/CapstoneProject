@@ -5,7 +5,6 @@
 package services;
 
 import dataaccess.TaskDB;
-import dataaccess.UserDB;
 import java.util.List;
 import models.Task;
 
@@ -19,7 +18,13 @@ public class TaskService {
         List<Task> tasks = taskDB.getAll();
         return tasks;
     }
-    
+
+    public Task get(long id) throws Exception {
+        TaskDB taskDB = new TaskDB();
+        Task task = taskDB.get(id);
+        return task;
+    }
+
     public List<Task> getAllNotApprovedTasks() throws Exception {
         TaskDB taskDB = new TaskDB();
         List<Task> tasks = taskDB.getAllNotApprovedTasks();

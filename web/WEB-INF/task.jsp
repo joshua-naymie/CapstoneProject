@@ -24,6 +24,7 @@
 		
 		<!------------------------------ Accordion Start ------------------------------------>
 		<div class="accordion col-md-9" id="accordionWeek">
+			<p class="h1 text-center">Task</p>
 		</div>
 	</body>
 </html>

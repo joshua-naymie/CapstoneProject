@@ -28,9 +28,9 @@ var actionInput;
 var inputHeader;
 
 var inputs;
-var userTable;
+var userList;
 var programNameInput,
-    managerNameInput,
+    managerNameDisplay,
     statusInput;
 
 const generateUserCell = (user) => {
@@ -52,6 +52,20 @@ const generateUserCell = (user) => {
     return cell;
 }
 
+const filterUser = (user, searchValue) => {
+    if(user.name.toLowerCase().includes(searchValue.toLowerCase())
+    || user.email.toLowerCase().includes(searchValue.toLowerCase()))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+    
+}
+
 /**
  * Run when DOM loads
  */
@@ -60,7 +74,11 @@ function load()
     let temp = {"1":{"name":"test-name-1", "email":"dasd@asd.as"},
                 "2":{"name":"name-2", "email":"2222@22.as"}};
             
-//    console.log(temp["1"]);
+    userList = new AutoList();
+    userList.container = document.getElementById("user-list");
+    // userList.setContentDisplay("flex");
+    userList.setFilterMethod(filterUser);
+    generateUserTable();
     
     // sort list
     currentListData = data.sort(compareProgram);
@@ -109,17 +127,17 @@ function load()
     configCustomInput(programNameInput);
 
     // setup manager name InputGroup
-    managerNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "manager-name");
-    managerNameInput.setLabelText("Manager Name");
-    managerNameInput.setPlaceHolderText("No manager");
-    managerNameInput.input.setAttribute("autocomplete", "off");
-    managerNameInput.input.setAttribute("disabled", "disabled");
+    managerNameDisplay = new InputGroup(CSS_INPUTGROUP_MAIN, "manager-name");
+    managerNameDisplay.setLabelText("Manager Name");
+    managerNameDisplay.setPlaceHolderText("No manager");
+    managerNameDisplay.input.setAttribute("autocomplete", "off");
+    managerNameDisplay.input.setAttribute("disabled", "disabled");
 //    managerNameInput.input.addEventListener("input", () => {searchUsers(managerNameInput.input.value)});
-    managerNameInput.container = document.getElementById("manager-name__display");
-    configCustomInput(managerNameInput);
+    managerNameDisplay.container = document.getElementById("manager-name__display");
+    configCustomInput(managerNameDisplay);
     
-    let userSearch = document.getElementById("user-search");
-    userSearch.addEventListener("input", () => {searchUsers(userSearch.value)});;
+    userSearch = document.getElementById("user-search");
+    userSearch.addEventListener("input", () => {test(userSearch.value)});;
     
     // Create columns
 //    let mainCol = new CustomColumn("User", "user__cell", generateUserCell);
@@ -131,7 +149,7 @@ function load()
     // add InputGroups to a collection
     inputs = new InputGroupCollection();
     inputs.add(programNameInput);
-    inputs.add(managerNameInput);
+    inputs.add(managerNameDisplay);
 
     searchList();
     
@@ -297,7 +315,7 @@ function editProgram(program)
     inputHeader.innerText = "Edit";
 
     programNameInput.setInputText(program.program);
-    managerNameInput.setInputText(userData[program.userId].name);
+    setManager(userData[program.userId]);
     statusInput.value = program.active ? "active" : "inactive";
     setStatusSelectColor();
 
@@ -318,7 +336,7 @@ function submitForm()
     if(inputs.validateAll())
     {
         showConfirmationModal(`Are you sure you want to ${currentAction} this program?`, () => {
-            managerNameInput.input.value = managerNameInput.input.value.split(":")[0];
+            managerNameDisplay.input.value = managerNameDisplay.input.value.split(":")[0];
             postAction(currentAction, "addProgramForm", "programs")
         });
     }
@@ -396,39 +414,62 @@ function setStatusSelectColor()
     }
 }
 
+var userSearchTimer;
 
-function searchUsers(search)
-{
-    removeAllChildren(document.getElementById("user-list"));
-    currentUserData = [];
-    for(let i=0; i<userData.length; i++)
+const test = (searchValue) => {
+    if(userSearchTimer !== null)
     {
-        if(userData[i].name.toLowerCase().includes(search)
-        || userData[i].email.toLowerCase().includes(search))
-        {
-            currentUserData.push(userData[i]);
-        }
+        clearTimeout(userSearchTimer);
     }
+    userSearchTimer = setTimeout(() => { searchUsers(searchValue) }, 300);
+}
+
+function searchUsers(searchValue)
+{
+    userSearchTimer = null;
+
+    userList.filter(searchValue);
+
+    // removeAllChildren(document.getElementById("user-list"));
+    // currentUserData = [];
+    // for(let i=0; i<userData.length; i++)
+    // {
+        // if(userData[i].name.toLowerCase().includes(search)
+        // || userData[i].email.toLowerCase().includes(search))
+        // {
+        //     currentUserData.push(userData[i]);
+        // }
+    // }
     
-    generateUserTable();
+    // generateUserTable();
 }
 
 function generateUserTable()
 {
-    if(true)//currentUserData.length > 0)
-    {
-        let temp = Object.keys(userData);
+    // if(true)//currentUserData.length > 0)
+    // {
+    //     let userKeys = Object.keys(userData);
         
-        let list = new DocumentFragment();
-        let i;
-        for(i=0; i<temp.length-1; i++)
-        {
-            list.appendChild(generateUserRow(userData[temp[i]]));
-            list.appendChild(document.createElement("hr"));
-        }
-        list.appendChild(generateUserRow(userData[temp[i]]));
-        document.getElementById("user-list").appendChild(list);
+    //     let list = new DocumentFragment();
+    //     let i;
+    //     for(i=0; i<userKeys.length-1; i++)
+    //     {
+    //         list.appendChild(generateUserRow(userData[userKeys[i]]));
+    //         list.appendChild(document.createElement("hr"));
+    //     }
+    //     list.appendChild(generateUserRow(userData[userKeys[i]]));
+    //     document.getElementById("user-list").appendChild(list);
+    // }
+
+    let keys = Object.keys(userData);
+    for(let i=0; i<keys.length; i++)
+    {
+        console.log(userData[keys[i]]);
+        let user = userData[keys[i]];
+        userList.addItem(generateUserRow(user), user);
     }
+
+    userList.generateList();
 }
 
 function generateUserRow(user)
@@ -453,6 +494,13 @@ function generateUserRow(user)
 
 function setManager(user)
 {
-    managerNameInput.setInputText(user.name);
+    if(user == null)
+    {
+        document.getElementById("manager-ID").value = -1;
+    }
+    else
+    {
+        managerNameDisplay.setInputText(user.name);
     document.getElementById("manager-ID").value = user.ID;
+    }
 }

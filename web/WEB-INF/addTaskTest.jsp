@@ -56,7 +56,9 @@
                                     <select name="cityAdd" id="cityAdd" class="form-control">
                                         <option value="" selected>Choose here</option>
                                         <option value="Calgary">Calgary</option>
-                                        <option value="Calgary">Lethbridge</option>
+                                        <option value="Airdrie">Airdrie</option>
+                                        <option value="Lethbridge">Lethbridge</option>
+                                        <option value="Edmonton">Edmonton</option>
                                     </select>
                                 </div>
                             </div>

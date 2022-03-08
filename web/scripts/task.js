@@ -36,7 +36,7 @@ window.onload = () => {
     let accordionBody = document.createElement("div");
 
     //		Create accordion-item wrapper
-    accordionItem.className = "acoordion-item";
+    accordionItem.className = "accordion-item";
 
     //		Accordion header
     accordionHeader.className = "accordion-header";
@@ -121,10 +121,9 @@ window.onload = () => {
 
     // accordionBody.appendChild(accordionBodyRow);
     taskDataSet.forEach((taskData) => {
-      let taskTime = taskData.start_time;
-      let taskDate = taskTime.split(" ")[0];
+      let taskTime = new Date(taskData.start_time);
 
-      if (new Date(taskDate).getWeek() === i) {
+      if (taskTime.getWeek() === i) {
         let tr = document.createElement("tr");
 
         let td_program = document.createElement("td");
@@ -132,11 +131,11 @@ window.onload = () => {
         tr.appendChild(td_program);
 
         let td_start_time = document.createElement("td");
-        td_start_time.innerText = taskData.start_time;
+        td_start_time.innerText = new Date(taskData.start_time).toLocaleTimeString();
         tr.appendChild(td_start_time);
 
         let td_end_time = document.createElement("td");
-        td_end_time.innerText = taskData.end_time;
+        td_end_time.innerText = new Date(taskData.end_time).toLocaleTimeString();
         tr.appendChild(td_end_time);
 
         let td_desc = document.createElement("td");
