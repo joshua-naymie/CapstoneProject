@@ -19,7 +19,7 @@ var currentWidthClass = "container--list-size";
 var listArea;
 var inputArea
 
-var searchInput;
+var programSearchInput;
 var filterCheckbox;
 
 var inputForm;
@@ -29,41 +29,77 @@ var inputHeader;
 
 var inputs;
 var userList;
+var programList;
 var programNameInput,
     managerNameDisplay,
     statusInput;
 
-const generateUserCell = (user) => {
-    let cell = document.createElement("div");
-    cell.classList.add("user__cell");
-    cell.addEventListener("click", () => {setManager(user)});
+// const generateUserCell = (user) => {
+//     let cell = document.createElement("div");
+//     cell.classList.add("user__cell");
+//     cell.addEventListener("click", () => {setManager(user)});
     
-    let name = document.createElement("p");
-    name.classList.add("user__cell-content__name");
-    name.innerText = user.name;
+//     let name = document.createElement("p");
+//     name.classList.add("user__cell-content__name");
+//     name.innerText = user.name;
     
-    let email = document.createElement("p");
-    email.classList.add("user__cell-content__email");
-    email.innerText = user.email;
+//     let email = document.createElement("p");
+//     email.classList.add("user__cell-content__email");
+//     email.innerText = user.email;
     
-    cell.appendChild(name);
-    cell.appendChild(email);
+//     cell.appendChild(name);
+//     cell.appendChild(email);
     
-    return cell;
+//     return cell;
+// }
+
+var userSearchTimer;
+
+/**
+ * Filters the user list after no input for 0.3s.
+ * Restarts timer if already running.
+ * @param {string} searchValue The value to search for in the user list
+ */
+const userSearchInputTimer = (searchValue) => {
+    if(userSearchTimer !== null)
+    {
+        clearTimeout(userSearchTimer);
+    }
+    userSearchTimer = setTimeout(() => { searchUsers(searchValue) }, 300);
 }
 
+/**
+ * Filters a program based on given search value.
+ * Checks program and manager name, case-insensitive.
+ * @param {type} program The program to filter
+ * @param {*} searchValue The value to find in the program or manager name
+ * @returns Whether the search value is contained in the program or manager name
+ */
+const filterProgram = (program, searchValue) => {
+    if (program.name.toLowerCase().includes(searchValue)
+    ||((program.manager != null) && program.manager.toLowerCase().includes(searchValue)))
+    {
+        return filterCheckbox.checked ? true : program.isActive;
+    }
+
+    return false;
+}
+
+/**
+ * Filters a user based on given search value.
+ * Checks user's name and email, case-insensitive.
+ * @param {*} user The user to filter
+ * @param {*} searchValue The value to find in the user's name or email
+ * @returns Whether the search value is contained in the program or manager name
+ */
 const filterUser = (user, searchValue) => {
     if(user.name.toLowerCase().includes(searchValue.toLowerCase())
     || user.email.toLowerCase().includes(searchValue.toLowerCase()))
     {
         return true;
     }
-    else
-    {
-        return false;
-    }
 
-    
+    return false;
 }
 
 /**
@@ -71,19 +107,22 @@ const filterUser = (user, searchValue) => {
  */
 function load()
 {
-    let temp = {"1":{"name":"test-name-1", "email":"dasd@asd.as"},
-                "2":{"name":"name-2", "email":"2222@22.as"}};
-            
-    userList = new AutoList();
+    // setup 'Show Inactive' checkbox
+    filterCheckbox = document.getElementById("program-filter");
+    filterCheckbox.checked = false;
+    filterCheckbox.addEventListener("change", () => { searchProgramList(); });
+
+    programList = new AutoList("grid");
+    programList.container = document.getElementById("list-base");
+    programList.setFilterMethod(filterProgram);
+    programList.setSortMethod(compareProgram);
+    generateProgramList();
+
+    userList = new AutoList("flex");
     userList.container = document.getElementById("user-list");
-    // userList.setContentDisplay("flex");
     userList.setFilterMethod(filterUser);
+    userList.setSortMethod(compareUser);
     generateUserTable();
-    
-    // sort list
-    currentListData = data.sort(compareProgram);
-    
-    
     
     // setup input area
     inputArea = document.getElementById("input-area");
@@ -109,14 +148,9 @@ function load()
     submitButton.addEventListener("click", () => { submitForm(currentAction) });
     
     // setup list search input
-    searchInput = document.getElementById("search-input");
-    searchInput.value = "";
-    searchInput.addEventListener("input", searchList);
-
-    // setup 'Show Inactive' checkbox
-    filterCheckbox = document.getElementById("program-filter");
-    filterCheckbox.checked = false;
-    filterCheckbox.addEventListener("change", searchList);
+    programSearchInput = document.getElementById("search-input");
+    programSearchInput.value = "";
+    programSearchInput.addEventListener("input", () => { searchProgramList(programSearchInput.value) });
 
     // setup store name InputGroup
     programNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "program-name");
@@ -132,27 +166,20 @@ function load()
     managerNameDisplay.setPlaceHolderText("No manager");
     managerNameDisplay.input.setAttribute("autocomplete", "off");
     managerNameDisplay.input.setAttribute("disabled", "disabled");
-//    managerNameInput.input.addEventListener("input", () => {searchUsers(managerNameInput.input.value)});
     managerNameDisplay.container = document.getElementById("manager-name__display");
     configCustomInput(managerNameDisplay);
     
-    userSearch = document.getElementById("user-search");
-    userSearch.addEventListener("input", () => {test(userSearch.value)});;
-    
-    // Create columns
-//    let mainCol = new CustomColumn("User", "user__cell", generateUserCell);
-//    userTable = new AutoTable("table", userData, [mainCol], false);
-//    userTable.generateTable();
+    let userSearchInput = document.getElementById("user-search");
+    userSearchInput.addEventListener("input", () => {userSearchInputTimer(userSearchInput.value)});;
 
-    searchUsers("");
+    // searchUsers("");
 
     // add InputGroups to a collection
     inputs = new InputGroupCollection();
     inputs.add(programNameInput);
     inputs.add(managerNameDisplay);
 
-    searchList();
-    
+ 
 }
 
 /**
@@ -180,41 +207,38 @@ function configCustomInput(group)
  * Generates the list of programs displayed to the user.
  * Creates program cards and inserts line breaks between them.
  */
-function generateList()
+function generateProgramList()
 {
     removeAllChildren(document.getElementById("list-base"));
-    let showAll = document.getElementById("program-filter").checked;
 
-    if (currentListData.length > 0)
+    // let keys = Object.keys(programData);
+    for(let i=0; i<programData.length; i++)
     {
-        let i;
-        for (i = 0; i < currentListData.length - 1; i++)
-        {
-            document.getElementById("list-base").appendChild(generateRow(currentListData[i]));
-            document.getElementById("list-base").appendChild(document.createElement("hr"));
-        }
-        document.getElementById("list-base").appendChild(generateRow(currentListData[i]));
+        let program = programData[i];
+        programList.addItem(generateProgramRow(program), program);
     }
+
+    programList.generateList();
 }
 
 /**
  * Creates and returns a row in a program list
- * @param {program} currentRow  The program whose info will populate the row
+ * @param {program} program  The program whose info will populate the row
  * @returns {Element}  A div representing a row in a program list.
  */
-function generateRow(currentRow)
+function generateProgramRow(program)
 {
     // item card
     let item = document.createElement("div");
     item.classList.add("list-item");
-    item.addEventListener("click", () => { editProgram(currentRow); });
+    item.addEventListener("click", () => { editProgram(program); });
 
     let managerDiv = document.createElement("div");
     managerDiv.classList.add("manager-area");
 
     let managerName = document.createElement("p");
     managerName.classList.add("manager-name");
-    managerName.innerText = userData[currentRow.userId] == null ? "" : userData[currentRow.userId].name;
+    managerName.innerText = program.managerId == null ? "" : userData[program.managerId].name;
     
     managerDiv.appendChild(managerName);
 
@@ -223,7 +247,7 @@ function generateRow(currentRow)
 
     let programName = document.createElement("p");
     programName.classList.add("program-name");
-    programName.innerText = currentRow.program;
+    programName.innerText = program.name;
 
     programDiv.appendChild(programName);
 
@@ -237,27 +261,10 @@ function generateRow(currentRow)
  * Filters the list by matching program name or manager name.
  * Regenerates the list with filtered programs
  */
-function searchList()
+function searchProgramList(searchValue)
 {
-    currentListData = [];
-    let searchText = searchInput.value.toLowerCase();
-
-    // checks if search text is included in either the program name or manager name
-    for (let i = 0; i < data.length; i++)
-    {
-        // searches for programs with matching program name or manager name
-        if(data[i].program.toLowerCase().includes(searchText)
-        ||((data[i].manager != null) && data[i].manager.toLowerCase().includes(searchText)))
-        {
-            // adds program depending on whether "show inactive" is checked
-            if (filterCheckbox.checked ? true : data[i].active)
-            {
-                currentListData.push(data[i]);
-            }
-        }
-    }
-
-    generateList();
+    searchValue = searchValue == null ? "" : searchValue;
+    programList.filter(searchValue);
 }
 
 /**
@@ -273,6 +280,7 @@ function cancelPressed()
     fadeOutIn(inputArea, listArea);
     setTimeout(() => {
         document.getElementById("addProgramForm").reset();
+        userList.filter("");
         inputs.resetInputs() }, 200);
 }
 
@@ -314,9 +322,10 @@ function editProgram(program)
     submitButton.value = "Update";
     inputHeader.innerText = "Edit";
 
-    programNameInput.setInputText(program.program);
-    setManager(userData[program.userId]);
-    statusInput.value = program.active ? "active" : "inactive";
+    programNameInput.setInputText(program.name);
+    console.log(program.managerId);
+    setManager(userData[program.managerId]);
+    statusInput.value = program.isActive ? "active" : "inactive";
     setStatusSelectColor();
 
     document.getElementById("program-ID").value = program.programId;
@@ -369,11 +378,11 @@ function fadeOutIn(outElement, inElement)
  */
 function compareProgram(program1, program2)
 {
-    if(program1.program > program2.program)
+    if(program1.object.name > program2.object.name)
     {
         return 1;
     }
-    else if(program1.program < program2.program)
+    else if(program1.object.name < program2.object.name)
     {
         return -1;
     }
@@ -381,7 +390,29 @@ function compareProgram(program1, program2)
     {
         return 0;
     }
-    
+}
+
+/**
+ * Sorting algorithm for user objects.
+ * Sorts by user name.
+ * @param {type} user1   the first user to compare
+ * @param {type} user2   the second user to compare
+ * @returns {Number}
+ */
+function compareUser(user1, user2)
+{
+    if(user1.object.name > user2.object.name)
+    {
+        return 1;
+    }
+    else if(user1.object.name < user2.object.name)
+    {
+        return -1;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 /**
@@ -397,6 +428,9 @@ function setContainerWidth(widthClass)
     container.classList.add(currentWidthClass);
 }
 
+/**
+ * 
+ */
 function setStatusSelectColor()
 {
     switch(statusInput.value)
@@ -414,57 +448,27 @@ function setStatusSelectColor()
     }
 }
 
-var userSearchTimer;
-
-const test = (searchValue) => {
-    if(userSearchTimer !== null)
-    {
-        clearTimeout(userSearchTimer);
-    }
-    userSearchTimer = setTimeout(() => { searchUsers(searchValue) }, 300);
-}
-
+/**
+ * Filters the user list by the search value
+ * Destroys input timer
+ * @param {string} searchValue The value to search for in the user list
+ */
 function searchUsers(searchValue)
 {
     userSearchTimer = null;
-
     userList.filter(searchValue);
-
-    // removeAllChildren(document.getElementById("user-list"));
-    // currentUserData = [];
-    // for(let i=0; i<userData.length; i++)
-    // {
-        // if(userData[i].name.toLowerCase().includes(search)
-        // || userData[i].email.toLowerCase().includes(search))
-        // {
-        //     currentUserData.push(userData[i]);
-        // }
-    // }
-    
-    // generateUserTable();
 }
 
+/**
+ * Generates the user list.
+ * Adds all users to the AutoList.
+ * Generates the list from the AutoList.
+ */
 function generateUserTable()
 {
-    // if(true)//currentUserData.length > 0)
-    // {
-    //     let userKeys = Object.keys(userData);
-        
-    //     let list = new DocumentFragment();
-    //     let i;
-    //     for(i=0; i<userKeys.length-1; i++)
-    //     {
-    //         list.appendChild(generateUserRow(userData[userKeys[i]]));
-    //         list.appendChild(document.createElement("hr"));
-    //     }
-    //     list.appendChild(generateUserRow(userData[userKeys[i]]));
-    //     document.getElementById("user-list").appendChild(list);
-    // }
-
     let keys = Object.keys(userData);
     for(let i=0; i<keys.length; i++)
     {
-        console.log(userData[keys[i]]);
         let user = userData[keys[i]];
         userList.addItem(generateUserRow(user), user);
     }
@@ -472,6 +476,11 @@ function generateUserTable()
     userList.generateList();
 }
 
+/**
+ * Generates the content for a user row in the user list
+ * @param {type} user The user to generate content from 
+ * @returns A div populated with the user's content
+ */
 function generateUserRow(user)
 {
     let item = document.createElement("li");
@@ -492,6 +501,10 @@ function generateUserRow(user)
     return item;
 }
 
+/**
+ * Sets the manager display and hidden field.
+ * @param {type} user The manager to set. Can be null.
+ */
 function setManager(user)
 {
     if(user == null)
@@ -501,6 +514,6 @@ function setManager(user)
     else
     {
         managerNameDisplay.setInputText(user.name);
-    document.getElementById("manager-ID").value = user.ID;
+        document.getElementById("manager-ID").value = user.id;
     }
 }
