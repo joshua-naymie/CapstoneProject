@@ -86,11 +86,7 @@
                                 <label for="supervisorAdd" class="input-label">Approving Supervisor</label>
                                 <select name="supervisorAdd" id="supervisorAdd" class="form-control col-md-5">
                                     <option value="" selected>Choose here</option>
-                                    <c:forEach items="${allSupervisors}" var="supervisor">
-                                        <option value="${supervisor.getUserId()}">
-                                            ${supervisor.getFirstName()} ${supervisor.getLastName()}
-                                        </option>
-                                    </c:forEach>
+
                                 </select>
 
                             </div>
@@ -147,6 +143,34 @@
                                     $.each(obj, function (key, value) {
                                         $('#storeAdd').append(
                                             '<option value="' + value.store_id + '">' + value.store_name + '</option>'
+                                        )
+                                    })
+                                }
+                        });
+                    }
+                );
+        
+                $program = $('#programAdd');
+
+                $program.change(
+                    function () {
+                        $('#supervisorAdd').find('option').remove();
+                        $('#supervisorAdd').append(
+                                            '<option value="">Choose here'+ '</option>'
+                                        );
+                        let pid = $('#programAdd').val();
+                        var p = pid.split(';');
+                        $.ajax({
+                            type: "GET",
+                            url: "data",
+                            data: {"programId": p[1], "operation": "program"},
+                            success:
+                                function (data) {
+                                    console.log(data);
+                                    let obj = $.parseJSON(data);
+                                    $.each(obj, function (key, value) {
+                                        $('#supervisorAdd').append(
+                                            '<option value="' + value.user_id + '">' + value.user_name + '</option>'
                                         )
                                     })
                                 }
