@@ -128,7 +128,7 @@ function load()
     document.getElementById("cancel__button").addEventListener("click", cancelPressed);
     submitButton.addEventListener("click", () => { submitForm(currentAction) });
     
-    // setup list search input
+    // setup program search input
     programSearchInput = document.getElementById("search-input");
     programSearchInput.value = "";
     programSearchInput.addEventListener("input", () => { searchProgramList(programSearchInput.value) });
@@ -155,10 +155,9 @@ function load()
     removeManagerInput = document.getElementById("remove-manager");
     removeManagerInput.addEventListener("click", () => { setManager(); });
     
+    // setup user search input
     let userSearchInput = document.getElementById("user-search");
     userSearchInput.addEventListener("input", () => {userSearchInputTimer(userSearchInput.value)});;
-
-    // searchUsers("");
 
     // add InputGroups to a collection
     inputs = new InputGroupCollection();
@@ -266,8 +265,9 @@ function cancelPressed()
     fadeOutIn(inputArea, listArea);
     setTimeout(() => {
         document.getElementById("addProgramForm").reset();
-        userList.filter("");
-        inputs.resetInputs() }, 200);
+        userList.filter();
+        inputs.resetInputs();
+    }, 200);
 }
 
 /**
@@ -282,7 +282,6 @@ function addProgram()
     inputHeader.innerText = "New";
     setManager();
     setStatusSelectColor();
-//    searchUsers("");
     
     setContainerWidth("container--input-size");
     fadeOutIn(listArea, inputArea);
@@ -298,14 +297,6 @@ function addProgram()
 function editProgram(program)
 {
     currentAction = "update";
-//    currentUserData.unshift(currentUserData.splice(currentUserData.indexOf(program), 1));
-    for(let i=0; i<userData; i++)
-    {
-        if(userData[i].ID === program.manager)
-        {
-            // todo: set manager as currentManager
-        }
-    }
     submitButton.value = "Update";
     inputHeader.innerText = "Edit";
 
@@ -315,7 +306,6 @@ function editProgram(program)
     setStatusSelectColor();
 
     document.getElementById("program-ID").value = program.programId;
-    searchUsers("");
     
     setContainerWidth("container--input-size");
     fadeOutIn(listArea, inputArea);
@@ -415,17 +405,19 @@ function setContainerWidth(widthClass)
 }
 
 /**
- * 
+ * Sets the border color of the program status select element depending on the status
  */
 function setStatusSelectColor()
 {
     switch(statusInput.value)
     {
         case "active":
+            // green for active
             statusInput.style.borderColor = "#00a200";
             break;
             
         case "inactive":
+            // red for inactive
             statusInput.style.borderColor = "#f20000";
             break;
         
@@ -502,8 +494,8 @@ function setManager(user)
     }
     else
     {
-        managerNameDisplay.setInputText(user.name);
         document.getElementById("manager-ID").value = user.id;
+        managerNameDisplay.setInputText(user.name);
         removeManagerInput.classList.add("remove-manager");
         removeManagerInput.classList.remove("remove-manager--hidden");
     }

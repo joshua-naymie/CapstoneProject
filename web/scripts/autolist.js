@@ -24,6 +24,8 @@ class AutoList
 
     filter(filterValue)
     {
+        filterValue = filterValue == null ? "" : filterValue;
+        
         let firstItem = true;
         for(let i=0; i<this.items.length; i++)
         {
