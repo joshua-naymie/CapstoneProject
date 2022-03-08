@@ -23,6 +23,18 @@ public class TaskDB {
             em.close();
         }
     }
+     
+    public List<Task> getAllNotApprovedTasks() throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {   
+
+            Query getTask = em.createNamedQuery("Task.findByIsApproved", Task.class);
+            List<Task> allTasks = getTask.setParameter("isApproved", false).getResultList();
+            return allTasks;
+        } finally {
+            em.close();
+        }
+    }
 
     public Task get(long id) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
@@ -34,17 +46,6 @@ public class TaskDB {
                 }
             }
             return null;
-        } finally {
-            em.close();
-        }
-    }
-
-    public List<Task> getAllNotApprovedTasks() throws Exception {
-        EntityManager em = DBUtil.getEMFactory().createEntityManager();
-        try {
-            Query getTask = em.createNamedQuery("Task.findByIsApproved", Task.class);
-            List<Task> allTasks = getTask.setParameter("isApproved", false).getResultList();
-            return allTasks;
         } finally {
             em.close();
         }

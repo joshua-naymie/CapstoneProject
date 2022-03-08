@@ -13,6 +13,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.JSONBuilder;
+import models.JSONKey;
+import models.Program;
 import models.Task;
 import services.TaskService;
 
@@ -28,18 +31,52 @@ public class SubmitTaskServlet extends HttpServlet {
         
     TaskService ts = new TaskService();
     
-    List<Task> allTasks = null;
+    List<Task> taskList = null;
     
         try {
-            allTasks = ts.getAllNotApprovedTasks();
+            taskList = ts.getAllNotApprovedTasks();
         } catch (Exception ex) {
             Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    request.setAttribute("allTaks", allTasks);
+    request.setAttribute("allTasks", taskList);
+    
+    StringBuilder returnData = new StringBuilder();
+    returnData.append("[");
+    
+            JSONKey[] keys = { new JSONKey("task_id", true),
+                new JSONKey("program_name", true),
+                new JSONKey("start_time", true),
+                new JSONKey("end_time", true),
+                new JSONKey("task_description", true) };
+
+        JSONBuilder builder = new JSONBuilder(keys);
+
+        if (taskList.size() > 0) {
+            int i = 0;
+            for (i = 0; i < taskList.size() - 1; i++) {
+                returnData.append(buildTaskJSON(taskList.get(i), builder));
+                returnData.append(',');
+            }
+            returnData.append(buildTaskJSON(taskList.get(i), builder));
+        }
+        returnData.append("];");
+
+        request.setAttribute("taskData", returnData);
         
     getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
     
+    }
+    
+    private String buildTaskJSON(Task task, JSONBuilder builder)
+    {
+        Object[] taskValues = { task.getTaskId(),
+                new Program(task.getProgramId().getProgramId()).getProgramName(),
+                task.getStartTime(),
+                task.getEndTime(),
+                task.getTaskDescription() };
+
+        return builder.buildJSON(taskValues);
     }
 
     @Override
