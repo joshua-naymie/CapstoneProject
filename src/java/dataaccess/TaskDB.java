@@ -4,12 +4,9 @@
  */
 package dataaccess;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Query;
+import jakarta.persistence.*;
 import java.util.List;
-import models.Task;
-import models.User;
+import models.*;
 
 /**
  *
@@ -53,6 +50,7 @@ public class TaskDB {
             em.close();
         }
     }
+
      
     public void insert(Task task) throws Exception{
         EntityManager em = DBUtil.getEMFactory().createEntityManager();

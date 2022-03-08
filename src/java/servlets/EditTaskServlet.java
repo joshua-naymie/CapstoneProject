@@ -56,7 +56,7 @@ public class EditTaskServlet extends HttpServlet {
         }
         System.out.println("ID: " + id);
 
-        getServletContext().getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/editTask.jsp").forward(request, response);
     }
 
     @Override

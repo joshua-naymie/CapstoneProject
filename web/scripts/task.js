@@ -1,19 +1,19 @@
-let taskDataSet = [
-  {
-    task_id: "1",
-    program_id: "1",
-    team_id: "1",
-    max_users: null,
-    start_time: "2022-03-03 09:30:00.000",
-    end_time: "2022-03-03 10:30:00.000",
-    available: "true",
-    notes: null,
-    is_approved: "false",
-    approving_manager: "test manager",
-    task_description: "pick up food from Starbucks",
-    task_city: "Calgary",
-  },
-];
+//let taskDataSet = [
+//  {
+//    task_id: "1",
+//    program_id: "1",
+//    team_id: "1",
+//    max_users: null,
+//    start_time: "2022-03-03 09:30:00.000",
+//    end_time: "2022-03-03 10:30:00.000",
+//    available: "true",
+//    notes: null,
+//    is_approved: "false",
+//    approving_manager: "test manager",
+//    task_description: "pick up food from Starbucks",
+//    task_city: "Calgary",
+//  },
+//];
 
 window.onload = () => {
   let numOfLastWeek = new Date(new Date().getFullYear(), 11, 31).getWeek();
@@ -36,7 +36,7 @@ window.onload = () => {
     let accordionBody = document.createElement("div");
 
     //		Create accordion-item wrapper
-    accordionItem.className = "acoordion-item";
+    accordionItem.className = "accordion-item";
 
     //		Accordion header
     accordionHeader.className = "accordion-header";
@@ -121,10 +121,9 @@ window.onload = () => {
 
     // accordionBody.appendChild(accordionBodyRow);
     taskDataSet.forEach((taskData) => {
-      let taskTime = taskData.start_time;
-      let taskDate = taskTime.split(" ")[0];
+      let taskTime = new Date(taskData.start_time);
 
-      if (new Date(taskDate).getWeek() === i) {
+      if (taskTime.getWeek() === i) {
         let tr = document.createElement("tr");
 
         let td_program = document.createElement("td");
@@ -132,11 +131,11 @@ window.onload = () => {
         tr.appendChild(td_program);
 
         let td_start_time = document.createElement("td");
-        td_start_time.innerText = taskData.start_time;
+        td_start_time.innerText = new Date(taskData.start_time).toLocaleTimeString();
         tr.appendChild(td_start_time);
 
         let td_end_time = document.createElement("td");
-        td_end_time.innerText = taskData.end_time;
+        td_end_time.innerText = new Date(taskData.end_time).toLocaleTimeString();
         tr.appendChild(td_end_time);
 
         let td_desc = document.createElement("td");
