@@ -23,7 +23,14 @@ import models.*;
 public class AccountServices {
     // If we want to let users update their password through a secure email, we have to add a clolumn to the database
 
+    // update users program training list
+    public void updateProgramTraining (User user, List<ProgramTraining> programTrainingList) throws Exception{
+        user.setProgramTrainingList(programTrainingList);
+        UserDB userDB = new UserDB();
+        userDB.update(user);
 
+    }
+    
     public User login(String email, String password) {
         UserDB userDB = new UserDB();
 

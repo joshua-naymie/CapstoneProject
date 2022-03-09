@@ -195,12 +195,12 @@ public class ProgramServlet extends HttpServlet {
             String userMsg = proService.insert(isActive,
                     // obtaining user entered program name
                     request.getParameter("program-name"),
-                    // obtaining user entered manager name
+                    // obtaining the user ID
                     Long.parseLong(request.getParameter("manager-ID")));
 
             // change the role of the manager name typed to the matching program role
             // get user entered user name (match with frontend)  
-            int userId = Integer.parseInt(request.getParameter("userID"));
+            int userId = Integer.parseInt(request.getParameter("manager-ID"));
             
             // retrieve the user with the matching ID
             User updateRole = accService.getByID(userId);
@@ -222,13 +222,16 @@ public class ProgramServlet extends HttpServlet {
 
             // if current user is not a manager change their role to manager
             if (currentRoles == null) {
-                // get manager and programId to match
+                // get manager and programId to match and add it to the list
                 ProgramTraining roleAdd = new ProgramTraining(userId, programId);
+                currentRoles.add(roleAdd);
+                accService.updateProgramTraining(updateRole, currentRoles);
+                proService.insertProgramTraining(roleAdd);
             } else {
                 for (ProgramTraining pt : currentRoles) {
                     if((pt.getProgram().getProgramId() == programId)&& 
                             (pt.getUser().getUserId() == userId)){
-                        // test
+                        // test, set new role
                         pt.setRoleId(newRole);
                     }
                 }

@@ -8,6 +8,7 @@ import dataaccess.ProgramDB;
 import dataaccess.UserDB;
 import java.util.List;
 import models.Program;
+import models.ProgramTraining;
 import models.User;
 
 /**
@@ -15,6 +16,12 @@ import models.User;
  * @author 840979
  */
 public class ProgramServices {
+    
+    public void insertProgramTraining(ProgramTraining programTraining) throws Exception{
+        ProgramDB progDB = new ProgramDB();
+        
+        progDB.insertProgramTraining(programTraining);
+    }
     
     public short getProgramId(String programName)throws Exception{
         ProgramDB progDB = new ProgramDB();
