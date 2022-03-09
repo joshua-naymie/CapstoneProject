@@ -82,20 +82,10 @@ public class AddTaskServlet extends HttpServlet {
         }
         
     request.setAttribute("allCompanies", allCompanies);
-    
-        AccountServices as = new AccountServices();
-        List<User> allSupervisors = null;
-    
-        try {
-            allSupervisors = as.getAllActiveSupervisors();
-            
-        } catch (Exception ex) {
-            Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
        //for( User u: allSupervisors) log(u.toString());
        
-    request.setAttribute("allSupervisors", allSupervisors);
+    //request.setAttribute("allSupervisors", allSupervisors);
     
     StoreServices ss = new StoreServices();
 //    String companyAdd = (String) request.getParameter("companyAdd");

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Store;
+import models.User;
+import services.AccountServices;
 import services.CompanyService;
 import services.StoreServices;
 
@@ -57,6 +59,53 @@ public class GetDataServlet extends HttpServlet {
                 response.setContentType("text/html");
                 response.getWriter().write(storeJSON.toString());
             }
+                
+                AccountServices as = new AccountServices();
+    List<User> allSupervisors = null;
+    
+    if (op.equals("program")) {
+        
+            String programAdd = (String) request.getParameter("programId");
+            
+            //String[] parts = programAdd.split(";");
+            
+            //String programAddName = parts[0];
+            Short pogramAddId = Short.valueOf(programAdd);
+        
+        try {
+            allSupervisors = as.getAllActiveSupervisorsByProgram(pogramAddId);
+
+        } catch (Exception ex) {
+            Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+        StringBuilder programJSON = new StringBuilder();
+	programJSON.append('[');
+        
+        if (allSupervisors != null) {
+        
+            for (User user : allSupervisors)
+		{
+                    programJSON.append('{');
+                    programJSON.append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName()+ "\",");
+                    programJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
+                    programJSON.append("},");
+		}
+	}
+            
+        if (programJSON.length() > 2) {
+            programJSON.setLength(programJSON.length() - 1);
+	}
+        
+//        if (programJSON.length() == 1) {
+//            programJSON.setLength(programJSON.length() - 1);
+//	}
+
+	programJSON.append(']');
+
+        response.setContentType("text/html");
+        response.getWriter().write(programJSON.toString());
+    }
 	}
 
 	@Override

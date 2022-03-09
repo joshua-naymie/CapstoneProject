@@ -66,9 +66,9 @@ public class AccountServices {
     }
     
     // get all active supervisors
-    public List<User> getAllActiveSupervisors() throws Exception {
+    public List<User> getAllActiveSupervisorsByProgram(Short programId) throws Exception {
         UserDB userDB = new UserDB();
-        List<User> users = userDB.getAllActiveSupervisors();
+        List<User> users = userDB.getAllActiveSupervisorsByProgram(programId);
         return users;
     }
     
