@@ -23,7 +23,7 @@
         <div class="main">
             <div style="margin: 40px 0 40px 0;">
                 <div id="container" class="container container--list-size">          
-                    <h1>Programs</h1>
+                    <h1 id="programs-header" class="header">Programs</h1>
                     <!--<h3 id="input-panel__header" class="panel-header">Add</h3>-->
                     <div class="list-panel" id="list-area">
 
@@ -41,7 +41,6 @@
                         </div>
                     </div>
                     <div class="input-panel" id="input-area">
-                        <h3 id="input-panel__header" class="panel-header">Add Program</h3>
                         <form id="addProgramForm">
                             <input id="action" name="action" type="hidden">
                             <input id="program-ID" name="program-ID" type="hidden">

@@ -24,7 +24,6 @@ var filterCheckbox;
 var inputForm;
 var submitButton;
 var actionInput;
-var inputHeader;
 
 var inputs;
 var removeManagerInput;
@@ -120,8 +119,6 @@ function load()
     statusInput = document.getElementById("status");
     statusInput.addEventListener("change", setStatusSelectColor);
     setStatusSelectColor();
-    
-    inputHeader = document.getElementById("input-panel__header");
     
     // setup form buttons
     submitButton = document.getElementById("ok__button");
@@ -262,6 +259,7 @@ function cancelPressed()
     currentAction = "none";
     
     setContainerWidth("container--list-size");
+    changeHeaderText("Programs");
     fadeOutIn(inputArea, listArea);
     setTimeout(() => {
         document.getElementById("addProgramForm").reset();
@@ -279,11 +277,11 @@ function addProgram()
 {
     currentAction = "add";
     submitButton.value = "Add";
-    inputHeader.innerText = "New";
     setManager();
     setStatusSelectColor();
     
     setContainerWidth("container--input-size");
+    changeHeaderText("Add Program");
     fadeOutIn(listArea, inputArea);
 }
 
@@ -298,7 +296,6 @@ function editProgram(program)
 {
     currentAction = "update";
     submitButton.value = "Update";
-    inputHeader.innerText = "Edit";
 
     programNameInput.setInputText(program.name);
     setManager(userData[program.managerId]);
@@ -308,6 +305,7 @@ function editProgram(program)
     document.getElementById("program-ID").value = program.programId;
     
     setContainerWidth("container--input-size");
+    changeHeaderText("Edit Program");
     fadeOutIn(listArea, inputArea);
 }
 
@@ -489,6 +487,7 @@ function setManager(user)
     {
         document.getElementById("manager-ID").value = -1;
         managerNameDisplay.setInputText("");
+        removeManagerInput.disabled = true;
         removeManagerInput.classList.remove("remove-manager");
         removeManagerInput.classList.add("remove-manager--hidden");
     }
@@ -496,7 +495,17 @@ function setManager(user)
     {
         document.getElementById("manager-ID").value = user.id;
         managerNameDisplay.setInputText(user.name);
+        removeManagerInput.disabled = false;
         removeManagerInput.classList.add("remove-manager");
         removeManagerInput.classList.remove("remove-manager--hidden");
     }
+}
+
+function changeHeaderText(text)
+{
+    let header = document.getElementById("programs-header");
+    header.classList.add("header--hidden");
+    
+    setTimeout(() => { header.innerText = text; header.classList.remove("header--hidden") }, 150);
+    
 }
