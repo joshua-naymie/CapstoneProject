@@ -28,7 +28,6 @@ public class AccountServices {
         user.setProgramTrainingList(programTrainingList);
         UserDB userDB = new UserDB();
         userDB.update(user);
-
     }
     
     public User login(String email, String password) {

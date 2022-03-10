@@ -19,8 +19,12 @@ public class ProgramServices {
     
     public void insertProgramTraining(ProgramTraining programTraining) throws Exception{
         ProgramDB progDB = new ProgramDB();
-        
         progDB.insertProgramTraining(programTraining);
+    }
+    
+    public void updateProgramTraining(ProgramTraining programTraining) throws Exception{
+        ProgramDB progDB = new ProgramDB();
+        progDB.updateProgramTraining(programTraining);
     }
     
     public short getProgramId(String programName)throws Exception{

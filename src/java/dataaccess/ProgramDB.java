@@ -77,9 +77,31 @@ public class ProgramDB {
     public void insertProgramTraining(ProgramTraining programTraining) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
+        
         try {
+            programTraining.getUser().getProgramTrainingList().add(programTraining);
+            System.out.println(programTraining.getUser().getUserId());
+            programTraining.getProgram().getProgramTrainingList().add(programTraining);
+            programTraining.getRoleId().getProgramTrainingList().add(programTraining);
             trans.begin();
             em.persist(programTraining);
+            em.merge(programTraining.getProgram());
+            em.merge(programTraining.getUser());
+            em.merge(programTraining.getRoleId());
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public void updateProgramTraining(ProgramTraining programTraining) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            em.merge(programTraining);
             trans.commit();
         } catch (Exception ex) {
             trans.rollback();
