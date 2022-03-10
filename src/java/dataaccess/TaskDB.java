@@ -23,6 +23,45 @@ public class TaskDB {
             em.close();
         }
     }
+    
+    /**
+     * Gets all Tasks belonging to a specific User
+     * @param userId The ID of the User
+     * @return A list of tasks belonging to the User
+     */
+    public List<Task> getHistoryByUserId(long userId) throws Exception
+    {
+        EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
+        
+        try
+        {
+            TypedQuery query = entityManager.createNamedQuery("Task.findHistoryByUserId", Task.class);
+            query.setParameter("userId", userId);
+            
+            return query.getResultList();
+        }
+        finally
+        {
+            entityManager.close();
+        }
+    }
+    
+    public List<Task> getSubmittedToManager(String managerId) throws Exception
+    {
+        EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
+        
+        try
+        {
+            TypedQuery query = entityManager.createNamedQuery("Task.findSubmittedToManger", Task.class);
+            query.setParameter("approvingManager", managerId);
+            
+            return query.getResultList();
+        }
+        finally
+        {
+            entityManager.close();
+        }
+    }
      
     public List<Task> getAllNotApprovedTasks() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();

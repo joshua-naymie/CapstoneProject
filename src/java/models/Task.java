@@ -36,12 +36,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Task.findAll", query = "SELECT t FROM Task t"),
     @NamedQuery(name = "Task.findByTaskId", query = "SELECT t FROM Task t WHERE t.taskId = :taskId"),
+    @NamedQuery(name = "Task.findHistoryByUserId", query = "SELECT t FROM Task t, UserTask ut "
+                                                         + "WHERE ut.userTaskPK.userId = :userId "
+                                                         + "AND t.taskId = ut.userTaskPK.taskId "
+                                                         + "AND (t.endTime < CURRENT_DATE OR t.isApproved = TRUE)"),
     @NamedQuery(name = "Task.findByMaxUsers", query = "SELECT t FROM Task t WHERE t.maxUsers = :maxUsers"),
     @NamedQuery(name = "Task.findByStartTime", query = "SELECT t FROM Task t WHERE t.startTime = :startTime"),
     @NamedQuery(name = "Task.findByEndTime", query = "SELECT t FROM Task t WHERE t.endTime = :endTime"),
     @NamedQuery(name = "Task.findByAvailable", query = "SELECT t FROM Task t WHERE t.available = :available"),
     @NamedQuery(name = "Task.findByNotes", query = "SELECT t FROM Task t WHERE t.notes = :notes"),
     @NamedQuery(name = "Task.findByIsApproved", query = "SELECT t FROM Task t WHERE t.isApproved = :isApproved"),
+    @NamedQuery(name = "Task.findSubmittedToManger", query = "SELECT t FROM Task t WHERE t.isSubmitted = TRUE AND t.approvingManager = :approvingManager"),
     @NamedQuery(name = "Task.findByApprovingManager", query = "SELECT t FROM Task t WHERE t.approvingManager = :approvingManager"),
     @NamedQuery(name = "Task.findByTaskDescription", query = "SELECT t FROM Task t WHERE t.taskDescription = :taskDescription"),
     @NamedQuery(name = "Task.findByTaskCity", query = "SELECT t FROM Task t WHERE t.taskCity = :taskCity"),
@@ -166,7 +171,7 @@ public class Task implements Serializable {
         this.notes = notes;
     }
 
-    public boolean getIsApproved() {
+    public boolean isApproved() {
         return isApproved;
     }
 
@@ -198,7 +203,7 @@ public class Task implements Serializable {
         this.taskCity = taskCity;
     }
 
-    public Boolean getIsSubmitted() {
+    public Boolean isSubmitted() {
         return isSubmitted;
     }
 
@@ -214,7 +219,7 @@ public class Task implements Serializable {
         this.approvalNotes = approvalNotes;
     }
 
-    public Boolean getIsDissaproved() {
+    public Boolean isDissaproved() {
         return isDissaproved;
     }
 

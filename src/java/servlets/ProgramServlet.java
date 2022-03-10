@@ -65,7 +65,7 @@ public class ProgramServlet extends HttpServlet {
         // Create builder with above keys
         JSONBuilder builder = new JSONBuilder(keys);
 
-        // Create user JSON objects
+        // Create program JSON objects
         if (allPrograms.size() > 0) {
             int i;
             for (i = 0; i < allPrograms.size() - 1; i++) {
@@ -84,10 +84,10 @@ public class ProgramServlet extends HttpServlet {
         userReturnData.append("var userData = {");
         // Create keys
         // send email as well
-        
+
         JSONKey[] userKeys = {new JSONKey("id", false),
-                              new JSONKey("name", true),
-                              new JSONKey("email", true)};
+            new JSONKey("name", true),
+            new JSONKey("email", true)};
 
         // Create builder with above keys
         JSONBuilder userBuilder = new JSONBuilder(userKeys);
@@ -110,6 +110,7 @@ public class ProgramServlet extends HttpServlet {
 
         // forwards data to jsp
         getServletContext().getRequestDispatcher("/WEB-INF/program.jsp").forward(request, response);
+//        getServletContext().getRequestDispatcher("/WEB-INF/programTest.jsp").forward(request, response);
 
     }
 
@@ -122,8 +123,8 @@ public class ProgramServlet extends HttpServlet {
      */
     private String buildUserJSON(User user, JSONBuilder builder) {
         Object[] userValues = {user.getUserId(),
-                               user.getFirstName() + " " + user.getLastName(),
-                               user.getEmail()};
+            user.getFirstName() + " " + user.getLastName(),
+            user.getEmail()};
 
         return builder.buildJSON(userValues);
     }
@@ -150,7 +151,7 @@ public class ProgramServlet extends HttpServlet {
             throws ServletException, IOException {
         // getting user action from JSP
         String action = request.getParameter("action");
-        System.out.println(action);
+        //System.out.println(action);
         // switch to determine users chosen action
         try {
             switch (action) {
@@ -183,56 +184,75 @@ public class ProgramServlet extends HttpServlet {
 
         // user services to create program_training data
         AccountServices accService = new AccountServices();
-        
+
         // getting user entered values and insert new program
         try {
             // getting program status
             String status = request.getParameter("status");
             boolean isActive = status.equals("active");
 
-            // programs are always active on creation
-//            String userMsg = proService.insert(isActive,
-//                    // obtaining user entered program name
-//                    request.getParameter("program-name"),
-//                    // obtaining user entered manager name
-//                    request.getParameter("manager-name"));
+            // creating the program through program services
+            String userMsg = proService.insert(isActive,
+                    // obtaining user entered program name
+                    request.getParameter("program-name"),
+                    // obtaining the user ID
+                    Long.parseLong(request.getParameter("manager-ID")));
 
             // change the role of the manager name typed to the matching program role
             // get user entered user name (match with frontend)  
-            int userId = Integer.parseInt(request.getParameter("userID"));
+            int userId = Integer.parseInt(request.getParameter("manager-ID"));
 
             // retrieve the user with the matching ID
             User updateRole = accService.getByID(userId);
+            System.out.println(updateRole.getUserId());
 
             // get current programs the user entered is linked to
             List<ProgramTraining> currentRoles = updateRole.getProgramTrainingList();
 
             // get newly created programId
             short programId = proService.getProgramId(request.getParameter("program-name"));
+            System.out.println(programId);
 
             // get roleId, fully implement when theres a page
-            short roleId = 1;
-            
+            short roleId = 4;
+
             // role service to access the role data
             RoleService rs = new RoleService();
-            
+
             // get the role object based on roleId
             Role newRole = rs.get(roleId);
 
-            // if current user is not a manager change their role to manager
-            if (currentRoles == null) {
-                // get manager and programId to match
-                ProgramTraining roleAdd = new ProgramTraining(userId, programId);
-            } else {
-                for (ProgramTraining pt : currentRoles) {
-                    if((pt.getProgram().getProgramId() == programId)&& 
-                            (pt.getUser().getUserId() == userId)){
-                        // test
-                         //pt.setRole(newRole);
-                    }
+            boolean isFound = false;
+
+            for (ProgramTraining pt : currentRoles) {
+                if ((pt.getProgram().getProgramId() == programId)) {
+                    isFound = true;
+                    pt.setRoleId(newRole);
+                    proService.updateProgramTraining(pt);
                 }
             }
 
+            if (!isFound) {
+                ProgramTraining roleAdd = new ProgramTraining(updateRole, proService.get(programId) , newRole);
+                proService.insertProgramTraining(roleAdd);
+            }
+
+            // if current user is not a manager change their role to manager
+//            if (currentRoles == null) {
+            // get manager and programId to match and add it to the list
+//            ProgramTraining roleAdd = new ProgramTraining(userId, programId, newRole);
+            // currentRoles.add(roleAdd);
+            // accService.updateProgramTraining(updateRole, currentRoles);
+//            proService.insertProgramTraining(roleAdd);
+//            } else {
+//                for (ProgramTraining pt : currentRoles) {
+//                    if((pt.getProgram().getProgramId() == programId)&& 
+//                            (pt.getUser().getUserId() == userId)){
+//                        // test, set new role
+//                        pt.setRoleId(newRole);
+//                    }
+//                }
+//            }
             response.sendRedirect("programs");
         } catch (Exception e) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
@@ -277,7 +297,6 @@ public class ProgramServlet extends HttpServlet {
 //                    request.getParameter("program-name"),
 //                    // obtaining user entered manager name
 //                    request.getParameter("manager-name"));
-
             response.sendRedirect("programs");
         } catch (Exception e) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);

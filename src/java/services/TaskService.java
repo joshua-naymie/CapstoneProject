@@ -24,6 +24,24 @@ public class TaskService {
         Task task = taskDB.get(id);
         return task;
     }
+    
+    /**
+     * Gets 
+     * @param id
+     * @return
+     * @throws Exception 
+     */
+    public List<Task> getUserHistory(long id) throws Exception
+    {
+        TaskDB taskDB = new TaskDB();
+        return taskDB.getHistoryByUserId(id);
+    }
+    
+    public List<Task> getSubmittedToManager(String id) throws Exception
+    {
+        TaskDB taskDB = new TaskDB();
+        return taskDB.getSubmittedToManager(id);
+    }
 
     public List<Task> getAllNotApprovedTasks() throws Exception {
         TaskDB taskDB = new TaskDB();

@@ -245,5 +245,4 @@ class InputGroup
 
         return true;
     }
-    
 }

@@ -24,33 +24,14 @@ var filterCheckbox;
 var inputForm;
 var submitButton;
 var actionInput;
-var inputHeader;
 
 var inputs;
+var removeManagerInput;
 var userList;
 var programList;
 var programNameInput,
     managerNameDisplay,
     statusInput;
-
-// const generateUserCell = (user) => {
-//     let cell = document.createElement("div");
-//     cell.classList.add("user__cell");
-//     cell.addEventListener("click", () => {setManager(user)});
-    
-//     let name = document.createElement("p");
-//     name.classList.add("user__cell-content__name");
-//     name.innerText = user.name;
-    
-//     let email = document.createElement("p");
-//     email.classList.add("user__cell-content__email");
-//     email.innerText = user.email;
-    
-//     cell.appendChild(name);
-//     cell.appendChild(email);
-    
-//     return cell;
-// }
 
 var userSearchTimer;
 
@@ -139,14 +120,12 @@ function load()
     statusInput.addEventListener("change", setStatusSelectColor);
     setStatusSelectColor();
     
-    inputHeader = document.getElementById("input-panel__header");
-    
     // setup form buttons
     submitButton = document.getElementById("ok__button");
     document.getElementById("cancel__button").addEventListener("click", cancelPressed);
     submitButton.addEventListener("click", () => { submitForm(currentAction) });
     
-    // setup list search input
+    // setup program search input
     programSearchInput = document.getElementById("search-input");
     programSearchInput.value = "";
     programSearchInput.addEventListener("input", () => { searchProgramList(programSearchInput.value) });
@@ -165,13 +144,17 @@ function load()
     managerNameDisplay.setPlaceHolderText("No manager");
     managerNameDisplay.input.setAttribute("autocomplete", "off");
     managerNameDisplay.input.setAttribute("disabled", "disabled");
+    managerNameDisplay.input.type = "search";
     managerNameDisplay.container = document.getElementById("manager-name__display");
     configCustomInput(managerNameDisplay);
     
+    // add EventListener to remove manager button
+    removeManagerInput = document.getElementById("remove-manager");
+    removeManagerInput.addEventListener("click", () => { setManager(); });
+    
+    // setup user search input
     let userSearchInput = document.getElementById("user-search");
     userSearchInput.addEventListener("input", () => {userSearchInputTimer(userSearchInput.value)});;
-
-    // searchUsers("");
 
     // add InputGroups to a collection
     inputs = new InputGroupCollection();
@@ -276,11 +259,13 @@ function cancelPressed()
     currentAction = "none";
     
     setContainerWidth("container--list-size");
+    changeHeaderText("Programs");
     fadeOutIn(inputArea, listArea);
     setTimeout(() => {
         document.getElementById("addProgramForm").reset();
-        userList.filter("");
-        inputs.resetInputs() }, 200);
+        userList.filter();
+        inputs.resetInputs();
+    }, 200);
 }
 
 /**
@@ -292,11 +277,11 @@ function addProgram()
 {
     currentAction = "add";
     submitButton.value = "Add";
-    inputHeader.innerText = "New";
+    setManager();
     setStatusSelectColor();
-    searchUsers("");
     
     setContainerWidth("container--input-size");
+    changeHeaderText("Add Program");
     fadeOutIn(listArea, inputArea);
 }
 
@@ -310,27 +295,17 @@ function addProgram()
 function editProgram(program)
 {
     currentAction = "update";
-//    currentUserData.unshift(currentUserData.splice(currentUserData.indexOf(program), 1));
-    for(let i=0; i<userData; i++)
-    {
-        if(userData[i].ID === program.manager)
-        {
-            // todo: set manager as currentManager
-        }
-    }
     submitButton.value = "Update";
-    inputHeader.innerText = "Edit";
 
     programNameInput.setInputText(program.name);
-    console.log(program.managerId);
     setManager(userData[program.managerId]);
     statusInput.value = program.isActive ? "active" : "inactive";
     setStatusSelectColor();
 
     document.getElementById("program-ID").value = program.programId;
-    searchUsers("");
     
     setContainerWidth("container--input-size");
+    changeHeaderText("Edit Program");
     fadeOutIn(listArea, inputArea);
 }
 
@@ -428,17 +403,19 @@ function setContainerWidth(widthClass)
 }
 
 /**
- * 
+ * Sets the border color of the program status select element depending on the status
  */
 function setStatusSelectColor()
 {
     switch(statusInput.value)
     {
         case "active":
+            // green for active
             statusInput.style.borderColor = "#00a200";
             break;
             
         case "inactive":
+            // red for inactive
             statusInput.style.borderColor = "#f20000";
             break;
         
@@ -509,10 +486,26 @@ function setManager(user)
     if(user == null)
     {
         document.getElementById("manager-ID").value = -1;
+        managerNameDisplay.setInputText("");
+        removeManagerInput.disabled = true;
+        removeManagerInput.classList.remove("remove-manager");
+        removeManagerInput.classList.add("remove-manager--hidden");
     }
     else
     {
-        managerNameDisplay.setInputText(user.name);
         document.getElementById("manager-ID").value = user.id;
+        managerNameDisplay.setInputText(user.name);
+        removeManagerInput.disabled = false;
+        removeManagerInput.classList.add("remove-manager");
+        removeManagerInput.classList.remove("remove-manager--hidden");
     }
+}
+
+function changeHeaderText(text)
+{
+    let header = document.getElementById("programs-header");
+    header.classList.add("header--hidden");
+    
+    setTimeout(() => { header.innerText = text; header.classList.remove("header--hidden") }, 150);
+    
 }

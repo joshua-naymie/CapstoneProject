@@ -65,7 +65,7 @@ public class UserDB {
     }
     
         // getAll active supervisors only
-    public List<User> getAllActiveSupervisors() throws Exception {
+    public List<User> getAllActiveSupervisorsByProgram(Short programId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         
         RoleDB rdb = new RoleDB();
@@ -75,9 +75,10 @@ public class UserDB {
         List<ProgramTraining> allUsers = null;
         List<User> allSupervisors = new ArrayList<>();
         try {
-            Query q = em.createQuery("SELECT p FROM ProgramTraining p WHERE p.roleId = :roleId", ProgramTraining.class);
+            Query q = em.createQuery("SELECT p FROM ProgramTraining p WHERE p.roleId = :roleId AND p.programTrainingPK.programId = :programId", ProgramTraining.class);
             //q.setParameter("programId",1);
             q.setParameter("roleId", r);
+            q.setParameter("programId", programId);
             allUsers = q.getResultList();
         } finally {
             //em.close();
@@ -176,7 +177,7 @@ public class UserDB {
             em.close();
         }
     }
-    
+       
     public User getByUUID(String uuid) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         

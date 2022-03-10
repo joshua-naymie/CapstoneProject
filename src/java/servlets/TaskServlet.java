@@ -23,7 +23,7 @@ public class TaskServlet extends HttpServlet {
         request.setAttribute("tasks", taskList);
 
         StringBuilder returnData = new StringBuilder();
-        returnData.append("[");
+        returnData.append("var data = [");
 
         JSONKey[] keys = { new JSONKey("task_id", true),
                 new JSONKey("program_name", true),
@@ -48,21 +48,18 @@ public class TaskServlet extends HttpServlet {
     }
 
     private String buildTaskJSON(Task task, JSONBuilder builder)
-{
-    Program program = task.getProgramId();;
-    Object[] taskValues = { task.getTaskId(),
-            program.getProgramName(),
-            task.getStartTime(),
-            task.getEndTime(),
-            task.getTaskDescription() };
-System.out.println(program.getProgramName());
-    return builder.buildJSON(taskValues);
-}
+    {
+        Object[] taskValues = { task.getTaskId(),
+                task.getProgramId().getProgramName(),
+                task.getStartTime(),
+                task.getEndTime(),
+                task.getTaskDescription() };
+
+        return builder.buildJSON(taskValues);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        TaskService taskService= new TaskService();
-        List<Task> tasks = null;
 
     }
 }

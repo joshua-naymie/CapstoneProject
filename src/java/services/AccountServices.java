@@ -23,7 +23,13 @@ import models.*;
 public class AccountServices {
     // If we want to let users update their password through a secure email, we have to add a clolumn to the database
 
-
+    // update users program training list
+    public void updateProgramTraining (User user, List<ProgramTraining> programTrainingList) throws Exception{
+        user.setProgramTrainingList(programTrainingList);
+        UserDB userDB = new UserDB();
+        userDB.update(user);
+    }
+    
     public User login(String email, String password) {
         UserDB userDB = new UserDB();
 
@@ -59,9 +65,9 @@ public class AccountServices {
     }
     
     // get all active supervisors
-    public List<User> getAllActiveSupervisors() throws Exception {
+    public List<User> getAllActiveSupervisorsByProgram(Short programId) throws Exception {
         UserDB userDB = new UserDB();
-        List<User> users = userDB.getAllActiveSupervisors();
+        List<User> users = userDB.getAllActiveSupervisorsByProgram(programId);
         return users;
     }
     

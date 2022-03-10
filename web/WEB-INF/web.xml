@@ -52,6 +52,14 @@
         <servlet-name>TaskServlet</servlet-name>
         <servlet-class>servlets.TaskServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SubmitTaskFormServlet</servlet-name>
+        <servlet-class>servlets.SubmitTaskFormServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HistoryServlet</servlet-name>
+        <servlet-class>servlets.HistoryServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
         <url-pattern>/users</url-pattern>
@@ -103,6 +111,14 @@
     <servlet-mapping>
         <servlet-name>TaskServlet</servlet-name>
         <url-pattern>/tasks</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmitTaskFormServlet</servlet-name>
+        <url-pattern>/submitTaskForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HistoryServlet</servlet-name>
+        <url-pattern>/history</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
