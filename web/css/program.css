@@ -17,13 +17,23 @@
     height: 100vh;
 }
 
-.main h1
+.header
 {
     text-align: center;
     font-family: sans-serif;
     color: rgb(23, 69, 144);
     margin-bottom: 10px;
     margin-top: 0;
+    opacity: 1;
+    
+    transition: opacity 0.1s;
+}
+
+.header--hidden
+{
+    opacity: 0;
+    
+    transition: opacity 0.01s;
 }
 
 .main h3
@@ -149,8 +159,7 @@
     width: 375px;
     max-height: 600px;
     opacity: 0;
-    
-    /*transition: opacity 0.1s;*/
+    margin-top: 30px;
 }
 
 .program-list__base
@@ -358,8 +367,7 @@
 .status-input
 {
     display: grid;
-    grid-template-columns: 1fr 0.25fr;
-    gap: 40px;
+    grid-template-columns: 0.9fr 0.1fr .38fr;
 }
 
 status__select
@@ -375,6 +383,10 @@ status__select
     border-width: 2px;
     border-style: solid;
     border-radius: 8px;
+}
+.status-input select:hover
+{
+    cursor: pointer;
 }
 
 .status-input select option
@@ -502,4 +514,42 @@ status__select
     padding: 0;
     max-width: 40%;
     overflow: hidden;
+}
+
+.remove-manager
+{
+    height: 18px;
+    border-width: 0;
+    border-radius: 5px;
+    background-color: #fff0;
+    margin-right: 20px;
+    opacity: 1;
+    
+    transition: background-color 0.1s;
+    transition: opacity 0.08s;
+}
+
+.remove-manager:hover
+{
+    background-color: rgb(255, 124, 124);
+    cursor: pointer;
+    
+    transition: background-color 0.1s;
+}
+
+.remove-manager--hidden
+{
+    height: 18px;
+    border-width: 0;
+    border-radius: 5px;
+    background-color: #fff0;
+    margin-right: 20px;
+    opacity: 0;
+    
+    transition: opacity 0.08s;
+}
+
+remove-manager--hidden:hover
+{
+    cursor: auto;
 }

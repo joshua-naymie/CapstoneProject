@@ -82,20 +82,10 @@ public class AddTaskServlet extends HttpServlet {
         }
         
     request.setAttribute("allCompanies", allCompanies);
-    
-        AccountServices as = new AccountServices();
-        List<User> allSupervisors = null;
-    
-        try {
-            allSupervisors = as.getAllActiveSupervisors();
-            
-        } catch (Exception ex) {
-            Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
        //for( User u: allSupervisors) log(u.toString());
        
-    request.setAttribute("allSupervisors", allSupervisors);
+    //request.setAttribute("allSupervisors", allSupervisors);
     
     StoreServices ss = new StoreServices();
 //    String companyAdd = (String) request.getParameter("companyAdd");
@@ -245,8 +235,10 @@ public class AddTaskServlet extends HttpServlet {
                 } catch (Exception ex) {
                     Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            
+            Short foodDeliveryId = 1;
 
-            if(programAddName.equals("Food Delivery")){
+            if(pogramAddId == foodDeliveryId){
                 Integer storeId = Integer.parseInt ((String) request.getParameter("storeAdd"));
 //                FoodDeliveryData fd = new FoodDeliveryData();
 //                fd.setStoreId(new Store(storeId));

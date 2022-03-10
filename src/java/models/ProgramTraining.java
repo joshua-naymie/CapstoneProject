@@ -50,6 +50,11 @@ public class ProgramTraining implements Serializable {
     public ProgramTraining(int userId, short programId) {
         this.programTrainingPK = new ProgramTrainingPK(userId, programId);
     }
+    
+    public ProgramTraining(int userId, short programId, Role roleId) {
+        this.programTrainingPK = new ProgramTrainingPK(userId, programId);
+        this.roleId = roleId;
+    }
 
     public ProgramTrainingPK getProgramTrainingPK() {
         return programTrainingPK;

@@ -21,6 +21,7 @@
                     crossorigin="anonymous"></script>
                 <script type="text/javascript"
                     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		    <<link rel="stylesheet" href="css/addTask.css"/>
             </head>
 
             <body>
@@ -29,8 +30,8 @@
                     <div class="container">
 
 
-                        <h2>Add Task</h2>
-                        <form action="" method="post">
+                        <p class="h1 text-center">Add Task</p>
+                        <form action="" method="post" class="mt-3">
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -55,7 +56,9 @@
                                     <select name="cityAdd" id="cityAdd" class="form-control">
                                         <option value="" selected>Choose here</option>
                                         <option value="Calgary">Calgary</option>
-                                        <option value="Calgary">Lethbridge</option>
+                                        <option value="Airdrie">Airdrie</option>
+                                        <option value="Lethbridge">Lethbridge</option>
+                                        <option value="Edmonton">Edmonton</option>
                                     </select>
                                 </div>
                             </div>
@@ -83,11 +86,7 @@
                                 <label for="supervisorAdd" class="input-label">Approving Supervisor</label>
                                 <select name="supervisorAdd" id="supervisorAdd" class="form-control col-md-5">
                                     <option value="" selected>Choose here</option>
-                                    <c:forEach items="${allSupervisors}" var="supervisor">
-                                        <option value="${supervisor.getUserId()}">
-                                            ${supervisor.getFirstName()} ${supervisor.getLastName()}
-                                        </option>
-                                    </c:forEach>
+
                                 </select>
 
                             </div>
@@ -144,6 +143,34 @@
                                     $.each(obj, function (key, value) {
                                         $('#storeAdd').append(
                                             '<option value="' + value.store_id + '">' + value.store_name + '</option>'
+                                        )
+                                    })
+                                }
+                        });
+                    }
+                );
+        
+                $program = $('#programAdd');
+
+                $program.change(
+                    function () {
+                        $('#supervisorAdd').find('option').remove();
+                        $('#supervisorAdd').append(
+                                            '<option value="">Choose here'+ '</option>'
+                                        );
+                        let pid = $('#programAdd').val();
+                        var p = pid.split(';');
+                        $.ajax({
+                            type: "GET",
+                            url: "data",
+                            data: {"programId": p[1], "operation": "program"},
+                            success:
+                                function (data) {
+                                    console.log(data);
+                                    let obj = $.parseJSON(data);
+                                    $.each(obj, function (key, value) {
+                                        $('#supervisorAdd').append(
+                                            '<option value="' + value.user_id + '">' + value.user_name + '</option>'
                                         )
                                     })
                                 }

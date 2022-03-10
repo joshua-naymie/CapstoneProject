@@ -8,10 +8,7 @@
         <script type="text/javascript" src="scripts/regexprogram.js"></script>
         <script type="text/javascript" src="scripts/scriptsprogram.js"></script>
         <script type="text/javascript" src="scripts/validator.js"></script>
-        <script type="text/javascript" src="scripts/autotable.js"></script>
-        <script type="text/javascript" src="scripts/rowmanager.js"></script>
-        <script type="text/javascript" src="scripts/datacolumn.js"></script>
-        <script type="text/javascript" src="scripts/customcolumn.js"></script>
+        <script type="text/javascript" src="scripts/autolist.js"></script>
         <script type="text/javascript" src="scripts/functions.js"></script>
         <script>${programData}</script>
         <script>${userData}</script>
@@ -26,7 +23,7 @@
         <div class="main">
             <div style="margin: 40px 0 40px 0;">
                 <div id="container" class="container container--list-size">          
-                    <h1>Programs</h1>
+                    <h1 id="programs-header" class="header">Programs</h1>
                     <!--<h3 id="input-panel__header" class="panel-header">Add</h3>-->
                     <div class="list-panel" id="list-area">
 
@@ -44,7 +41,6 @@
                         </div>
                     </div>
                     <div class="input-panel" id="input-area">
-                        <h3 id="input-panel__header" class="panel-header">Add Program</h3>
                         <form id="addProgramForm">
                             <input id="action" name="action" type="hidden">
                             <input id="program-ID" name="program-ID" type="hidden">
@@ -53,10 +49,9 @@
                             <div id="program-name__input" style="margin: 2px 0 30px 0;"></div>
                             
                             <div class="status-input">
-                                <div class="DUMMY">
-                                    <div id="manager-name__display" class="manager-name__display"></div>
-                                </div>
-                                
+                                <div id="manager-name__display" class="manager-name__display"></div>
+                                <!--<img src="content/images/cancel-red_1.png" width="25px">-->
+                                <input id="remove-manager" class="remove-manager--hidden" type="button"  value="remove">
                                 <div id="status__input" >
                                     <select class="status__select" id="status" name="status">
                                         <option disabled hidden style='display: none' value=''></option>
@@ -67,7 +62,7 @@
                                 </div>
                             </div>
                             
-                            <input id="user-search" class="user-search" placeholder="Search Users">
+                            <input id="user-search" class="user-search" placeholder="Search by Name, Email">
                             <div id="user-list" class="user-list"></div>
                             
                             <div class="input-action-buttons">
