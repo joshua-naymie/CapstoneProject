@@ -6,6 +6,8 @@ const MESSAGE_INVALID = "invalid";
 
 var newInput;// = new InputGroupCollection();
 
+// COMMIT
+
 function load()
 {
     newInput = new InputGroupCollection();

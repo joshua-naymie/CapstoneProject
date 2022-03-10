@@ -25,6 +25,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Reset Password</title>
+<!--        COMMIT-->
     </head>
     <body>
         <div class="base">

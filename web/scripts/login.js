@@ -8,6 +8,8 @@ const MESSAGE_INVALID = "invalid";
 var loginInputs;// = new InputGroupCollection();
 var forgotPWD;
 
+// COMMIT
+
 function load()
 {
     loginInputs = new InputGroupCollection();
