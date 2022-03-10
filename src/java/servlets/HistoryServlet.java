@@ -68,10 +68,6 @@ public class HistoryServlet extends HttpServlet
                 }
                 historyVar.append(buildTaskJSON(tasks.get(i), historyBuilder));
             }
-            else
-            {
-                System.out.println("NO TASKS");
-            }
             historyVar.append("];");
             
             request.setAttribute("historyData", historyVar.toString());

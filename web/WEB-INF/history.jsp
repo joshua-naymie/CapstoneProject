@@ -8,9 +8,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="icon" type="image/png" href="content/images/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/svg+xml" href="content/images/favicon-svg.svg">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-        <link rel="stylesheet" href="css/styles.css">
+        <title>History</title>
+        <link rel="stylesheet" href="css/history-styles.css">
         <script type="text/javascript" src="scripts/history.js"></script>
         <script type="text/javascript" src="scripts/autotable.js"></script>
         <script type="text/javascript" src="scripts/datacolumn.js"></script>
