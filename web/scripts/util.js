@@ -14,4 +14,4 @@ function getDateRangeOfWeek(weekNo){
     d1.setDate(d1.getDate() + 6);
     var rangeIsTo = d1.getFullYear() + "-" + eval(d1.getMonth()+1) + "-" + d1.getDate();
     return rangeIsFrom + " to "+rangeIsTo;
-};
+}
