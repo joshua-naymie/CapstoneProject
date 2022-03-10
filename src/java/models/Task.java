@@ -40,13 +40,13 @@ import javax.xml.bind.annotation.XmlTransient;
                                                          + "WHERE ut.userTaskPK.userId = :userId "
                                                          + "AND t.taskId = ut.userTaskPK.taskId "
                                                          + "AND (t.endTime < CURRENT_DATE OR t.isApproved = TRUE)"),
-//                                                         + "AND t.isApproved = TRUE"),
     @NamedQuery(name = "Task.findByMaxUsers", query = "SELECT t FROM Task t WHERE t.maxUsers = :maxUsers"),
     @NamedQuery(name = "Task.findByStartTime", query = "SELECT t FROM Task t WHERE t.startTime = :startTime"),
     @NamedQuery(name = "Task.findByEndTime", query = "SELECT t FROM Task t WHERE t.endTime = :endTime"),
     @NamedQuery(name = "Task.findByAvailable", query = "SELECT t FROM Task t WHERE t.available = :available"),
     @NamedQuery(name = "Task.findByNotes", query = "SELECT t FROM Task t WHERE t.notes = :notes"),
     @NamedQuery(name = "Task.findByIsApproved", query = "SELECT t FROM Task t WHERE t.isApproved = :isApproved"),
+    @NamedQuery(name = "Task.findSubmittedToManger", query = "SELECT t FROM Task t WHERE t.isSubmitted = TRUE AND t.approvingManager = :approvingManager"),
     @NamedQuery(name = "Task.findByApprovingManager", query = "SELECT t FROM Task t WHERE t.approvingManager = :approvingManager"),
     @NamedQuery(name = "Task.findByTaskDescription", query = "SELECT t FROM Task t WHERE t.taskDescription = :taskDescription"),
     @NamedQuery(name = "Task.findByTaskCity", query = "SELECT t FROM Task t WHERE t.taskCity = :taskCity"),

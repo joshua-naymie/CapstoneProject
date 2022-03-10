@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package servlets;
 
-import com.oracle.wls.shaded.org.apache.xalan.xsltc.compiler.sym;
 import java.io.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.List;
 
 import services.*;
@@ -17,7 +11,7 @@ import models.*;
 
 /**
  *
- * @author Main
+ * @author <jnaymie@gmail.com>
  */
 public class HistoryServlet extends HttpServlet
 {
@@ -27,7 +21,6 @@ public class HistoryServlet extends HttpServlet
     private static final
     String HISTORY_JSP_DIR = "/WEB-INF/history.jsp";
     
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
