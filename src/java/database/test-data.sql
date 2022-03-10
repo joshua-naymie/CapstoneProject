@@ -28,18 +28,11 @@ INSERT INTO `role` (`role_name`, `role_description`)
 INSERT INTO `role` (`role_name`, `role_description`) 
      VALUES ('Supervisor', 'Supervisors/Approving Manager');
 -- -----------------------------------------------------
--- PACKAGE TYPE
--- -----------------------------------------------------
-INSERT INTO `ecssendb`.`package_type` (package_name, weight_lb)
-     VALUES ('Box', 35);
-INSERT INTO `ecssendb`.`package_type` (package_name, weight_lb)
-     VALUES ('Bag', 15);
--- -----------------------------------------------------
 -- ORGANIZATION
 -- -----------------------------------------------------
 INSERT INTO `ecssendb`.`organization` (`street_address`, `postal_code`, 
         `org_city`, `org_code`, `org_name`, `phone_num`, `contact`, `is_active`)
-     VALUES ( '241 Whitefield Drive', 'T3Y5G2', 'Calgary', 23, 'Church #1', '123-234-5678', 'Jane Doe', 1);
+     VALUES ( '241 Whitefield Drive', 'T3Y5G2', 'Calgary', 23, 'Church #1', '123-234-5678', 'Jane Doe', 0);
 -- -----------------------------------------------------
 -- PROGRAM
 -- -----------------------------------------------------
@@ -161,3 +154,23 @@ INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
      VALUES (1, 6);
 INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
      VALUES (1, 7);
+
+-- -----------------------------------------------------
+-- PACKAGE TYPE
+-- -----------------------------------------------------
+INSERT INTO `package_type` (`package_name`,`weight_lb`) 
+     VALUES ("Bag", 10);
+INSERT INTO `package_type` (`package_name`,`weight_lb`) 
+     VALUES ("Tray", 15);
+INSERT INTO `package_type` (`package_name`,`weight_lb`) 
+     VALUES ("Box", 35);
+
+-- -----------------------------------------------------
+-- ORGANIZATION
+-- -----------------------------------------------------
+INSERT INTO `organization` (`street_address`, `postal_code`, `org_city`, `org_code`, `org_name`, `phone_num`, `contact`, `is_active`) 
+     VALUES ("155 Falconridge Crescent NE","T3J1Z9", "Calgary", 1, "Falconridge Family Church", "403-123-4567", "Pastor David", true);
+
+INSERT INTO `organization` (`street_address`, `postal_code`, `org_city`, `org_code`, `org_name`, `phone_num`, `contact`, `is_active`) 
+     VALUES ("155 Taradale Crescent NE","T3J1Z9", "Calgary", 1, "Taradale Church", "403-123-4567", "Pastor John", true);
+

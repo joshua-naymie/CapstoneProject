@@ -29,6 +29,29 @@ public class SubmitTaskFormServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        TaskService ts = new TaskService();
+        
+        Long submitTaskId = 4L;
+        
+        Task editTask = null;
+
+        try {
+            editTask = ts.get(submitTaskId);
+        } catch (Exception ex) {
+            Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    Short foodDeliveryId = 1;
+        
+    String description = editTask.getTaskDescription();
+    
+    if(editTask.getProgramId().getProgramId() == foodDeliveryId){ 
+        request.setAttribute("foodDelivery", true);
+        
+    }
+
+    request.setAttribute("description", description);
+
     
         
     getServletContext().getRequestDispatcher("/WEB-INF/submitTaskForm.jsp").forward(request, response);
@@ -51,9 +74,10 @@ public class SubmitTaskFormServlet extends HttpServlet {
             Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        String programName = request.getParameter("program_name");
         
-        Short programId = Short.valueOf(request.getParameter("program_id"));
+        String programName = editTask.getProgramId().getProgramName();
+        
+        Short programId = editTask.getProgramId().getProgramId();
         
         Short foodDeliveryId = 1;
         
