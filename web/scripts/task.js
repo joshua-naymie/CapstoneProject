@@ -67,17 +67,6 @@ window.onload = () => {
     let accordionBodyContent = document.createElement("div");
     accordionBodyContent.className = "container";
 
-    // Edit Button
-    let accordionEditButton = document.createElement("button");
-    accordionEditButton.className = "btn btn-primary";
-    accordionEditButton.setAttribute("type", "button");
-    accordionEditButton.innerText = "Edit";
-
-    // Sign Up Button
-    let accordionSignupButton = document.createElement("button");
-    accordionSignupButton.className = "btn btn-secondary";
-    accordionSignupButton.setAttribute("type", "button");
-    accordionSignupButton.innerText = "SignUp";
 
     // ------------------------- Table ------------------------------
     let table = document.createElement("table");
@@ -91,6 +80,11 @@ window.onload = () => {
     th_program.innerText = "Program";
     th_program.setAttribute("scope", "col");
     tr.appendChild(th_program);
+
+    let th_date = document.createElement("th");
+    th_date.innerText = "Date";
+    th_date.setAttribute("scope", "col");
+    tr.appendChild(th_date);
 
     let th_start_time = document.createElement("th");
     th_start_time.innerText = "Start Time";
@@ -127,21 +121,50 @@ window.onload = () => {
         let tr = document.createElement("tr");
 
         let td_program = document.createElement("td");
-        td_program.innerText = taskData.program_id;
+        td_program.innerText = taskData.program_name;
         tr.appendChild(td_program);
+	console.log(taskData.program_name)
 
+        let td_date = document.createElement("td");
+        td_date.innerText = new Date(taskData.start_time).toLocaleDateString();
+        tr.appendChild(td_date);
+	
         let td_start_time = document.createElement("td");
-        td_start_time.innerText = new Date(taskData.start_time).toLocaleTimeString();
+        td_start_time.innerText = new Date(taskData.start_time).toLocaleTimeString(
+		navigator.language, {
+		hour: '2-digit',
+	minute:'2-digit'
+	});
         tr.appendChild(td_start_time);
 
         let td_end_time = document.createElement("td");
-        td_end_time.innerText = new Date(taskData.end_time).toLocaleTimeString();
+        td_end_time.innerText = new Date(taskData.end_time).toLocaleTimeString(
+		navigator.language, {
+		hour: '2-digit',
+		minute:'2-digit'
+	});
         tr.appendChild(td_end_time);
 
         let td_desc = document.createElement("td");
         td_desc.innerText = taskData.task_description;
         tr.appendChild(td_desc);
+	
+	// Edit Button
+	let accordionEditButton = document.createElement("button");
+	accordionEditButton.className = "btn btn-primary";
+	accordionEditButton.setAttribute("type", "button");
+	accordionEditButton.setAttribute("task_id", taskData.task_id);
+	accordionEditButton.innerText = "Edit";
+	accordionEditButton.addEventListener("click", () => {
+		
+	})
 
+	// Sign Up Button
+	let accordionSignupButton = document.createElement("button");
+	accordionSignupButton.className = "btn btn-secondary";
+	accordionSignupButton.setAttribute("type", "button");
+	accordionSignupButton.innerText = "SignUp";
+	
         let td_edit_button = document.createElement("td");
         td_edit_button.appendChild(accordionEditButton);
         tr.appendChild(td_edit_button);
@@ -164,3 +187,16 @@ window.onload = () => {
     bodyNode.appendChild(accordionItem);
   }
 };
+
+
+    function onEdit(body) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                body.innerHTML = xhr.response;
+            }
+        }
+        xhr.open('get', '/editTask', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        xhr.send('task_id');
+    }

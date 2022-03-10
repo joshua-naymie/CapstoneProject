@@ -22,11 +22,14 @@
                 <script type="text/javascript"
                     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		    <<link rel="stylesheet" href="css/addTask.css"/>
+
             </head>
 
             <body>
                 <%@ include file="navbar.jsp" %>
-		<script>${taskData}</script>
+		<script>var editTask = ${taskData}</script>
+		<script src="scripts/editTask.js"></script>
+
 
                     <div class="container">
 
@@ -42,7 +45,7 @@
 
                                 <div class="form-group col-md-4">
                                     <label for="programAdd" class="input-label">Program</label>
-                                    <select name="programAdd" id="task_program" class="form-control">
+                                    <select name="programAdd" id="task_program" class="form-control" id="task_program">
                                         <c:forEach items="${allPrograms}" var="program">
                                             <option value="${program.getProgramName()};${program.getProgramId()}">
                                                 ${program.getProgramName()}
@@ -70,7 +73,7 @@
 
                                 <div class="form-group col-md-4">
                                     <label>Start Time:</label>
-                                    <input class="form-control" type="time" name="taskStart" value="" placeholder="" id="task_start_time">
+                                    <input class="form-control" type="time" name="taskStart" value="" placeholder="" id="task_start_time" step="3600000">
                                 </div>
 
 
@@ -84,7 +87,6 @@
                             <div class="form-group">
                                 <label for="supervisorAdd" class="input-label">Approving Supervisor</label>
                                 <select name="supervisorAdd" id="supervisorAdd" class="form-control col-md-5">
-                                    <option value="" selected>Choose here</option>
                                     <c:forEach items="${allSupervisors}" var="supervisor">
                                         <option value="${supervisor.getUserId()}">
                                             ${supervisor.getFirstName()} ${supervisor.getLastName()}
