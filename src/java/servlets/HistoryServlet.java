@@ -101,7 +101,7 @@ public class HistoryServlet extends HttpServlet
     
     private String getTaskState(Task task)
     {
-        if( task.isApproved())
+        if(task.isApproved())
         {
             return "Approved";
         }

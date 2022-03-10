@@ -122,14 +122,14 @@ INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`
             'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
 INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
-     VALUES (2, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
+     VALUES (2, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, TRUE, 
             'Task completed. No issues.', 'Manager Jane', 
-            'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
+            'Pickup boxes and drop to Wilson Family', 'Calgary', FALSE, FALSE);
 INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
      VALUES (1, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
             'Task completed. No issues.', 'Manager Jane', 
-            'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
+            'Pickup boxes and drop to Wilson Family', 'Calgary', FALSE, TRUE);
 INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
      VALUES (3, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
