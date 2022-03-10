@@ -144,6 +144,8 @@
     border: 1px solid black;
     border-radius: 4px;
     font-size: 1rem;
+    
+    transition: background-color 0.1s;
 }
 
 .add-program__button:hover
@@ -174,6 +176,7 @@
     min-height: 157px;
     width: 100%;
     overflow-y: auto;
+    background-color: white;
     
     transition: max-height 0.2s;
 }
@@ -470,7 +473,7 @@ status__select
     border-radius: 8px;
     padding: 4px 0 4px 0;
     cursor: pointer;
-    /*height: calc(100% - 10px);*/
+    background-color: white
 }
 
 .user-list hr
