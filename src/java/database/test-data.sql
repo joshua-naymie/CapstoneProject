@@ -107,14 +107,34 @@ INSERT INTO `task` (`program_id`,`team_id`,`start_time`,`end_time`,`available`,`
             'Calgary');
 INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`)
-     VALUES (1, 1, 3, "2017-07-15 09:30:00", "2017-07-15 10:30:00", TRUE, FALSE, 
+     VALUES (2, 1, 3, "2017-07-15 09:30:00", "2017-07-15 10:30:00", TRUE, FALSE, 
             'Task completed. No issues.', 'Manager John', 
             'Pickup boxes and drop to Ross Family', 'Calgary');
 INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`)
-     VALUES (1, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", TRUE, FALSE, 
+     VALUES (3, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", TRUE, FALSE, 
             'Task completed. No issues.', 'Manager Jane', 
             'Pickup boxes and drop to Wilson Family', 'Calgary');
+INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+                    `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
+     VALUES (3, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
+            'Task completed. No issues.', 'Manager Jane', 
+            'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
+INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+                    `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
+     VALUES (2, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
+            'Task completed. No issues.', 'Manager Jane', 
+            'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
+INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+                    `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
+     VALUES (1, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
+            'Task completed. No issues.', 'Manager Jane', 
+            'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
+INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+                    `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
+     VALUES (3, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
+            'Task completed. No issues.', 'Manager Jane', 
+            'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
 -- -----------------------------------------------------
 -- HOTLINE DATA
 -- -----------------------------------------------------
@@ -133,3 +153,11 @@ INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_
 -- -----------------------------------------------------
 INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
      VALUES (1, 1);
+INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
+     VALUES (1, 4);
+INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
+     VALUES (1, 5);
+INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
+     VALUES (1, 6);
+INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
+     VALUES (1, 7);
