@@ -23,7 +23,7 @@ public class TaskServlet extends HttpServlet {
         request.setAttribute("tasks", taskList);
 
         StringBuilder returnData = new StringBuilder();
-        returnData.append("[");
+        returnData.append("var data = [");
 
         JSONKey[] keys = { new JSONKey("task_id", true),
                 new JSONKey("program_name", true),
@@ -50,7 +50,7 @@ public class TaskServlet extends HttpServlet {
     private String buildTaskJSON(Task task, JSONBuilder builder)
     {
         Object[] taskValues = { task.getTaskId(),
-                new Program(task.getProgramId().getProgramId()).getProgramName(),
+                task.getProgramId().getProgramName(),
                 task.getStartTime(),
                 task.getEndTime(),
                 task.getTaskDescription() };
@@ -60,8 +60,6 @@ public class TaskServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        TaskService taskService= new TaskService();
-        List<Task> tasks = null;
 
     }
 }
