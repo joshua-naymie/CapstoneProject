@@ -76,6 +76,12 @@ h1 {
     
 }
 
+.forgotlink {
+    display: flex;
+    justify-content: right;
+    padding-top: 20px;
+}
+
 .table-container
 {
     display: flex;
@@ -285,13 +291,6 @@ h1 {
     display: none;
 }
 
-
-
-
-
-
-
-
 /*----------------*/
 
 .main-input
@@ -407,6 +406,13 @@ h1 {
 {
     width: 100%;
     color: lightgray;
+}
+
+.forgot-link {
+    text-align: right;
+    text-decoration: none;
+    color: rgb(23, 69, 144);
+    margin-top: -7px;
 }
 
 .login-button
