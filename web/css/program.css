@@ -144,6 +144,8 @@
     border: 1px solid black;
     border-radius: 4px;
     font-size: 1rem;
+    
+    transition: background-color 0.1s;
 }
 
 .add-program__button:hover
