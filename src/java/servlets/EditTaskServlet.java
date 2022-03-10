@@ -37,7 +37,7 @@ public class EditTaskServlet extends HttpServlet {
             // make the task object into json data
             StringBuilder returnData = new StringBuilder();
 
-            returnData.append("var editTask = ");
+            returnData.append("");
 
             Object[] taskData = { editTask.getTaskId(),
                     editTask.getProgramId().getProgramName(),
