@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="icon" type="image/png" href="content/images/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/svg+xml" href="content/images/favicon-svg.svg">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript" src="scripts/inputgroup.js"></script>
         <script type="text/javascript" src="scripts/inputgroupcollection.js"></script>
@@ -16,14 +18,14 @@
         <title>ECSSEN Programs</title>
     </head>
     <body class="body">
-        <%@ include file="confirmation-modal.jsp" %>
+        <%@ include file="confirmationModal.jsp" %>
         <%@ include file="navbar.jsp" %>
         
         
         <div class="main">
             <div style="margin: 40px 0 40px 0;">
                 <div id="container" class="container container--list-size">          
-                    <h1>Programs</h1>
+                    <h1 id="programs-header" class="header">Programs</h1>
                     <!--<h3 id="input-panel__header" class="panel-header">Add</h3>-->
                     <div class="list-panel" id="list-area">
 
@@ -41,7 +43,6 @@
                         </div>
                     </div>
                     <div class="input-panel" id="input-area">
-                        <h3 id="input-panel__header" class="panel-header">Add Program</h3>
                         <form id="addProgramForm">
                             <input id="action" name="action" type="hidden">
                             <input id="program-ID" name="program-ID" type="hidden">

@@ -11,6 +11,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import java.util.List;
 import models.Program;
+import models.ProgramTraining;
 
 /**
  *
@@ -22,7 +23,7 @@ public class ProgramDB {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
 //            Program p = em.find(Program.class, programName);
-            Query getprogram = em.createNamedQuery("Program.findByNames", Program.class);
+            Query getprogram = em.createNamedQuery("Program.findByProgramName", Program.class);
             try {
                 Program p = (Program) getprogram.setParameter("programName", programName).getSingleResult();
                 return p.getProgramId();
@@ -68,6 +69,42 @@ public class ProgramDB {
                 return null;
             }
 
+        } finally {
+            em.close();
+        }
+    }
+    
+    public void insertProgramTraining(ProgramTraining programTraining) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        
+        try {
+            programTraining.getUser().getProgramTrainingList().add(programTraining);
+//            System.out.println(programTraining.getUser().getUserId());
+            programTraining.getProgram().getProgramTrainingList().add(programTraining);
+            programTraining.getRoleId().getProgramTrainingList().add(programTraining);
+            trans.begin();
+            em.persist(programTraining);
+            em.merge(programTraining.getProgram());
+            em.merge(programTraining.getUser());
+            em.merge(programTraining.getRoleId());
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public void updateProgramTraining(ProgramTraining programTraining) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            em.merge(programTraining);
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
         } finally {
             em.close();
         }

@@ -24,6 +24,12 @@ public class TaskService {
         Task task = taskDB.get(id);
         return task;
     }
+    
+    public List<Task> getUserHistory(long id) throws Exception
+    {
+        TaskDB taskDB = new TaskDB();
+        return taskDB.getHistoryByUserId(1);
+    }
 
     public List<Task> getAllNotApprovedTasks() throws Exception {
         TaskDB taskDB = new TaskDB();
