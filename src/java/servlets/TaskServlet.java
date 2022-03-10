@@ -48,15 +48,16 @@ public class TaskServlet extends HttpServlet {
     }
 
     private String buildTaskJSON(Task task, JSONBuilder builder)
-    {
-        Object[] taskValues = { task.getTaskId(),
-                new Program(task.getProgramId().getProgramId()).getProgramName(),
-                task.getStartTime(),
-                task.getEndTime(),
-                task.getTaskDescription() };
-
-        return builder.buildJSON(taskValues);
-    }
+{
+    Program program = task.getProgramId();;
+    Object[] taskValues = { task.getTaskId(),
+            program.getProgramName(),
+            task.getStartTime(),
+            task.getEndTime(),
+            task.getTaskDescription() };
+System.out.println(program.getProgramName());
+    return builder.buildJSON(taskValues);
+}
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
