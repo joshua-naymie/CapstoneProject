@@ -35,8 +35,8 @@
 			<tbody>
 				<tr>
 					<td scope="col">2022-03-08</td>
-					<td>12:30:00 p.m.</td>
-					<td>3:30:00 p.m.</td>
+					<td>12:30 p.m.</td>
+					<td>3:30 p.m.</td>
 					<td>Pickup boxes and drop to Wilson Family</td>
 					<td><button class="btn btn-primary" type="button" task_id="3">Edit</button></td><td><button class="btn btn-secondary" type="button">Submit</button></td>
 				</tr>
