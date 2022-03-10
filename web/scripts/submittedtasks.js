@@ -12,7 +12,7 @@ function load()
     
 
     // Create and generate table with declared columns
-    table = new AutoTable("table", historyData, [programCol, dateCol, teamCol, userCol, storeCol]);
+    table = new AutoTable("table", taskData, [programCol, dateCol, teamCol, userCol, storeCol]);
     table.generateTable();
     
     document.getElementById("main").appendChild(table.container);

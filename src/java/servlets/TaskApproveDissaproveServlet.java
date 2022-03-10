@@ -26,54 +26,61 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
 
         try {
             needApproval = ts.getSubmittedToManager("Manager Jane");  //get a list of all tasks that need approval
-        } catch (Exception ex) {
-            Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            System.out.println("check needapproval size: " + needApproval.size());
+            // sending json data
+            StringBuilder taskReturnData = new StringBuilder();
+            taskReturnData.append("var taskData = [");
 
-        // sending json data
-        StringBuilder taskReturnData = new StringBuilder();
-        taskReturnData.append("var toApproveDataFD = [");
+            // creating keys for hotline
+            JSONKey[] hotlineKeys = {new JSONKey("task_hotline_id", false),
+                new JSONKey("programName", true),
+                new JSONKey("startTime", true),
+                new JSONKey("teamName", true)};
 
-        // creating keys for hotline
-        JSONKey[] hotlineKeys = {new JSONKey("task_hotline_id", false),
-            new JSONKey("programName", true),
-            new JSONKey("startTime", true),
-            new JSONKey("teamName", true)};
+            // creating ket for food delivery
+            JSONKey[] foodDeliveryKeys = {new JSONKey("task_fd_id", false),
+                new JSONKey("programName", true),
+                new JSONKey("startTime", true),
+                new JSONKey("userList", true),
+                new JSONKey("storeName", true)};
 
-        // creating ket for food delivery
-        JSONKey[] foodDeliveryKeys = {new JSONKey("task_fd_id", false),
-            new JSONKey("programName", true),
-            new JSONKey("startTime", true),
-            new JSONKey("userList", true),
-            new JSONKey("storeName", true)};
+            // builder for hotline
+            JSONBuilder hotLineBuilder = new JSONBuilder(hotlineKeys);
 
-        // builder for hotline
-        JSONBuilder hotLineBuilder = new JSONBuilder(hotlineKeys);
+            // builder for food delivery
+            JSONBuilder foodBuilder = new JSONBuilder(foodDeliveryKeys);
 
-        // builder for food delivery
-        JSONBuilder foodBuilder = new JSONBuilder(foodDeliveryKeys);
+            // Create task JSON objects
+            if (needApproval.size() > 0) {
+                int i;
+                for (i = 0; i < needApproval.size() - 1; i++) {
+                    if (needApproval.get(i).getProgramId().getProgramId() == 1) {
+                        taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
+                    } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
+                        taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
+                    } else {
+                        System.out.println("wrong program id");
 
-        // Create task JSON objects
-        if (needApproval.size() > 0) {
-            int i;
-            for (i = 0; i < needApproval.size() - 1; i++) {
-                if (needApproval.get(i).getProgramId().getProgramId() == 1) {
-                    taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
-                    taskReturnData.append(',');
-                } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
-                    taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
+                    }
                     taskReturnData.append(',');
                 }
+                if (needApproval.get(i).getProgramId().getProgramId() == 1) {
+                    taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
+                } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
+                    taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
+                }
             }
-            // returnData.append(buildProgramJSON(allPrograms.get(i), builder));
-        }
-        taskReturnData.append("};");
+            taskReturnData.append("];");
 
-        // setting user data attribute for the front end to use
-        request.setAttribute("taskData", taskReturnData);
+            // setting user data attribute for the front end to use
+            request.setAttribute("taskData", taskReturnData);
+        } catch (Exception ex) {
+            Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, ex);
+        }
 
         // forward to jsp
-        
+        getServletContext().getRequestDispatcher(HISTORY_JSP_DIR).forward(request, response);
+
     }
 
     /**

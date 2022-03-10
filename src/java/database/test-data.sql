@@ -117,7 +117,7 @@ INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`
             'Pickup boxes and drop to Wilson Family', 'Calgary');
 INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
-     VALUES (3, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
+     VALUES (2, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
             'Task completed. No issues.', 'Manager Jane', 
             'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
 INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
@@ -132,13 +132,14 @@ INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`
             'Pickup boxes and drop to Wilson Family', 'Calgary', FALSE, TRUE);
 INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
-     VALUES (3, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
+     VALUES (1, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
             'Task completed. No issues.', 'Manager Jane', 
             'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
 -- -----------------------------------------------------
 -- HOTLINE DATA
 -- -----------------------------------------------------
 INSERT INTO `ecssendb`.hotline_data VALUES (1, 1);
+INSERT INTO `ecssendb`.hotline_data VALUES (4, 5);
 -- -----------------------------------------------------
 -- FOOD DELIVERY DATA
 -- -----------------------------------------------------
@@ -148,6 +149,9 @@ INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`, `organization_id`)
      VALUES (3, 12345, 20, 3, 2, 6, 1);
+INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
+                                  `food_amount`, `organization_id`)
+     VALUES (7, 12345, 20, 3, 2, 6, 1);
 -- -----------------------------------------------------
 -- USER TASK
 -- -----------------------------------------------------
