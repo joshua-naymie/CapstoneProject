@@ -9,6 +9,8 @@
     --header: #174690;
 }*/
 
+/*COMMIT*/
+
 body {
     /*       background-image: linear-gradient(to right, rgba(255,215,0,0.3), rgba(139,0,0,1));
   /*         background-image: url("content/images/login_background.png");*/
@@ -74,6 +76,12 @@ h1 {
     margin-bottom: 10px;
     margin-left: 37%;
     
+}
+
+.forgotlink {
+    display: flex;
+    justify-content: right;
+    padding-top: 20px;
 }
 
 .table-container
@@ -285,13 +293,6 @@ h1 {
     display: none;
 }
 
-
-
-
-
-
-
-
 /*----------------*/
 
 .main-input
@@ -407,6 +408,13 @@ h1 {
 {
     width: 100%;
     color: lightgray;
+}
+
+.forgot-link {
+    text-align: right;
+    text-decoration: none;
+    color: rgb(23, 69, 144);
+    margin-top: -7px;
 }
 
 .login-button

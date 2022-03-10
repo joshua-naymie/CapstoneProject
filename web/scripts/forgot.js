@@ -6,6 +6,8 @@ const MESSAGE_INVALID = "invalid";
 
 var forgotInputs;// = new InputGroupCollection();
 
+// COMMIT
+
 function load()
 {
     forgotInputs = new InputGroupCollection();

@@ -19,6 +19,7 @@
     <script type="text/javascript" src="scripts/functions.js"></script>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--        COMMIT-->
         <title>Password Reset</title>
     </head>
     <body>
