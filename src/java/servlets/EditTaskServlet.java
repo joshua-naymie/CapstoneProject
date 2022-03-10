@@ -183,8 +183,9 @@ public class EditTaskServlet extends HttpServlet {
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
                 task.setApprovingManager(request.getParameter("approving_manager"));
             }
-
-
+            
+            taskService.update(task);
+            response.sendRedirect("task");
         } catch (Exception ex) {
             Logger.getLogger(TaskServlet.class.getName()).log(Level.WARNING, null, ex);
         }
