@@ -204,6 +204,7 @@ public class ProgramServlet extends HttpServlet {
 
             // retrieve the user with the matching ID
             User updateRole = accService.getByID(userId);
+            System.out.println(updateRole.getUserId());
 
             // get current programs the user entered is linked to
             List<ProgramTraining> currentRoles = updateRole.getProgramTrainingList();
@@ -232,7 +233,7 @@ public class ProgramServlet extends HttpServlet {
             }
 
             if (!isFound) {
-                ProgramTraining roleAdd = new ProgramTraining(userId, programId, newRole);
+                ProgramTraining roleAdd = new ProgramTraining(updateRole, proService.get(programId) , newRole);
                 proService.insertProgramTraining(roleAdd);
             }
 

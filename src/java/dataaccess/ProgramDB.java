@@ -80,7 +80,7 @@ public class ProgramDB {
         
         try {
             programTraining.getUser().getProgramTrainingList().add(programTraining);
-            System.out.println(programTraining.getUser().getUserId());
+//            System.out.println(programTraining.getUser().getUserId());
             programTraining.getProgram().getProgramTrainingList().add(programTraining);
             programTraining.getRoleId().getProgramTrainingList().add(programTraining);
             trans.begin();
