@@ -130,11 +130,19 @@ window.onload = () => {
         tr.appendChild(td_date);
 	
         let td_start_time = document.createElement("td");
-        td_start_time.innerText = new Date(taskData.start_time).toLocaleTimeString();
+        td_start_time.innerText = new Date(taskData.start_time).toLocaleTimeString(
+		navigator.language, {
+		hour: '2-digit',
+	minute:'2-digit'
+	});
         tr.appendChild(td_start_time);
 
         let td_end_time = document.createElement("td");
-        td_end_time.innerText = new Date(taskData.end_time).toLocaleTimeString();
+        td_end_time.innerText = new Date(taskData.end_time).toLocaleTimeString(
+		navigator.language, {
+		hour: '2-digit',
+		minute:'2-digit'
+	});
         tr.appendChild(td_end_time);
 
         let td_desc = document.createElement("td");
