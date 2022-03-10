@@ -215,6 +215,10 @@ public class AddTaskServlet extends HttpServlet {
             Task addTask = new Task(0L, sTime, eTime, true, false, "Jane Doe", cityAdd);
                 addTask.setTaskDescription(description);
                 
+                addTask.setIsApproved(false);
+                addTask.setIsSubmitted(false);
+                addTask.setIsApproved(false);
+                
                 addTask.setMaxUsers(spotsAdd);
             try {
                 String fullName = as.getByID(supervisorId).getFirstName() + " " + as.getByID(supervisorId).getLastName();
