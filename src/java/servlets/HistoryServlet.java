@@ -52,7 +52,7 @@ public class HistoryServlet extends HttpServlet
                                         new JSONKey("id", false),
                                         new JSONKey("program", true),
                                         new JSONKey("date", true),
-                                        new JSONKey("state", true),
+                                        new JSONKey("status", true),
                                         new JSONKey("city", true)
                                     };
             
@@ -93,13 +93,13 @@ public class HistoryServlet extends HttpServlet
                             task.getTaskId(),
                             task.getProgramId().getProgramName(),
                             jsonDateFormat.format(task.getStartTime()),
-                            getTaskState(task),
+                            getTaskStatus(task),
                             task.getTaskCity()
                           };
         return builder.buildJSON(values);
     }
     
-    private String getTaskState(Task task)
+    private String getTaskStatus(Task task)
     {
         if(task.isApproved())
         {
