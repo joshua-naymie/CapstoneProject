@@ -20,6 +20,12 @@ function load()
     newPassInput.setEnterFunction(newPass);
     inputArea.appendChild(newPassInput.container);
     newInput.add(newPassInput);
+    
+    newPassInput.setLabelText("Confirm New Password:");
+    newPassInput.setPlaceHolderText("Retype password");
+    newPassInput.setEnterFunction(newPass);
+    inputArea.appendChild(newPassInput.container);
+    newInput.add(newPassInput);
 
     inputArea.appendChild(document.createElement("hr"));
 
