@@ -31,6 +31,7 @@ class DataColumn
      */
     generateContent(element, isLast)
     {
+        let value = element[this.keyName] == null ? "" : element[this.keyName]
         let cell = document.createElement("div");
         cell.classList.add(this.className);
         if(isLast)
@@ -38,7 +39,7 @@ class DataColumn
             cell.classList.add("last-column");
         }
         
-        let content = this.contentGenerator(element[this.keyName]);
+        let content = this.contentGenerator(value);
 //        content.classList.add(`${this.className}-content`);
 
         cell.appendChild(content);
