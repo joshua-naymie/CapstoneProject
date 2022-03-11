@@ -20,7 +20,10 @@
         <script type="text/javascript" src="scripts/rowmanager.js"></script>
         <script>${taskData}</script>
     </head>
-    <body>
-        <div id="main"></div>
+    <body class="base">
+        <%@ include file="navbar.jsp" %>
+        <div id="main" class="body">
+            <h1>Submitted Tasks</h1>
+        </div>
     </body>
 </html>

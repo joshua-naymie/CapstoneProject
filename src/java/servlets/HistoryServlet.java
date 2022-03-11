@@ -16,7 +16,7 @@ import models.*;
 public class HistoryServlet extends HttpServlet
 {
     private static final
-    DateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a z");
+    DateFormat jsonDateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm a");
     
     private static final
     String HISTORY_JSP_DIR = "/WEB-INF/history.jsp";
@@ -36,7 +36,10 @@ public class HistoryServlet extends HttpServlet
         TaskService taskService = new TaskService();
         try
         {
-            List<Task> tasks = taskService.getUserHistory(Long.parseLong(request.getParameter("id")));
+            String id = request.getParameter("id");
+            
+            id = (id == null || id.equals("")) ? "1" : id;
+            List<Task> tasks = taskService.getUserHistory(Long.parseLong(id));
             StringBuilder historyVar = new StringBuilder();
             
             historyVar.append("var historyData = [");
