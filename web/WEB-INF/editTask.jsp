@@ -27,7 +27,7 @@
 
             <body>
                 <%@ include file="navbar.jsp" %>
-		<script>var editTask = ${taskData}</script>
+		<script>${taskData}</script>
 		<script src="scripts/editTask.js"></script>
 
 
@@ -84,38 +84,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="supervisorAdd" class="input-label">Approving Supervisor</label>
-                                <select name="supervisorAdd" id="supervisorAdd" class="form-control col-md-5">
-                                    <c:forEach items="${allSupervisors}" var="supervisor">
-                                        <option value="${supervisor.getUserId()}">
-                                            ${supervisor.getFirstName()} ${supervisor.getLastName()}
-                                        </option>
-                                    </c:forEach>
-                                </select>
 
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="companyAdd" class="input-label">Company</label>
-                                <select name="companyAdd" id="companyAdd" class="form-control col-md-5">
-                                    <option value="" selected>Choose here</option>
-                                    <c:forEach items="${allCompanies}" var="company">
-                                        <option value="${company.getCompanyId()}">
-                                            ${company.getCompanyName()}
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="storeAdd" class="input-label">Store Name:</label>
-                                <select name="storeAdd" id="storeAdd" class="form-control col-md-5">
-                                    <option value="" selected>Choose here</option>
-                                </select>
-                            </div>
-                            
                             <label for="spotsAdd">Spots: </label>
                             <input type="number" id="spotsAdd" name="spotsAdd" min="1" max="10" value="1">
                             

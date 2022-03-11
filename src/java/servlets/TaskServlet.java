@@ -12,7 +12,8 @@ import services.*;
 
 public class TaskServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         TaskService taskService = new TaskService();
         List<Task> taskList = null;
         try {
@@ -23,7 +24,7 @@ public class TaskServlet extends HttpServlet {
         request.setAttribute("tasks", taskList);
 
         StringBuilder returnData = new StringBuilder();
-        returnData.append("var data = [");
+        returnData.append("var taskDataSet = [");
 
         JSONKey[] keys = { new JSONKey("task_id", true),
                 new JSONKey("program_name", true),
@@ -47,8 +48,7 @@ public class TaskServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
     }
 
-    private String buildTaskJSON(Task task, JSONBuilder builder)
-    {
+    private String buildTaskJSON(Task task, JSONBuilder builder) {
         Object[] taskValues = { task.getTaskId(),
                 task.getProgramId().getProgramName(),
                 task.getStartTime(),
@@ -59,7 +59,8 @@ public class TaskServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 }
