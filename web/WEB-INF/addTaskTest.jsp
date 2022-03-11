@@ -92,7 +92,7 @@
                             </div>
 
 
-                            <div class="form-group">
+                            <div class="form-group foodDeliveryFields">
                                 <label for="companyAdd" class="input-label">Company</label>
                                 <select name="companyAdd" id="companyAdd" class="form-control col-md-5">
                                     <option value="" selected>Choose here</option>
@@ -104,15 +104,17 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group foodDeliveryFields">
                                 <label for="storeAdd" class="input-label">Store Name:</label>
                                 <select name="storeAdd" id="storeAdd" class="form-control col-md-5">
                                     <option value="" selected>Choose here</option>
                                 </select>
                             </div>
                             
-                            <label for="spotsAdd">Spots: </label>
-                            <input type="number" id="spotsAdd" name="spotsAdd" min="1" max="10" value="1">
+                            <div class="foodDeliveryFields">
+                                <label for="spotsAdd">Spots: </label>
+                                <input type="number" id="spotsAdd" name="spotsAdd" min="1" max="10" value="1">
+                            </div>
                             
                             <!-- Number of volunteers for the task -->
                             <input type="submit" value="Add" name="action"> 
@@ -149,6 +151,24 @@
                         });
                     }
                 );
+
+                $(document).ready(function(){
+                    $('.foodDeliveryFields').hide();
+                    $('#programAdd').on('change', function() {
+                        console.log(this.value);
+                        let pid = $('#programAdd').val();
+                        var p = pid.split(';');
+                      if ( p[1] == 1)
+                      //.....................^.......
+                      {
+                        $('.foodDeliveryFields').show();
+                      }
+                      else
+                      {
+                        $('.foodDeliveryFields').hide();
+                      }
+                    });
+                });
         
                 $program = $('#programAdd');
 
