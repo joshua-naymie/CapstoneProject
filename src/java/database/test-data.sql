@@ -28,18 +28,11 @@ INSERT INTO `role` (`role_name`, `role_description`)
 INSERT INTO `role` (`role_name`, `role_description`) 
      VALUES ('Supervisor', 'Supervisors/Approving Manager');
 -- -----------------------------------------------------
--- PACKAGE TYPE
--- -----------------------------------------------------
-INSERT INTO `ecssendb`.`package_type` (package_name, weight_lb)
-     VALUES ('Box', 35);
-INSERT INTO `ecssendb`.`package_type` (package_name, weight_lb)
-     VALUES ('Bag', 15);
--- -----------------------------------------------------
 -- ORGANIZATION
 -- -----------------------------------------------------
 INSERT INTO `ecssendb`.`organization` (`street_address`, `postal_code`, 
         `org_city`, `org_code`, `org_name`, `phone_num`, `contact`, `is_active`)
-     VALUES ( '241 Whitefield Drive', 'T3Y5G2', 'Calgary', 23, 'Church #1', '123-234-5678', 'Jane Doe', 1);
+     VALUES ( '241 Whitefield Drive', 'T3Y5G2', 'Calgary', 23, 'Church #1', '123-234-5678', 'Jane Doe', 0);
 -- -----------------------------------------------------
 -- PROGRAM
 -- -----------------------------------------------------
@@ -117,7 +110,7 @@ INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`
             'Pickup boxes and drop to Wilson Family', 'Calgary');
 INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
-     VALUES (3, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
+     VALUES (2, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
             'Task completed. No issues.', 'Manager Jane', 
             'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
 INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
@@ -132,13 +125,14 @@ INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`
             'Pickup boxes and drop to Wilson Family', 'Calgary', FALSE, TRUE);
 INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
-     VALUES (3, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
+     VALUES (1, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
             'Task completed. No issues.', 'Manager Jane', 
             'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
 -- -----------------------------------------------------
 -- HOTLINE DATA
 -- -----------------------------------------------------
 INSERT INTO `ecssendb`.hotline_data VALUES (1, 1);
+INSERT INTO `ecssendb`.hotline_data VALUES (4, 5);
 -- -----------------------------------------------------
 -- FOOD DELIVERY DATA
 -- -----------------------------------------------------
@@ -148,6 +142,9 @@ INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`, `organization_id`)
      VALUES (3, 12345, 20, 3, 2, 6, 1);
+INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
+                                  `food_amount`, `organization_id`)
+     VALUES (7, 12345, 20, 3, 2, 6, 1);
 -- -----------------------------------------------------
 -- USER TASK
 -- -----------------------------------------------------
@@ -161,3 +158,23 @@ INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
      VALUES (1, 6);
 INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
      VALUES (1, 7);
+
+-- -----------------------------------------------------
+-- PACKAGE TYPE
+-- -----------------------------------------------------
+INSERT INTO `package_type` (`package_name`,`weight_lb`) 
+     VALUES ("Bag", 10);
+INSERT INTO `package_type` (`package_name`,`weight_lb`) 
+     VALUES ("Tray", 15);
+INSERT INTO `package_type` (`package_name`,`weight_lb`) 
+     VALUES ("Box", 35);
+
+-- -----------------------------------------------------
+-- ORGANIZATION
+-- -----------------------------------------------------
+INSERT INTO `organization` (`street_address`, `postal_code`, `org_city`, `org_code`, `org_name`, `phone_num`, `contact`, `is_active`) 
+     VALUES ("155 Falconridge Crescent NE","T3J1Z9", "Calgary", 1, "Falconridge Family Church", "403-123-4567", "Pastor David", true);
+
+INSERT INTO `organization` (`street_address`, `postal_code`, `org_city`, `org_code`, `org_name`, `phone_num`, `contact`, `is_active`) 
+     VALUES ("155 Taradale Crescent NE","T3J1Z9", "Calgary", 1, "Taradale Church", "403-123-4567", "Pastor John", true);
+

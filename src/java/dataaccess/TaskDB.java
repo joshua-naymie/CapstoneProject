@@ -45,6 +45,23 @@ public class TaskDB {
             entityManager.close();
         }
     }
+    
+    public List<Task> getSubmittedToManager(String managerId) throws Exception
+    {
+        EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
+        
+        try
+        {
+            TypedQuery query = entityManager.createNamedQuery("Task.findSubmittedToManger", Task.class);
+            query.setParameter("approvingManager", managerId);
+            
+            return query.getResultList();
+        }
+        finally
+        {
+            entityManager.close();
+        }
+    }
      
     public List<Task> getAllNotApprovedTasks() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();

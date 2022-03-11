@@ -152,6 +152,21 @@ public class EditTaskServlet extends HttpServlet {
             }
 
             request.setAttribute("taskData", returnData);
+	
+	ProgramServices ps = new ProgramServices();
+	List<Program> allPrograms = null;
+
+		try {
+		    allPrograms = ps.getAll();
+		} catch (Exception ex) {
+		    Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+	//     for(Program p: allPrograms) {
+	//         System.out.println(p.getProgramName());
+	//         System.out.println(p.getProgramId());
+	//     }
+	    request.setAttribute("allPrograms", allPrograms);
         }
         System.out.println("ID: " + id);
 

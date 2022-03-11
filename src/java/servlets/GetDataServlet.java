@@ -1,6 +1,5 @@
 package servlets;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -10,10 +9,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import models.Program;
 import models.Store;
 import models.User;
 import services.AccountServices;
 import services.CompanyService;
+import services.ProgramServices;
 import services.StoreServices;
 
 /**
@@ -24,93 +26,124 @@ public class GetDataServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
+			throws ServletException, IOException {
 
-		CompanyService cs = new CompanyService();		
+		CompanyService cs = new CompanyService();
 		String op = request.getParameter("operation");
-            
+
 		if (op.equals("store")) {
 			String companyId = request.getParameter("companyId");
 
-                List<Store> storelist = null;
+			List<Store> storelist = null;
 			try {
 				storelist = cs.get(Short.parseShort(companyId)).getStoreList();
 			} catch (Exception ex) {
 				Logger.getLogger(GetDataServlet.class.getName()).log(Level.SEVERE, null, ex);
 			}
-                
+
 			StringBuilder storeJSON = new StringBuilder();
 			storeJSON.append('[');
 			if (storelist != null) {
-				for (Store store : storelist)
-				{
+				for (Store store : storelist) {
 					storeJSON.append('{');
 					storeJSON.append("\"store_name\":" + "\"" + store.getStoreName() + "\",");
 					storeJSON.append("\"store_id\":" + "\"" + store.getStoreId() + "\"");
 					storeJSON.append("},");
 				}
 			}
-				if (storeJSON.length() > 2) {
-					storeJSON.setLength(storeJSON.length() - 1);
-				}
+			if (storeJSON.length() > 2) {
+				storeJSON.setLength(storeJSON.length() - 1);
+			}
 
-				storeJSON.append(']');
+			storeJSON.append(']');
 
-                response.setContentType("text/html");
-                response.getWriter().write(storeJSON.toString());
-            }
-                
-                AccountServices as = new AccountServices();
-    List<User> allSupervisors = null;
-    
-    if (op.equals("program")) {
-        
-            String programAdd = (String) request.getParameter("programId");
-            
-            //String[] parts = programAdd.split(";");
-            
-            //String programAddName = parts[0];
-            Short pogramAddId = Short.valueOf(programAdd);
-        
-        try {
-            allSupervisors = as.getAllActiveSupervisorsByProgram(pogramAddId);
-
-        } catch (Exception ex) {
-            Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
-        StringBuilder programJSON = new StringBuilder();
-	programJSON.append('[');
-        
-        if (allSupervisors != null) {
-        
-            for (User user : allSupervisors)
-		{
-                    programJSON.append('{');
-                    programJSON.append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName()+ "\",");
-                    programJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
-                    programJSON.append("},");
+			response.setContentType("text/html");
+			response.getWriter().write(storeJSON.toString());
 		}
-	}
-            
-        if (programJSON.length() > 2) {
-            programJSON.setLength(programJSON.length() - 1);
-	}
-        
-//        if (programJSON.length() == 1) {
-//            programJSON.setLength(programJSON.length() - 1);
-//	}
 
-	programJSON.append(']');
+		AccountServices as = new AccountServices();
+		List<User> allSupervisors = null;
 
-        response.setContentType("text/html");
-        response.getWriter().write(programJSON.toString());
-    }
+		if (op.equals("program")) {
+
+			String programAdd = (String) request.getParameter("programId");
+
+			// String[] parts = programAdd.split(";");
+
+			// String programAddName = parts[0];
+			Short pogramAddId = Short.valueOf(programAdd);
+
+			try {
+				allSupervisors = as.getAllActiveSupervisorsByProgram(pogramAddId);
+
+			} catch (Exception ex) {
+				Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+			}
+
+			StringBuilder programJSON = new StringBuilder();
+			programJSON.append('[');
+
+			if (allSupervisors != null) {
+
+				for (User user : allSupervisors) {
+					programJSON.append('{');
+					programJSON
+							.append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName() + "\",");
+					programJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
+					programJSON.append("},");
+				}
+			}
+
+			if (programJSON.length() > 2) {
+				programJSON.setLength(programJSON.length() - 1);
+			}
+
+			// if (programJSON.length() == 1) {
+			// programJSON.setLength(programJSON.length() - 1);
+			// }
+
+			programJSON.append(']');
+
+			response.setContentType("text/html");
+			response.getWriter().write(programJSON.toString());
+		}
+
+		if (op.equals("allProgram")) {
+			List<Program> programs = null;
+			ProgramServices ps = new ProgramServices();
+
+			try {
+				programs = ps.getAll();
+
+			} catch (Exception ex) {
+				Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+			}
+			StringBuilder programJSON = new StringBuilder();
+			programJSON.append('[');
+
+			if (programs != null) {
+				for (Program program : programs) {
+					programJSON.append('{');
+					programJSON.append("\"program_name\":" + "\"" + program.getProgramName() + "\",");
+					programJSON.append("\"program_id\":" + "\"" + program.getProgramId() + "\"");
+					programJSON.append("},");
+				}
+			}
+
+			if (programJSON.length() > 2) {
+				programJSON.setLength(programJSON.length() - 1);
+			}
+
+			programJSON.append(']');
+
+			response.setContentType("text/html");
+			response.getWriter().write(programJSON.toString());
+		}
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
+			throws ServletException, IOException {
 
 	}
 

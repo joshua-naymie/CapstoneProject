@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package servlets;
 
-import com.oracle.wls.shaded.org.apache.xalan.xsltc.compiler.sym;
 import java.io.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.List;
 
 import services.*;
@@ -17,17 +11,16 @@ import models.*;
 
 /**
  *
- * @author Main
+ * @author <jnaymie@gmail.com>
  */
 public class HistoryServlet extends HttpServlet
 {
     private static final
-    DateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a z");
+    DateFormat jsonDateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm a");
     
     private static final
     String HISTORY_JSP_DIR = "/WEB-INF/history.jsp";
     
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -43,7 +36,10 @@ public class HistoryServlet extends HttpServlet
         TaskService taskService = new TaskService();
         try
         {
-            List<Task> tasks = taskService.getUserHistory(Long.parseLong(request.getParameter("id")));
+            String id = request.getParameter("id");
+            
+            id = (id == null || id.equals("")) ? "1" : id;
+            List<Task> tasks = taskService.getUserHistory(Long.parseLong(id));
             StringBuilder historyVar = new StringBuilder();
             
             historyVar.append("var historyData = [");

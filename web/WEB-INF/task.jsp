@@ -19,12 +19,35 @@
 	</head>
 	<body>
 		<%@ include file="navbar.jsp" %>
-		<script>let taskDataSet = ${taskData}</script>
+		<script>${taskData}</script>
 		<script src="scripts/task.js"></script>
 		
 		<!------------------------------ Accordion Start ------------------------------------>
 		<div class="accordion col-md-9" id="accordionWeek">
 			<p class="h1 text-center">Task</p>
 		</div>
+
+		<!------------------------------- Task Modal --------------------------->
+		<div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				
+					<div class="modal-header">
+						<h5 class="modal-title" id="taskModalLabel">View Task</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+
+					<div class="modal-body">
+						<%@ include file="viewSingleTask.jsp" %>
+					</div>
+
+		 		   	<div class="modal-footer">
+   		    			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+   		    		</div>
+				</div>
+			</div>
+		</div>
+
+
 	</body>
 </html>

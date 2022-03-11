@@ -18,12 +18,12 @@
             <ul>
                 <li><br></li>
                 <li><div class="navbartxtandimg"><a href="#"><img src="content/images/005-home.png"><span>Home</span></a></div></li>
-                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/003-to-do-list.png"><span>Tasks</span></a></div></li>
-                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/004-history.png"><span>History</span></a></div></li>
-                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/group.png"><span>Users</span></a></div></li>
+                <li><div class="navbartxtandimg"><a href="tasks"><img src="content/images/003-to-do-list.png"><span>Tasks</span></a></div></li>
+                <li><div class="navbartxtandimg"><a href="history"><img src="content/images/004-history.png"><span>History</span></a></div></li>
+                <li><div class="navbartxtandimg"><a href="users"><img src="content/images/group.png"><span>Users</span></a></div></li>
                 <li><div class="navbartxtandimg"><a href="#"><img src="content/images/006-report.png"><span>Reports</span></a></div></li>
                 <li><div class="navbartxtandimg"><a href="#"><img src="content/images/001-heart.png"><span>Donations</span></a></div></li>
-                <li><div class="navbartxtandimg"><a href="#"><img src="content/images/007-code.png"><span>Programs</span></a></div></li>
+                <li><div class="navbartxtandimg"><a href="programs"><img src="content/images/007-code.png"><span>Programs</span></a></div></li>
                 <li><div class="navbartxtandimg"><a href="#"><img src="content/images/009-user.png"><span>Admin</span></a></div></li>
                 <li><br></li>
                 <li><hr></li>
