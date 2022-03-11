@@ -29,10 +29,14 @@ class DataColumn
      * @param {object} element 
      * @returns An HTML div with the cell content appended to it
      */
-    generateContent(element)
+    generateContent(element, isLast)
     {
         let cell = document.createElement("div");
         cell.classList.add(this.className);
+        if(isLast)
+        {
+            cell.classList.add("last-column");
+        }
         
         let content = this.contentGenerator(element[this.keyName]);
 //        content.classList.add(`${this.className}-content`);

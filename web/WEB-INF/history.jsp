@@ -20,9 +20,10 @@
         <script type="text/javascript" src="scripts/rowmanager.js"></script>
         <script>${historyData}</script>
     </head>
-    <body>
-        <div id="main">
-            
+    <body class="base">
+        <%@ include file="navbar.jsp" %>
+        <div id="main" class="body">
+            <h1>History</h1>
         </div>
     </body>
 </html>
