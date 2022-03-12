@@ -17,9 +17,10 @@
     <script type="text/javascript" src="scripts/inputgroup.js"></script>
     <script type="text/javascript" src="scripts/inputgroupcollection.js"></script>
     <script type="text/javascript" src="scripts/functions.js"></script>
+    <script type="text/javascript" src="scripts/resettest.js"></script>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!--        COMMIT-->
+        <!--        COMMIT-->
         <title>Password Reset</title>
     </head>
     <body>
@@ -32,6 +33,15 @@
 
                     </div>
                 </form>
+
+                <div id="message">
+                    <h3>PASSWORD MUST CONTAIN</h3>
+                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                    <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                    <p id="number" class="invalid">A <b>number</b></p>
+                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                </div>
+
             </div>
         </div>
     </body>
