@@ -9,6 +9,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.*;
+import java.util.stream.Collectors;
 
 import models.*;
 import services.*;
@@ -16,12 +17,16 @@ import services.*;
 public class EditTaskServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("task_id");
-        if (id != null) {
+        // logged in user
+        String user_id = request.getParameter("user_id");
+        User loggedInUser = new User(Integer.parseInt(user_id));
+
+        String task_id = request.getParameter("task_id");
+        if (task_id != null) {
             TaskService taskService = new TaskService();
             Task editTask = new Task();
             try {
-                editTask = taskService.get(Long.parseLong(id));
+                editTask = taskService.get(Long.parseLong(task_id));
             } catch (Exception ex) {
                 Logger.getLogger(TaskServlet.class.getName()).log(Level.WARNING, null, ex);
             }
@@ -95,6 +100,14 @@ public class EditTaskServlet extends HttpServlet {
                     CompanyService companyService = new CompanyService();
                     List<CompanyName> companyNames = companyService.getAll();
 
+                    UserTaskService userTaskService = new UserTaskService();
+                    List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
+                    Team team = new Team(editTask.getTeamId().getTeamId());
+                    List<User> canBeAssigned = team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
+                    canBeAssigned.remove(loggedInUser);
+
+                    request.setAttribute("chosenUsers", chosenUsers);
+                    request.setAttribute("canBeAssigned", canBeAssigned);
                     request.setAttribute("stores", stores);
                     request.setAttribute("companies", companyNames);
                 } catch (Exception ex) {
@@ -168,7 +181,7 @@ public class EditTaskServlet extends HttpServlet {
 	//     }
 	    request.setAttribute("allPrograms", allPrograms);
         }
-        System.out.println("ID: " + id);
+        System.out.println("ID: " + task_id);
 
         getServletContext().getRequestDispatcher("/WEB-INF/editTask.jsp").forward(request, response);
     }
@@ -180,7 +193,8 @@ public class EditTaskServlet extends HttpServlet {
             Task task = taskService.get(Long.parseLong(request.getParameter("task_id")));
 
             task.setProgramId(new Program(Short.parseShort(request.getParameter("program_id"))));
-            task.setMaxUsers(Short.parseShort(request.getParameter("max_users")));
+            short maxUsers = Short.parseShort(request.getParameter("max_users"));
+            task.setMaxUsers(maxUsers);
 
             String date = request.getParameter("date");
             String startTime = request.getParameter("start_time");
@@ -193,13 +207,20 @@ public class EditTaskServlet extends HttpServlet {
             task.setNotes(request.getParameter("notes"));
             task.setTaskDescription(request.getParameter("task_description"));
             task.setTaskCity(request.getParameter("task_city"));
-            task.setTeamId(new Team(Integer.parseInt(request.getParameter("team_id"))));
+
+            Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
+            task.setTeamId(team);
 
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
                 task.setApprovingManager(request.getParameter("approving_manager"));
             }
             
             taskService.update(task);
+
+            UserTaskService userTaskService = new UserTaskService();
+
+            // Insert and update UserTask
+
             response.sendRedirect("tasks");
         } catch (Exception ex) {
             Logger.getLogger(TaskServlet.class.getName()).log(Level.WARNING, null, ex);
