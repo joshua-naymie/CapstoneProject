@@ -36,11 +36,11 @@ public class SubmitTaskFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         TaskService ts = new TaskService();
-        
-        Long submitTaskId = 6L;
-        
+
+        Long submitTaskId = 1L;
+
         Task editTask = null;
 
         try {
@@ -48,60 +48,57 @@ public class SubmitTaskFormServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    Short foodDeliveryId = 1;
-        
-    String description = editTask.getTaskDescription();
-    
-    if(foodDeliveryId == editTask.getProgramId().getProgramId()){ 
-        
-        request.setAttribute("foodDelivery", true); 
-        
-        PackageTypeService pts = new PackageTypeService();
-        
-        List<PackageType> allPackages = null;
-    
-        try {
-            allPackages = pts.getAll();
-        } catch (Exception ex) {
-            Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        request.setAttribute("allPackages", allPackages);
-    
-        OrganizationService os = new OrganizationService();
-        
-        List<Organization> organizations = null;
-    
-        try {
-            organizations = os.getAll();
-        } catch (Exception ex) {
-            Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        request.setAttribute("organizations", organizations);
-        
-        
-        
-    }
-    else{
-        //log("here");
-    }
 
-    request.setAttribute("description", description);
-    
-    getServletContext().getRequestDispatcher("/WEB-INF/submitTaskForm.jsp").forward(request, response);
-    
+        Short foodDeliveryId = 1;
+
+        String description = editTask.getTaskDescription();
+
+        if (foodDeliveryId == editTask.getProgramId().getProgramId()) {
+
+            request.setAttribute("foodDelivery", true);
+
+            PackageTypeService pts = new PackageTypeService();
+
+            List<PackageType> allPackages = null;
+
+            try {
+                allPackages = pts.getAll();
+            } catch (Exception ex) {
+                Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            request.setAttribute("allPackages", allPackages);
+
+            OrganizationService os = new OrganizationService();
+
+            List<Organization> organizations = null;
+
+            try {
+                organizations = os.getAll();
+            } catch (Exception ex) {
+                Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            request.setAttribute("organizations", organizations);
+
+        } else {
+            // log("here");
+        }
+
+        request.setAttribute("description", description);
+
+        getServletContext().getRequestDispatcher("/WEB-INF/submitTaskForm.jsp").forward(request, response);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                
+
         TaskService ts = new TaskService();
-        
+
         Long submitTaskId = 6L;
-        
+
         Task editTask = null;
 
         try {
@@ -109,87 +106,86 @@ public class SubmitTaskFormServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
         String programName = editTask.getProgramId().getProgramName();
-        
+
         Short programId = editTask.getProgramId().getProgramId();
-        
+
         Short foodDeliveryId = 1;
-                 
+
         String taskStart = request.getParameter("taskStart");
-        
+
         Date taskStartTime = null;
         Date taskEndTime = null;
-                
+
         try {
             taskStartTime = new SimpleDateFormat("hh:mm").parse(taskStart);
             log(taskStartTime.toString());
-                
+
         } catch (ParseException ex) {
             Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         String taskEnd = request.getParameter("taskEnd");
-            
+
         try {
             taskEndTime = new SimpleDateFormat("hh:mm").parse(taskEnd);
             log(taskEndTime.toString());
-                
+
         } catch (ParseException ex) {
             Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         BigDecimal totalHours = new BigDecimal(0);
-        
-        totalHours = new BigDecimal ( ( (taskEndTime.getTime() - taskStartTime.getTime() ) / (1000.0 * 60 * 60) ) );
-        
+
+        totalHours = new BigDecimal(((taskEndTime.getTime() - taskStartTime.getTime()) / (1000.0 * 60 * 60)));
+
         String notes = request.getParameter("notes");
-        
+
         editTask.setNotes(notes);
-        
+
         FoodHotlineDataService fds = new FoodHotlineDataService();
 
-        if(programId == foodDeliveryId){
+        if (programId == foodDeliveryId) {
             Short mileage = Short.valueOf(request.getParameter("mileage"));
             Short fooodAmount = Short.valueOf(request.getParameter("food_amount"));
             Short familyCount = Short.valueOf(request.getParameter("family_count"));
             Short packageId = Short.valueOf(request.getParameter("package_id"));
             Integer organizationId = Integer.valueOf(request.getParameter("organization_id"));
-            
+
             FoodDeliveryData fd = new FoodDeliveryData(submitTaskId);
             fd.setMileage(mileage);
             fd.setFoodHoursWorked(totalHours);
             fd.setFoodAmount(fooodAmount);
             fd.setFamilyCount(familyCount);
-            
+
             Organization ot = new Organization(organizationId);
             fd.setOrganizationId(ot);
-            
+
             PackageType pt = new PackageType(packageId);
             fd.setPackageId(pt);
-            
+
             fd.setStoreId(editTask.getTeamId().getStoreId());
-            
+
             fds.insertFoodDeliveryData(fd);
-         
+
         } else {
             HotlineData hd = new HotlineData(submitTaskId);
-            hd.setHotlineHoursWorked(totalHours);  
-            
+            hd.setHotlineHoursWorked(totalHours);
+
             fds.insertHotlineData(hd);
         }
-            
+
         try {
             editTask.setIsSubmitted(Boolean.TRUE);
-            ts.update(editTask);    
-            
+            ts.update(editTask);
+
         } catch (Exception ex) {
             Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-    getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
-    
+
+        getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
+
     }
- 
+
 }
