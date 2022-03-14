@@ -91,6 +91,17 @@ INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`)
      VALUES (1,1,1);
 INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
      VALUES (4,5,1);
+
+ -----------------------------------------------------
+-- PACKAGE TYPE
+-- -----------------------------------------------------
+INSERT INTO `package_type` (`package_name`,`weight_lb`) 
+     VALUES ("Bag", 10);
+INSERT INTO `package_type` (`package_name`,`weight_lb`) 
+     VALUES ("Tray", 15);
+INSERT INTO `package_type` (`package_name`,`weight_lb`) 
+     VALUES ("Box", 35);
+
 -- -----------------------------------------------------
 -- TASK
 -- -----------------------------------------------------
@@ -128,6 +139,8 @@ INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`
      VALUES (1, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
             'Task completed. No issues.', 'Manager Jane', 
             'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
+--
+
 -- -----------------------------------------------------
 -- HOTLINE DATA
 -- -----------------------------------------------------
@@ -141,10 +154,10 @@ INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_
      VALUES (2, 12345, 30, 4.5, 1, 12, 3);
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`, `organization_id`)
-     VALUES (3, 12345, 20, 3, 2, 6, 1);
+     VALUES (3, 12345, 20, 3, 1, 6, 1);
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`, `organization_id`)
-     VALUES (7, 12345, 20, 3, 2, 6, 1);
+     VALUES (7, 12345, 20, 3, 1, 6, 1);
 -- -----------------------------------------------------
 -- USER TASK
 -- -----------------------------------------------------
@@ -159,15 +172,6 @@ INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
 INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
      VALUES (1, 7);
 
--- -----------------------------------------------------
--- PACKAGE TYPE
--- -----------------------------------------------------
-INSERT INTO `package_type` (`package_name`,`weight_lb`) 
-     VALUES ("Bag", 10);
-INSERT INTO `package_type` (`package_name`,`weight_lb`) 
-     VALUES ("Tray", 15);
-INSERT INTO `package_type` (`package_name`,`weight_lb`) 
-     VALUES ("Box", 35);
 
 -- -----------------------------------------------------
 -- ORGANIZATION
