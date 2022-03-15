@@ -9,6 +9,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 import models.Program;
 import models.ProgramTraining;
@@ -136,5 +137,13 @@ public class ProgramDB {
         } finally {
             em.close();
         }
+    }
+
+    public List<Short> getAllIDs() throws Exception
+    {
+        EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
+        List<Short> ids = entityManager.createQuery("SELECT p.programId FROM Program p", Short.class).getResultList();
+
+        return ids;
     }
 }
