@@ -9,6 +9,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.*;
+import java.util.stream.Collectors;
 
 import models.*;
 import services.*;
@@ -16,12 +17,16 @@ import services.*;
 public class EditTaskServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("task_id");
-        if (id != null) {
+        // logged in user
+        String user_id = request.getParameter("user_id");
+        User loggedInUser = new User(Integer.parseInt(user_id));
+
+        String task_id = request.getParameter("task_id");
+        if (task_id != null) {
             TaskService taskService = new TaskService();
             Task editTask = new Task();
             try {
-                editTask = taskService.get(Long.parseLong(id));
+                editTask = taskService.get(Long.parseLong(task_id));
             } catch (Exception ex) {
                 Logger.getLogger(TaskServlet.class.getName()).log(Level.WARNING, null, ex);
             }
@@ -30,7 +35,7 @@ public class EditTaskServlet extends HttpServlet {
             StringBuilder returnData = new StringBuilder();
 
             if (editTask.getProgramId().getProgramName().equals("Food Delivery")) {
-                JSONKey[] taskKeys = { new JSONKey("task_id", true),
+                JSONKey[] taskKeys = {new JSONKey("task_id", true),
                         new JSONKey("program_id", true),
                         new JSONKey("program_name", true),
                         new JSONKey("max_users", true),
@@ -50,7 +55,7 @@ public class EditTaskServlet extends HttpServlet {
                         new JSONKey("company_id", true),
                         new JSONKey("company_name", true),
                         new JSONKey("store_id", true),
-                        new JSONKey("store_name", true) };
+                        new JSONKey("store_name", true)};
 
                 JSONBuilder taskBuilder = new JSONBuilder(taskKeys);
 
@@ -64,7 +69,7 @@ public class EditTaskServlet extends HttpServlet {
                 Date endDate = editTask.getEndTime();
                 String endTime = simpleDateFormat.format(endDate);
 
-                Object[] taskData = { editTask.getTaskId(),
+                Object[] taskData = {editTask.getTaskId(),
                         editTask.getProgramId().getProgramId(),
                         editTask.getProgramId().getProgramName(),
                         editTask.getMaxUsers(),
@@ -84,7 +89,7 @@ public class EditTaskServlet extends HttpServlet {
                         editTask.getTeamId().getStoreId().getCompanyId().getCompanyId(),
                         editTask.getTeamId().getStoreId().getCompanyId().getCompanyName(),
                         editTask.getTeamId().getStoreId().getStoreId(),
-                        editTask.getTeamId().getStoreId().getStoreName() };
+                        editTask.getTeamId().getStoreId().getStoreName()};
 
                 returnData.append(taskBuilder.buildJSON(taskData));
                 returnData.append(";");
@@ -130,7 +135,7 @@ public class EditTaskServlet extends HttpServlet {
                 Date endDate = editTask.getEndTime();
                 String endTime = simpleDateFormat.format(endDate);
 
-                Object[] taskData = { editTask.getTaskId(),
+                Object[] taskData = {editTask.getTaskId(),
                         editTask.getProgramId().getProgramId(),
                         editTask.getProgramId().getProgramName(),
                         editTask.getMaxUsers(),
@@ -145,42 +150,62 @@ public class EditTaskServlet extends HttpServlet {
                         editTask.isSubmitted(),
                         editTask.getApprovalNotes(),
                         editTask.isDissaproved(),
-                        editTask.getTeamId().getTeamId() };
+                        editTask.getTeamId().getTeamId()};
 
                 returnData.append(taskBuilder.buildJSON(taskData));
                 returnData.append(";");
             }
 
             request.setAttribute("taskData", returnData);
-	
-	ProgramServices ps = new ProgramServices();
-	List<Program> allPrograms = null;
 
-		try {
-		    allPrograms = ps.getAll();
-		} catch (Exception ex) {
-		    Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-		}
+            ProgramServices ps = new ProgramServices();
+            List<Program> allPrograms = null;
+            try {
+                allPrograms = ps.getAll();
+            } catch (Exception ex) {
+                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-	//     for(Program p: allPrograms) {
-	//         System.out.println(p.getProgramName());
-	//         System.out.println(p.getProgramId());
-	//     }
-	    request.setAttribute("allPrograms", allPrograms);
+            //     for(Program p: allPrograms) {
+            //         System.out.println(p.getProgramName());
+            //         System.out.println(p.getProgramId());
+            //     }
+            request.setAttribute("allPrograms", allPrograms);
+
+            try {
+                UserTaskService userTaskService = new UserTaskService();
+                List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
+                Team team = new Team(editTask.getTeamId().getTeamId());
+                List<User> canBeAssigned = team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
+                canBeAssigned.remove(loggedInUser);
+
+                request.setAttribute("chosenUsers", chosenUsers);
+                request.setAttribute("canBeAssigned", canBeAssigned);
+            } catch (Exception ex) {
+                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            request.setAttribute("user_id", user_id);
+
+            System.out.println("ID: " + task_id);
         }
-        System.out.println("ID: " + id);
-
         getServletContext().getRequestDispatcher("/WEB-INF/editTask.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // logged in user
+        String user_id = request.getParameter("user_id");
+        User loggedInUser = new User(Integer.parseInt(user_id));
+
         try {
             TaskService taskService = new TaskService();
-            Task task = taskService.get(Long.parseLong(request.getParameter("task_id")));
+            long taskId = Long.parseLong(request.getParameter("task_id"))
+            Task task = taskService.get(taskId);
 
             task.setProgramId(new Program(Short.parseShort(request.getParameter("program_id"))));
-            task.setMaxUsers(Short.parseShort(request.getParameter("max_users")));
+            short maxUsers = Short.parseShort(request.getParameter("max_users"));
+            task.setMaxUsers(maxUsers);
 
             String date = request.getParameter("date");
             String startTime = request.getParameter("start_time");
@@ -193,13 +218,39 @@ public class EditTaskServlet extends HttpServlet {
             task.setNotes(request.getParameter("notes"));
             task.setTaskDescription(request.getParameter("task_description"));
             task.setTaskCity(request.getParameter("task_city"));
-            task.setTeamId(new Team(Integer.parseInt(request.getParameter("team_id"))));
+
+            Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
+            task.setTeamId(team);
 
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
                 task.setApprovingManager(request.getParameter("approving_manager"));
+
+                UserTaskService userTaskService = new UserTaskService();
+//                List<User> chosen_users = request.getParameter("chosen_users");
+//                List<User> available_volunteers = request.getParameter("available_volunteers");
             }
             
             taskService.update(task);
+
+
+            // Insert and update UserTask
+            UserTaskService userTaskService = new UserTaskService();
+
+            String userIdList = request.getParameter("selected_user_id_list");
+            String[] list_of_ids = userIdList.split("&");
+            List<Integer> listOfAssinedUserIds = null;
+            for (String userAndId : list_of_ids) {
+                String[] thisUserId = userAndId.split("=");
+                listOfAssinedUserIds.add(Integer.parseInt(thisUserId[1]));
+            }
+            for (int userId : listOfAssinedUserIds) {
+                User user = new User(userId);
+                UserTask userTask = new UserTask(userId, taskId);
+                userTask.setIsAssigned(true);
+                userTaskService.
+            }
+
+
             response.sendRedirect("tasks");
         } catch (Exception ex) {
             Logger.getLogger(TaskServlet.class.getName()).log(Level.WARNING, null, ex);
