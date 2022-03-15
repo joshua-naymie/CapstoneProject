@@ -160,14 +160,14 @@ function validateUserInfo()
 
 function populateFields()
 {
-    taskIDFromDB.setInputText(editUser.taskID);
-    programIDFromDB.setInputText(editUser.programID);
-    teamIDFromDB.setInputText(editUser.teamID);
+    taskIDFromDB.setInputText(taskData.taskID);
+    programIDFromDB.setInputText(taskData.programID);
+    teamIDFromDB.setInputText(taskData.teamID);
     userIDFromDB.setInputText(editUser.userID);
     firstNameInput.setInputText(editUser.firstName);
     lastNameInput.setInputText(editUser.lastName);
-    programNameFromDB.setInputText(editUser.programName);
-    taskCityInput.setInputText(editUser.city);
-    startTimeInput.setInputText(editUser.DOB);
-    endTimeInput.setInputText(editUser.regDate);
+    programNameFromDB.setInputText(editUser.programName); // script.JSON name
+    taskCityInput.setInputText(taskData.city);
+    startTimeInput.setInputText(taskData.startTime);
+    endTimeInput.setInputText(taskData.endTime);
 }
