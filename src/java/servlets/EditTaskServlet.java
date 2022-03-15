@@ -200,7 +200,7 @@ public class EditTaskServlet extends HttpServlet {
 
         try {
             TaskService taskService = new TaskService();
-            long taskId = Long.parseLong(request.getParameter("task_id"))
+            long taskId = Long.parseLong(request.getParameter("task_id"));
             Task task = taskService.get(taskId);
 
             task.setProgramId(new Program(Short.parseShort(request.getParameter("program_id"))));
@@ -232,7 +232,6 @@ public class EditTaskServlet extends HttpServlet {
             
             taskService.update(task);
 
-
             // Insert and update UserTask
             UserTaskService userTaskService = new UserTaskService();
 
@@ -247,7 +246,11 @@ public class EditTaskServlet extends HttpServlet {
                 User user = new User(userId);
                 UserTask userTask = new UserTask(userId, taskId);
                 userTask.setIsAssigned(true);
-                userTaskService.
+                if (userTaskService.getAll().contains(userTask)) {
+                    userTaskService.update(userTask);
+                } else {
+                    userTaskService.insert(userTask);
+                }
             }
 
 
