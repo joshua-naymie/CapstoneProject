@@ -171,7 +171,11 @@ window.onload = () => {
         accordionEditButton.setAttribute("type", "button");
         accordionEditButton.setAttribute("task_id", taskData.task_id);
         accordionEditButton.innerText = "Edit";
-        accordionEditButton.addEventListener("click", () => {});
+        let body = document.getElementsByTagName("body")[0];
+        accordionEditButton.addEventListener(
+          "click",
+          onEdit(body, taskData.task_id, user_id)
+        );
 
         // Sign Up Button
         let accordionSignupButton = document.createElement("button");
@@ -206,7 +210,7 @@ window.onload = () => {
   }
 };
 
-function onEdit(body) {
+function onEdit(body, task_id, user_id) {
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
@@ -218,5 +222,6 @@ function onEdit(body) {
     "Content-Type",
     "application/x-www-form-urlencoded; charset=UTF-8"
   );
-  xhr.send("task_id");
+  xhr.send("task_id=" + task_id);
+  xhr.send("user_id=" + user_id);
 }
