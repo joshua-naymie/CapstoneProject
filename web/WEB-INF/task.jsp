@@ -21,6 +21,7 @@
 		<%@ include file="navbar.jsp" %>
 		<script>${taskData}</script>
 		<script src="scripts/task.js"></script>
+                <script>let user_id = ${loggedInUserId}</script>
 		
 		<!------------------------------ Accordion Start ------------------------------------>
 		<div class="accordion col-md-9" id="accordionWeek">
@@ -48,6 +49,6 @@
 			</div>
 		</div>
 
-                                    
+
 	</body>
 </html>
