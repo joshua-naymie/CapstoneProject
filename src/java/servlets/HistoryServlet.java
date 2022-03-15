@@ -4,6 +4,7 @@ import java.io.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import java.text.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import services.*;
@@ -33,13 +34,16 @@ public class HistoryServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        ProgramServices ps = new ProgramServices();
         TaskService taskService = new TaskService();
         try
         {
+
+            taskService.
             String id = request.getParameter("id");
             
             id = (id == null || id.equals("")) ? "1" : id;
-            List<Task> tasks = taskService.getUserHistory(Long.parseLong(id));
+            List<Task> tasks = new ArrayList<Task>();//taskService.getUserHistory(Long.parseLong(id));
             StringBuilder historyVar = new StringBuilder();
             
             historyVar.append("var historyData = [");
@@ -54,7 +58,7 @@ public class HistoryServlet extends HttpServlet
             
             JSONBuilder historyBuilder = new JSONBuilder(historyKeys);
             
-            if(tasks.size() > 0)
+            if(!tasks.isEmpty())
             {
                 int i;
                 for(i=0; i<tasks.size()-1; i++)

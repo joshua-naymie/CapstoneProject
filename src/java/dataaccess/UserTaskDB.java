@@ -7,6 +7,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserTaskDB {
+    public List<UserTask> getAll() throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {
+            List<UserTask> userTasks = em.createNamedQuery("UserTask.findAll", UserTask.class).getResultList();
+            return userTasks;
+        } finally {
+            em.close();
+        }
+    }
+
     public List<User> getChosenUsers(long taskId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -78,4 +88,6 @@ public class UserTaskDB {
             em.close();
         }
     }
+
+
 }

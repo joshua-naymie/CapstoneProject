@@ -48,6 +48,6 @@
 			</div>
 		</div>
 
-
+<script>console.log("${loggedInUserId}")</script>
 	</body>
 </html>

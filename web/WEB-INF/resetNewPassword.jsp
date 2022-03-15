@@ -8,7 +8,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-    <link type="text/css" rel="stylesheet" href="<c:url value="/login.css" />" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
@@ -34,7 +33,7 @@
                     </div>
                 </form>
 
-                <div id="message">
+                <div id="moo" onfocus="focusFunction()" onblur="blurFunction()">
                     <h3>PASSWORD MUST CONTAIN</h3>
                     <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
                     <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>

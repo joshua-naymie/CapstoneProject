@@ -23,10 +23,12 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         // getting all tasks that need approving
         TaskService ts = new TaskService();
         List<Task> needApproval = null;
+        System.out.println("HERE");
 
         try {
             needApproval = ts.getSubmittedToManager("Manager Jane");  //get a list of all tasks that need approval
-            System.out.println("check needapproval size: " + needApproval.size());
+
+            System.out.println(needApproval.size());
             // sending json data
             StringBuilder taskReturnData = new StringBuilder();
             taskReturnData.append("var taskData = [");

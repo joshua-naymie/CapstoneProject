@@ -100,14 +100,6 @@ public class EditTaskServlet extends HttpServlet {
                     CompanyService companyService = new CompanyService();
                     List<CompanyName> companyNames = companyService.getAll();
 
-                    UserTaskService userTaskService = new UserTaskService();
-                    List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
-                    Team team = new Team(editTask.getTeamId().getTeamId());
-                    List<User> canBeAssigned = team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
-                    canBeAssigned.remove(loggedInUser);
-
-                    request.setAttribute("chosenUsers", chosenUsers);
-                    request.setAttribute("canBeAssigned", canBeAssigned);
                     request.setAttribute("stores", stores);
                     request.setAttribute("companies", companyNames);
                 } catch (Exception ex) {
@@ -180,6 +172,19 @@ public class EditTaskServlet extends HttpServlet {
             //     }
             request.setAttribute("allPrograms", allPrograms);
 
+            try {
+                UserTaskService userTaskService = new UserTaskService();
+                List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
+                Team team = new Team(editTask.getTeamId().getTeamId());
+                List<User> canBeAssigned = team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
+                canBeAssigned.remove(loggedInUser);
+
+                request.setAttribute("chosenUsers", chosenUsers);
+                request.setAttribute("canBeAssigned", canBeAssigned);
+            } catch (Exception ex) {
+                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             request.setAttribute("user_id", user_id);
 
             System.out.println("ID: " + task_id);
@@ -195,7 +200,8 @@ public class EditTaskServlet extends HttpServlet {
 
         try {
             TaskService taskService = new TaskService();
-            Task task = taskService.get(Long.parseLong(request.getParameter("task_id")));
+            long taskId = Long.parseLong(request.getParameter("task_id"))
+            Task task = taskService.get(taskId);
 
             task.setProgramId(new Program(Short.parseShort(request.getParameter("program_id"))));
             short maxUsers = Short.parseShort(request.getParameter("max_users"));
@@ -228,6 +234,21 @@ public class EditTaskServlet extends HttpServlet {
 
 
             // Insert and update UserTask
+            UserTaskService userTaskService = new UserTaskService();
+
+            String userIdList = request.getParameter("selected_user_id_list");
+            String[] list_of_ids = userIdList.split("&");
+            List<Integer> listOfAssinedUserIds = null;
+            for (String userAndId : list_of_ids) {
+                String[] thisUserId = userAndId.split("=");
+                listOfAssinedUserIds.add(Integer.parseInt(thisUserId[1]));
+            }
+            for (int userId : listOfAssinedUserIds) {
+                User user = new User(userId);
+                UserTask userTask = new UserTask(userId, taskId);
+                userTask.setIsAssigned(true);
+                userTaskService.
+            }
 
 
             response.sendRedirect("tasks");
