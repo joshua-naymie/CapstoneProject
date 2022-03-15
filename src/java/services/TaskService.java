@@ -5,6 +5,8 @@
 package services;
 
 import dataaccess.TaskDB;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import models.Task;
 
@@ -31,11 +33,37 @@ public class TaskService {
      * @return
      * @throws Exception 
      */
-    public List<Task> getUserHistory(long id) throws Exception
+//    public List<Task> getUserHistory(long id) throws Exception
+//    {
+//        TaskDB taskDB = new TaskDB();
+//        return taskDB.getHistoryByUserId(id);
+//    }
+    
+    public double getTotalHours(long id)
+    {
+        return getTotalHours(id, LocalDate.now().toString(), "");
+    }
+    
+    public double getTotalHours(long id, String startDate, String endDate) throws Exception
     {
         TaskDB taskDB = new TaskDB();
-        return taskDB.getHistoryByUserId(id);
+        
+        LocalDateTime startTime = startDate == null
+                                             ? null
+                                             : LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        
+        LocalDateTime endTime = endDate == null
+                                         ? null
+                                         : LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        
+        return taskDB.getHistoryByUserId(id, startTime, endTime, null);
     }
+    
+    public double getTotalHours(long id, String startDate, String endDate, String programs)
+    {
+        return 0;
+    }
+    
     
     public List<Task> getSubmittedToManager(String id) throws Exception
     {
