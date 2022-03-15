@@ -33,7 +33,7 @@
                     </div>
                 </form>
 
-                <div id="moo" onfocus="focusFunction()" onblur="blurFunction()">
+                <div id="message" class="message" onfocus="focusFunction()" onblur="blurFunction()">
                     <h3>PASSWORD MUST CONTAIN</h3>
                     <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
                     <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>

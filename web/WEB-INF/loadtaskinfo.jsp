@@ -14,7 +14,7 @@
         <script type="text/javascript" src="scripts/inputgroupcollection.js"></script>
         <script type="text/javascript" src="scripts/regexs.js"></script>
         <script type="text/javascript" src="scripts/validator.js"></script>
-        <script>${userData}</script>
+        <script>${taskData}</script>
     </head>
     <body id="body">
                 <%@ include file="navbar.jsp" %>
