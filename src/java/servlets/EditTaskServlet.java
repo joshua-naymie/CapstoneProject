@@ -103,7 +103,8 @@ public class EditTaskServlet extends HttpServlet {
                     UserTaskService userTaskService = new UserTaskService();
                     List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
                     Team team = new Team(editTask.getTeamId().getTeamId());
-                    List<User> canBeAssigned = team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
+                    List<User> canBeAssigned = null;
+//team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
                     canBeAssigned.remove(loggedInUser);
 
                     request.setAttribute("chosenUsers", chosenUsers);
