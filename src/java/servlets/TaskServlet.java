@@ -14,6 +14,10 @@ public class TaskServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession httpSession = request.getSession();
+        String loggedInUserId = (String) httpSession.getAttribute("email");
+        httpSession.setAttribute("loggedInUserId", loggedInUserId);
+
         TaskService taskService = new TaskService();
         List<Task> taskList = null;
         try {
@@ -26,13 +30,23 @@ public class TaskServlet extends HttpServlet {
         StringBuilder returnData = new StringBuilder();
         returnData.append("var taskDataSet = [");
 
-        JSONKey[] keys = { new JSONKey("task_id", true),
+        JSONKey[] taskKeys = { new JSONKey("task_id", true),
+                new JSONKey("program_id", true),
                 new JSONKey("program_name", true),
+                new JSONKey("max_users", true),
                 new JSONKey("start_time", true),
                 new JSONKey("end_time", true),
-                new JSONKey("task_description", true) };
+                new JSONKey("available", false),
+                new JSONKey("notes", true),
+                new JSONKey("is_approved", false),
+                new JSONKey("task_description", true),
+                new JSONKey("task_city", true),
+                new JSONKey("is_submitted", false),
+                new JSONKey("approval_notes", true),
+                new JSONKey("is_dissaproved", false),
+                new JSONKey("team_id", true) };
 
-        JSONBuilder builder = new JSONBuilder(keys);
+        JSONBuilder builder = new JSONBuilder(taskKeys);
 
         if (taskList.size() > 0) {
             int i = 0;
@@ -50,10 +64,20 @@ public class TaskServlet extends HttpServlet {
 
     private String buildTaskJSON(Task task, JSONBuilder builder) {
         Object[] taskValues = { task.getTaskId(),
+                task.getProgramId().getProgramId(),
                 task.getProgramId().getProgramName(),
+                task.getMaxUsers(),
                 task.getStartTime(),
                 task.getEndTime(),
-                task.getTaskDescription() };
+                task.getAvailable(),
+                task.getNotes(),
+                task.isApproved(),
+                task.getTaskDescription(),
+                task.getTaskCity(),
+                task.isSubmitted(),
+                task.getApprovalNotes(),
+                task.isDissaproved(),
+                task.getTeamId().getTeamId() };
 
         return builder.buildJSON(taskValues);
     }
