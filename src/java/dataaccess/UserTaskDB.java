@@ -28,7 +28,8 @@ public class UserTaskDB {
             query2.setParameter("isChosen", true);
             List<UserTask> allUsersChosen = query2.getResultList();
 
-            List<UserTask> allUsersTaskChosen = allUsersWithTask.stream().filter(allUsersChosen::contains).collect(Collectors.toList());
+            List<UserTask> allUsersTaskChosen = null;
+//allUsersWithTask.stream().filter(allUsersChosen::contains).collect(Collectors.toList());
             List<User> chosenUsers = null;
             for (UserTask userTask : allUsersTaskChosen) {
                 chosenUsers.add(userTask.getUser());
@@ -50,7 +51,8 @@ public class UserTaskDB {
             query2.setParameter("isAssigned", true);
             List<UserTask> allUsersAssigned = query2.getResultList();
 
-            List<UserTask> allUsersTaskAssigned = allUsersWithTask.stream().filter(allUsersAssigned::contains).collect(Collectors.toList());
+            List<UserTask> allUsersTaskAssigned = null;
+//allUsersWithTask.stream().filter(allUsersAssigned::contains).collect(Collectors.toList());
             List<User> assignedUsers = null;
             for (UserTask userTask : allUsersTaskAssigned) {
                 assignedUsers.add(userTask.getUser());

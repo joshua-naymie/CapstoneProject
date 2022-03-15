@@ -18,8 +18,9 @@ public class EditTaskServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // logged in user
-        String user_id = request.getParameter("user_id");
-        User loggedInUser = new User(Integer.parseInt(user_id));
+//        String user_id = request.getParameter("user_id");
+//        System.out.println(user_id);
+//        User loggedInUser = new User(Integer.parseInt(user_id));
 
         String task_id = request.getParameter("task_id");
         if (task_id != null) {
@@ -100,6 +101,15 @@ public class EditTaskServlet extends HttpServlet {
                     CompanyService companyService = new CompanyService();
                     List<CompanyName> companyNames = companyService.getAll();
 
+                    UserTaskService userTaskService = new UserTaskService();
+                    List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
+                    Team team = new Team(editTask.getTeamId().getTeamId());
+                    List<User> canBeAssigned = null;
+//team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
+                    canBeAssigned.remove(loggedInUser);
+
+                    request.setAttribute("chosenUsers", chosenUsers);
+                    request.setAttribute("canBeAssigned", canBeAssigned);
                     request.setAttribute("stores", stores);
                     request.setAttribute("companies", companyNames);
                 } catch (Exception ex) {
