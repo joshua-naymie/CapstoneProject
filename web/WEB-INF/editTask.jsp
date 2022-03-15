@@ -21,13 +21,14 @@
                     crossorigin="anonymous"></script>
                 <script type="text/javascript"
                     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-		    <<link rel="stylesheet" href="css/addTask.css"/>
+		    <link rel="stylesheet" href="css/addTask.css"/>
 
             </head>
 
             <body>
                 <%@ include file="navbar.jsp" %>
 		<script>${taskData}</script>
+		<script>console.log("${chosenUser}")</script>
 		<script src="scripts/editTask.js"></script>
 
 
@@ -39,12 +40,12 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label>Description:</label>
+                                    <label class="form-label">Description:</label>
                                     <input class="form-control" type="text" name="description" value="" placeholder="" id="task_description">
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label for="programAdd" class="input-label">Program</label>
+                                    <label for="programAdd" class="form-label">Program</label>
                                     <select name="programAdd" id="task_program" class="form-control" id="task_program">
                                         <c:forEach items="${allPrograms}" var="program">
                                             <option value="${program.getProgramName()};${program.getProgramId()}">
@@ -55,7 +56,7 @@
                                 </div>
 
                                 <div class="form-group col-md-2">
-                                    <label for="cityAdd" class="input-label">City</label>
+                                    <label for="cityAdd" class="form-label">City</label>
                                     <select name="cityAdd" id="task_city" class="form-control">
                                         <option value="Calgary">Calgary</option>
                                         <option value="Airdrie">Airdrie</option>
@@ -67,29 +68,67 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-4">
-                                    <label>Date:</label>
+                                    <label class="form-label">Date:</label>
                                     <input class="form-control" type="date" name="taskDate" value="" placeholder="" id="task_date">
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label>Start Time:</label>
+                                    <label class="form-label">Start Time:</label>
                                     <input class="form-control" type="time" name="taskStart" value="" placeholder="" id="task_start_time" step="3600000">
                                 </div>
 
 
                                 <div class="form-group col-md-4">
-                                    <label>End Time:</label>
+                                    <label class="form-label">End Time:</label>
                                     <input class="form-control" type="time" name="taskEnd" value=""
                                         placeholder="" id="task_end_time">
                                 </div>
                             </div>
 
 
-                            <label for="spotsAdd">Spots: </label>
-                            <input type="number" id="spotsAdd" name="spotsAdd" min="1" max="10" value="1">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="spotsAdd" class="form-label">Spots: </label>
+                                    <input type="number" id="spotsAdd" name="spotsAdd" min="1" max="10" value="1" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="form-label" for="chosen_users">Signed Up Volunteers</label>
+                                    <ul class="list-group">
+                                        <c:if test="${empty chosenUser || chosenUsers.size() == 0}">
+                                            <li class="list-group-item">
+                                                There are no volunteers signed up yet
+                                            </li>
+                                        </c:if>
+                                        <c:forEach items="${chosenUsers}" var="chosenUser">
+                                            <li class="list-group-item">
+                                                <input class="form-check-input me-1" type="checkbox" value="${chosenUser.getFirstName} ${choseUser.getLastName}">
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+
+                                <div clas="form-group col-md-6">
+                                    <label class="form-label" for="available_volunteers">Other Available Volunteers</label>
+                                    <ul class="list-group">
+                                        <c:if test="${empty canbeAssigned || canbeAssigned.size() == 0}">
+                                            <li class="list-group-item">
+                                                There are no volunteers can be assigned 
+                                            </li>
+                                        </c:if>
+                                        <c:forEach items="${canbeAssigned}" var="canbeAssignedUser">
+                                            <li class="list-group-item">
+                                                <input class="form-check-input me-1" type="checkbox" value="${canbeAssignedUser.getFirstName} ${canbeAssignedUser.getLastName}">
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </div>
+                            </div>
                             
                             <!-- Number of volunteers for the task -->
-                            <input type="submit" value="Add" name="action"> 
+                            <%-- <input type="submit" value="Add" name="action" class="btn btn-primary">  --%>
 
                         </form>
                     </div>
