@@ -38,12 +38,10 @@ public class HistoryServlet extends HttpServlet
         TaskService taskService = new TaskService();
         try
         {
-
-            taskService.
             String id = request.getParameter("id");
             
             id = (id == null || id.equals("")) ? "1" : id;
-            List<Task> tasks = new ArrayList<Task>();//taskService.getUserHistory(Long.parseLong(id));
+            List<Task> tasks = taskService.getHistory(Long.parseLong(id));
             StringBuilder historyVar = new StringBuilder();
             
             historyVar.append("var historyData = [");
