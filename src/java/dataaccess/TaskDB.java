@@ -160,7 +160,4 @@ public class TaskDB {
             em.close();
         }
     }
-    
-    
-    public double getTotalHours
 }
