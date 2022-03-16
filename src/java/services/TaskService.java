@@ -6,7 +6,7 @@ package services;
 
 import dataaccess.TaskDB;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
+import java.time.format.*;
 import java.util.List;
 import models.Task;
 
@@ -27,49 +27,125 @@ public class TaskService {
         return task;
     }
     
+    //------------------------------
+    
     /**
-     * Gets 
-     * @param id
-     * @return
+     * Gets a user's Task history
+     * @param id         The ID of the user
+     * @return           The list of Tasks that falls within the specified filters
      * @throws Exception 
      */
-//    public List<Task> getUserHistory(long id) throws Exception
-//    {
-//        TaskDB taskDB = new TaskDB();
-//        return taskDB.getHistoryByUserId(id);
-//    }
-    
     public List<Task> getHistory(long id) throws Exception
     {
         TaskDB taskDB = new TaskDB();
         return taskDB.getHistoryByUserId(id, null, null, null);
     }
     
+    //------------------------------
+    
+    /**
+     * Gets a user's Task history filtered by date range
+     * @param id         The ID of the user
+     * @param startDate  The start of the date range. Defaults to current time if null/empty.
+     *                   Format = yyyy-MM-dd
+     * @param endDate    The end of the date range. Can be null/empty.
+     *                   Format = yyyy-MM-dd
+     * @return           The list of Tasks that falls within the specified filters
+     * @throws Exception 
+     */
     public List<Task> getHistoryByDates(long id, String startDate, String endDate) throws Exception
     {
         TaskDB taskDB = new TaskDB();
-        return taskDB.getHistoryByUserId(id, null, null, null);
+        return taskDB.getHistoryByUserId(id,
+                                         parseDateTime(startDate),
+                                         parseDateTime(endDate),
+                                         null);
     }
-//    
-//    public double getTotalHours(long id, String startDate, String endDate) throws Exception
-//    {
-//        TaskDB taskDB = new TaskDB();
-//        
-//        LocalDateTime startTime = startDate == null
-//                                             ? null
-//                                             : LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-//        
-//        LocalDateTime endTime = endDate == null
-//                                         ? null
-//                                         : LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-//        
-//        return taskDB.getHistoryByUserId(id, startTime, endTime, null);
-//    }
-//    
-//    public double getTotalHours(long id, String startDate, String endDate, String programs)
-//    {
-//        return 0;
-//    }
+    
+    //------------------------------
+    
+    /**
+     * Gets a user's Task history filtered by date range and program(s)
+     * @param id         The ID of the user
+     * @param startDate  The start of the date range. Defaults to current time if null/empty.
+     *                   Format = yyyy-MM-dd
+     * @param endDate    The end of the date range. Can be null/empty.
+     *                   Format = yyyy-MM-dd
+     * @param programs   The list of program id's to filter by. Can be null/empty
+     *                   Format '1,3,5'
+     * @return           The list of Tasks that falls within the specified filters
+     * @throws Exception 
+     */
+    public List<Task> getHistoryByDatesPrograms(long id, String startDate, String endDate, String programs) throws Exception
+    {
+        TaskDB taskDB = new TaskDB();
+        return taskDB.getHistoryByUserId(id,
+                                         parseDateTime(startDate),
+                                         parseDateTime(endDate),
+                                         parsePrograms(programs));
+    }
+    
+    //------------------------------
+    
+    private static final
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
+    /**
+     * Parses the date from a string
+     * @param date The String to parse into a LocalDateTime. Format = yyyy-MM-dd
+     * @return The LocalDateTime parsed from the String. Null not able to parse.
+     */
+    private LocalDateTime parseDateTime(String date)
+    {
+        
+        if(date != null && !date.isBlank())
+        {
+            try
+            {
+                return LocalDateTime.parse(date, dateFormatter);
+            }
+            catch(DateTimeParseException e)
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    //------------------------------
+    
+    /**
+     * Parses the programs from a CSV String into a Short[].
+     * @param programs The comma separated value representation of a list of program id's
+     * @return A Short[] of all the parsed program id's
+     */
+    private Short[] parsePrograms(String programs)
+    {
+        if(programs == null || programs.isBlank())
+        {
+            return null;
+        }
+        
+        String[] temp = programs.split(",");
+        Short[] parsedPrograms = new Short[temp.length];
+        
+        try
+        {
+            for(int i=0; i<temp.length; i++)
+            {
+                parsedPrograms[i] = Short.parseShort(temp[i]);
+            }
+        }
+        catch(NumberFormatException e)
+        {
+            return null;
+        }
+        
+        return parsedPrograms;
+    }
         
     public List<Task> getSubmittedToManager(String id) throws Exception
     {
