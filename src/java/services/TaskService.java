@@ -39,32 +39,38 @@ public class TaskService {
 //        return taskDB.getHistoryByUserId(id);
 //    }
     
-    public double getTotalHours(long id)
-    {
-        return getTotalHours(id, LocalDate.now().toString(), "");
-    }
-    
-    public double getTotalHours(long id, String startDate, String endDate) throws Exception
+    public List<Task> getHistory(long id) throws Exception
     {
         TaskDB taskDB = new TaskDB();
-        
-        LocalDateTime startTime = startDate == null
-                                             ? null
-                                             : LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        
-        LocalDateTime endTime = endDate == null
-                                         ? null
-                                         : LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        
-        return taskDB.getHistoryByUserId(id, startTime, endTime, null);
+        return taskDB.getHistoryByUserId(id, null, null, null);
     }
     
-    public double getTotalHours(long id, String startDate, String endDate, String programs)
+    public List<Task> getHistoryByDates(long id, String startDate, String endDate) throws Exception
     {
-        return 0;
+        TaskDB taskDB = new TaskDB();
+        return taskDB.getHistoryByUserId(id, null, null, null);
     }
-    
-    
+//    
+//    public double getTotalHours(long id, String startDate, String endDate) throws Exception
+//    {
+//        TaskDB taskDB = new TaskDB();
+//        
+//        LocalDateTime startTime = startDate == null
+//                                             ? null
+//                                             : LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        
+//        LocalDateTime endTime = endDate == null
+//                                         ? null
+//                                         : LocalDateTime.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        
+//        return taskDB.getHistoryByUserId(id, startTime, endTime, null);
+//    }
+//    
+//    public double getTotalHours(long id, String startDate, String endDate, String programs)
+//    {
+//        return 0;
+//    }
+        
     public List<Task> getSubmittedToManager(String id) throws Exception
     {
         TaskDB taskDB = new TaskDB();
