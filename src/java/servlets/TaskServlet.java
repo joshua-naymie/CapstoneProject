@@ -19,7 +19,7 @@ public class TaskServlet extends HttpServlet {
         int loggedInUserId = (int) httpSession.getAttribute("email");
 
 //        System.out.println(loggedInUserId);
-        httpSession.setAttribute("loggedInUserId", loggedInUserId);
+//        httpSession.setAttribute("loggedInUserId", loggedInUserId);
 
         TaskService taskService = new TaskService();
         List<Task> taskList = null;
