@@ -234,7 +234,7 @@ function populateFields()
 function checkTask(that) // how do I create an onChange that passes in the value to that? onchange="checkTask(this);
 {
       if (that.value == 1) { // if program_Id == 1 show food inputs
-        if (familyCountInput == null) { // task falls under an organization so display org name but not family count;
+        if (familyCountInput === null) { // task falls under an organization so display org name but not family count;
             document.getElementById("food_mileage").style.display = "block";
             document.getElementById("food_package_id").style.display = "block";
             document.getElementById("food_package_name").style.display = "block";
