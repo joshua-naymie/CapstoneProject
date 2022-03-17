@@ -38,7 +38,7 @@ public class SubmitTaskFormServlet extends HttpServlet {
             throws ServletException, IOException {
 
         TaskService ts = new TaskService();
-
+        
         Long submitTaskId = 1L;
 
         Task editTask = null;

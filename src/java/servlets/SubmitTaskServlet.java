@@ -45,10 +45,10 @@ public class SubmitTaskServlet extends HttpServlet {
     }catch (Exception ex){
         Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
     }
-
+      
         
     TaskService ts = new TaskService();
-    
+      
     List<Task> taskList = null;
     
         try {
@@ -79,6 +79,8 @@ public class SubmitTaskServlet extends HttpServlet {
             returnData.append(buildTaskJSON(taskList.get(i), builder));
         }
         returnData.append("];");
+        
+        log(returnData.toString());
 
         request.setAttribute("taskData", returnData);
         
