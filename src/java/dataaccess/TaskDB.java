@@ -89,13 +89,22 @@ public class TaskDB {
         }
     }
      
-    public List<Task> getAllNotApprovedTasks() throws Exception {
+    public List<Task> getAllNotApprovedTasksByUserId(int userId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {   
+            Query q = em.createQuery("SELECT t FROM Task t, UserTask ut "
+            + "WHERE ut.userTaskPK.userId = :userId "
+            + "AND t.taskId = ut.userTaskPK.taskId "
+            + "AND (t.isApproved = FALSE) AND (ut.isAssigned  = TRUE)");
 
-            Query getTask = em.createNamedQuery("Task.findByIsApproved", Task.class);
-            List<Task> allTasks = getTask.setParameter("isApproved", false).getResultList();
+            q.setParameter("userId", userId);
+            
+            List<Task> allTasks = q.getResultList();
             return allTasks;
+            
+//            Query getTask = em.createNamedQuery("Task.findByIsApproved", Task.class);
+//            List<Task> allTasks = getTask.setParameter("isApproved", false).getResultList();
+//            return allTasks;
         } finally {
             em.close();
         }

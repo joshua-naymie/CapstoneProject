@@ -159,11 +159,9 @@ window.onload = () => {
         accordionViewButton.setAttribute("data-bs-toggle", "modal");
         accordionViewButton.setAttribute("data-bs-target", "#taskModal");
         accordionViewButton.innerText = "View";
-        // accordionEditButton.addEventListener("click", () => {
-        //   let modalBody = document.getElementsByClassName("modal-body");
-
-        //   modalBody
-        // })
+        accordionViewButton.addEventListener("click", () => {
+          onView(taskData.task_id);
+        });
 
         // Edit Button
         let accordionEditButton = document.createElement("button");
@@ -172,10 +170,9 @@ window.onload = () => {
         accordionEditButton.setAttribute("task_id", taskData.task_id);
         accordionEditButton.innerText = "Edit";
         let body = document.getElementsByTagName("body")[0];
-        accordionEditButton.addEventListener(
-          "click",
-          onEdit(body, taskData.task_id, user_id)
-        );
+        accordionEditButton.addEventListener("click", () => {
+          onEdit(body, taskData.task_id, user_id);
+        });
 
         // Sign Up Button
         let accordionSignupButton = document.createElement("button");
@@ -210,18 +207,44 @@ window.onload = () => {
   }
 };
 
-function onEdit(body, task_id, user_id) {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      body.innerHTML = xhr.response;
-    }
-  };
-  xhr.open("get", "/editTask", true);
-  xhr.setRequestHeader(
-    "Content-Type",
-    "application/x-www-form-urlencoded; charset=UTF-8"
-  );
-  xhr.send("task_id=" + task_id);
-  xhr.send("user_id=" + user_id);
+function onEdit(body, task_id) {
+  $.ajax({
+    type: "GET",
+    url: "/editTask",
+    data: { task_id: task_id },
+    success: function (data) {
+      console.log(data);
+    },
+  });
+}
+
+function onView(task_id) {
+  $.ajax({
+    type: "GET",
+    url: "data",
+    data: { task_id: task_id, operation: "singleTaskInfo" },
+    success: function (data) {
+      console.log(data);
+      let obj = JSON.parse(data);
+      $("#description").val(obj.task_description);
+      $("#program").append(
+        "<option selected>" + obj.program_name + "</option>"
+      );
+      $("#city").val(obj.task_city);
+      $("#date").val(new Date(obj.start_time).toLocaleDateString());
+      $("#start_time").val(
+        new Date(obj.start_time).toTimeString().substring(0, 5)
+      );
+      console.log(new Date(obj.start_time).toTimeString().substring(0, 5));
+      $("#end_time").val(new Date(obj.end_time).toTimeString().substring(0, 5));
+      $("#supervisor").append(
+        "<option selected>" + obj.approving_manager + "</option>"
+      );
+      $("#company").append(
+        "<option selected>" + obj.program_name + "</option>"
+      );
+      $("#store").append("<option selected>" + obj.store_name + "</option>");
+      $("#spots").val(obj.max_users);
+    },
+  });
 }

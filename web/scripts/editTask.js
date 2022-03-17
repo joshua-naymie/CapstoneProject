@@ -7,6 +7,7 @@
 //		"notes":null,
 //		"task_description":null,
 //		"task_city":Calgary};
+
 window.onload = () => {
   console.log(editTask);
   let task_desc = document.getElementById("task_description");
@@ -22,7 +23,6 @@ window.onload = () => {
   task_date.setAttribute("value", editTask.date);
 
   let task_start_time = document.getElementById("task_start_time");
-  //   let start_time_string = new Date(editTask.start_time).toLocaleTimeString().substring(0, 7);
   task_start_time.setAttribute("value", editTask.start_time);
 
   let task_end_time = document.getElementById("task_end_time");
