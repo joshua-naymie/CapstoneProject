@@ -16,7 +16,6 @@
     <script type="text/javascript" src="scripts/inputgroup.js"></script>
     <script type="text/javascript" src="scripts/inputgroupcollection.js"></script>
     <script type="text/javascript" src="scripts/functions.js"></script>
-    <script type="text/javascript" src="scripts/resettest.js"></script>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--        COMMIT-->
@@ -33,7 +32,7 @@
                     </div>
                 </form>
 
-                <div id="message" class="message" onfocus="focusFunction()" onblur="blurFunction()">
+                <div id="message" class="message" onfocus="focusFunction()" onblur="blurFunction()" onkeyup="keyUpFunction()">
                     <h3>PASSWORD MUST CONTAIN</h3>
                     <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
                     <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
