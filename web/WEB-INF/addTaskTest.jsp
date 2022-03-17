@@ -1,8 +1,8 @@
 <%-- Document : addTaskTest Created on : Feb. 22, 2022, 2:06:08 p.m. Author : srvad --%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <%@page contentType="text/html" pageEncoding="UTF-8" %>
-            <!DOCTYPE html>
-            <html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+    <html>
 
             <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -111,13 +111,13 @@
                                 </select>
                             </div>
                             
-                            <div class="foodDeliveryFields">
+                            <div class="form-group foodDeliveryFields">
                                 <label for="spotsAdd">Spots: </label>
                                 <input type="number" id="spotsAdd" name="spotsAdd" min="1" max="10" value="1">
                             </div>
                             
                             <!-- Number of volunteers for the task -->
-                            <input type="submit" value="Add" name="action"> 
+                            <input type="submit" value="Add" name="action" class="btn btn-primary"> 
 
                         </form>
                     </div>
@@ -199,4 +199,4 @@
                 );
             </script>
 
-            </html>
+</html>

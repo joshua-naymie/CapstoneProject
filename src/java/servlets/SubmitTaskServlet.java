@@ -79,7 +79,6 @@ public class SubmitTaskServlet extends HttpServlet {
             returnData.append(buildTaskJSON(taskList.get(i), builder));
         }
         returnData.append("];");
-
         request.setAttribute("taskData", returnData);
         
     getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
