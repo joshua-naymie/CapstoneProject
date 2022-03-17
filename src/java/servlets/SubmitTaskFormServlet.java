@@ -38,7 +38,9 @@ public class SubmitTaskFormServlet extends HttpServlet {
             throws ServletException, IOException {
 
         TaskService ts = new TaskService();
-
+        
+        //Long submitTaskId = Long.parseLong( (String) request.getParameter("task_id") );
+        
         Long submitTaskId = 1L;
 
         Task editTask = null;
@@ -94,8 +96,13 @@ public class SubmitTaskFormServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        try{
+            
+            
         TaskService ts = new TaskService();
+        
+        //Long submitTaskId = Long.parseLong( (String) request.getParameter("task_id") );
 
         Long submitTaskId = 6L;
 
@@ -179,9 +186,15 @@ public class SubmitTaskFormServlet extends HttpServlet {
         try {
             editTask.setIsSubmitted(Boolean.TRUE);
             ts.update(editTask);
-
+            
         } catch (Exception ex) {
             Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        } catch(Exception ex){
+            Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("sbmitTaskForm");
+            return;
         }
 
         getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);

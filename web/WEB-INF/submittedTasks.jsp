@@ -14,10 +14,10 @@
         <title>Submitted Tasks</title>
         <link rel="stylesheet" href="css/submittedtask-styles.css">
         <script type="text/javascript" src="scripts/submittedtasks.js"></script>
-        <script type="text/javascript" src="scripts/autotable.js"></script>
-        <script type="text/javascript" src="scripts/datacolumn.js"></script>
-        <script type="text/javascript" src="scripts/customcolumn.js"></script>
-        <script type="text/javascript" src="scripts/rowmanager.js"></script>
+        <script type="text/javascript" src="scripts/models/autotable.js"></script>
+        <script type="text/javascript" src="scripts/models/datacolumn.js"></script>
+        <script type="text/javascript" src="scripts/models/customcolumn.js"></script>
+        <script type="text/javascript" src="scripts/models/rowmanager.js"></script>
         <script>${taskData}</script>
     </head>
     <body class="base">

@@ -10,11 +10,11 @@
         <link rel="stylesheet" href="css/loadtaskinfo.css">
         <link rel="stylesheet" href="css/inputstyles.css">
         <script type="text/javascript" src="scripts/loadtaskinfo.js"></script>
-        <script type="text/javascript" src="scripts/inputgroup.js"></script>
-        <script type="text/javascript" src="scripts/inputgroupcollection.js"></script>
-        <script type="text/javascript" src="scripts/regexs.js"></script>
-        <script type="text/javascript" src="scripts/validator.js"></script>
-        <script>${userData}</script>
+        <script type="text/javascript" src="scripts/models/inputgroup.js"></script>
+        <script type="text/javascript" src="scripts/models/inputgroupcollection.js"></script>
+        <script type="text/javascript" src="scripts/models/regexs.js"></script>
+        <script type="text/javascript" src="scripts/models/validator.js"></script>
+        <script>${taskData}</script>
     </head>
     <body id="body">
                 <%@ include file="navbar.jsp" %>

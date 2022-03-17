@@ -6,17 +6,21 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import models.Program;
+import models.*;
 import models.Store;
+import models.Task;
 import models.User;
 import services.AccountServices;
 import services.CompanyService;
 import services.ProgramServices;
 import services.StoreServices;
+import services.TaskService;
 
 /**
  *
@@ -139,6 +143,62 @@ public class GetDataServlet extends HttpServlet {
 			response.setContentType("text/html");
 			response.getWriter().write(programJSON.toString());
 		}
+
+		if (op.equals("singleTaskInfo")) {
+			Task task = null;
+			TaskService ts = new TaskService();
+
+			String task_id = request.getParameter("task_id");
+			Long taskId = Long.parseLong(task_id);
+
+			try {
+				task = ts.get(taskId);
+
+			} catch (Exception ex) {
+				Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+			}
+			StringBuilder taskJSON = new StringBuilder();
+//			taskJSON.append('[');
+
+			if (task != null) {
+				Date startDate = task.getStartTime();
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String date = simpleDateFormat.format(startDate);
+				simpleDateFormat = new SimpleDateFormat("HH:mm");
+				String startTime = simpleDateFormat.format(startDate);
+				Date endDate = task.getEndTime();
+				String endTime = simpleDateFormat.format(endDate);
+
+				taskJSON.append('{');
+				taskJSON.append("\"task_id\":" + "\"" + task.getTaskId() + "\",");
+				taskJSON.append("\"task_description\":" + "\"" + task.getTaskDescription() + "\",");
+				taskJSON.append("\"program_name\":" + "\"" + task.getProgramId().getProgramName() + "\",");
+				taskJSON.append("\"task_city\":" + "\"" + task.getTaskCity() + "\",");
+				taskJSON.append("\"start_time\":" + "\"" + task.getStartTime() + "\",");
+				taskJSON.append("\"end_time\":" + "\"" + task.getEndTime() + "\",");
+				taskJSON.append("\"approving_manager\":" + "\"" + task.getApprovingManager() + "\",");
+				taskJSON.append("\"store_name\":" + "\"" + task.getTeamId().getStoreId().getStoreName() + "\",");
+				taskJSON.append("\"max_users\":" + "\"" + task.getMaxUsers() + "\"");
+				taskJSON.append("},");
+
+				if (taskJSON.length() > 2) {
+					taskJSON.setLength(taskJSON.length() - 1);
+				}
+
+//				taskJSON.append(']');
+
+				response.setContentType("text/html");
+				response.getWriter().write(taskJSON.toString());
+			}
+
+		}
+
+		// if (taskJSON.length() > 2) {
+		// taskJSON.setLength(programJSON.length() - 1);
+		// }
+
+		// taskJSON();
+
 	}
 
 	@Override

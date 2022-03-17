@@ -292,7 +292,7 @@ public class AddTaskServlet extends HttpServlet {
             try {
                 addTask.setIsApproved(false);
                 addTask.setIsSubmitted(false);
-                addTask.setIsApproved(false);
+                addTask.setIsDissaproved(false);
                 ts.insert(addTask);
             } catch (Exception ex) {
                 Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);

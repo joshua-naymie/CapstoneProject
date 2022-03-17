@@ -1,5 +1,7 @@
 package servlets;
 
+import models.util.JSONKey;
+import models.util.JSONBuilder;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 
@@ -14,9 +16,12 @@ public class TaskServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         HttpSession httpSession = request.getSession();
-        String loggedInUserId = (String) httpSession.getAttribute("email");
-        httpSession.setAttribute("loggedInUserId", loggedInUserId);
+        int loggedInUserId = (int) httpSession.getAttribute("email");
+
+//        System.out.println(loggedInUserId);
+//        httpSession.setAttribute("loggedInUserId", loggedInUserId);
 
         TaskService taskService = new TaskService();
         List<Task> taskList = null;

@@ -14,8 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.JSONBuilder;
-import models.JSONKey;
+import models.util.JSONBuilder;
+import models.util.JSONKey;
 import models.User;
 import services.AccountServices;
 

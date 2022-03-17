@@ -14,10 +14,10 @@
         <title>History</title>
         <link rel="stylesheet" href="css/history-styles.css">
         <script type="text/javascript" src="scripts/history.js"></script>
-        <script type="text/javascript" src="scripts/autotable.js"></script>
-        <script type="text/javascript" src="scripts/datacolumn.js"></script>
-        <script type="text/javascript" src="scripts/customcolumn.js"></script>
-        <script type="text/javascript" src="scripts/rowmanager.js"></script>
+        <script type="text/javascript" src="scripts/models/autotable.js"></script>
+        <script type="text/javascript" src="scripts/models/datacolumn.js"></script>
+        <script type="text/javascript" src="scripts/models/customcolumn.js"></script>
+        <script type="text/javascript" src="scripts/models/rowmanager.js"></script>
         <script>${historyData}</script>
     </head>
     <body class="base">
