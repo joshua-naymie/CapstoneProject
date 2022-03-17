@@ -39,12 +39,12 @@ public class TaskDB {
         startDate = startDate == null ? LocalDateTime.now() : startDate;
         
         queryBuilder.append("SELECT t FROM Task t, UserTask ut");
-        queryBuilder.append(" WHERE t.taskId = ut.UserTaskPK.taskId");
-        queryBuilder.append(" AND ut.UserTaskPK.userId = :userId ");
+        queryBuilder.append(" WHERE t.taskId = ut.userTaskPK.taskId");
+        queryBuilder.append(" AND ut.userTaskPK.userId = :userId ");
         queryBuilder.append(" AND t.startTime <= ");
         queryBuilder.append(startDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
         
-        if(endDate == null)
+        if(endDate != null)
         {
             queryBuilder.append(" AND t.endTime >= ");
             queryBuilder.append(endDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
@@ -70,22 +70,6 @@ public class TaskDB {
                 .createQuery(queryBuilder.toString(), Task.class)
                 .setParameter("userId", userId)
                 .getResultList();
-        
-        
-        
-//        return entityManager.createQuery("SELECT p.programId FROM Program p", Short.class).getResultList();
-        
-//        try
-//        {
-//            TypedQuery query = entityManager.createNamedQuery("Task.findHistoryByUserId", Task.class);
-//            query.setParameter("userId", userId);
-//            
-//            return query.getResultList();
-//        }
-//        finally
-//        {
-//            entityManager.close();
-//        }
     }
     
     public List<Task> getSubmittedToManager(String managerId) throws Exception

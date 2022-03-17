@@ -1,5 +1,7 @@
 package servlets;
 
+import models.util.JSONKey;
+import models.util.JSONBuilder;
 import java.io.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -34,13 +36,12 @@ public class HistoryServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        ProgramServices ps = new ProgramServices();
         TaskService taskService = new TaskService();
         try
         {
             String id = request.getParameter("id");
             
-            id = (id == null || id.equals("")) ? "1" : id;
+            id = (id == null || id.isBlank()) ? "1" : id;
             List<Task> tasks = taskService.getHistory(Long.parseLong(id));
             StringBuilder historyVar = new StringBuilder();
             
@@ -49,7 +50,8 @@ public class HistoryServlet extends HttpServlet
             JSONKey[] historyKeys = {
                                         new JSONKey("id", false),
                                         new JSONKey("program", true),
-                                        new JSONKey("date", true),
+                                        new JSONKey("startTime", true),
+                                        new JSONKey("endTime", true),
                                         new JSONKey("status", true),
                                         new JSONKey("city", true)
                                     };
@@ -87,9 +89,11 @@ public class HistoryServlet extends HttpServlet
                             task.getTaskId(),
                             task.getProgramId().getProgramName(),
                             jsonDateFormat.format(task.getStartTime()),
+                            jsonDateFormat.format(task.getEndTime()),
                             getTaskStatus(task),
                             task.getTaskCity()
                           };
+        
         return builder.buildJSON(values);
     }
     

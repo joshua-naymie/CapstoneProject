@@ -5,13 +5,13 @@
         <link rel="icon" type="image/png" href="content/images/favicon-32x32.png" sizes="32x32">
         <link rel="icon" type="image/svg+xml" href="content/images/favicon-svg.svg">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script type="text/javascript" src="scripts/inputgroup.js"></script>
-        <script type="text/javascript" src="scripts/inputgroupcollection.js"></script>
-        <script type="text/javascript" src="scripts/regexprogram.js"></script>
+        <script type="text/javascript" src="scripts/models/inputgroup.js"></script>
+        <script type="text/javascript" src="scripts/models/inputgroupcollection.js"></script>
+        <script type="text/javascript" src="scripts/models/regexs.js"></script>
         <script type="text/javascript" src="scripts/scriptsprogram.js"></script>
-        <script type="text/javascript" src="scripts/validator.js"></script>
-        <script type="text/javascript" src="scripts/autolist.js"></script>
-        <script type="text/javascript" src="scripts/functions.js"></script>
+        <script type="text/javascript" src="scripts/models/validator.js"></script>
+        <script type="text/javascript" src="scripts/models/autolist.js"></script>
+        <script type="text/javascript" src="scripts/models/functions.js"></script>
         <script>${programData}</script>
         <script>${userData}</script>
         <link rel="stylesheet" href="css/program.css">

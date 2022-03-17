@@ -15,12 +15,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Madurai&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="css/forgotPassword.css">
-    <script type="text/javascript" src="scripts/regexs.js"></script>
-    <script type="text/javascript" src="scripts/validator.js"></script>
+    <script type="text/javascript" src="scripts/models/regexs.js"></script>
+    <script type="text/javascript" src="scripts/models/validator.js"></script>
     <script type="text/javascript" src="scripts/forgot.js"></script>
-    <script type="text/javascript" src="scripts/inputgroup.js"></script>
-    <script type="text/javascript" src="scripts/inputgroupcollection.js"></script>
-    <script type="text/javascript" src="scripts/functions.js"></script>
+    <script type="text/javascript" src="scripts/models/inputgroup.js"></script>
+    <script type="text/javascript" src="scripts/models/inputgroupcollection.js"></script>
+    <script type="text/javascript" src="scripts/models/functions.js"></script>
 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

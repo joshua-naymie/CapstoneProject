@@ -1,4 +1,4 @@
-package models;
+package models.util;
 
 import java.security.InvalidParameterException;
 
