@@ -139,6 +139,11 @@ INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`
      VALUES (1, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
             'Task completed. No issues.', 'Manager Jane', 
             'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
+
+INSERT INTO `task` (`program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+                    `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
+     VALUES (1, 3, 5, "2022-03-18 12:30:00", "2022-03-19 15:30:00", FALSE, FALSE, 
+            'Ra Ad', 'Pickup 2 boxes ', 'Calgary', FALSE, FALSE);
 --
 
 -- -----------------------------------------------------
@@ -171,7 +176,8 @@ INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
      VALUES (1, 6);
 INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`)
      VALUES (1, 7);
-
+INSERT INTO `ecssendb`.`user_task` (`user_id`, `task_id`,`is_assigned`)
+     VALUES (4, 8, true);
 
 -- -----------------------------------------------------
 -- ORGANIZATION

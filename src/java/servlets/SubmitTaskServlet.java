@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Level;
@@ -32,15 +33,28 @@ public class SubmitTaskServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+       
+    HttpSession httpSession = request.getSession();
+    
+    int loggedInUserId = -1;
+    
+    try{
+        loggedInUserId = (int) httpSession.getAttribute("email");
+        System.out.println(loggedInUserId);
+        
+    }catch (Exception ex){
+        Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
         
     TaskService ts = new TaskService();
     
     List<Task> taskList = null;
     
         try {
-            taskList = ts.getAllNotApprovedTasks();
+            taskList = ts.getAllNotApprovedTasksByUserId(loggedInUserId);
         } catch (Exception ex) {
-            Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     request.setAttribute("allTasks", taskList);
