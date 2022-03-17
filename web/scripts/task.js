@@ -207,19 +207,15 @@ window.onload = () => {
   }
 };
 
-function onEdit(body, task_id, user_id) {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      body.innerHTML = xhr.response;
-    }
-  };
-  xhr.open("get", "/editTask", true);
-  xhr.setRequestHeader(
-    "Content-Type",
-    "application/x-www-form-urlencoded; charset=UTF-8"
-  );
-  xhr.send("task_id=" + task_id);
+function onEdit(body, task_id) {
+  $.ajax({
+    type: "GET",
+    url: "/editTask",
+    data: { task_id: task_id },
+    success: function (data) {
+      console.log(data);
+    },
+  });
 }
 
 function onView(task_id) {

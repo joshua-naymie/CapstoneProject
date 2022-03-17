@@ -52,7 +52,7 @@
 
                         <div class="form-group">
                                 <label for="supervisorAdd" class="input-label">Approving Supervisor</label>
-                                <select name="supervisorAdd" id="supervisorAdd" class="form-control col-md-5">
+                                <select name="supervisorAdd" id="supervisor" class="form-control col-md-5">
                                     <option value="" selected>Choose here</option>
                                 </select>
 
