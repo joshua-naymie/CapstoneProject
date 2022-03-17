@@ -179,6 +179,9 @@ window.onload = () => {
         accordionSignupButton.className = "btn btn-secondary";
         accordionSignupButton.setAttribute("type", "button");
         accordionSignupButton.innerText = "SignUp";
+        accordionSignupButton.addEventListener("click", () => {
+          onSignup();
+        });
 
         let td_view_button = document.createElement("td");
         td_view_button.appendChild(accordionViewButton);
@@ -245,6 +248,17 @@ function onView(task_id) {
       );
       $("#store").append("<option selected>" + obj.store_name + "</option>");
       $("#spots").val(obj.max_users);
+    },
+  });
+}
+
+function onSignup(task_id) {
+  $.ajax({
+    type: "POST",
+    url: "tasks",
+    data: { task_id: task_id },
+    success: function (data) {
+      console.log(data);
     },
   });
 }

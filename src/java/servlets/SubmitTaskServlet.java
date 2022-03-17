@@ -79,7 +79,7 @@ public class SubmitTaskServlet extends HttpServlet {
             returnData.append(buildTaskJSON(taskList.get(i), builder));
         }
         returnData.append("];");
-        
+
         log(returnData.toString());
 
         request.setAttribute("taskData", returnData);
