@@ -175,6 +175,8 @@ function load()
     containerLeft.appendChild(disapproveButton);
     containerRight.appendChild(approveButton);
     containerRight.appendChild(cancelButton);
+    
+    programIDFromDB.addEventListener("change", checkTask); // onchange for checkTask function
 
     //--------------
 //
