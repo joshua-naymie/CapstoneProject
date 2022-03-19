@@ -91,7 +91,7 @@ public class SubmitTaskServlet extends HttpServlet {
 
         request.setAttribute("taskData", returnData);
         
-        cancelTask(taskList.get(0), request);
+        cancelTask(taskList.get(0), loggedInUserId);
         
     getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
     
@@ -109,19 +109,7 @@ public class SubmitTaskServlet extends HttpServlet {
         return builder.buildJSON(taskValues);
     }
     
-    private boolean cancelTask(Task task, HttpServletRequest request){
-        
-            HttpSession httpSession = request.getSession();
-            
-            int loggedInUserId = -1;
-
-            try{
-                loggedInUserId = (int) httpSession.getAttribute("email");
-                System.out.println(loggedInUserId);
-
-            }catch (Exception ex){
-                Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
+    private boolean cancelTask(Task task, int loggedInUserId){
         
         try{
             Date taskStart = task.getStartTime();
@@ -139,8 +127,6 @@ public class SubmitTaskServlet extends HttpServlet {
            
            int sevenDaystoHours = 168;
            
-           UserTaskService us = new UserTaskService();
-           
            if(diffInHours < sevenDaystoHours ){
                return false;
            }
@@ -149,12 +135,13 @@ public class SubmitTaskServlet extends HttpServlet {
                
                for( UserTask userTask: userTasks){
                    if(userTask.getUser().getUserId() == loggedInUserId){
-                       userTask.setIsAssigned(Boolean.FALSE);
-                       userTask.setIsChosen(Boolean.FALSE);
-                       
-                       //need to delete a usertask and update task table
-                       us.update(userTask);              
-                       return true;
+             
+                        UserTaskService us = new UserTaskService();
+                        userTask.setIsAssigned(Boolean.FALSE);
+                        userTask.setIsChosen(Boolean.FALSE);
+                    
+                        us.remove(userTask);
+                        return true;
                    }
                }
            }

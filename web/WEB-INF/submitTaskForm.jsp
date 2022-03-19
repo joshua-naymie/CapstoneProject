@@ -19,6 +19,7 @@
     </head>
     <body>
 		<%@ include file="navbar.jsp" %>
+                 <input type="hidden" id="task_id" value="${task_id}">
         <div class="container">
 			<p class="h1 text-center header"> Task: ${description} </p>
         

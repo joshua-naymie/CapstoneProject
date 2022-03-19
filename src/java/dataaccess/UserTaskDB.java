@@ -91,5 +91,19 @@ public class UserTaskDB {
         }
     }
 
+    public void remove(UserTask userTask) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            if(!em.contains(userTask)) em.merge(userTask);
+            em.remove(userTask);
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
+        } finally {
+            em.close();
+        }
+    }
 
 }
