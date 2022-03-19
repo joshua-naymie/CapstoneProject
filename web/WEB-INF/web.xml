@@ -37,8 +37,8 @@
         <servlet-class>servlets.GetDataServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>TaskApproveDissaproveServlet</servlet-name>
-        <servlet-class>servlets.TaskApproveDissaproveServlet</servlet-class>
+        <servlet-name>SubmittedTasksServlet</servlet-name>
+        <servlet-class>servlets.SubmittedTasksServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EditTaskServlet</servlet-name>
@@ -63,6 +63,10 @@
     <servlet>
         <servlet-name>StoreServlet</servlet-name>
         <servlet-class>servlets.StoreServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TaskApproveDissaproveServlet</servlet-name>
+        <servlet-class>servlets.TaskApproveDissaproveServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
@@ -101,10 +105,6 @@
         <url-pattern>/data</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>TaskApproveDissaproveServlet</servlet-name>
-        <url-pattern>/approve</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>EditTaskServlet</servlet-name>
         <url-pattern>/editTask</url-pattern>
     </servlet-mapping>
@@ -127,6 +127,14 @@
     <servlet-mapping>
         <servlet-name>StoreServlet</servlet-name>
         <url-pattern>/stores</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmittedTasksServlet</servlet-name>
+        <url-pattern>/approve</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TaskApproveDissaproveServlet</servlet-name>
+        <url-pattern>/taskInfo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
