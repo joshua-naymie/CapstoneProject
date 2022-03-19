@@ -12,7 +12,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.FoodDeliveryData;
@@ -22,7 +27,9 @@ import models.util.JSONKey;
 import models.PackageType;
 import models.Program;
 import models.Task;
+import models.UserTask;
 import services.TaskService;
+import services.UserTaskService;
 
 /**
  *
@@ -84,6 +91,8 @@ public class SubmitTaskServlet extends HttpServlet {
 
         request.setAttribute("taskData", returnData);
         
+        cancelTask(taskList.get(0), request);
+        
     getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
     
     }
@@ -98,6 +107,63 @@ public class SubmitTaskServlet extends HttpServlet {
                 task.getTaskDescription() };
 
         return builder.buildJSON(taskValues);
+    }
+    
+    private boolean cancelTask(Task task, HttpServletRequest request){
+        
+            HttpSession httpSession = request.getSession();
+            
+            int loggedInUserId = -1;
+
+            try{
+                loggedInUserId = (int) httpSession.getAttribute("email");
+                System.out.println(loggedInUserId);
+
+            }catch (Exception ex){
+                Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        try{
+            Date taskStart = task.getStartTime();
+            
+            LocalDateTime taskTime = taskStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            LocalDateTime currTime = LocalDateTime.now();
+
+//            int diffInNano = java.time.Duration.between(dateTime, dateTime2).getNano();
+//            long diffInSeconds = java.time.Duration.between(dateTime, dateTime2).getSeconds();
+//            long diffInMilli = java.time.Duration.between(dateTime, dateTime2).toMillis();
+//            long diffInMinutes = java.time.Duration.between(dateTime, dateTime2).toMinutes();
+            long diffInHours = java.time.Duration.between(taskTime, currTime).toHours();
+           
+           System.out.println("Diff " + diffInHours);
+           
+           int sevenDaystoHours = 168;
+           
+           UserTaskService us = new UserTaskService();
+           
+           if(diffInHours < sevenDaystoHours ){
+               return false;
+           }
+           else {
+               List<UserTask> userTasks = task.getUserTaskList();
+               
+               for( UserTask userTask: userTasks){
+                   if(userTask.getUser().getUserId() == loggedInUserId){
+                       userTask.setIsAssigned(Boolean.FALSE);
+                       userTask.setIsChosen(Boolean.FALSE);
+                       
+                       //need to delete a usertask and update task table
+                       us.update(userTask);              
+                       return true;
+                   }
+               }
+           }
+            
+        } catch (Exception ex){
+            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
     }
 
     @Override
