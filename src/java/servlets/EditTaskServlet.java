@@ -107,12 +107,8 @@ public class EditTaskServlet extends HttpServlet {
                     List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
                     Team team = new Team(editTask.getTeamId().getTeamId());
                     List<User> canBeAssigned = null;
-
-                            //team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
-
 //team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
-
-                    //canBeAssigned.remove(loggedInUser);
+                    canBeAssigned.remove(loggedInUser);
 
                     request.setAttribute("chosenUsers", chosenUsers);
                     request.setAttribute("canBeAssigned", canBeAssigned);
@@ -192,9 +188,8 @@ public class EditTaskServlet extends HttpServlet {
                 UserTaskService userTaskService = new UserTaskService();
                 List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
                 Team team = new Team(editTask.getTeamId().getTeamId());
-                List<User> canBeAssigned = null;
-                        //team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
-                //canBeAssigned.remove(loggedInUser);
+                List<User> canBeAssigned = team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
+                canBeAssigned.remove(loggedInUser);
 
                 request.setAttribute("chosenUsers", chosenUsers);
                 request.setAttribute("canBeAssigned", canBeAssigned);
@@ -202,7 +197,7 @@ public class EditTaskServlet extends HttpServlet {
                 Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            //request.setAttribute("user_id", user_id);
+            request.setAttribute("user_id", user_id);
 
             System.out.println("ID: " + task_id);
         }
@@ -217,7 +212,7 @@ public class EditTaskServlet extends HttpServlet {
 
         try {
             TaskService taskService = new TaskService();
-            long taskId = Long.parseLong(request.getParameter("task_id"));
+            long taskId = Long.parseLong(request.getParameter("task_id"))
             Task task = taskService.get(taskId);
 
             task.setProgramId(new Program(Short.parseShort(request.getParameter("program_id"))));
@@ -264,7 +259,7 @@ public class EditTaskServlet extends HttpServlet {
                 User user = new User(userId);
                 UserTask userTask = new UserTask(userId, taskId);
                 userTask.setIsAssigned(true);
-               // userTaskService.
+                userTaskService.
             }
 
 
