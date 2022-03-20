@@ -39,9 +39,9 @@ public class SubmitTaskFormServlet extends HttpServlet {
 
         TaskService ts = new TaskService();
         
-        //Long submitTaskId = Long.parseLong( (String) request.getParameter("task_id") );
+        Long submitTaskId = Long.parseLong( (String) request.getParameter("task_id") );
         
-        Long submitTaskId = 1L;
+        //Long submitTaskId = 1L;
 
         Task editTask = null;
 
@@ -102,9 +102,9 @@ public class SubmitTaskFormServlet extends HttpServlet {
             
         TaskService ts = new TaskService();
         
-        //Long submitTaskId = Long.parseLong( (String) request.getParameter("task_id") );
+        Long submitTaskId = Long.parseLong( (String) request.getParameter("task_id") );
 
-        Long submitTaskId = 6L;
+        //Long submitTaskId = 6L;
 
         Task editTask = null;
 
