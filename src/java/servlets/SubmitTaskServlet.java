@@ -91,8 +91,6 @@ public class SubmitTaskServlet extends HttpServlet {
 
         request.setAttribute("taskData", returnData);
         
-        cancelTask(taskList.get(0), loggedInUserId);
-        
     getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
     
     }
@@ -109,7 +107,7 @@ public class SubmitTaskServlet extends HttpServlet {
         return builder.buildJSON(taskValues);
     }
     
-    private boolean cancelTask(Task task, int loggedInUserId){
+    private boolean cancelTaskButtonShow(Task task, int loggedInUserId){
         
         try{
             Date taskStart = task.getStartTime();
@@ -123,7 +121,7 @@ public class SubmitTaskServlet extends HttpServlet {
 //            long diffInMinutes = java.time.Duration.between(dateTime, dateTime2).toMinutes();
             long diffInHours = java.time.Duration.between(taskTime, currTime).toHours();
            
-           System.out.println("Diff " + diffInHours);
+           //System.out.println("Diff " + diffInHours);
            
            int sevenDaystoHours = 168;
            
@@ -131,19 +129,7 @@ public class SubmitTaskServlet extends HttpServlet {
                return false;
            }
            else {
-               List<UserTask> userTasks = task.getUserTaskList();
-               
-               for( UserTask userTask: userTasks){
-                   if(userTask.getUser().getUserId() == loggedInUserId){
-             
-                        UserTaskService us = new UserTaskService();
-                        userTask.setIsAssigned(Boolean.FALSE);
-                        userTask.setIsChosen(Boolean.FALSE);
-                    
-                        us.remove(userTask);
-                        return true;
-                   }
-               }
+                return true;
            }
             
         } catch (Exception ex){
@@ -153,10 +139,25 @@ public class SubmitTaskServlet extends HttpServlet {
         return false;
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void cancel(HttpServletRequest request, HttpServletResponse response, Task task, int loggedInUserId)
             throws ServletException, IOException {
         
+        List<UserTask> userTasks = task.getUserTaskList();
+               
+        for( UserTask userTask: userTasks){
+            if(userTask.getUser().getUserId() == loggedInUserId){
+             
+                UserTaskService us = new UserTaskService();
+                userTask.setIsAssigned(Boolean.FALSE);
+                userTask.setIsChosen(Boolean.FALSE);
+                
+                try {
+                    us.remove(userTask);
+                } catch (Exception ex) {
+                    Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
 
 }
