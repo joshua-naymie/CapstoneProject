@@ -4,6 +4,7 @@
  */
 package servlets;
 
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,8 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.JSONBuilder;
-import models.JSONKey;
+import models.util.JSONBuilder;
+import models.util.JSONKey;
 import models.Task;
 import models.UserTask;
 import services.TaskService;
@@ -140,6 +141,9 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         
         // getting package type
         String packageType= task.getFoodDeliveryData().getPackageId().getPackageName();
+        
+        // getting package weight
+        short packageWeight= task.getFoodDeliveryData().getPackageId().getWeightLb();
         
         // retrieving program values into an array
         Object[] foodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),

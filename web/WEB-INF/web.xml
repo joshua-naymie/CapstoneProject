@@ -65,8 +65,8 @@
         <servlet-class>servlets.StoreServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>TaskApproveDissaproveServlet</servlet-name>
-        <servlet-class>servlets.TaskApproveDissaproveServlet</servlet-class>
+        <servlet-name>LoadTaskInfo</servlet-name>
+        <servlet-class>servlets.LoadTaskInfo</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
@@ -129,6 +129,8 @@
         <url-pattern>/stores</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>LoadTaskInfo</servlet-name>
+        <url-pattern>/LoadTaskInfo</url-pattern>
         <servlet-name>SubmittedTasksServlet</servlet-name>
         <url-pattern>/approve</url-pattern>
     </servlet-mapping>

@@ -76,4 +76,10 @@ public class ProgramServices {
         progDB.update(toUpdate);
         return "Program has been updated";
     }
+    
+    public List<Short> getAllIDs() throws Exception
+    {
+        ProgramDB programDB = new ProgramDB();
+        return programDB.getAllIDs();
+    }
 }

@@ -7,6 +7,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserTaskDB {
+    public List<UserTask> getAll() throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {
+            List<UserTask> userTasks = em.createNamedQuery("UserTask.findAll", UserTask.class).getResultList();
+            return userTasks;
+        } finally {
+            em.close();
+        }
+    }
+
     public List<User> getChosenUsers(long taskId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -19,7 +29,11 @@ public class UserTaskDB {
             List<UserTask> allUsersChosen = query2.getResultList();
 
             List<UserTask> allUsersTaskChosen = null;
+
                     //allUsersWithTask.stream().filter(allUsersChosen::contains).collect(Collectors.toList());
+
+//allUsersWithTask.stream().filter(allUsersChosen::contains).collect(Collectors.toList());
+
             List<User> chosenUsers = null;
             for (UserTask userTask : allUsersTaskChosen) {
                 chosenUsers.add(userTask.getUser());
@@ -42,7 +56,11 @@ public class UserTaskDB {
             List<UserTask> allUsersAssigned = query2.getResultList();
 
             List<UserTask> allUsersTaskAssigned = null;
+
                     //allUsersWithTask.stream().filter(allUsersAssigned::contains).collect(Collectors.toList());
+
+//allUsersWithTask.stream().filter(allUsersAssigned::contains).collect(Collectors.toList());
+
             List<User> assignedUsers = null;
             for (UserTask userTask : allUsersTaskAssigned) {
                 assignedUsers.add(userTask.getUser());
@@ -80,4 +98,6 @@ public class UserTaskDB {
             em.close();
         }
     }
+
+
 }

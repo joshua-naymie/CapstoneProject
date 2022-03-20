@@ -134,8 +134,12 @@ public class AddTaskServlet extends HttpServlet {
         String action = (String) request.getParameter("action");
 
         if(action != null && action.equals("Add")){
-                        
-            String taskDate = request.getParameter("taskDate");
+            Task addTask = new Task();
+            Short pogramAddId = -1;
+            
+            try{
+                
+                String taskDate = request.getParameter("taskDate");
             
             //Date taskDateStart = new Date();
             //Date taskDateEnd = new Date();
@@ -186,10 +190,12 @@ public class AddTaskServlet extends HttpServlet {
             String[] parts = programAdd.split(";");
             
             String programAddName = parts[0];
-            Short pogramAddId = Short.valueOf(parts[1]);
+            pogramAddId = Short.valueOf(parts[1]);
             
             String description = (String) request.getParameter("description");
             String cityAdd = (String) request.getParameter("cityAdd");
+            
+                                    
             
 //            Date taskDateStart = new Date();
 //            try {
@@ -206,22 +212,30 @@ public class AddTaskServlet extends HttpServlet {
             ZonedDateTime zdt1 = et.atZone(ZoneId.systemDefault());
             Date eTime = Date.from(zdt1.toInstant());
             
+            
             //log(sTime.toString());        
             
             Short spotsAdd = Short.parseShort((String) request.getParameter("spotsAdd"));
             Long supervisorId = Long.parseLong((String) request.getParameter("supervisorAdd"));
             
             
-            Task addTask = new Task(0L, sTime, eTime, true, false, "Jane Doe", cityAdd);
+            addTask = new Task(0L, sTime, eTime, true, false, "Jane Doe", cityAdd);
                 addTask.setTaskDescription(description);
 
                 addTask.setMaxUsers(spotsAdd);
-            try {
+//            
+//                
+//            } catch(Exception ex){
+//                
+//            }
+//
+//            try {
                 String fullName = as.getByID(supervisorId).getFirstName() + " " + as.getByID(supervisorId).getLastName();
                 addTask.setApprovingManager(fullName);
                 
             } catch (Exception ex) {
                 Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+                
             }
                 
                 try {
@@ -278,7 +292,7 @@ public class AddTaskServlet extends HttpServlet {
             try {
                 addTask.setIsApproved(false);
                 addTask.setIsSubmitted(false);
-                addTask.setIsApproved(false);
+                addTask.setIsDissaproved(false);
                 ts.insert(addTask);
             } catch (Exception ex) {
                 Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);

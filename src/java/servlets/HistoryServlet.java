@@ -1,9 +1,12 @@
 package servlets;
 
+import models.util.JSONKey;
+import models.util.JSONBuilder;
 import java.io.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import java.text.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import services.*;
@@ -38,8 +41,8 @@ public class HistoryServlet extends HttpServlet
         {
             String id = request.getParameter("id");
             
-            id = (id == null || id.equals("")) ? "1" : id;
-            List<Task> tasks = taskService.getUserHistory(Long.parseLong(id));
+            id = (id == null || id.isBlank()) ? "1" : id;
+            List<Task> tasks = taskService.getHistory(Long.parseLong(id));
             StringBuilder historyVar = new StringBuilder();
             
             historyVar.append("var historyData = [");
@@ -47,14 +50,15 @@ public class HistoryServlet extends HttpServlet
             JSONKey[] historyKeys = {
                                         new JSONKey("id", false),
                                         new JSONKey("program", true),
-                                        new JSONKey("date", true),
+                                        new JSONKey("startTime", true),
+                                        new JSONKey("endTime", true),
                                         new JSONKey("status", true),
                                         new JSONKey("city", true)
                                     };
             
             JSONBuilder historyBuilder = new JSONBuilder(historyKeys);
             
-            if(tasks.size() > 0)
+            if(!tasks.isEmpty())
             {
                 int i;
                 for(i=0; i<tasks.size()-1; i++)
@@ -85,9 +89,11 @@ public class HistoryServlet extends HttpServlet
                             task.getTaskId(),
                             task.getProgramId().getProgramName(),
                             jsonDateFormat.format(task.getStartTime()),
+                            jsonDateFormat.format(task.getEndTime()),
                             getTaskStatus(task),
                             task.getTaskCity()
                           };
+        
         return builder.buildJSON(values);
     }
     

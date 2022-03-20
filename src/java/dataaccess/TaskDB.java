@@ -5,6 +5,9 @@
 package dataaccess;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import models.*;
 
@@ -29,21 +32,44 @@ public class TaskDB {
      * @param userId The ID of the User
      * @return A list of tasks belonging to the User
      */
-    public List<Task> getHistoryByUserId(long userId) throws Exception
+    public List<Task> getHistoryByUserId(long userId, LocalDateTime startDate, LocalDateTime endDate,
+                                         Short[] programs) throws Exception
     {
-        EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
+        StringBuilder queryBuilder = new StringBuilder();
+        startDate = startDate == null ? LocalDateTime.now() : startDate;
         
-        try
+        queryBuilder.append("SELECT t FROM Task t, UserTask ut");
+        queryBuilder.append(" WHERE t.taskId = ut.userTaskPK.taskId");
+        queryBuilder.append(" AND ut.userTaskPK.userId = :userId ");
+        queryBuilder.append(" AND t.startTime <= ");
+        queryBuilder.append(startDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
+        
+        if(endDate != null)
         {
-            TypedQuery query = entityManager.createNamedQuery("Task.findHistoryByUserId", Task.class);
-            query.setParameter("userId", userId);
+            queryBuilder.append(" AND t.endTime >= ");
+            queryBuilder.append(endDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
+        }
+        
+        if(programs != null && programs.length > 0)
+        {
+            queryBuilder.append(" AND t.programId IN (");
+            int i;
+            for(i=0; i<programs.length-1; i++)
+            {
+                queryBuilder.append(programs[i]);
+                queryBuilder.append(',');
+            }
+            queryBuilder.append(programs[i]);
             
-            return query.getResultList();
+            queryBuilder.append(')');
         }
-        finally
-        {
-            entityManager.close();
-        }
+        
+        return  DBUtil
+                .getEMFactory()
+                .createEntityManager()
+                .createQuery(queryBuilder.toString(), Task.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
     
     public List<Task> getSubmittedToManager(String managerId) throws Exception
@@ -63,13 +89,22 @@ public class TaskDB {
         }
     }
      
-    public List<Task> getAllNotApprovedTasks() throws Exception {
+    public List<Task> getAllNotApprovedTasksByUserId(int userId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {   
+            Query q = em.createQuery("SELECT t FROM Task t, UserTask ut "
+            + "WHERE ut.userTaskPK.userId = :userId "
+            + "AND t.taskId = ut.userTaskPK.taskId "
+            + "AND (t.isApproved = FALSE) AND (ut.isAssigned  = TRUE)");
 
-            Query getTask = em.createNamedQuery("Task.findByIsApproved", Task.class);
-            List<Task> allTasks = getTask.setParameter("isApproved", false).getResultList();
+            q.setParameter("userId", userId);
+            
+            List<Task> allTasks = q.getResultList();
             return allTasks;
+            
+//            Query getTask = em.createNamedQuery("Task.findByIsApproved", Task.class);
+//            List<Task> allTasks = getTask.setParameter("isApproved", false).getResultList();
+//            return allTasks;
         } finally {
             em.close();
         }

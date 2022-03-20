@@ -28,7 +28,6 @@
   box-shadow: 2px 2px 12px darkslategrey;
   min-width: 370px;
   padding: 40px;
-  height: calc(100vh - 80px);
   min-height: 23rem;
   width: calc(100vw - 350px);
   margin-top: 40px;
