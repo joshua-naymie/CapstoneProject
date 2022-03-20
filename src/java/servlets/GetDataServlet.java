@@ -192,6 +192,10 @@ public class GetDataServlet extends HttpServlet {
 			}
 
 		}
+                
+                if(op.equals("cancelTask")){
+                    
+                }
 
 		// if (taskJSON.length() > 2) {
 		// taskJSON.setLength(programJSON.length() - 1);

@@ -1,100 +1,176 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package servlets;
 
-import models.util.JSONKey;
-import models.util.JSONBuilder;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.logging.*;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import models.util.JSONBuilder;
+import models.util.JSONKey;
+import models.Task;
+import models.UserTask;
+import services.TaskService;
 
-import models.*;
-import services.*;
-
+/**
+ *
+ * @author 861349
+ */
 public class TaskApproveDissaproveServlet extends HttpServlet {
 
     private static final DateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
 
-    private static final String HISTORY_JSP_DIR = "/WEB-INF/submittedTasks.jsp";
-
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // getting all tasks that need approving
-        TaskService ts = new TaskService();
-        List<Task> needApproval = null;
-        System.out.println("HERE");
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // retrieve task information based on URL parameter
+        String taskId = request.getParameter("id");
+        Task task = null;
         try {
-            needApproval = ts.getSubmittedToManager("Manager Jane");  //get a list of all tasks that need approval
+            if (taskId != null) {
+                TaskService ts = new TaskService();
+                task = ts.get(Long.parseLong(taskId));
+            }
 
-            System.out.println(needApproval.size());
             // sending json data
             StringBuilder taskReturnData = new StringBuilder();
             taskReturnData.append("var taskData = [");
 
             // creating keys for hotline
-            JSONKey[] hotlineKeys = {new JSONKey("task_hotline_id", false),
+            JSONKey[] hotlineTaskKeys = {new JSONKey("taskID", false),
                 new JSONKey("programName", true),
+                new JSONKey("fullName", true),
                 new JSONKey("startTime", true),
+                new JSONKey("endTime", true),
+                new JSONKey("description", true),
+                new JSONKey("city", true),
                 new JSONKey("teamName", true)};
 
-            // creating ket for food delivery
-            JSONKey[] foodDeliveryKeys = {new JSONKey("task_fd_id", false),
+            // creating keys for food delivery for community
+            JSONKey[] communityFoodTaskKeys = {new JSONKey("taskID", false),
                 new JSONKey("programName", true),
+                new JSONKey("fullName", true),
                 new JSONKey("startTime", true),
-                new JSONKey("userList", true),
-                new JSONKey("storeName", true)};
+                new JSONKey("endTime", true),
+                new JSONKey("description", true),
+                new JSONKey("city", true),
+                new JSONKey("mileage", true),
+                new JSONKey("familyCount", false),
+                new JSONKey("foodAmount", false),
+                new JSONKey("hoursWorked", false),
+                new JSONKey("packageType", true),
+                new JSONKey("teamName", true)};
+
+            // creating keys for food delivery for organization
+            JSONKey[] orgFoodTaskKeys = {new JSONKey("taskID", false),
+                new JSONKey("programName", true),
+                new JSONKey("fullName", true),
+                new JSONKey("startTime", true),
+                new JSONKey("endTime", true),
+                new JSONKey("description", true),
+                new JSONKey("city", true),
+                new JSONKey("mileage", true),
+                new JSONKey("organizationName", false),
+                new JSONKey("foodAmount", false),
+                new JSONKey("hoursWorked", false),
+                new JSONKey("packageType", true),
+                new JSONKey("teamName", true)};
 
             // builder for hotline
-            JSONBuilder hotLineBuilder = new JSONBuilder(hotlineKeys);
+            JSONBuilder hotLineBuilder = new JSONBuilder(hotlineTaskKeys);
 
-            // builder for food delivery
-            JSONBuilder foodBuilder = new JSONBuilder(foodDeliveryKeys);
+            // builder for food delivery for community
+            JSONBuilder communityFoodBuilder = new JSONBuilder(communityFoodTaskKeys);
+            
+            // builder for food delivery for organizations
+            JSONBuilder orgFoodBuilder = new JSONBuilder(orgFoodTaskKeys);
+            
+            // boolean for checking if 
+            boolean isFood = false;
 
-            // Create task JSON objects
-            if (needApproval.size() > 0) {
-                int i;
-                for (i = 0; i < needApproval.size() - 1; i++) {
-                    if (needApproval.get(i).getProgramId().getProgramId() == 1) {
-                        taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
-                    } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
-                        taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
-                    } else {
-                        System.out.println("wrong program id");
-
-                    }
-                    taskReturnData.append(',');
-                }
-                if (needApproval.get(i).getProgramId().getProgramId() == 1) {
-                    taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
-                } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
-                    taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
+            // creating JSON objects
+            if (task != null) {
+                if (task.getProgramId().getProgramId() == 1 && task.getFoodDeliveryData().getFamilyCount() != 0) {
+                    taskReturnData.append(buildCommunityFoodJSON(task, communityFoodBuilder));
+                } else if (task.getProgramId().getProgramId() == 1 && task.getFoodDeliveryData().getOrganizationId() != null) {
+                    // change when method is made
+                    taskReturnData.append(buildOrgFoodJSON(task, orgFoodBuilder));
+                } else if (task.getProgramId().getProgramId() == 2) {
+                    taskReturnData.append(buildHotlineJSON(task, hotLineBuilder));
+                } else {
+                    System.out.println("wrong program id");
                 }
             }
-            taskReturnData.append("];");
 
-            // setting user data attribute for the front end to use
-            request.setAttribute("taskData", taskReturnData);
         } catch (Exception ex) {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, ex);
         }
 
-        // forward to jsp
-        getServletContext().getRequestDispatcher(HISTORY_JSP_DIR).forward(request, response);
-
     }
 
     /**
-     * Creates a food JSON object
+     * Creates a food JSON object for community type donations 
      *
      * @param task The food task to populate the JSON data
      * @param foodBuilder The JSONBuilder to create the JSON with
      * @return A food task JSON as a string
      */
-    private String buildFoodJSON(Task task, JSONBuilder foodBuilder) {
+    private String buildCommunityFoodJSON(Task task, JSONBuilder communityFoodBuilder) {
+
+        StringBuilder allUserNames = new StringBuilder();
+
+        for (UserTask userTask : task.getUserTaskList()) {
+            allUserNames.append(userTask.getUser().getFirstName());
+            allUserNames.append(" ");
+            allUserNames.append(userTask.getUser().getLastName());
+            allUserNames.append(", ");
+        }
+        // calculating hours worked
+        long hoursWorkedInMilliSeconds = task.getStartTime().getTime() - task.getEndTime().getTime();
+        long hoursWorked = (hoursWorkedInMilliSeconds/ (1000 * 60))% 60;
+        
+        // getting package type
+        String packageType= task.getFoodDeliveryData().getPackageId().getPackageName();
+        
+        // getting package weight
+        short packageWeight= task.getFoodDeliveryData().getPackageId().getWeightLb();
+        
+        // retrieving program values into an array
+        Object[] foodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
+            task.getProgramId().getProgramName(),
+            allUserNames,
+            jsonDateFormat.format(task.getStartTime()),
+            jsonDateFormat.format(task.getEndTime()),
+            task.getTaskDescription(),
+            task.getTaskCity(),
+            task.getFoodDeliveryData().getMileage(),
+            task.getFoodDeliveryData().getFamilyCount(),
+            task.getFoodDeliveryData().getFoodAmount(),
+            hoursWorked,
+            packageType,
+            task.getTeamId().getStoreId().getStoreName()};
+
+        return communityFoodBuilder.buildJSON(foodTaskValues);
+    }
+    
+    /**
+     * Creates a food JSON object for organization type donations
+     *
+     * @param task The food task to populate the JSON data
+     * @param foodBuilder The JSONBuilder to create the JSON with
+     * @return A food task JSON as a string
+     */
+    private String buildOrgFoodJSON(Task task, JSONBuilder orgFoodBuilder) {
 
         StringBuilder allUserNames = new StringBuilder();
 
@@ -107,11 +183,16 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         // retrieving program values into an array
         Object[] foodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
             task.getProgramId().getProgramName(),
-            jsonDateFormat.format(task.getStartTime()),
             allUserNames,
+            jsonDateFormat.format(task.getStartTime()),
+            jsonDateFormat.format(task.getEndTime()),
+            task.getTaskDescription(),
+            task.getTaskCity(),
+            task.getFoodDeliveryData().getMileage(),
+            task.getFoodDeliveryData().getFamilyCount(),
             task.getTeamId().getStoreId().getStoreName()};
 
-        return foodBuilder.buildJSON(foodTaskValues);
+        return orgFoodBuilder.buildJSON(foodTaskValues);
     }
 
     /**
@@ -133,7 +214,9 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // approve , disapprove, cancel
     }
+
 }

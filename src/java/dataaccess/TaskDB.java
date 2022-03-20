@@ -91,6 +91,10 @@ public class TaskDB {
      
     public List<Task> getAllNotApprovedTasksByUserId(int userId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        
+        //remove this later
+        userId = 4;
+        
         try {   
             Query q = em.createQuery("SELECT t FROM Task t, UserTask ut "
             + "WHERE ut.userTaskPK.userId = :userId "
