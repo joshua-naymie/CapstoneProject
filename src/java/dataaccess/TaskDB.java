@@ -98,7 +98,7 @@ public class TaskDB {
             Query q = em.createQuery("SELECT t FROM Task t, UserTask ut "
             + "WHERE ut.userTaskPK.userId = :userId "
             + "AND t.taskId = ut.userTaskPK.taskId "
-            + "AND (t.isApproved = FALSE) AND (ut.isAssigned  = TRUE)");
+            + "AND (t.isApproved = FALSE) AND (t.isSubmitted = FALSE) AND (ut.isAssigned  = TRUE)");
 
             q.setParameter("userId", userId);
             
