@@ -216,10 +216,10 @@ function populateFields()
     taskIDFromDB.setInputText(taskData.taskID);
     programIDFromDB.setInputText(taskData.programID);
     teamIDFromDB.setInputText(taskData.teamID);
-    userIDFromDB.setInputText(editUser.userID);
-    firstNameInput.setInputText(editUser.firstName);
-    lastNameInput.setInputText(editUser.lastName);
-    programNameFromDB.setInputText(editUser.programName); // script.JSON name
+    userIDFromDB.setInputText(taskData.userID);
+    firstNameInput.setInputText(taskData.firstName);
+    lastNameInput.setInputText(taskData.lastName);
+    programNameFromDB.setInputText(taskData.programName); // script.JSON name
     taskCityInput.setInputText(taskData.city);
     startTimeInput.setInputText(taskData.startTime);
     endTimeInput.setInputText(taskData.endTime);
