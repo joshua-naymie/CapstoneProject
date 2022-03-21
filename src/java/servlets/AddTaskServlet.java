@@ -285,21 +285,30 @@ public class AddTaskServlet extends HttpServlet {
                 addTask.setTeamId(teamAdd);
 
             }else{
-                log("missed");
-            }
-            
-                            
+                
+                addTask.setMaxUsers((short) 1);
+            }                
             try {
                 addTask.setIsApproved(false);
                 addTask.setIsSubmitted(false);
                 addTask.setIsDissaproved(false);
                 ts.insert(addTask);
+                request.setAttribute("userMessage", "Task posted.");
+                doGet(request, response);
+                return;
+                
             } catch (Exception ex) {
                 Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+                request.setAttribute("userMessage", "Task could not posted. Please try again.");
+                doGet(request, response);
+                return;
             }
-
+            
+        } else if(action != null && action.equals("Cancel")){
+            request.setAttribute("userMessage", "Task was not posted.");
+            doGet(request, response);
+            return;
         }
-
         response.sendRedirect("addTask");
         //getServletContext().getRequestDispatcher("/WEB-INF/addTaskTest.jsp").forward(request, response);
     }

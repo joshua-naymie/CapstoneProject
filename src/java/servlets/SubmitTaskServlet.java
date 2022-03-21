@@ -28,6 +28,7 @@ import models.PackageType;
 import models.Program;
 import models.Task;
 import models.UserTask;
+import models.UserTaskPK;
 import services.TaskService;
 import services.UserTaskService;
 
@@ -142,6 +143,10 @@ public class SubmitTaskServlet extends HttpServlet {
     protected void cancel(HttpServletRequest request, HttpServletResponse response, Task task, int loggedInUserId)
             throws ServletException, IOException {
         
+        //TaskService ts = new TaskService();
+        //Long task_id = Long.parseLong((String) request.getParameter("task_id"));
+        //Task task = ts.get(task_id);
+        
         List<UserTask> userTasks = task.getUserTaskList();
                
         for( UserTask userTask: userTasks){
@@ -158,6 +163,31 @@ public class SubmitTaskServlet extends HttpServlet {
                 }
             }
         }
+    }
+    
+    protected void signUp(HttpServletRequest request, HttpServletResponse response, Task task, int loggedInUserId)
+        throws ServletException, IOException {
+        
+        //TaskService ts = new TaskService();
+        //Long task_id = Long.parseLong((String) request.getParameter("task_id"));
+        //Task task = ts.get(task_id);
+        
+        UserTaskService uts = new UserTaskService();
+        
+        UserTask ut = new UserTask(loggedInUserId, task.getTaskId());
+        
+        String action = request.getParameter("action");
+        
+        if(action.equalsIgnoreCase(action)){
+            try {
+                ut.setIsChosen(Boolean.TRUE);
+                uts.update(ut);
+                
+            } catch (Exception ex) {
+                Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+         
     }
 
 }

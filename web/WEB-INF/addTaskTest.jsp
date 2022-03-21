@@ -115,9 +115,14 @@
                                 <label for="spotsAdd">Spots: </label>
                                 <input type="number" id="spotsAdd" name="spotsAdd" min="1" max="10" value="1">
                             </div>
+                                                       
+                            <p>${userMessage}</p>
                             
                             <!-- Number of volunteers for the task -->
                             <input type="submit" value="Add" name="action" class="btn btn-primary"> 
+                            
+                            <input type="submit" value="Cancel" name="action" class="btn btn-secondary"> 
+
 
                         </form>
                     </div>
