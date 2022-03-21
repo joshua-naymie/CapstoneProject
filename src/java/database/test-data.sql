@@ -52,6 +52,8 @@ INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, 
      VALUES (12345, '10 17 Ave SW', 'A9A9A9', 'Calgary', True, '123-2345', 'Jane Doe', 1234, 'Kensingston COBS');
 INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, `is_active`,`phone_num`, `contact`,`company_id`, `store_name`) 
      VALUES (123, '17 Ave SW', 'A9A9A3', 'Calgary', True, '123-2345', 'John Doe', 12, 'Kensingston Starbucks');
+INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, `is_active`,`phone_num`, `contact`,`company_id`, `store_name`) 
+     VALUES (1234, '20 Ave SW', 'A2A9A3', 'Calgary', True, '122-2345', 'Jack Doe', 12, 'Brentwood Starbucks');
 -- -----------------------------------------------------
 -- TEAM
 -- -----------------------------------------------------
@@ -77,7 +79,7 @@ INSERT INTO `user` (`email`, `is_admin`, `team_id`,`user_city`,`first_name`,`las
             '321 pizza st s.w.', 'A1A1A1', curdate(),'QZKs/yX2vhFz2oto6NNc3LKuVt6xt/joYJTlvvGsAgQ=', '9e6b196b2c390db4ed171cfa7495b83230a28688029f94eff6c63300f0a3ce66');
 INSERT INTO `user` (`email`, `is_admin`, `team_id`,`user_city`,`first_name`,`last_name`,`is_active`
                     ,`date_Of_birth`,`phone_number`,`home_address`,`postal_code`,`registration_date`, `password_salt`, `password_hash` )
-  VALUES ('rjk4752@gmail.com', True, 1, 'Calgary', 'Ra', 'Ad', TRUE, curdate(), '403-888-8888', 
+  VALUES ('rjk4752@gmail.com', True, 1, 'Calgary', 'John', 'Connor', TRUE, curdate(), '403-888-8888', 
             '123 pizza st s.w.', 'A1A1A1', curdate(), 'OloAEOkY3BGzc6wTRedRuL8c1JzkHq3UeCneTaEiIgo=', '94ec65f4df9c528f9e438bf4747366d58111e0eb36c782d20e9ec2c7494e0641');
 
 UPDATE `program` SET `user_id` = 1 WHERE `program_id` = 1;
@@ -91,6 +93,8 @@ INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`)
      VALUES (1,1,1);
 INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
      VALUES (4,5,1);
+INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
+     VALUES (3,5,2);
 
  -----------------------------------------------------
 -- PACKAGE TYPE

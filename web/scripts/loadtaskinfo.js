@@ -52,95 +52,111 @@ function load()
     taskIDFromDB.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     taskIDFromDB.setPlaceHolderText("n");
     containerLeft.appendChild(taskIDFromDB.container);
+    document.getElementById("task_id_db").setAttribute("readonly", true);
 
     programIDFromDB.setLabelText("Program ID:");
     programIDFromDB.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     programIDFromDB.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     programIDFromDB.setPlaceHolderText("n");
     containerRight.appendChild(programIDFromDB.container);
+    document.getElementById("program_id_db").setAttribute("readonly", true);
 
     teamIDFromDB.setLabelText("Team ID:");
     teamIDFromDB.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     teamIDFromDB.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     teamIDFromDB.setPlaceHolderText("n");
     containerLeft.appendChild(teamIDFromDB.container);
+    document.getElementById("team_id_db").setAttribute("readonly", true);
 
     userIDFromDB.setLabelText("User ID:");
     userIDFromDB.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     userIDFromDB.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     userIDFromDB.setPlaceHolderText("n");
     containerRight.appendChild(userIDFromDB.container);
+    document.getElementById("user_id_db").setAttribute("readonly", true);
 
     firstNameInput.setLabelText("First Name:");
     firstNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     firstNameInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     firstNameInput.setPlaceHolderText("John");
     containerLeft.appendChild(firstNameInput.container);
+    document.getElementById("user_firstname").setAttribute("readonly", true);
 
     lastNameInput.setLabelText("Last Name:");
     lastNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     lastNameInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     lastNameInput.setPlaceHolderText("Smith");
     containerRight.appendChild(lastNameInput.container);
+    document.getElementById("user_lastname").setAttribute("readonly", true);
 
     programNameFromDB.setLabelText("Program Name:");
     programNameFromDB.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     programNameFromDB.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     programNameFromDB.setPlaceHolderText("Hotline");
     containerLeft.appendChild(programNameFromDB.container);
+    document.getElementById("program_name_db").setAttribute("readonly", true);
 
     taskCityInput.setLabelText("City:");
     taskCityInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     taskCityInput.setPlaceHolderText("Calgary");
     containerRight.appendChild(taskCityInput.container);
+    document.getElementById("user_city").setAttribute("readonly", true);
 
     startTimeInput.setLabelText("Start Time:");
     startTimeInput.input.type = "datetime-local";
     startTimeInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     startTimeInput.addValidator(REGEX_EMAIL, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     containerLeft.appendChild(startTimeInput.container);
+    document.getElementById("start_time").setAttribute("readonly", true);
 
     endTimeInput.setLabelText("End Time:");
     endTimeInput.input.type = "datetime-local";
     endTimeInput.input.value = new Date().toISOString().substring(0, 10);
     endTimeInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     containerRight.appendChild(endTimeInput.container);
+    document.getElementById("end_time").setAttribute("readonly", true);
 
     mileageInput.setLabelText("Mileage:"); // FOOD PROGRAM ONLY
     mileageInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     mileageInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     mileageInput.setPlaceHolderText("100");
     containerLeft.appendChild(mileageInput.container);
+    document.getElementById("food_mileage").setAttribute("readonly", true);
 
     packageIDInput.setLabelText("Package ID:"); // FOOD PROGRAM ONLY
     packageIDInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     packageIDInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     packageIDInput.setPlaceHolderText("123");
     containerRight.appendChild(packageIDInput.container);
+    document.getElementById("food_package_id").setAttribute("readonly", true);
 
     packageNameInput.setLabelText("Package Name:"); // FOOD PROGRAM ONLY
     packageNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     packageNameInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     packageNameInput.setPlaceHolderText("Food");
     containerLeft.appendChild(packageNameInput.container);
+    document.getElementById("food_package_name").setAttribute("readonly", true);
 
     weightFoodInput.setLabelText("Weight (lbs):"); // FOOD PROGRAM ONLY
     weightFoodInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     weightFoodInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     weightFoodInput.setPlaceHolderText("100");
     containerRight.appendChild(weightFoodInput.container);
+    document.getElementById("food_weight").setAttribute("readonly", true);
 
     orgNameInput.setLabelText("Organization Name:"); // FOOD PROGRAM ONLY
     orgNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     orgNameInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     orgNameInput.setPlaceHolderText("ECSSEN");
     containerLeft.appendChild(orgNameInput.container);
+    document.getElementById("org_name").setAttribute("readonly", true);
 
     familyCountInput.setLabelText("Family Count:"); // FOOD PROGRAM ONLY
     familyCountInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     familyCountInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     familyCountInput.setPlaceHolderText("10");
     containerRight.appendChild(familyCountInput.container);
+    document.getElementById("family_count").setAttribute("readonly", true);
 
     approvalNotesFromDB.setLabelText("Comments:");
     approvalNotesFromDB = document.createElement("TEXTAREA");
@@ -175,7 +191,7 @@ function load()
     containerLeft.appendChild(disapproveButton);
     containerRight.appendChild(approveButton);
     containerRight.appendChild(cancelButton);
-
+    
     //--------------
 //
     inputCollection = new InputGroupCollection();

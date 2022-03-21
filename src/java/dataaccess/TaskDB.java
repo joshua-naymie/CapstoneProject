@@ -19,7 +19,6 @@ public class TaskDB {
      public List<Task> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {         
-
             List<Task> allTasks = em.createNamedQuery("Task.findAll", Task.class).getResultList();
             return allTasks;
         } finally {
@@ -91,11 +90,15 @@ public class TaskDB {
      
     public List<Task> getAllNotApprovedTasksByUserId(int userId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        
+        //remove this later
+        userId = 4;
+        
         try {   
             Query q = em.createQuery("SELECT t FROM Task t, UserTask ut "
             + "WHERE ut.userTaskPK.userId = :userId "
             + "AND t.taskId = ut.userTaskPK.taskId "
-            + "AND (t.isApproved = FALSE) AND (ut.isAssigned  = TRUE)");
+            + "AND (t.isApproved = FALSE) AND (t.isSubmitted = FALSE) AND (ut.isAssigned  = TRUE)");
 
             q.setParameter("userId", userId);
             
