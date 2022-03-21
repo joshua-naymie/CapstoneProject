@@ -4,7 +4,6 @@
  */
 package servlets;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -37,10 +36,13 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         String taskId = request.getParameter("id");
         Task task = null;
         try {
-            if (taskId != null) {
+            // uncomment after frontend connection
+            //if (taskId != null) {
                 TaskService ts = new TaskService();
-                task = ts.get(Long.parseLong(taskId));
-            }
+                task = ts.get((long)4);
+                       // Long.parseLong(taskId));
+                System.out.println(task.getTaskId());    
+           // }
 
             // sending json data
             StringBuilder taskReturnData = new StringBuilder();
@@ -91,44 +93,52 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
 
             // builder for food delivery for community
             JSONBuilder communityFoodBuilder = new JSONBuilder(communityFoodTaskKeys);
-            
+
             // builder for food delivery for organizations
             JSONBuilder orgFoodBuilder = new JSONBuilder(orgFoodTaskKeys);
-            
+
             // boolean for checking if 
-            boolean isFood = false;
+            boolean isCommunity = false;
 
             // creating JSON objects
             if (task != null) {
                 if (task.getProgramId().getProgramId() == 1 && task.getFoodDeliveryData().getFamilyCount() != 0) {
-                    taskReturnData.append(buildCommunityFoodJSON(task, communityFoodBuilder));
+                    isCommunity = true;
+                    taskReturnData.append(buildFoodJSON(task, communityFoodBuilder, isCommunity));
                 } else if (task.getProgramId().getProgramId() == 1 && task.getFoodDeliveryData().getOrganizationId() != null) {
-                    // change when method is made
-                    taskReturnData.append(buildOrgFoodJSON(task, orgFoodBuilder));
+                    taskReturnData.append(buildFoodJSON(task, orgFoodBuilder, isCommunity));
                 } else if (task.getProgramId().getProgramId() == 2) {
                     taskReturnData.append(buildHotlineJSON(task, hotLineBuilder));
                 } else {
                     System.out.println("wrong program id");
                 }
             }
-
+            taskReturnData.append("];");
+            
+            // setting user data attribute for the front end to use
+            request.setAttribute("taskData", taskReturnData);
         } catch (Exception ex) {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, ex);
         }
+        
+        // forward to jsp
+        getServletContext().getRequestDispatcher("/WEB-INF/loadtaskinfo.jsp").forward(request, response);
 
     }
 
     /**
-     * Creates a food JSON object for community type donations 
+     * Creates a food JSON object for community type donations
      *
      * @param task The food task to populate the JSON data
      * @param foodBuilder The JSONBuilder to create the JSON with
      * @return A food task JSON as a string
      */
-    private String buildCommunityFoodJSON(Task task, JSONBuilder communityFoodBuilder) {
+    private String buildFoodJSON(Task task, JSONBuilder communityFoodBuilder, boolean isCommunity) {
 
+        // String builder to hold all user names per task
         StringBuilder allUserNames = new StringBuilder();
 
+        // for loop to run through the whole task and grabs every volunteers
         for (UserTask userTask : task.getUserTaskList()) {
             allUserNames.append(userTask.getUser().getFirstName());
             allUserNames.append(" ");
@@ -137,16 +147,16 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         }
         // calculating hours worked
         long hoursWorkedInMilliSeconds = task.getStartTime().getTime() - task.getEndTime().getTime();
-        long hoursWorked = (hoursWorkedInMilliSeconds/ (1000 * 60))% 60;
-        
+        long hoursWorked = (hoursWorkedInMilliSeconds / (1000 * 60)) % 60;
+
         // getting package type
-        String packageType= task.getFoodDeliveryData().getPackageId().getPackageName();
-        
+        String packageType = task.getFoodDeliveryData().getPackageId().getPackageName();
+
         // getting package weight
-        short packageWeight= task.getFoodDeliveryData().getPackageId().getWeightLb();
-        
+        short packageWeight = task.getFoodDeliveryData().getPackageId().getWeightLb();
+
         // retrieving program values into an array
-        Object[] foodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
+        Object[] comFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
             task.getProgramId().getProgramName(),
             allUserNames,
             jsonDateFormat.format(task.getStartTime()),
@@ -159,29 +169,8 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             hoursWorked,
             packageType,
             task.getTeamId().getStoreId().getStoreName()};
-
-        return communityFoodBuilder.buildJSON(foodTaskValues);
-    }
-    
-    /**
-     * Creates a food JSON object for organization type donations
-     *
-     * @param task The food task to populate the JSON data
-     * @param foodBuilder The JSONBuilder to create the JSON with
-     * @return A food task JSON as a string
-     */
-    private String buildOrgFoodJSON(Task task, JSONBuilder orgFoodBuilder) {
-
-        StringBuilder allUserNames = new StringBuilder();
-
-        for (UserTask userTask : task.getUserTaskList()) {
-            allUserNames.append(userTask.getUser().getFirstName());
-            allUserNames.append(" ");
-            allUserNames.append(userTask.getUser().getLastName());
-            allUserNames.append(", ");
-        }
-        // retrieving program values into an array
-        Object[] foodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
+        
+        Object[] orgFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
             task.getProgramId().getProgramName(),
             allUserNames,
             jsonDateFormat.format(task.getStartTime()),
@@ -189,10 +178,18 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             task.getTaskDescription(),
             task.getTaskCity(),
             task.getFoodDeliveryData().getMileage(),
-            task.getFoodDeliveryData().getFamilyCount(),
+            task.getFoodDeliveryData().getOrganizationId().getOrgName(),
+            task.getFoodDeliveryData().getFoodAmount(),
+            hoursWorked,
+            packageType,
             task.getTeamId().getStoreId().getStoreName()};
-
-        return orgFoodBuilder.buildJSON(foodTaskValues);
+        
+        
+        if (isCommunity) {
+            return communityFoodBuilder.buildJSON(comFoodTaskValues);
+        } else {
+            return communityFoodBuilder.buildJSON(orgFoodTaskValues);
+        }
     }
 
     /**
@@ -203,11 +200,15 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
      * @return A hotline task JSON as a string
      */
     private String buildHotlineJSON(Task task, JSONBuilder hotLineBuilder) {
-
+        
         // retrieving program values into an array
         Object[] hotLineValues = {task.getHotlineData().getTaskHotlineId(),
             task.getProgramId().getProgramName(),
+            task.getUserTaskList().get(0),
             jsonDateFormat.format(task.getStartTime()),
+            jsonDateFormat.format(task.getEndTime()),
+            task.getTaskDescription(),
+            task.getTaskCity(),
             "HotLine"};
 
         return hotLineBuilder.buildJSON(hotLineValues);
@@ -216,7 +217,47 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
+        // obtain action from the JSP
         // approve , disapprove, cancel
+        String action = request.getParameter("action");
+        
+        // try catch with a switch to do the action based on what was clicked
+                try {
+            switch (action) {
+                // creating a new user
+                case "Approve":
+                    // request.setAttribute("startView", true);
+                    approve(request, response);
+                    break;
+
+                // editing a current user
+                case "Disapprove":
+                    // request.setAttribute("editview", true);
+                    disapprove(request, response);
+                    break;
+
+                case "Cancel":
+                    response.sendRedirect("approve");
+                    break;
+                default:
+                    System.out.println("no action picked");
+                    break;
+            }
+        } catch (Exception e) {
+            Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
+            System.err.println("Error Occured carrying out action:" + action);
+        }
+        
+    }
+
+    private void approve(HttpServletRequest request, HttpServletResponse response) {
+      
+    }
+
+    private void disapprove(HttpServletRequest request, HttpServletResponse response) {
+        
     }
 
 }

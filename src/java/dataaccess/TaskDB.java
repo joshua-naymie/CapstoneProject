@@ -19,7 +19,6 @@ public class TaskDB {
      public List<Task> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {         
-
             List<Task> allTasks = em.createNamedQuery("Task.findAll", Task.class).getResultList();
             return allTasks;
         } finally {

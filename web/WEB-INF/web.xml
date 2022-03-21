@@ -142,7 +142,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>TaskApproveDissaproveServlet</servlet-name>
-        <url-pattern>/taskInfo</url-pattern>
+        <url-pattern>/viewtask</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
