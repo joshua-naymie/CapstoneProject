@@ -38,15 +38,15 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         try {
             // uncomment after frontend connection
             //if (taskId != null) {
-                TaskService ts = new TaskService();
-                task = ts.get((long)4);
-                       // Long.parseLong(taskId));
-                System.out.println(task.getTaskId());    
-           // }
+            TaskService ts = new TaskService();
+            task = ts.get((long) 4);
+            // Long.parseLong(taskId));
+            System.out.println(task.getTaskId());
+            // }
 
             // sending json data
             StringBuilder taskReturnData = new StringBuilder();
-            taskReturnData.append("var taskData = [");
+            taskReturnData.append("var taskData = ");
 
             // creating keys for hotline
             JSONKey[] hotlineTaskKeys = {new JSONKey("taskID", false),
@@ -113,14 +113,14 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                     System.out.println("wrong program id");
                 }
             }
-            taskReturnData.append("];");
-            
+            taskReturnData.append(";");
+
             // setting user data attribute for the front end to use
             request.setAttribute("taskData", taskReturnData);
         } catch (Exception ex) {
-            Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, ex);
+            Logger.getLogger(TaskApproveDissaproveServlet.class.getName()).log(Level.WARNING, null, ex);
         }
-        
+
         // forward to jsp
         getServletContext().getRequestDispatcher("/WEB-INF/loadtaskinfo.jsp").forward(request, response);
 
@@ -169,7 +169,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             hoursWorked,
             packageType,
             task.getTeamId().getStoreId().getStoreName()};
-        
+
         Object[] orgFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
             task.getProgramId().getProgramName(),
             allUserNames,
@@ -183,8 +183,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             hoursWorked,
             packageType,
             task.getTeamId().getStoreId().getStoreName()};
-        
-        
+
         if (isCommunity) {
             return communityFoodBuilder.buildJSON(comFoodTaskValues);
         } else {
@@ -200,7 +199,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
      * @return A hotline task JSON as a string
      */
     private String buildHotlineJSON(Task task, JSONBuilder hotLineBuilder) {
-        
+
         // retrieving program values into an array
         Object[] hotLineValues = {task.getHotlineData().getTaskHotlineId(),
             task.getProgramId().getProgramName(),
@@ -217,27 +216,25 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
+
         // obtain action from the JSP
         // approve , disapprove, cancel
         String action = request.getParameter("action");
-        
+
         // try catch with a switch to do the action based on what was clicked
-                try {
+        try {
             switch (action) {
-                // creating a new user
+                // approve the submitted task
                 case "Approve":
-                    // request.setAttribute("startView", true);
                     approve(request, response);
                     break;
 
-                // editing a current user
+                // dissapprove the submitted task
                 case "Disapprove":
-                    // request.setAttribute("editview", true);
                     disapprove(request, response);
                     break;
-
+                    
+                // cancel and go back to list of tasks
                 case "Cancel":
                     response.sendRedirect("approve");
                     break;
@@ -246,18 +243,41 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                     break;
             }
         } catch (Exception e) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
+            Logger.getLogger(TaskApproveDissaproveServlet.class.getName()).log(Level.WARNING, null, e);
             System.err.println("Error Occured carrying out action:" + action);
         }
-        
+
     }
 
     private void approve(HttpServletRequest request, HttpServletResponse response) {
-      
+        try {
+            // Get the task based on task id
+            TaskService ts = new TaskService();
+            // match with front end task id input, task_id_db?
+            Task task = ts.get((long) 4);
+
+            task.setIsApproved(true);
+            task.setIsDissaproved(false);
+
+        } catch (Exception ex) {
+            Logger.getLogger(TaskApproveDissaproveServlet.class.getName()).log(Level.WARNING, null, ex);
+        }
     }
 
     private void disapprove(HttpServletRequest request, HttpServletResponse response) {
-        
+        try {
+            // Get the task based on task id
+            TaskService ts = new TaskService();
+            // match with front end task id input, task_id_db?
+            Task task = ts.get((long) 4);
+            
+            task.setIsSubmitted(false);
+            task.setIsApproved(false);
+            task.setIsDissaproved(true);
+
+        } catch (Exception ex) {
+            Logger.getLogger(TaskApproveDissaproveServlet.class.getName()).log(Level.WARNING, null, ex);
+        }
     }
 
 }

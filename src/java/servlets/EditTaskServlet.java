@@ -20,10 +20,12 @@ public class EditTaskServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // logged in user
-//        String user_id = request.getParameter("user_id");
-//        System.out.println(user_id);
-//        User loggedInUser = new User(Integer.parseInt(user_id));
-
+        String user_id = request.getParameter("user_id");
+        System.out.println(user_id);
+        User loggedInUser = new User();
+        if (user_id != null && user_id.matches("[0-9]+")) {
+            loggedInUser = new User(Integer.parseInt(user_id));
+        }
         String task_id = request.getParameter("task_id");
         if (task_id != null) {
             TaskService taskService = new TaskService();
@@ -106,9 +108,9 @@ public class EditTaskServlet extends HttpServlet {
                     UserTaskService userTaskService = new UserTaskService();
                     List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
                     Team team = new Team(editTask.getTeamId().getTeamId());
-                    List<User> canBeAssigned = null;
-//team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
-                    canBeAssigned.remove(loggedInUser);
+                    List<User> teamUserList = team.getUserList();
+                    teamUserList.removeAll(chosenUsers);
+                    List<User> canBeAssigned = teamUserList;
 
                     request.setAttribute("chosenUsers", chosenUsers);
                     request.setAttribute("canBeAssigned", canBeAssigned);
@@ -212,7 +214,7 @@ public class EditTaskServlet extends HttpServlet {
 
         try {
             TaskService taskService = new TaskService();
-            long taskId = Long.parseLong(request.getParameter("task_id"))
+            long taskId = Long.parseLong(request.getParameter("task_id"));
             Task task = taskService.get(taskId);
 
             task.setProgramId(new Program(Short.parseShort(request.getParameter("program_id"))));
@@ -236,14 +238,9 @@ public class EditTaskServlet extends HttpServlet {
 
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
                 task.setApprovingManager(request.getParameter("approving_manager"));
-
-                UserTaskService userTaskService = new UserTaskService();
-//                List<User> chosen_users = request.getParameter("chosen_users");
-//                List<User> available_volunteers = request.getParameter("available_volunteers");
             }
             
             taskService.update(task);
-
 
             // Insert and update UserTask
             UserTaskService userTaskService = new UserTaskService();
@@ -256,12 +253,14 @@ public class EditTaskServlet extends HttpServlet {
                 listOfAssinedUserIds.add(Integer.parseInt(thisUserId[1]));
             }
             for (int userId : listOfAssinedUserIds) {
-                User user = new User(userId);
                 UserTask userTask = new UserTask(userId, taskId);
                 userTask.setIsAssigned(true);
-                userTaskService.
+                if (userTaskService.getAll().contains(userTask)) {
+                    userTaskService.update(userTask);
+                } else {
+                    userTaskService.insert(userTask);
+                }
             }
-
 
             response.sendRedirect("tasks");
         } catch (Exception ex) {

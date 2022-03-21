@@ -213,9 +213,9 @@ function load()
     inputCollection.add(orgNameInput);
     inputCollection.add(familyCountInput);
 
-    if (typeof editUser !== "undefined")
+    if (typeof taskData !== "undefined")
     {
-        document.getElementById("header").innerText = "Edit User";
+        //document.getElementById("header").innerText = "Edit User";
         populateFields();
         submitButton.name = "action";
         submitButton.value = "Save";
@@ -232,24 +232,26 @@ function populateFields()
     taskIDFromDB.setInputText(taskData.taskID);
     programIDFromDB.setInputText(taskData.programID);
     teamIDFromDB.setInputText(taskData.teamID);
-    userIDFromDB.setInputText(editUser.userID);
-    firstNameInput.setInputText(editUser.firstName);
-    lastNameInput.setInputText(editUser.lastName);
-    programNameFromDB.setInputText(editUser.programName); // script.JSON name
+    userIDFromDB.setInputText(taskData.userID);
+    firstNameInput.setInputText(taskData.firstName);
+    lastNameInput.setInputText(taskData.lastName);
+    programNameFromDB.setInputText(taskData.programName); // script.JSON name
     taskCityInput.setInputText(taskData.city);
     startTimeInput.setInputText(taskData.startTime);
     endTimeInput.setInputText(taskData.endTime);
-    mileageInput.setInputText(taskData.xxxxx);
-    packageIDInput.setInputText(taskData.xxxxx);
-    packageNameInput.setInputText(taskData.xxxxx);
-    weightFoodInput.setInputText(taskData.xxxxx);
-    orgNameInput.setInputText(taskData.xxxxx);
-    familyCountInput.setInputText(taskData.xxxxx);
+    //mileageInput.setInputText(taskData.xxxxx);
+   //packageIDInput.setInputText(taskData.xxxxx);
+    //packageNameInput.setInputText(taskData.xxxxx);
+    //weightFoodInput.setInputText(taskData.xxxxx);
+    //orgNameInput.setInputText(taskData.xxxxx);
+    //familyCountInput.setInputText(taskData.xxxxx);
 }
+
+var that = taskData.programID;
 
 function checkTask(that) // how do I create an onChange that passes in the value to that? onchange="checkTask(this);
 {
-      if (that.value == 1) { // if program_Id == 1 show food inputs
+      if (that == 1) { // if program_Id == 1 show food inputs
         if (familyCountInput === null) { // task falls under an organization so display org name but not family count;
             document.getElementById("food_mileage").style.display = "block";
             document.getElementById("food_package_id").style.display = "block";
@@ -265,7 +267,7 @@ function checkTask(that) // how do I create an onChange that passes in the value
             document.getElementById("org_name").style.display = "none";
             document.getElementById("family_count").style.display = "block";
         }
-    } else if (that.value == 2) { // if program_Id == 2 show hotline but hide food inputs
+    } else if (that == 2) { // if program_Id == 2 show hotline but hide food inputs
         document.getElementById("food_mileage").style.display = "none";
         document.getElementById("food_package_id").style.display = "none";
         document.getElementById("food_package_name").style.display = "none";
