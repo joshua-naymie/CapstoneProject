@@ -46,7 +46,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
 
             // sending json data
             StringBuilder taskReturnData = new StringBuilder();
-            taskReturnData.append("var taskData = [");
+            taskReturnData.append("var taskData = ");
 
             // creating keys for hotline
             JSONKey[] hotlineTaskKeys = {new JSONKey("taskID", false),
@@ -113,7 +113,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                     System.out.println("wrong program id");
                 }
             }
-            taskReturnData.append("];");
+            taskReturnData.append(";");
 
             // setting user data attribute for the front end to use
             request.setAttribute("taskData", taskReturnData);
