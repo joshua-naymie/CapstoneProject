@@ -19,6 +19,7 @@
     </head>
     <body>
 		<%@ include file="navbar.jsp" %>
+                 <input type="hidden" id="task_id" value="${task_id}">
         <div class="container">
 			<p class="h1 text-center header"> Task: ${description} </p>
         
@@ -95,8 +96,11 @@
            </div>
   
         </c:if>
+            
+        <p>${userMessage}</p>
 
         <input class="btn btn-primary" type="submit" value="Submit Task" name="action"> 
+        <input class="btn btn-secondary" type="submit" value="Cancel" name="action"> 
            
         </form>
         </div>

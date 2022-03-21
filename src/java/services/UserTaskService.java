@@ -30,4 +30,9 @@ public class UserTaskService {
         UserTaskDB userTaskDB = new UserTaskDB();
         userTaskDB.update(userTask);
     }
+    
+    public void remove(UserTask userTask) throws Exception {
+        UserTaskDB userTaskDB = new UserTaskDB();
+        userTaskDB.remove(userTask);
+    }
 }

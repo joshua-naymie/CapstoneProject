@@ -38,8 +38,16 @@ public class SubmitTaskFormServlet extends HttpServlet {
             throws ServletException, IOException {
 
         TaskService ts = new TaskService();
-
-        Long submitTaskId = 1L;
+        
+        Long submitTaskId = -1L;
+        
+        try{
+            submitTaskId = Long.parseLong( (String) request.getParameter("task_id") );
+        } catch (Exception ex) {
+            Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        submitTaskId = 1L;
 
         Task editTask = null;
 
@@ -95,105 +103,117 @@ public class SubmitTaskFormServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String action = (String) request.getParameter("action");
+        
+        if(action != null && action.equals("Add")){
+        
         try{
             
-            
-        TaskService ts = new TaskService();
+            TaskService ts = new TaskService();
 
-        Long submitTaskId = 6L;
+            Long submitTaskId = Long.parseLong( (String) request.getParameter("task_id") );
 
-        Task editTask = null;
+            //Long submitTaskId = 6L;
 
-        try {
-            editTask = ts.get(submitTaskId);
-        } catch (Exception ex) {
-            Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            Task editTask = null;
 
-        String programName = editTask.getProgramId().getProgramName();
+            try {
+                editTask = ts.get(submitTaskId);
+            } catch (Exception ex) {
+                Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-        Short programId = editTask.getProgramId().getProgramId();
+            String programName = editTask.getProgramId().getProgramName();
 
-        Short foodDeliveryId = 1;
+            Short programId = editTask.getProgramId().getProgramId();
 
-        String taskStart = request.getParameter("taskStart");
+            Short foodDeliveryId = 1;
 
-        Date taskStartTime = null;
-        Date taskEndTime = null;
+            String taskStart = request.getParameter("taskStart");
 
-        try {
-            taskStartTime = new SimpleDateFormat("hh:mm").parse(taskStart);
-            log(taskStartTime.toString());
+            Date taskStartTime = null;
+            Date taskEndTime = null;
 
-        } catch (ParseException ex) {
-            Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            try {
+                taskStartTime = new SimpleDateFormat("hh:mm").parse(taskStart);
+                log(taskStartTime.toString());
 
-        String taskEnd = request.getParameter("taskEnd");
+            } catch (ParseException ex) {
+                Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-        try {
-            taskEndTime = new SimpleDateFormat("hh:mm").parse(taskEnd);
-            log(taskEndTime.toString());
+            String taskEnd = request.getParameter("taskEnd");
 
-        } catch (ParseException ex) {
-            Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            try {
+                taskEndTime = new SimpleDateFormat("hh:mm").parse(taskEnd);
+                log(taskEndTime.toString());
 
-        BigDecimal totalHours = new BigDecimal(0);
+            } catch (ParseException ex) {
+                Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-        totalHours = new BigDecimal(((taskEndTime.getTime() - taskStartTime.getTime()) / (1000.0 * 60 * 60)));
+            BigDecimal totalHours = new BigDecimal(0);
 
-        String notes = request.getParameter("notes");
+            totalHours = new BigDecimal(((taskEndTime.getTime() - taskStartTime.getTime()) / (1000.0 * 60 * 60)));
 
-        editTask.setNotes(notes);
+            String notes = request.getParameter("notes");
 
-        FoodHotlineDataService fds = new FoodHotlineDataService();
+            editTask.setNotes(notes);
 
-        if (programId == foodDeliveryId) {
-            Short mileage = Short.valueOf(request.getParameter("mileage"));
-            Short fooodAmount = Short.valueOf(request.getParameter("food_amount"));
-            Short familyCount = Short.valueOf(request.getParameter("family_count"));
-            Short packageId = Short.valueOf(request.getParameter("package_id"));
-            Integer organizationId = Integer.valueOf(request.getParameter("organization_id"));
+            FoodHotlineDataService fds = new FoodHotlineDataService();
 
-            FoodDeliveryData fd = new FoodDeliveryData(submitTaskId);
-            fd.setMileage(mileage);
-            fd.setFoodHoursWorked(totalHours);
-            fd.setFoodAmount(fooodAmount);
-            fd.setFamilyCount(familyCount);
+            if (programId == foodDeliveryId) {
+                Short mileage = Short.valueOf(request.getParameter("mileage"));
+                Short fooodAmount = Short.valueOf(request.getParameter("food_amount"));
+                Short familyCount = Short.valueOf(request.getParameter("family_count"));
+                Short packageId = Short.valueOf(request.getParameter("package_id"));
+                Integer organizationId = Integer.valueOf(request.getParameter("organization_id"));
 
-            Organization ot = new Organization(organizationId);
-            fd.setOrganizationId(ot);
+                FoodDeliveryData fd = new FoodDeliveryData(submitTaskId);
+                fd.setMileage(mileage);
+                fd.setFoodHoursWorked(totalHours);
+                fd.setFoodAmount(fooodAmount);
+                fd.setFamilyCount(familyCount);
 
-            PackageType pt = new PackageType(packageId);
-            fd.setPackageId(pt);
+                Organization ot = new Organization(organizationId);
+                fd.setOrganizationId(ot);
 
-            fd.setStoreId(editTask.getTeamId().getStoreId());
+                PackageType pt = new PackageType(packageId);
+                fd.setPackageId(pt);
 
-            fds.insertFoodDeliveryData(fd);
+                fd.setStoreId(editTask.getTeamId().getStoreId());
 
-        } else {
-            HotlineData hd = new HotlineData(submitTaskId);
-            hd.setHotlineHoursWorked(totalHours);
+                fds.insertFoodDeliveryData(fd);
 
-            fds.insertHotlineData(hd);
-        }
+            } else {
+                HotlineData hd = new HotlineData(submitTaskId);
+                hd.setHotlineHoursWorked(totalHours);
+                fds.insertHotlineData(hd);
+            }
 
-        try {
-            editTask.setIsSubmitted(Boolean.TRUE);
-            ts.update(editTask);
-            
-        } catch (Exception ex) {
-            Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            try {
+                editTask.setIsSubmitted(Boolean.TRUE);
+                ts.update(editTask);
+
+            } catch (Exception ex) {
+                Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         
         } catch(Exception ex){
             Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendRedirect("sbmitTaskForm");
+            request.setAttribute("userMessage", "Task could not be submitted. Please try again.");
+            doGet(request, response);
+            return;
+//            response.sendRedirect("sbmitTaskForm");
+//            return;
+        }
+        
+        }else if(action != null && action.equals("Cancel")){
+            response.sendRedirect("submitTask");
             return;
         }
-
-        getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
+        
+       getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
 
     }
 
