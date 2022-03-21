@@ -36,7 +36,20 @@ public class SubmitTaskFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+//        String op = request.getParameter("operation");
+//        if(op.equals("idInfo")){
+//                   
+//         String test = request.getParameter("test");
+//         log(test);
+//        }
 
+         
+        
+        //String task_id = request.getParameter("task_id");
+	//Long taskId = Long.parseLong(task_id);
+
+        //log((String) request.getParameter("task_id"));
         TaskService ts = new TaskService();
         
         Long submitTaskId = -1L;
@@ -46,6 +59,8 @@ public class SubmitTaskFormServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        log("" + submitTaskId);
         
         submitTaskId = 1L;
 
