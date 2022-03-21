@@ -6,6 +6,8 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.logging.*;
 
@@ -91,5 +93,88 @@ public class TaskServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+    }
+    
+        
+    private boolean cancelTaskButtonShow(Task task, int loggedInUserId){
+        
+        try{
+            Date taskStart = task.getStartTime();
+            
+            LocalDateTime taskTime = taskStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            LocalDateTime currTime = LocalDateTime.now();
+
+//            int diffInNano = java.time.Duration.between(dateTime, dateTime2).getNano();
+//            long diffInSeconds = java.time.Duration.between(dateTime, dateTime2).getSeconds();
+//            long diffInMilli = java.time.Duration.between(dateTime, dateTime2).toMillis();
+//            long diffInMinutes = java.time.Duration.between(dateTime, dateTime2).toMinutes();
+            long diffInHours = java.time.Duration.between(taskTime, currTime).toHours();
+           
+           //System.out.println("Diff " + diffInHours);
+           
+           int sevenDaystoHours = 168;
+           
+           if(diffInHours < sevenDaystoHours ){
+               return false;
+           }
+           else {
+                return true;
+           }
+            
+        } catch (Exception ex){
+            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
+    }
+
+    protected void cancel(HttpServletRequest request, HttpServletResponse response, Task task, int loggedInUserId)
+            throws ServletException, IOException {
+        
+        //TaskService ts = new TaskService();
+        //Long task_id = Long.parseLong((String) request.getParameter("task_id"));
+        //Task task = ts.get(task_id);
+        
+        List<UserTask> userTasks = task.getUserTaskList();
+               
+        for( UserTask userTask: userTasks){
+            if(userTask.getUser().getUserId() == loggedInUserId){
+             
+                UserTaskService us = new UserTaskService();
+                userTask.setIsAssigned(Boolean.FALSE);
+                userTask.setIsChosen(Boolean.FALSE);
+                
+                try {
+                    us.remove(userTask);
+                } catch (Exception ex) {
+                    Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+    
+    protected void signUp(HttpServletRequest request, HttpServletResponse response, Task task, int loggedInUserId)
+        throws ServletException, IOException {
+        
+        //TaskService ts = new TaskService();
+        //Long task_id = Long.parseLong((String) request.getParameter("task_id"));
+        //Task task = ts.get(task_id);
+        
+        UserTaskService uts = new UserTaskService();
+        
+        UserTask ut = new UserTask(loggedInUserId, task.getTaskId());
+        
+        String action = request.getParameter("action");
+        
+        if(action.equalsIgnoreCase(action)){
+            try {
+                ut.setIsChosen(Boolean.TRUE);
+                uts.update(ut);
+                
+            } catch (Exception ex) {
+                Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+         
     }
 }
