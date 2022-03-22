@@ -233,8 +233,8 @@ function populateFields()
     programIDFromDB.setInputText(taskData.programID);
     teamIDFromDB.setInputText(taskData.teamID);
     userIDFromDB.setInputText(taskData.userID);
-    firstNameInput.setInputText(taskData.firstName);
-    lastNameInput.setInputText(taskData.lastName);
+    firstNameInput.setInputText(taskData.fullName);
+    lastNameInput.setInputText(taskData.fullName);
     programNameFromDB.setInputText(taskData.programName); // script.JSON name
     taskCityInput.setInputText(taskData.city);
     startTimeInput.setInputText(taskData.startTime);
@@ -244,7 +244,7 @@ function populateFields()
     //packageNameInput.setInputText(taskData.xxxxx);
     //weightFoodInput.setInputText(taskData.xxxxx);
     //orgNameInput.setInputText(taskData.xxxxx);
-    //familyCountInput.setInputText(taskData.xxxxx);
+    familyCountInput.setInputText(taskData.familyCount);
 }
 
 var that = taskData.programID;

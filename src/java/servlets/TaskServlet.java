@@ -18,7 +18,7 @@ public class TaskServlet extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession httpSession = request.getSession();
-        int loggedInUserId = (int) httpSession.getAttribute("email");
+        //int loggedInUserId = (int) httpSession.getAttribute("email");
 
 //        System.out.println(loggedInUserId);
 //        httpSession.setAttribute("loggedInUserId", loggedInUserId);

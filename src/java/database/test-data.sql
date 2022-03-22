@@ -165,8 +165,8 @@ INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_
                                   `food_amount`, `organization_id`)
      VALUES (3, 12345, 20, 3, 1, 6, 1);
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
-                                  `food_amount`, `organization_id`)
-     VALUES (7, 12345, 20, 3, 1, 6, 1);
+                                  `food_amount`, `organization_id`, `family_count`)
+     VALUES (7, 12345, 20, 3, 1, 6, 1, 1);
 -- -----------------------------------------------------
 -- USER TASK
 -- -----------------------------------------------------
