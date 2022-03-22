@@ -62,7 +62,7 @@ public class SubmitTaskFormServlet extends HttpServlet {
         
         log("" + submitTaskId);
         
-        submitTaskId = 1L;
+        //submitTaskId = 1L;
 
         Task editTask = null;
 

@@ -24,7 +24,19 @@ public class TaskServlet extends HttpServlet {
 
 //        System.out.println(loggedInUserId);
 //        httpSession.setAttribute("loggedInUserId", loggedInUserId);
-
+        
+        AccountServices as = new AccountServices();
+        
+        User loggedInUser = null;
+        try {
+            loggedInUser = as.getByID(loggedInUserId);
+        } catch (Exception ex) {
+            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        boolean show_edit = false;
+        if(loggedInUser.getIsAdmin()) show_edit = true;
+        
         TaskService taskService = new TaskService();
         List<Task> taskList = null;
         try {
@@ -51,17 +63,21 @@ public class TaskServlet extends HttpServlet {
                 new JSONKey("is_submitted", false),
                 new JSONKey("approval_notes", true),
                 new JSONKey("is_dissaproved", false),
-                new JSONKey("team_id", true) };
+                new JSONKey("team_id", true),
+                new JSONKey("show_signupT_cancelF", true), //pass boolean for signup or cancel show_signup_cancel
+                new JSONKey("can_cancel", true), //boolaen for can cancel can_cancel
+                new JSONKey("show_edit", true)//boolean to show edit button or not show_edit             
+        };
 
         JSONBuilder builder = new JSONBuilder(taskKeys);
 
         if (taskList.size() > 0) {
             int i = 0;
             for (i = 0; i < taskList.size() - 1; i++) {
-                returnData.append(buildTaskJSON(taskList.get(i), builder));
+                returnData.append(buildTaskJSON(taskList.get(i), builder, loggedInUserId, show_edit));
                 returnData.append(',');
             }
-            returnData.append(buildTaskJSON(taskList.get(i), builder));
+            returnData.append(buildTaskJSON(taskList.get(i), builder, loggedInUserId, show_edit));
         }
         returnData.append("];");
 
@@ -69,7 +85,8 @@ public class TaskServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
     }
 
-    private String buildTaskJSON(Task task, JSONBuilder builder) {
+    private String buildTaskJSON(Task task, JSONBuilder builder, int loggedInUserId, boolean show_edit) {
+        
         Object[] taskValues = { task.getTaskId(),
                 task.getProgramId().getProgramId(),
                 task.getProgramId().getProgramName(),
@@ -84,7 +101,10 @@ public class TaskServlet extends HttpServlet {
                 task.isSubmitted(),
                 task.getApprovalNotes(),
                 task.isDissaproved(),
-                task.getTeamId().getTeamId() };
+                task.getTeamId().getTeamId(),
+                signUpOrCancel(task, loggedInUserId),
+                cancelTaskButtonShow(task, loggedInUserId),
+                show_edit};
 
         return builder.buildJSON(taskValues);
     }
@@ -93,9 +113,49 @@ public class TaskServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-    }
+        String action = (String) request.getParameter("action");
     
+        HttpSession httpSession = request.getSession();
         
+        TaskService ts = new TaskService();
+
+        int loggedInUserId = -1;
+
+        try{
+            loggedInUserId = (int) httpSession.getAttribute("email");
+            System.out.println(loggedInUserId);
+
+        }catch (Exception ex){
+            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Long taskId = -1L;
+        
+        try{
+            taskId = Long.parseLong( (String) request.getParameter("task_id") );
+        } catch (Exception ex) {
+            Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Task task = null;
+        
+        try {
+            task = ts.get(taskId);
+
+            if(action != null && action.equals("SignUp")){
+                signUp(request, response, task, loggedInUserId);
+                
+            }else if(action != null && action.equals("Cancel")){
+                cancel(request, response, task, loggedInUserId);
+                
+            }
+        
+        } catch (Exception ex) {
+            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+       
     private boolean cancelTaskButtonShow(Task task, int loggedInUserId){
         
         try{
@@ -127,6 +187,30 @@ public class TaskServlet extends HttpServlet {
 
         return false;
     }
+    
+    private boolean signUpOrCancel(Task task, int loggedInUserId){
+        
+        UserTaskService uts = new UserTaskService();
+        
+        List<User> users = null;
+        
+        try {
+            users = uts.getChosenUsers(task.getTaskId());
+        } catch (Exception ex) {
+            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(users!= null){
+            for(User user: users){
+                if(user.getUserId() == loggedInUserId){
+                    return false;
+                }
+                
+            }
+        }
+
+        return true;
+    }
 
     protected void cancel(HttpServletRequest request, HttpServletResponse response, Task task, int loggedInUserId)
             throws ServletException, IOException {
@@ -147,6 +231,7 @@ public class TaskServlet extends HttpServlet {
                 try {
                     us.remove(userTask);
                 } catch (Exception ex) {
+                    
                     Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -177,4 +262,6 @@ public class TaskServlet extends HttpServlet {
         }
          
     }
+    
+    //chozen use agambeers method to cehck, return boolean, either sign up or cancel
 }
