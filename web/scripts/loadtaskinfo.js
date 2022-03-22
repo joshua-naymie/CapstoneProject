@@ -215,10 +215,12 @@ function load()
 
     if (typeof taskData !== "undefined")
     {
+        var that = taskData.programID;
         //document.getElementById("header").innerText = "Edit User";
         populateFields();
-        submitButton.name = "action";
-        submitButton.value = "Save";
+        checkTask(that);
+        //submitButton.name = "action";
+        //submitButton.value = "Save";
     }
 }
 
@@ -247,12 +249,11 @@ function populateFields()
     familyCountInput.setInputText(taskData.familyCount);
 }
 
-var that = taskData.programID;
 
 function checkTask(that) // how do I create an onChange that passes in the value to that? onchange="checkTask(this);
 {
       if (that == 1) { // if program_Id == 1 show food inputs
-        if (familyCountInput === null) { // task falls under an organization so display org name but not family count;
+        if (taskData.familyCount === false) { // task falls under an organization so display org name but not family count;
             document.getElementById("food_mileage").style.display = "block";
             document.getElementById("food_package_id").style.display = "block";
             document.getElementById("food_package_name").style.display = "block";
@@ -268,6 +269,7 @@ function checkTask(that) // how do I create an onChange that passes in the value
             document.getElementById("family_count").style.display = "block";
         }
     } else if (that == 2) { // if program_Id == 2 show hotline but hide food inputs
+        console.log("programID:" + that);
         document.getElementById("food_mileage").style.display = "none";
         document.getElementById("food_package_id").style.display = "none";
         document.getElementById("food_package_name").style.display = "none";
