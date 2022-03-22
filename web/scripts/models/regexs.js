@@ -5,3 +5,6 @@ const REGEX_NUMBERS = new RegExp(/^[0-9-.]*$/);
 const REGEX_LETTERS = new RegExp(/^[ \-.\p{L}]*$/u);
 const REGEX_NOT_EMPTY = new RegExp(/.+/);
 const REGEX_POSTAL_CODE = new RegExp(/^[A-Z][0-9][A-Z][ ,-]?[0-9][A-Z][0-9]$/);
+
+const REGEX_PROPER_PASSWORD = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
+
