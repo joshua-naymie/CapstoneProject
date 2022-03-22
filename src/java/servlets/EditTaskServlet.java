@@ -19,7 +19,7 @@ public class EditTaskServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // logged in user
         HttpSession httpSession = request.getSession();
-        String user_id = (String) httpSession.getAttribute("user_id");
+        String user_id = (String) httpSession.getAttribute("email");
         System.out.println(user_id);
         User loggedInUser = new User();
         if (user_id != null && user_id.matches("[0-9]+")) {
@@ -209,7 +209,7 @@ public class EditTaskServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // logged in user
         HttpSession httpSession = request.getSession();
-        String user_id = (String) httpSession.getAttribute("user_id");
+        String user_id = (String) httpSession.getAttribute("email");
         System.out.println(user_id);
         User loggedInUser = new User(Integer.parseInt(user_id));
 
