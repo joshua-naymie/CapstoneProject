@@ -40,42 +40,94 @@ public class StoreServlet extends HttpServlet
         {
             List<Store> stores = storeService.getAll();
             
-            JSONKey[] storeKeys = {
-                                    new JSONKey("storeId", false),
+            StringBuilder storeData = new StringBuilder();
+            storeData.append("var storeData = [");
+            
+            JSONKey[] storeKeys = { new JSONKey("storeId", false),
                                     new JSONKey("companyId", false),
-                                    new JSONKey("storeName", true),
+                                    new JSONKey("name", true),
                                     new JSONKey("streetAddress", true),
                                     new JSONKey("postalCode", true),
                                     new JSONKey("city", true),
                                     new JSONKey("isActive", false),
                                     new JSONKey("phoneNum", true),
-                                    new JSONKey("contactName", true)
-                                  };
+                                    new JSONKey("contactName", true) };
             
             JSONBuilder storeBuilder = new JSONBuilder(storeKeys);
             
-            JSONKey[] companyKeys = {
-                                        new JSONKey("id", false),
-                                        new JSONKey("name", true)
-                                    };
-            
-            JSONBuilder companyBuilder = new JSONBuilder(companyKeys);
-            
-            if(stores.size() > 0)
+            if(!stores.isEmpty())
             {
                 int i;
                 for(i=0; i<stores.size()-1; i++)
                 {
-                    
+                    storeData.append(buildStoreJSON(stores.get(i), storeBuilder));
+                    storeData.append(',');
                 }
+                storeData.append(buildStoreJSON(stores.get(i), storeBuilder));
             }
+            
+            storeData.append("];");
+            
+            
+            
+            List<CompanyName> companies = companyService.getAll();
+            
+            StringBuilder companyData = new StringBuilder();
+            companyData.append("var companyData = [");
+            
+            JSONKey[] companyKeys = { new JSONKey("id", false),
+                                      new JSONKey("name", true) };
+            
+            JSONBuilder companyBuilder = new JSONBuilder(companyKeys);
+            
+            if(!companies.isEmpty())
+            {
+                int i;
+                for(i=0; i<companies.size()-1; i++)
+                {
+                    companyData.append(buildCompanyJSON(companies.get(i), companyBuilder));
+                    companyData.append(',');
+                }
+                    companyData.append(buildCompanyJSON(companies.get(i), companyBuilder));
+            }
+            companyData.append("];");
+            
+            
+            request.setAttribute("storeData", storeData.toString());
+            request.setAttribute("companyData", companyData.toString());
+            
+            getServletContext().getRequestDispatcher("/WEB-INF/store.jsp").forward(request, response);
+
         }
         catch(Exception e)
         {
-            
-        }
+            e.printStackTrace();
+        }        
     }
 
+    private String buildStoreJSON(Store store, JSONBuilder builder)
+    {
+        Object[] data = { store.getStoreId(),
+                          store.getCompanyId().getCompanyId(),
+                          store.getStoreName(),
+                          store.getStreetAddress(),
+                          store.getPostalCode(),
+                          store.getStoreCity(),
+                          store.getIsActive(),
+                          store.getPhoneNum(),
+                          store.getContact() };
+        
+        return builder.buildJSON(data);
+    }
+    
+    private String buildCompanyJSON(CompanyName company, JSONBuilder builder)
+    {
+        Object[] data = { company.getCompanyId(),
+                          company.getCompanyName() };
+        
+        return builder.buildJSON(data);
+    }
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
