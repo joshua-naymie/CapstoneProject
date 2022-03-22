@@ -35,12 +35,14 @@ public class SubmittedTasksServlet extends HttpServlet {
 
             // creating keys for hotline
             JSONKey[] hotlineKeys = {new JSONKey("task_hotline_id", false),
+                new JSONKey("ID", false),
                 new JSONKey("programName", true),
                 new JSONKey("startTime", true),
                 new JSONKey("teamName", true)};
 
             // creating key for food delivery
             JSONKey[] foodDeliveryKeys = {new JSONKey("task_fd_id", false),
+                new JSONKey("ID", false),
                 new JSONKey("programName", true),
                 new JSONKey("startTime", true),
                 new JSONKey("userList", true),
@@ -103,6 +105,7 @@ public class SubmittedTasksServlet extends HttpServlet {
         }
         // retrieving program values into an array
         Object[] foodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
+            task.getFoodDeliveryData().getTaskFdId(),
             task.getProgramId().getProgramName(),
             jsonDateFormat.format(task.getStartTime()),
             allUserNames,
@@ -122,6 +125,7 @@ public class SubmittedTasksServlet extends HttpServlet {
 
         // retrieving program values into an array
         Object[] hotLineValues = {task.getHotlineData().getTaskHotlineId(),
+            task.getHotlineData().getTaskHotlineId(),
             task.getProgramId().getProgramName(),
             jsonDateFormat.format(task.getStartTime()),
             "HotLine"};

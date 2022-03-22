@@ -2,10 +2,14 @@ document.addEventListener('DOMContentLoaded', load, false);
 
 const CSS_TABLE_CELL = "table-cell";
 
+
 const generateViewContent = (task) => {
+    //console.log("TASK-ID:" + task.task_hotline_id);
+    //let taskID = taskData.task_hotline_id ? taskData.task_hotline_id : taskData.task_fd_id;
+
     let container = document.createElement("div");
     let button = document.createElement("a");
-    button.href = `viewtask?id=${task.id}`;
+    button.href = `viewtask?id=${task.ID}`;
     button.innerText = "View";
     container.appendChild(button);
     

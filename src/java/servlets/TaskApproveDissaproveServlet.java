@@ -37,12 +37,12 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         Task task = null;
         try {
             // uncomment after frontend connection
-            //if (taskId != null) {
+            if (taskId != null) {
             TaskService ts = new TaskService();
-            task = ts.get((long) 7);
-            // Long.parseLong(taskId));
+            //task = ts.get((long) 7);
+            task = ts.get(Long.parseLong(taskId));
             System.out.println(task.getTaskId());
-            // }
+            }
 
             // sending json data
             StringBuilder taskReturnData = new StringBuilder();
