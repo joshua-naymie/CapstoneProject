@@ -18,16 +18,16 @@ public class TaskServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        HttpSession httpSession = request.getSession();
-        int loggedInUserId = (int) httpSession.getAttribute("email");
 
-//        System.out.println(loggedInUserId);
-//        httpSession.setAttribute("loggedInUserId", loggedInUserId);
+        HttpSession httpSession = request.getSession();
+        String user_id = (String) httpSession.getAttribute("email");
+        System.out.println(user_id);
+
+        int loggedInUserId = Integer.parseInt(user_id);
         
         AccountServices as = new AccountServices();
         
-        User loggedInUser = null;
+        User loggedInUser = new User();
         try {
             loggedInUser = as.getByID(loggedInUserId);
         } catch (Exception ex) {

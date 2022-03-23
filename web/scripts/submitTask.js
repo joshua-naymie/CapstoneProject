@@ -126,8 +126,6 @@ function onSubmit(task_id) {
     url: "submitTaskForm",
     data: { task_id: task_id},
     success: function (response) {
-      // console.log(response);
-      // $("html").html(response);
       $("body").html(response);
     },
   });

@@ -50,6 +50,18 @@ public class UserDB {
         }
     }
     
+    public List<User> getUsersByFullName(String firstName, String lastName) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        Query q = em.createQuery("SELECT u FROM User u WHERE u.firstName LIKE :firstName OR u.lastName LIKE :lastName", User.class);
+        q.setParameter("firstName", firstName);
+        q.setParameter("lastName", lastName);
+        try {
+            List<User> foundUser = q.getResultList();
+            return foundUser;
+        } finally {
+            em.close();
+        }
+    }
     
     // getAll active users only
     public List<User> getAllActive() throws Exception {
