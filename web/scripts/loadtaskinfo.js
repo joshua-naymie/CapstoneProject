@@ -162,7 +162,7 @@ function load()
     approvalNotesFromDB = document.createElement("TEXTAREA");
     var comments = document.createTextNode("Additional Notes");
     approvalNotesFromDB.appendChild(comments);
-    container.appendChild(approvalNotesFromDB);
+    containerLeft.appendChild(approvalNotesFromDB);
 
     // Create buttons for the form
     let approveButton = document.createElement("button"); // after clicking this, add the task to the approved tasks list in DB
@@ -189,8 +189,8 @@ function load()
 
     // Add "Submit" and "Cancel" button to the DOM
     containerLeft.appendChild(disapproveButton);
-    containerRight.appendChild(approveButton);
     containerRight.appendChild(cancelButton);
+    containerRight.appendChild(approveButton);
     
     //--------------
 //
