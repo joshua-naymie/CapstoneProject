@@ -212,7 +212,7 @@ public class EditTaskServlet extends HttpServlet {
 
         try {
             TaskService taskService = new TaskService();
-            long taskId = Long.parseLong(request.getParameter("task_id"))
+            long taskId = Long.parseLong(request.getParameter("task_id"));
             Task task = taskService.get(taskId);
 
             task.setProgramId(new Program(Short.parseShort(request.getParameter("program_id"))));
