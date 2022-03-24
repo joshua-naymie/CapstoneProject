@@ -6,16 +6,7 @@ package models;
 
 import java.io.Serializable;
 import java.util.List;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -36,6 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Organization.findByOrgName", query = "SELECT o FROM Organization o WHERE o.orgName = :orgName"),
     @NamedQuery(name = "Organization.findByPhoneNum", query = "SELECT o FROM Organization o WHERE o.phoneNum = :phoneNum"),
     @NamedQuery(name = "Organization.findByContact", query = "SELECT o FROM Organization o WHERE o.contact = :contact"),
+    @NamedQuery(name = "Organization.findByDescription", query = "SELECT o FROM Organization o WHERE o.description = :description"),
     @NamedQuery(name = "Organization.findByIsActive", query = "SELECT o FROM Organization o WHERE o.isActive = :isActive")})
 public class Organization implements Serializable {
 
@@ -63,10 +55,12 @@ public class Organization implements Serializable {
     private String phoneNum;
     @Column(name = "contact")
     private String contact;
+    @Column(name = "description")
+    private String description;
     @Basic(optional = false)
     @Column(name = "is_active")
     private boolean isActive;
-    @OneToMany(mappedBy = "organizationId")
+    @OneToMany(mappedBy = "organizationId", fetch = FetchType.EAGER)
     private List<FoodDeliveryData> foodDeliveryDataList;
 
     public Organization() {
@@ -147,6 +141,14 @@ public class Organization implements Serializable {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean getIsActive() {

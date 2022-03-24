@@ -5,23 +5,14 @@
 package models;
 
 import java.io.Serializable;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
+import java.util.List;
+import jakarta.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author DWEI
+ * @author Main
  */
 @Entity
 @Table(name = "store")
@@ -37,10 +28,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Store.findByStoreName", query = "SELECT s FROM Store s WHERE s.storeName = :storeName"),
     @NamedQuery(name = "Store.findByIsActive", query = "SELECT s FROM Store s WHERE s.isActive = :isActive")})
 public class Store implements Serializable {
-
-    @JoinColumn(name = "company_id", referencedColumnName = "company_id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private CompanyName companyId;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -67,6 +54,13 @@ public class Store implements Serializable {
     @Basic(optional = false)
     @Column(name = "is_active")
     private boolean isActive;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "storeId", fetch = FetchType.EAGER)
+    private List<FoodDeliveryData> foodDeliveryDataList;
+    @JoinColumn(name = "company_id", referencedColumnName = "company_id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private CompanyName companyId;
+    @OneToMany(mappedBy = "storeId", fetch = FetchType.EAGER)
+    private List<Team> teamList;
 
     public Store() {
     }
@@ -148,6 +142,32 @@ public class Store implements Serializable {
         this.isActive = isActive;
     }
 
+    @XmlTransient
+    public List<FoodDeliveryData> getFoodDeliveryDataList() {
+        return foodDeliveryDataList;
+    }
+
+    public void setFoodDeliveryDataList(List<FoodDeliveryData> foodDeliveryDataList) {
+        this.foodDeliveryDataList = foodDeliveryDataList;
+    }
+
+    public CompanyName getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(CompanyName companyId) {
+        this.companyId = companyId;
+    }
+
+    @XmlTransient
+    public List<Team> getTeamList() {
+        return teamList;
+    }
+
+    public void setTeamList(List<Team> teamList) {
+        this.teamList = teamList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -171,14 +191,6 @@ public class Store implements Serializable {
     @Override
     public String toString() {
         return "models.Store[ storeId=" + storeId + " ]";
-    }
-
-    public CompanyName getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(CompanyName companyId) {
-        this.companyId = companyId;
     }
     
 }

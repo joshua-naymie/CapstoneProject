@@ -110,7 +110,7 @@ public class UserDB {
         try {
 //            List<User> allUsers = em.createNamedQuery("User.findAll", User.class).getResultList();
             Query q = em.createQuery("SELECT u FROM User u ORDER BY u.lastName, u.firstName", User.class);
-             List<User> allUsers = q.getResultList();
+            List<User> allUsers = q.getResultList();
             return allUsers;
         } finally {
             em.close();

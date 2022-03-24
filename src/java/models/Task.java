@@ -5,9 +5,9 @@
 package models;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
 import jakarta.persistence.*;
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -19,23 +19,22 @@ import javax.xml.bind.annotation.*;
 @NamedQueries({
     @NamedQuery(name = "Task.findAll", query = "SELECT t FROM Task t"),
     @NamedQuery(name = "Task.findByTaskId", query = "SELECT t FROM Task t WHERE t.taskId = :taskId"),
-    @NamedQuery(name = "Task.findHistoryByUserId", query = "SELECT t FROM Task t, UserTask ut "
-                                                         + "WHERE ut.userTaskPK.userId = :userId "
-                                                         + "AND t.taskId = ut.userTaskPK.taskId "
-                                                         + "AND (t.endTime < CURRENT_DATE OR t.isApproved = TRUE)"),
+    @NamedQuery(name = "Task.findByGroupId", query = "SELECT t FROM Task t WHERE t.groupId = :groupId"),
     @NamedQuery(name = "Task.findByMaxUsers", query = "SELECT t FROM Task t WHERE t.maxUsers = :maxUsers"),
     @NamedQuery(name = "Task.findByStartTime", query = "SELECT t FROM Task t WHERE t.startTime = :startTime"),
     @NamedQuery(name = "Task.findByEndTime", query = "SELECT t FROM Task t WHERE t.endTime = :endTime"),
     @NamedQuery(name = "Task.findByAvailable", query = "SELECT t FROM Task t WHERE t.available = :available"),
     @NamedQuery(name = "Task.findByNotes", query = "SELECT t FROM Task t WHERE t.notes = :notes"),
     @NamedQuery(name = "Task.findByIsApproved", query = "SELECT t FROM Task t WHERE t.isApproved = :isApproved"),
-    @NamedQuery(name = "Task.findSubmittedToManger", query = "SELECT t FROM Task t WHERE t.isSubmitted = TRUE AND t.approvingManager = :approvingManager"),
     @NamedQuery(name = "Task.findByApprovingManager", query = "SELECT t FROM Task t WHERE t.approvingManager = :approvingManager"),
     @NamedQuery(name = "Task.findByTaskDescription", query = "SELECT t FROM Task t WHERE t.taskDescription = :taskDescription"),
     @NamedQuery(name = "Task.findByTaskCity", query = "SELECT t FROM Task t WHERE t.taskCity = :taskCity"),
     @NamedQuery(name = "Task.findByIsSubmitted", query = "SELECT t FROM Task t WHERE t.isSubmitted = :isSubmitted"),
     @NamedQuery(name = "Task.findByApprovalNotes", query = "SELECT t FROM Task t WHERE t.approvalNotes = :approvalNotes"),
-    @NamedQuery(name = "Task.findByIsDissaproved", query = "SELECT t FROM Task t WHERE t.isDissaproved = :isDissaproved")})
+    @NamedQuery(name = "Task.findByIsDissaproved", query = "SELECT t FROM Task t WHERE t.isDissaproved = :isDissaproved"),
+    @NamedQuery(name = "Task.findByAssigned", query = "SELECT t FROM Task t WHERE t.assigned = :assigned"),
+    @NamedQuery(name = "Task.findSubmittedToManger", query = "SELECT t FROM Task t WHERE t.isSubmitted = TRUE AND t.approvingManager = :approvingManager"),
+    @NamedQuery(name = "Task.findBySpotsTaken", query = "SELECT t FROM Task t WHERE t.spotsTaken = :spotsTaken")})
 public class Task implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,13 +43,15 @@ public class Task implements Serializable {
     @Basic(optional = false)
     @Column(name = "task_id")
     private Long taskId;
+    @Basic(optional = false)
+    @Column(name = "group_id")
+    private long groupId;
     @Column(name = "max_users")
     private Short maxUsers;
     @Basic(optional = false)
     @Column(name = "start_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date startTime;
-    @Basic(optional = false)
     @Column(name = "end_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endTime;
@@ -64,10 +65,9 @@ public class Task implements Serializable {
     private boolean isApproved;
     @Basic(optional = false)
     @Column(name = "approving_manager")
-    private String approvingManager;
+    private int approvingManager;
     @Column(name = "task_description")
     private String taskDescription;
-    @Basic(optional = false)
     @Column(name = "task_city")
     private String taskCity;
     @Column(name = "is_submitted")
@@ -76,18 +76,24 @@ public class Task implements Serializable {
     private String approvalNotes;
     @Column(name = "is_dissaproved")
     private Boolean isDissaproved;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "task")
+    @Column(name = "assigned")
+    private Boolean assigned;
+    @Basic(optional = false)
+    @Column(name = "spots_taken")
+    private short spotsTaken;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "task", fetch = FetchType.EAGER)
     private FoodDeliveryData foodDeliveryData;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "task")
-    private List<UserTask> userTaskList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "task")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "task", fetch = FetchType.EAGER)
     private HotlineData hotlineData;
     @JoinColumn(name = "program_id", referencedColumnName = "program_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Program programId;
     @JoinColumn(name = "team_id", referencedColumnName = "team_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Team teamId;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User userId;
 
     public Task() {
     }
@@ -96,13 +102,14 @@ public class Task implements Serializable {
         this.taskId = taskId;
     }
 
-    public Task(Long taskId, Date startTime, Date endTime, boolean available, boolean isApproved, String approvingManager, String taskCity) {
+    public Task(Long taskId, long groupId, Date startTime, boolean available, boolean isApproved, int approvingManager, short spotsTaken, String taskCity) {
         this.taskId = taskId;
+        this.groupId = groupId;
         this.startTime = startTime;
-        this.endTime = endTime;
         this.available = available;
         this.isApproved = isApproved;
         this.approvingManager = approvingManager;
+        this.spotsTaken = spotsTaken;
         this.taskCity = taskCity;
     }
 
@@ -112,6 +119,14 @@ public class Task implements Serializable {
 
     public void setTaskId(Long taskId) {
         this.taskId = taskId;
+    }
+
+    public long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(long groupId) {
+        this.groupId = groupId;
     }
 
     public Short getMaxUsers() {
@@ -154,7 +169,7 @@ public class Task implements Serializable {
         this.notes = notes;
     }
 
-    public boolean isApproved() {
+    public boolean getIsApproved() {
         return isApproved;
     }
 
@@ -162,11 +177,11 @@ public class Task implements Serializable {
         this.isApproved = isApproved;
     }
 
-    public String getApprovingManager() {
+    public int getApprovingManager() {
         return approvingManager;
     }
 
-    public void setApprovingManager(String approvingManager) {
+    public void setApprovingManager(int approvingManager) {
         this.approvingManager = approvingManager;
     }
 
@@ -186,7 +201,7 @@ public class Task implements Serializable {
         this.taskCity = taskCity;
     }
 
-    public Boolean isSubmitted() {
+    public Boolean getIsSubmitted() {
         return isSubmitted;
     }
 
@@ -202,12 +217,28 @@ public class Task implements Serializable {
         this.approvalNotes = approvalNotes;
     }
 
-    public Boolean isDissaproved() {
+    public Boolean getIsDissaproved() {
         return isDissaproved;
     }
 
     public void setIsDissaproved(Boolean isDissaproved) {
         this.isDissaproved = isDissaproved;
+    }
+
+    public Boolean getAssigned() {
+        return assigned;
+    }
+
+    public void setAssigned(Boolean assigned) {
+        this.assigned = assigned;
+    }
+
+    public short getSpotsTaken() {
+        return spotsTaken;
+    }
+
+    public void setSpotsTaken(short spotsTaken) {
+        this.spotsTaken = spotsTaken;
     }
 
     public FoodDeliveryData getFoodDeliveryData() {
@@ -216,15 +247,6 @@ public class Task implements Serializable {
 
     public void setFoodDeliveryData(FoodDeliveryData foodDeliveryData) {
         this.foodDeliveryData = foodDeliveryData;
-    }
-
-    @XmlTransient
-    public List<UserTask> getUserTaskList() {
-        return userTaskList;
-    }
-
-    public void setUserTaskList(List<UserTask> userTaskList) {
-        this.userTaskList = userTaskList;
     }
 
     public HotlineData getHotlineData() {
@@ -249,6 +271,14 @@ public class Task implements Serializable {
 
     public void setTeamId(Team teamId) {
         this.teamId = teamId;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override

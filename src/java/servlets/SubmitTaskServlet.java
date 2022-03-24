@@ -27,8 +27,6 @@ import models.util.JSONKey;
 import models.PackageType;
 import models.Program;
 import models.Task;
-import models.UserTask;
-import models.UserTaskPK;
 import services.TaskService;
 import services.UserTaskService;
 
