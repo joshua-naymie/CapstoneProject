@@ -1,20 +1,20 @@
-var taskDataSet = [
-  {
-    task_id: "1",
-    program_name: "test",
-    program_id: "1",
-    team_id: "1",
-    max_users: null,
-    start_time: "2022-03-03 09:30:00.000",
-    end_time: "2022-03-03 10:30:00.000",
-    available: "true",
-    notes: null,
-    is_approved: "false",
-    approving_manager: "test manager",
-    task_description: "pick up food from Starbucks",
-    task_city: "Calgary",
-  },
-];
+//var taskDataSet = [
+//  {
+//    task_id: "1",
+//    program_name: "test",
+//    program_id: "1",
+//    team_id: "1",
+//    max_users: null,
+//    start_time: "2022-03-03 09:30:00.000",
+//    end_time: "2022-03-03 10:30:00.000",
+//    available: "true",
+//    notes: null,
+//    is_approved: "false",
+//    approving_manager: "test manager",
+//    task_description: "pick up food from Starbucks",
+//    task_city: "Calgary",
+//  },
+//];
 window.onload = () => {
   let tbody = document.createElement("tbody");
 
@@ -77,7 +77,7 @@ window.onload = () => {
     submitButton.setAttribute("task_id", taskData.task_id);
     submitButton.innerText = "Submit";
     submitButton.addEventListener("click", () => {
-      onSubmit();
+      onSubmit(taskData.task_id);
     });
     td_view_button.appendChild(submitButton);
     tr.appendChild(td_submit_button);
@@ -124,11 +124,8 @@ function onSubmit(task_id) {
   $.ajax({
     type: "GET",
     url: "submitTaskForm",
-    data: { task_id: task_id },
+    data: { task_id: task_id},
     success: function (response) {
-        $("#task_id").val(task_id);
-      // console.log(response);
-      // $("html").html(response);
       $("body").html(response);
     },
   });

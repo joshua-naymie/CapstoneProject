@@ -162,7 +162,7 @@ function load()
     approvalNotesFromDB = document.createElement("TEXTAREA");
     var comments = document.createTextNode("Additional Notes");
     approvalNotesFromDB.appendChild(comments);
-    container.appendChild(approvalNotesFromDB);
+    containerLeft.appendChild(approvalNotesFromDB);
 
     // Create buttons for the form
     let approveButton = document.createElement("button"); // after clicking this, add the task to the approved tasks list in DB
@@ -189,8 +189,8 @@ function load()
 
     // Add "Submit" and "Cancel" button to the DOM
     containerLeft.appendChild(disapproveButton);
-    containerRight.appendChild(approveButton);
     containerRight.appendChild(cancelButton);
+    containerRight.appendChild(approveButton);
     
     //--------------
 //
@@ -213,12 +213,14 @@ function load()
     inputCollection.add(orgNameInput);
     inputCollection.add(familyCountInput);
 
-    if (typeof editUser !== "undefined")
+    if (typeof taskData !== "undefined")
     {
-        document.getElementById("header").innerText = "Edit User";
+        var that = taskData.programID;
+        //document.getElementById("header").innerText = "Edit User";
         populateFields();
-        submitButton.name = "action";
-        submitButton.value = "Save";
+        checkTask(that);
+        //submitButton.name = "action";
+        //submitButton.value = "Save";
     }
 }
 
@@ -232,25 +234,26 @@ function populateFields()
     taskIDFromDB.setInputText(taskData.taskID);
     programIDFromDB.setInputText(taskData.programID);
     teamIDFromDB.setInputText(taskData.teamID);
-    userIDFromDB.setInputText(editUser.userID);
-    firstNameInput.setInputText(editUser.firstName);
-    lastNameInput.setInputText(editUser.lastName);
-    programNameFromDB.setInputText(editUser.programName); // script.JSON name
+    userIDFromDB.setInputText(taskData.userID);
+    firstNameInput.setInputText(taskData.fullName);
+    lastNameInput.setInputText(taskData.fullName);
+    programNameFromDB.setInputText(taskData.programName); // script.JSON name
     taskCityInput.setInputText(taskData.city);
     startTimeInput.setInputText(taskData.startTime);
     endTimeInput.setInputText(taskData.endTime);
-    mileageInput.setInputText(taskData.xxxxx);
-    packageIDInput.setInputText(taskData.xxxxx);
-    packageNameInput.setInputText(taskData.xxxxx);
-    weightFoodInput.setInputText(taskData.xxxxx);
-    orgNameInput.setInputText(taskData.xxxxx);
-    familyCountInput.setInputText(taskData.xxxxx);
+    //mileageInput.setInputText(taskData.xxxxx);
+   //packageIDInput.setInputText(taskData.xxxxx);
+    //packageNameInput.setInputText(taskData.xxxxx);
+    //weightFoodInput.setInputText(taskData.xxxxx);
+    //orgNameInput.setInputText(taskData.xxxxx);
+    familyCountInput.setInputText(taskData.familyCount);
 }
+
 
 function checkTask(that) // how do I create an onChange that passes in the value to that? onchange="checkTask(this);
 {
-      if (that.value == 1) { // if program_Id == 1 show food inputs
-        if (familyCountInput === null) { // task falls under an organization so display org name but not family count;
+      if (that == 1) { // if program_Id == 1 show food inputs
+        if (taskData.familyCount === false) { // task falls under an organization so display org name but not family count;
             document.getElementById("food_mileage").style.display = "block";
             document.getElementById("food_package_id").style.display = "block";
             document.getElementById("food_package_name").style.display = "block";
@@ -265,7 +268,8 @@ function checkTask(that) // how do I create an onChange that passes in the value
             document.getElementById("org_name").style.display = "none";
             document.getElementById("family_count").style.display = "block";
         }
-    } else if (that.value == 2) { // if program_Id == 2 show hotline but hide food inputs
+    } else if (that == 2) { // if program_Id == 2 show hotline but hide food inputs
+        console.log("programID:" + that);
         document.getElementById("food_mileage").style.display = "none";
         document.getElementById("food_package_id").style.display = "none";
         document.getElementById("food_package_name").style.display = "none";

@@ -10,9 +10,9 @@
         <link rel="stylesheet" href="css/loadtaskinfo.css">
         <link rel="stylesheet" href="css/inputstyles.css">
         <script type="text/javascript" src="scripts/loadtaskinfo.js"></script>
+        <script type="text/javascript" src="scripts/models/regexs.js"></script>
         <script type="text/javascript" src="scripts/models/inputgroup.js"></script>
         <script type="text/javascript" src="scripts/models/inputgroupcollection.js"></script>
-        <script type="text/javascript" src="scripts/models/regexs.js"></script>
         <script type="text/javascript" src="scripts/models/validator.js"></script>
         <script>${taskData}</script>
     </head>
@@ -23,6 +23,7 @@
             <form id="container" class="container" method="post" action="">
                 <div id="container-left" class="input-column"></div>
                 <div id="container-right" class="input-column"></div>
+                <div id="container-far-right" class="input-column"></div>
             </form>
         </div>
     </body>

@@ -22,6 +22,7 @@ body
     padding: 10px 0 20px 0; 
     /* min-height: 813px; */
     min-height: 1200px;
+    min-width: 15%;
     box-shadow: 0 0 5px gray;
 }
 
@@ -127,7 +128,7 @@ hr {
 {
     text-align: center;
     margin: 0;
-    padding: 0 0 0 5px;
+    padding: 0 0 0 15px;
     text-decoration: none;
     font-family: 'Lucida Sans Unicode', sans-serif;
     font-size: 2rem;
@@ -145,43 +146,7 @@ hr {
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
 .dropdown-container {
   display: none;
-  background-color: #262626;
-  padding-left: 8px;
-}
-
-.fa-caret-down {
-  float: right;
-  padding-right: 8px;
-}
-
-/* Add an active class to the active dropdown button */
-.active {
-  background-color: green;
-  color: white;
-}
-
-/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
-.dropdown-container {
-  display: none;
-  background-color: #cc0000;
-  padding-left: 8px;
-}
-
-/* Optional: Style the caret down icon */
-.fa-caret-down {
-  float: right;
-  padding-right: 8px;
-}
-
-.dropdown-btn:hover{
-    background-color: #FAAE30;
-    
-    transition: background-color 0.1s;
-}
-.dropdown-btn:focus{
-    background-color: #FAAE30;
-    
-    transition: background-color 0.1s;
+  background-color: #e0e0e0;
 }
 
 .dropdown-btn
@@ -194,11 +159,20 @@ hr {
     text-decoration: none;
     transition: background-color 0.1s;
 }
-
+.dropdown-btn:hover{
+    background-color: #FAAE30;
+    
+    transition: background-color 0.1s;
+}
+.dropdown-btn:focus{
+    background-color: #FAAE30;
+    
+    transition: background-color 0.1s;
+}
 .dropdown-btn img
 {
     height: 36px;
-    margin: 12px 0 12px 0;
+    margin: 12px 0 12px -10px;
 }
 
 .dropdown-btn a
@@ -207,18 +181,22 @@ hr {
     display: flex;
     align-items: center;
     justify-content: center;
-        font-family: 'Lucida Sans Unicode', sans-serif;
-color: rgb(23, 69, 144);
+    font-family: 'Lucida Sans Unicode', sans-serif;
+    color: rgb(23, 69, 144);
 }
 
 .dropdown-btn span
 {
     text-align: center;
     margin: 0;
-    padding: 0 0 0 5px;
+    padding: 0 0 0 15px;
     text-decoration: none;
     font-size: 2rem;
     color: rgb(23, 69, 144);
+}
+
+.dropdown-btn .navbartxtandimg {
+    color: yellow;
 }
 
 .navbar a, .dropdown-btn {
@@ -226,7 +204,7 @@ color: rgb(23, 69, 144);
   text-decoration: none;
   font-size: 20px;
   color: #818181;
-  display: block;
+  display: flex;
   border: none;
   background: none;
   width: 100%;
@@ -234,9 +212,21 @@ color: rgb(23, 69, 144);
   cursor: pointer;
   outline: none;
   font-family: 'Lucida Sans Unicode', sans-serif;
-  color: #FAAE30;
+  color: #cc0052;
 }
 
+.dropdown-container a:hover{
+    background-color: #FAAE30;
+    transition: background-color 0.1s;
+}
+.dropdown-container a:focus{
+    background-color: #FAAE30;
+    transition: background-color 0.1s;
+}
+
+.dropdown-container span {
+    margin-left: 20px;
+}
 /* NEW STUFF END */
 
 
