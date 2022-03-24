@@ -57,6 +57,13 @@ public class AccountServices {
         return userUpdate;
     }
     
+	// get users by matching full name
+    public List<User> getUsersByFullName(String firstName, String lastName) throws Exception {
+        UserDB userDB = new UserDB();
+        List<User> userUpdate = userDB.getUsersByFullName(firstName, lastName);
+        return userUpdate;
+    }
+
     // get all active users, used for a searched list
     public List<User> getAllActive() throws Exception {
         UserDB userDB = new UserDB();

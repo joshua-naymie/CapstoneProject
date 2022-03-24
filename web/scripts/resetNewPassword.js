@@ -3,16 +3,18 @@ document.addEventListener('DOMContentLoaded', load, false);
 const CSS_INPUTGROUP_MAIN = "main-input";
 const MESSAGE_REQUIRED = "required";
 const MESSAGE_INVALID = "invalid";
+const PASSWORDS_IMPROPER_FORMAT = "Check password format";
+const PASSWORDS_DONT_MATCH = "Passwords do not match";
 
 var newInput;// = new InputGroupCollection();
 var newPassInput;
 var confirmPassInput;
 
-var myInput = document.getElementById("newPassUser"); // Password validation list start
-var letter = document.getElementById("letter");
-var capital = document.getElementById("capital");
-var number = document.getElementById("number");
-var length = document.getElementById("length"); // Password validation list end
+var myInput;
+var letter;
+var capital;
+var number;
+var length;
 
 function load()
 {
@@ -25,12 +27,16 @@ function load()
     newPassInput.setLabelText("Enter a New Password:");
     newPassInput.setPlaceHolderText("Enter new password");
     newPassInput.setEnterFunction(newPass);
+    newPassInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     inputArea.appendChild(newPassInput.container);
     newInput.add(newPassInput);
+
+    newPassInput.input.addEventListener("keyup", keyUpFunction, true);
 
     confirmPassInput.setLabelText("Confirm New Password:");
     confirmPassInput.setPlaceHolderText("Retype password");
     confirmPassInput.setEnterFunction(newPass);
+    confirmPassInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     inputArea.appendChild(confirmPassInput.container);
     newInput.add(confirmPassInput);
 
@@ -46,9 +52,18 @@ function load()
 
     inputArea.appendChild(submitButton);
 
-    newPassInput.input.addEventListener("focus", focusFunction, true); // Y U no work
-    newPassInput.input.addEventListener("blur", blurFunction, true); // Y U no work x2
-    newPassInput.addEventListener("keyup", keyUpFunction);
+    myInput = document.getElementById("newPassUser"); // Password validation list start
+    letter = document.getElementById("letter"); // Retrieves element from JSP
+    capital = document.getElementById("capital"); // Retrieves element from JSP
+    number = document.getElementById("number"); // Retrieves element from JSP
+    length = document.getElementById("length"); // Password validation list ends
+
+    newPassInput.input.addEventListener("focus", focusFunction, true);
+    newPassInput.input.addEventListener("blur", blurFunction, true);
+    newPassInput.input.addEventListener("keyup", keyUpFunction, true);
+//    confirmPassInput.input.addEventListener("click", bothFieldsNeedToMatch, true);
+    confirmPassInput.addValidator(() => {console.log(confirmPassInput.input.value); return confirmPassInput.input.value === newPassInput.input.value;}, INPUTGROUP_STATE_WARNING, PASSWORDS_DONT_MATCH);
+//     // Y U no work
 }
 
 function focusFunction() {
@@ -67,46 +82,58 @@ function newPass()
     }
 }
 
-//// When the user starts to type something inside the password field
+// When the user starts to type something inside the password field
 function keyUpFunction() {
-//newPassInput.onkeyup = function () {
     // Validate lowercase letters
     var lowerCaseLetters = /[a-z]/g;
-    if (newPassInput.value.match(lowerCaseLetters)) {
+    if (newPassInput.input.value.match(lowerCaseLetters)) {
         letter.classList.remove("invalid");
         letter.classList.add("valid");
     } else {
         letter.classList.remove("valid");
         letter.classList.add("invalid");
+        newPassInput.addValidator(REGEX_PROPER_PASSWORD, INPUTGROUP_STATE_WARNING, PASSWORDS_IMPROPER_FORMAT);
     }
 
     // Validate capital letters
     var upperCaseLetters = /[A-Z]/g;
-    if (newPassInput.value.match(upperCaseLetters)) {
+    if (newPassInput.input.value.match(upperCaseLetters)) {
         capital.classList.remove("invalid");
         capital.classList.add("valid");
     } else {
         capital.classList.remove("valid");
         capital.classList.add("invalid");
+        newPassInput.addValidator(REGEX_PROPER_PASSWORD, INPUTGROUP_STATE_WARNING, PASSWORDS_IMPROPER_FORMAT);
     }
 
     // Validate numbers
     var numbers = /[0-9]/g;
-    if (newPassInput.value.match(numbers)) {
+    if (newPassInput.input.value.match(numbers)) {
         number.classList.remove("invalid");
         number.classList.add("valid");
     } else {
         number.classList.remove("valid");
         number.classList.add("invalid");
+        newPassInput.addValidator(REGEX_PROPER_PASSWORD, INPUTGROUP_STATE_WARNING, PASSWORDS_IMPROPER_FORMAT);
     }
 
     // Validate length
-    if (newPassInput.value.length >= 8) {
+    if (newPassInput.input.value.length >= 8) {
         length.classList.remove("invalid");
         length.classList.add("valid");
     } else {
         length.classList.remove("valid");
         length.classList.add("invalid");
+        newPassInput.addValidator(REGEX_PROPER_PASSWORD, INPUTGROUP_STATE_WARNING, PASSWORDS_IMPROPER_FORMAT);
+    }
+}
+
+function bothFieldsNeedToMatch() {
+    if (confirmPassInput !== newPassInput) {
+       alert("Works");
+    }
+    else {
+        alert("Doesn't work");
     }
 }
 
