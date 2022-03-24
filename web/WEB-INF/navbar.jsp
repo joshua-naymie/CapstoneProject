@@ -19,7 +19,7 @@
         <a class="navbartxtandimg" href="#"><img src="content/images/005-home.png"><span>Home</span></a>
         <a class="navbartxtandimg" href="history"><img src="content/images/004-history.png"><span>History</span></a>
         <a class="navbartxtandimg" href="users"><img src="content/images/group.png"><span>Users</span></a>
-        <button class="dropdown-btn"><img src="content/images/003-to-do-list.png">Tasks<i class="fa fa-caret-down"></i></button>
+        <div class="dropdown-btn"><div class="navbartxtandimg"><img src="content/images/003-to-do-list.png"><span>Tasks</span></div></div>
         <div class="dropdown-container">
             <a href="users">Users (Test)</a>
             <a href="LoadTaskInfo">Load Task (Test)</a>
@@ -33,6 +33,7 @@
     <div>
         <hr>
         <a class="navbartxtandimg" href="#"><img src="content/images/008-user-2.png"><span>Account</span></a>
+        <a class="navbartxtandimg" href="#"><img src="content/images/008-user-2.png"><span>Logout</span></a>
     </div>
 </nav>
 

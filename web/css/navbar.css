@@ -129,7 +129,7 @@ hr {
 {
     text-align: center;
     margin: 0;
-    padding: 0 0 0 5px;
+    padding: 0 0 0 15px;
     text-decoration: none;
     font-family: 'Lucida Sans Unicode', sans-serif;
     font-size: 2rem;
@@ -165,7 +165,7 @@ hr {
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
 .dropdown-container {
   display: none;
-  background-color: #cc0000;
+  background-color: #cccccc;
   padding-left: 8px;
 }
 
@@ -223,6 +223,10 @@ color: rgb(23, 69, 144);
     color: rgb(23, 69, 144);
 }
 
+.dropdown-btn .navbartxtandimg {
+    color: yellow;
+}
+
 .navbar a, .dropdown-btn {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
@@ -236,7 +240,7 @@ color: rgb(23, 69, 144);
   cursor: pointer;
   outline: none;
   font-family: 'Lucida Sans Unicode', sans-serif;
-  color: #FAAE30;
+  color: #cc0052;
 }
 
 /* NEW STUFF END */
