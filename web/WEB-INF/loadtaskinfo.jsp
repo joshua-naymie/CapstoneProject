@@ -23,6 +23,7 @@
             <form id="container" class="container" method="post" action="">
                 <div id="container-left" class="input-column"></div>
                 <div id="container-right" class="input-column"></div>
+                <div id="container-far-right" class="input-column"></div>
             </form>
         </div>
     </body>
