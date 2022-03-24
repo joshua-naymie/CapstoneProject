@@ -49,6 +49,7 @@ body {
 #approve-submit-button
 {
 	background-color: var(--primary-color);
+                margin-top: 36px;
 }
 
 #approve-submit-button:hover
@@ -59,6 +60,7 @@ body {
 #disapprove-submit-button
 {
 	background-color: var(--accent-one-color);
+        margin-top: 30px;
 }
 
 #disapprove-submit-button:hover
@@ -69,6 +71,7 @@ body {
 #cancel-button
 {
 	background-color: red;
+
 }
 
 #cancel-button:hover

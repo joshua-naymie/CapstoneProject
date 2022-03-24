@@ -12,7 +12,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.FoodDeliveryData;
@@ -22,7 +27,10 @@ import models.util.JSONKey;
 import models.PackageType;
 import models.Program;
 import models.Task;
+import models.UserTask;
+import models.UserTaskPK;
 import services.TaskService;
+import services.UserTaskService;
 
 /**
  *
@@ -45,10 +53,10 @@ public class SubmitTaskServlet extends HttpServlet {
     }catch (Exception ex){
         Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
     }
-
+      
         
     TaskService ts = new TaskService();
-    
+      
     List<Task> taskList = null;
     
         try {
@@ -80,6 +88,8 @@ public class SubmitTaskServlet extends HttpServlet {
         }
         returnData.append("];");
 
+        log(returnData.toString());
+
         request.setAttribute("taskData", returnData);
         
     getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
@@ -98,10 +108,5 @@ public class SubmitTaskServlet extends HttpServlet {
         return builder.buildJSON(taskValues);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-    }
 
 }

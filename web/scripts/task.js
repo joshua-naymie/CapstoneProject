@@ -17,7 +17,6 @@
 
 window.onload = () => {
   let numOfLastWeek = new Date(new Date().getFullYear(), 11, 31).getWeek();
-  console.log(numOfLastWeek);
   const bodyNode = document.getElementById("accordionWeek");
 
   for (let i = 1; i <= numOfLastWeek; i++) {
@@ -114,6 +113,7 @@ window.onload = () => {
 
     // accordionBody.appendChild(accordionBodyRow);
     taskDataSet.forEach((taskData) => {
+	    console.log(taskData);
       let taskTime = new Date(taskData.start_time);
 
       if (taskTime.getWeek() === i) {
@@ -122,7 +122,6 @@ window.onload = () => {
         let td_program = document.createElement("td");
         td_program.innerText = taskData.program_name;
         tr.appendChild(td_program);
-        console.log(taskData.program_name);
 
         let td_date = document.createElement("td");
         td_date.innerText = new Date(taskData.start_time).toLocaleDateString();
@@ -171,7 +170,7 @@ window.onload = () => {
         accordionEditButton.innerText = "Edit";
         let body = document.getElementsByTagName("body")[0];
         accordionEditButton.addEventListener("click", () => {
-          onEdit(body, taskData.task_id, user_id);
+          onEdit(taskData.task_id);
         });
 
         // Sign Up Button
@@ -179,18 +178,43 @@ window.onload = () => {
         accordionSignupButton.className = "btn btn-secondary";
         accordionSignupButton.setAttribute("type", "button");
         accordionSignupButton.innerText = "SignUp";
+        accordionSignupButton.addEventListener("click", () => {
+          onSignup(taskData.task_id);
+        });
+	
+	// Cancel Button
+	let accordionCancelButton = document.createElement("button");
+	accordionCancelButton.className = "btn btn-danger";
+	accordionCancelButton.setAttribute("type", "button");
+	accordionCancelButton.innerText = "Cancel";
+	accordionCancelButton.addEventListener("click", () => {
+		onCancel(taskData.task_id);
+	})
 
         let td_view_button = document.createElement("td");
         td_view_button.appendChild(accordionViewButton);
         tr.appendChild(td_view_button);
 
-        let td_edit_button = document.createElement("td");
-        td_edit_button.appendChild(accordionEditButton);
-        tr.appendChild(td_edit_button);
+	let showEditButton = JSON.parse(taskData.show_edit);
+	if (showEditButton) {
+		let td_edit_button = document.createElement("td");
+	        td_edit_button.appendChild(accordionEditButton);
+		tr.appendChild(td_edit_button);	
+	}
 
-        let td_signup_button = document.createElement("td");
-        td_signup_button.appendChild(accordionSignupButton);
-        tr.appendChild(td_signup_button);
+	let showSignUpButton = JSON.parse(taskData.show_signupT_cancelF);
+	if (showSignUpButton) {
+		let td_signup_button = document.createElement("td");
+		td_signup_button.appendChild(accordionSignupButton);
+		tr.appendChild(td_signup_button);
+	}
+	
+	let showCancelButton = !(JSON.parse(taskData.show_signupT_cancelF)) && JSON.parse(taskData.can_cancel);
+	if (showCancelButton) {
+		let td_cancel_button = document.createElement("td");
+		td_cancel_button.appendChild(accordionCancelButton);
+		tr.appendChild(td_signup_button);
+	}
 
         tbody.appendChild(tr);
       }
@@ -207,13 +231,13 @@ window.onload = () => {
   }
 };
 
-function onEdit(body, task_id) {
+function onEdit(task_id) {
   $.ajax({
     type: "GET",
     url: "/editTask",
     data: { task_id: task_id },
-    success: function (data) {
-      console.log(data);
+    success: function (response) {
+	$("body").html(response);
     },
   });
 }
@@ -247,4 +271,26 @@ function onView(task_id) {
       $("#spots").val(obj.max_users);
     },
   });
+}
+
+function onSignup(task_id) {
+  $.ajax({
+    type: "POST",
+    url: "tasks",
+    data: { task_id: task_id, action:"SignUp" },
+    success: function (data) {
+      console.log(data);
+    },
+  });
+}
+
+function onCancel(task_id) {
+	$.ajax({
+		type:"POST",
+		url: "tasks",
+		data: {task_id: task_id, action: "Cancel"},
+		success: function(response) {
+			console.log(response);
+		}
+	})
 }

@@ -13,10 +13,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/resetNewPassword.css">
     <script type="text/javascript" src="scripts/resetNewPassword.js"></script>
+    <script type="text/javascript" src="scripts/models/regexs.js"></script>
     <script type="text/javascript" src="scripts/models/inputgroup.js"></script>
     <script type="text/javascript" src="scripts/models/inputgroupcollection.js"></script>
     <script type="text/javascript" src="scripts/models/functions.js"></script>
-    <script type="text/javascript" src="scripts/resettest.js"></script>
+    <script type="text/javascript" src="scripts/models/validator.js"></script>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!--        COMMIT-->

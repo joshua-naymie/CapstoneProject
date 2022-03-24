@@ -21,6 +21,7 @@ import services.CompanyService;
 import services.ProgramServices;
 import services.StoreServices;
 import services.TaskService;
+import services.TeamServices;
 
 /**
  *
@@ -33,6 +34,10 @@ public class GetDataServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		CompanyService cs = new CompanyService();
+		StoreServices ss = new StoreServices();
+		TeamServices tms = new TeamServices();
+		AccountServices as = new AccountServices();
+
 		String op = request.getParameter("operation");
 
 		if (op.equals("store")) {
@@ -65,7 +70,7 @@ public class GetDataServlet extends HttpServlet {
 			response.getWriter().write(storeJSON.toString());
 		}
 
-		AccountServices as = new AccountServices();
+
 		List<User> allSupervisors = null;
 
 		if (op.equals("program")) {
@@ -192,13 +197,103 @@ public class GetDataServlet extends HttpServlet {
 			}
 
 		}
+                
+                if(op.equals("cancelTask")){
+                    
+                }
 
 		// if (taskJSON.length() > 2) {
 		// taskJSON.setLength(programJSON.length() - 1);
 		// }
 
 		// taskJSON();
+		if (op.equals("storeAll")) {
 
+			List<Store> storelist = null;
+			try {
+				storelist = ss.getAll();
+			} catch (Exception ex) {
+				Logger.getLogger(GetDataServlet.class.getName()).log(Level.SEVERE, null, ex);
+			}
+
+			StringBuilder storeJSON = new StringBuilder();
+			storeJSON.append('[');
+			if (storelist != null) {
+				for (Store store : storelist) {
+					storeJSON.append('{');
+					storeJSON.append("\"store_name\":" + "\"" + store.getStoreName() + "\",");
+					storeJSON.append("\"store_id\":" + "\"" + store.getStoreId() + "\"");
+					storeJSON.append("},");
+				}
+			}
+			if (storeJSON.length() > 2) {
+				storeJSON.setLength(storeJSON.length() - 1);
+			}
+
+			storeJSON.append(']');
+
+			response.setContentType("text/html");
+			response.getWriter().write(storeJSON.toString());
+		}
+
+		if (op.equals("teamAll")) {
+
+			List<Team> teamlist = null;
+			try {
+				teamlist = tms.getAll();
+			} catch (Exception ex) {
+				Logger.getLogger(GetDataServlet.class.getName()).log(Level.SEVERE, null, ex);
+			}
+
+			StringBuilder storeJSON = new StringBuilder();
+			storeJSON.append('[');
+			if (teamlist != null) {
+				for (Team team : teamlist) {
+					storeJSON.append('{');
+					storeJSON.append("\"team_supervisor\":" + "\"" + team.getTeamSupervisor() + "\",");
+					storeJSON.append("\"team_id\":" + "\"" + team.getTeamId() + "\"");
+					storeJSON.append("},");
+				}
+			}
+			if (storeJSON.length() > 2) {
+				storeJSON.setLength(storeJSON.length() - 1);
+			}
+
+			storeJSON.append(']');
+
+			response.setContentType("text/html");
+			response.getWriter().write(storeJSON.toString());
+		}
+
+		if (op.equals("findUser")) {
+			String name = request.getParameter("name");
+
+			List<User> userlist = null;
+			try {
+				userlist = as.getUsersByFullName(name, name);
+			} catch (Exception ex) {
+				Logger.getLogger(GetDataServlet.class.getName()).log(Level.SEVERE, null, ex);
+			}
+
+			StringBuilder storeJSON = new StringBuilder();
+			storeJSON.append('[');
+			if (userlist != null) {
+				for (User user : userlist) {
+					storeJSON.append('{');
+					storeJSON.append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName() + "\",");
+					storeJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
+					storeJSON.append("},");
+				}
+			}
+			if (storeJSON.length() > 2) {
+				storeJSON.setLength(storeJSON.length() - 1);
+			}
+
+			storeJSON.append(']');
+
+			response.setContentType("text/html");
+			response.getWriter().write(storeJSON.toString());
+		}
 	}
 
 	@Override
