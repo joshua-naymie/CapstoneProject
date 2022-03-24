@@ -195,7 +195,6 @@ public class GetDataServlet extends HttpServlet {
 				response.setContentType("text/html");
 				response.getWriter().write(taskJSON.toString());
 			}
-
 		}
                 
                 if(op.equals("cancelTask")){

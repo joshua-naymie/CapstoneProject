@@ -6,19 +6,7 @@ package models;
 
 import java.io.Serializable;
 import java.util.List;
-import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -45,16 +33,16 @@ public class Team implements Serializable {
     @Column(name = "team_size")
     private Short teamSize;
     @Column(name = "team_supervisor")
-    private String teamSupervisor;
+    private Integer teamSupervisor;
     @JoinColumn(name = "program_id", referencedColumnName = "program_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Program programId;
     @JoinColumn(name = "store_id", referencedColumnName = "store_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Store storeId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamId", fetch = FetchType.EAGER)
     private List<Task> taskList;
-    @OneToMany(mappedBy = "teamId")
+    @OneToMany(mappedBy = "teamId", fetch = FetchType.EAGER)
     private List<User> userList;
 
     public Team() {
@@ -80,11 +68,11 @@ public class Team implements Serializable {
         this.teamSize = teamSize;
     }
 
-    public String getTeamSupervisor() {
+    public Integer getTeamSupervisor() {
         return teamSupervisor;
     }
 
-    public void setTeamSupervisor(String teamSupervisor) {
+    public void setTeamSupervisor(Integer teamSupervisor) {
         this.teamSupervisor = teamSupervisor;
     }
 

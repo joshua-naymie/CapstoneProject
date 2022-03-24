@@ -97,12 +97,12 @@ public class SubmittedTasksServlet extends HttpServlet {
 
         StringBuilder allUserNames = new StringBuilder();
 
-        for (UserTask userTask : task.getUserTaskList()) {
-            allUserNames.append(userTask.getUser().getFirstName());
-            allUserNames.append(" ");
-            allUserNames.append(userTask.getUser().getLastName());
-            allUserNames.append(", ");
-        }
+//        for (UserTask userTask : task.getUserTaskList()) {
+//            allUserNames.append(userTask.getUser().getFirstName());
+//            allUserNames.append(" ");
+//            allUserNames.append(userTask.getUser().getLastName());
+//            allUserNames.append(", ");
+//        }
         // retrieving program values into an array
         Object[] foodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
             task.getFoodDeliveryData().getTaskFdId(),

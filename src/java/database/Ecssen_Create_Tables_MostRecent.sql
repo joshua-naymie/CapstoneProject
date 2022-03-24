@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `ecssendb`.`team` (
 team_id INT NOT NULL AUTO_INCREMENT,
 program_id SMALLINT UNSIGNED,
 team_size SMALLINT UNSIGNED,
-team_supervisor VARCHAR(100), 
+team_supervisor INT,
 store_id INT,
 PRIMARY KEY (`team_id`),
 INDEX `fk_team_team_id_idx` (`team_id` ASC),
@@ -128,7 +128,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `ecssendb`.`user` (
-  `user_id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
   `email` VARCHAR(40) NOT NULL UNIQUE,
   `is_admin` BOOLEAN NOT NULL,
   `team_id` INT,
@@ -190,19 +190,23 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `ecssendb`.`task` (
   `task_id` BIGINT NOT NULL AUTO_INCREMENT,
   `program_id` SMALLINT UNSIGNED NOT NULL,
+  `group_id` BIGINT NOT NULL,
   `team_id` INT NOT NULL,
   `max_users` TINYINT UNSIGNED,
   `start_time` DATETIME NOT NULL,
-  `end_time` DATETIME NOT NULL,
+  `end_time` DATETIME,
   `available` BOOLEAN NOT NULL,
   `notes` VARCHAR(1000),
   `is_approved` BOOLEAN NOT NULL,
-  `approving_manager` VARCHAR(100) NOT NULL,
+  `approving_manager` INT NOT NULL,
   `task_description` VARCHAR(1000),
-  `task_city` VARCHAR(50) NOT NULL,
+  `task_city` VARCHAR(50),
   `is_submitted` BOOLEAN,
   `approval_notes` VARCHAR(300),
   `is_dissaproved` BOOLEAN,
+  `user_id` INT,
+  `assigned` BOOLEAN,
+  `spots_taken` SMALLINT NOT NULL, 
   PRIMARY KEY (`task_id`),
   INDEX `fk_task_program_id_idx` (`program_id` ASC),
   INDEX `fk_task_team_id_idx` (`team_id` ASC),
@@ -216,8 +220,13 @@ CREATE TABLE IF NOT EXISTS `ecssendb`.`task` (
     REFERENCES `ecssendb`.`team` (`team_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `ck_task_start_end_time`
-    CHECK (TIMEDIFF(`end_time`, `start_time`) >= 0))
+  CONSTRAINT `fk_task_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `ecssendb`.`user` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `ck_task_spots_taken`
+    CHECK (`spots_taken` <= `max_users`))
 ENGINE = InnoDB;
 
 
@@ -284,7 +293,6 @@ CREATE TABLE IF NOT EXISTS `ecssendb`.`food_delivery_data`(
   `organization_id` INT,
   `mileage` SMALLINT UNSIGNED,
   `food_hours_worked` DECIMAL(4,2),
-  `food_type` VARCHAR(10),
   `food_amount` TINYINT UNSIGNED,
   `family_count` SMALLINT UNSIGNED,
   PRIMARY KEY (`task_fd_id`),
@@ -324,6 +332,7 @@ CREATE TABLE IF NOT EXISTS `ecssendb`.`organization` (
 	`org_name` VARCHAR(100) NOT NULL,
 	`phone_num` VARCHAR(15),
 	`contact` VARCHAR(100),
+	`description` VARCHAR(1000),
 	`is_active` BOOLEAN NOT NULL,
 	PRIMARY KEY (`organization_id`),
 	CONSTRAINT `ck_org_postal_code`
@@ -340,29 +349,6 @@ CREATE TABLE IF NOT EXISTS `ecssendb`.`package_type` (
   `package_name` VARCHAR(50) NOT NULL,
   `weight_lb` SMALLINT NOT NULL,
   PRIMARY KEY (`package_id`))
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- USER TASK
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ecssendb`.`user_task` (
-  `user_id` INT NOT NULL,
-  `task_id` BIGINT NOT NULL,
-  `is_assigned` BOOLEAN,
-  `is_chosen` BOOLEAN,
-  PRIMARY KEY (`user_id`, `task_id`),
-  INDEX `fk_user_task_user_id_idx` (`user_id` ASC),
-  INDEX `fk_user_task_task_id_idx` (`task_id` ASC),
-  CONSTRAINT `fk_user_task_user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `ecssendb`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_user_task_task_id`
-    FOREIGN KEY (`task_id`)
-    REFERENCES `ecssendb`.`task` (`task_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------

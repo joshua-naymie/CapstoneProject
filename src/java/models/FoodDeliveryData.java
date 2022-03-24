@@ -6,16 +6,7 @@ package models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,7 +21,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "FoodDeliveryData.findByTaskFdId", query = "SELECT f FROM FoodDeliveryData f WHERE f.taskFdId = :taskFdId"),
     @NamedQuery(name = "FoodDeliveryData.findByMileage", query = "SELECT f FROM FoodDeliveryData f WHERE f.mileage = :mileage"),
     @NamedQuery(name = "FoodDeliveryData.findByFoodHoursWorked", query = "SELECT f FROM FoodDeliveryData f WHERE f.foodHoursWorked = :foodHoursWorked"),
-    @NamedQuery(name = "FoodDeliveryData.findByFoodType", query = "SELECT f FROM FoodDeliveryData f WHERE f.foodType = :foodType"),
     @NamedQuery(name = "FoodDeliveryData.findByFoodAmount", query = "SELECT f FROM FoodDeliveryData f WHERE f.foodAmount = :foodAmount"),
     @NamedQuery(name = "FoodDeliveryData.findByFamilyCount", query = "SELECT f FROM FoodDeliveryData f WHERE f.familyCount = :familyCount")})
 public class FoodDeliveryData implements Serializable {
@@ -45,23 +35,21 @@ public class FoodDeliveryData implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "food_hours_worked")
     private BigDecimal foodHoursWorked;
-    @Column(name = "food_type")
-    private String foodType;
     @Column(name = "food_amount")
     private Short foodAmount;
     @Column(name = "family_count")
     private Short familyCount;
     @JoinColumn(name = "organization_id", referencedColumnName = "organization_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Organization organizationId;
     @JoinColumn(name = "package_id", referencedColumnName = "package_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private PackageType packageId;
     @JoinColumn(name = "store_id", referencedColumnName = "store_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Store storeId;
     @JoinColumn(name = "task_fd_id", referencedColumnName = "task_id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Task task;
 
     public FoodDeliveryData() {
@@ -93,14 +81,6 @@ public class FoodDeliveryData implements Serializable {
 
     public void setFoodHoursWorked(BigDecimal foodHoursWorked) {
         this.foodHoursWorked = foodHoursWorked;
-    }
-
-    public String getFoodType() {
-        return foodType;
-    }
-
-    public void setFoodType(String foodType) {
-        this.foodType = foodType;
     }
 
     public Short getFoodAmount() {

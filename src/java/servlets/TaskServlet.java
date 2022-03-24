@@ -20,7 +20,7 @@ public class TaskServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession httpSession = request.getSession();
-        String user_id = (String) httpSession.getAttribute("email");
+        String user_id = httpSession.getAttribute("email") + "";
         System.out.println(user_id);
 
         int loggedInUserId = Integer.parseInt(user_id);
@@ -98,12 +98,12 @@ public class TaskServlet extends HttpServlet {
                 task.getEndTime(),
                 task.getAvailable(),
                 task.getNotes(),
-                task.isApproved(),
+                task.getIsApproved(),
                 task.getTaskDescription(),
                 task.getTaskCity(),
-                task.isSubmitted(),
+                task.getIsSubmitted(),
                 task.getApprovalNotes(),
-                task.isDissaproved(),
+                task.getIsDissaproved(),
                 task.getTeamId().getTeamId(),
                 signUpOrCancel(task, loggedInUserId),
                 cancelTaskButtonShow(task, loggedInUserId),
