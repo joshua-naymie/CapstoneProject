@@ -7,21 +7,7 @@ package models;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -53,7 +39,6 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "user_id")
     private Integer userId;
@@ -95,14 +80,14 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "password_hash")
     private String passwordHash;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<UserTask> userTaskList;
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
     private List<Program> programList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private List<ProgramTraining> programTrainingList;
+    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
+    private List<Task> taskList;
     @JoinColumn(name = "team_id", referencedColumnName = "team_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Team teamId;
 
     public User() {
@@ -245,15 +230,6 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public List<UserTask> getUserTaskList() {
-        return userTaskList;
-    }
-
-    public void setUserTaskList(List<UserTask> userTaskList) {
-        this.userTaskList = userTaskList;
-    }
-
-    @XmlTransient
     public List<Program> getProgramList() {
         return programList;
     }
@@ -269,6 +245,15 @@ public class User implements Serializable {
 
     public void setProgramTrainingList(List<ProgramTraining> programTrainingList) {
         this.programTrainingList = programTrainingList;
+    }
+
+    @XmlTransient
+    public List<Task> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(List<Task> taskList) {
+        this.taskList = taskList;
     }
 
     public Team getTeamId() {

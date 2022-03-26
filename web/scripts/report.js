@@ -4,6 +4,8 @@ window.onload = () => {
 	$('#storeReport').click(() => onStoreSelection());
 	$('#teamReport').click(() => onTeamSelection());
 	$('#individualReport').click(() => onIndividualSelection());
+	$('#programReport').click(() => $('#additionalInfo').empty());
+	$('#hotlineReport').click(() => $('#additionalInfo').empty());
 }
 
 function onCitySelection() {
