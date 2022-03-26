@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,8 +48,9 @@ public class SubmitTaskFormServlet extends HttpServlet {
             Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        request.setAttribute("task_id", submitTaskId);
-        
+        HttpSession session = request.getSession();
+        session.setAttribute("submitTaskFormId", submitTaskId);
+
         log("" + submitTaskId);
         
         //submitTaskId = 1L;
@@ -114,8 +116,21 @@ public class SubmitTaskFormServlet extends HttpServlet {
         try{
             
             TaskService ts = new TaskService();
+            
+                HttpSession httpSession = request.getSession();
+    
+                Long submitTaskId = -1L;
 
-            Long submitTaskId = Long.parseLong( (String) request.getParameter("task_id") );
+                try{
+                    submitTaskId =  (Long) httpSession.getAttribute("submitTaskFormId") ;
+
+                }catch (Exception ex){
+                    Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                httpSession.invalidate();
+
+            //Long submitTaskId = Long.parseLong( (String) request.getParameter("task_id") );
 
             //Long submitTaskId = 6L;
 
@@ -173,18 +188,36 @@ public class SubmitTaskFormServlet extends HttpServlet {
             if (programId == foodDeliveryId) {
                 Short mileage = Short.valueOf(request.getParameter("mileage"));
                 Short fooodAmount = Short.valueOf(request.getParameter("food_amount"));
-                Short familyCount = Short.valueOf(request.getParameter("family_count"));
+
                 Short packageId = Short.valueOf(request.getParameter("package_id"));
-                Integer organizationId = Integer.valueOf(request.getParameter("organization_id"));
+
+                String deliveryType = request.getParameter("deliveryType");
+                
+                
+                String family = request.getParameter("family_count");
+                
+                String org = request.getParameter("organization_id");
+                
+                Short familyCount = -1;
+                Integer organizationId = -1;
 
                 FoodDeliveryData fd = new FoodDeliveryData(submitTaskId);
+                fd.setTaskFdId(submitTaskId);
                 fd.setMileage(mileage);
                 fd.setFoodHoursWorked(totalHours);
                 fd.setFoodAmount(fooodAmount);
-                fd.setFamilyCount(familyCount);
+                
+                if(family !=""){
+                    familyCount = Short.valueOf(family);
+                    fd.setFamilyCount(familyCount);
 
-                Organization ot = new Organization(organizationId);
-                fd.setOrganizationId(ot);
+                }
+
+                if(org != ""){
+                    organizationId = Integer.valueOf(org);
+                    Organization ot = new Organization(organizationId);
+                    fd.setOrganizationId(ot);
+                }
 
                 PackageType pt = new PackageType(packageId);
                 fd.setPackageId(pt);
@@ -195,6 +228,7 @@ public class SubmitTaskFormServlet extends HttpServlet {
 
             } else {
                 HotlineData hd = new HotlineData(submitTaskId);
+                hd.setTaskHotlineId(submitTaskId);
                 hd.setHotlineHoursWorked(totalHours);
                 fds.insertHotlineData(hd);
             }
@@ -215,6 +249,8 @@ public class SubmitTaskFormServlet extends HttpServlet {
 //            response.sendRedirect("sbmitTaskForm");
 //            return;
         }
+        
+        
         
         }
         else if(action != null && action.equals("Cancel")){
