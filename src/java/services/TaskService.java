@@ -159,9 +159,15 @@ public class TaskService {
         return tasks;
     }
     
-    public void insert(Task task) throws Exception {
+//    public Long getNextTaskId() throws Exception{
+//        TaskDB taskDB = new TaskDB();
+//        Long taskId = taskDB.getNextTaskId();
+//        return taskId;
+//    }
+    
+    public Long insert(Task task) throws Exception {
         TaskDB taskDB  = new TaskDB();
-        taskDB.insert(task);
+        return taskDB.insert(task);
     }
 
     public void update(Task task) throws Exception {

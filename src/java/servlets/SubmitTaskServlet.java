@@ -44,14 +44,16 @@ public class SubmitTaskServlet extends HttpServlet {
     
     int loggedInUserId = -1;
     
-    try{
-        loggedInUserId = (int) httpSession.getAttribute("email");
-        System.out.println(loggedInUserId);
-        
-    }catch (Exception ex){
-        Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-    }
+//    try{
+//        loggedInUserId = (int) httpSession.getAttribute("email");
+//        System.out.println(loggedInUserId);
+//        
+//    }catch (Exception ex){
+//        Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+//    }
       
+    //delete later
+    loggedInUserId = 4;
         
     TaskService ts = new TaskService();
       
@@ -106,5 +108,6 @@ public class SubmitTaskServlet extends HttpServlet {
         return builder.buildJSON(taskValues);
     }
 
+    
 
 }
