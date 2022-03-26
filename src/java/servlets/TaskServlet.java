@@ -66,7 +66,10 @@ public class TaskServlet extends HttpServlet {
                 new JSONKey("team_id", true),
                 new JSONKey("show_signupT_cancelF", true), //pass boolean for signup or cancel show_signup_cancel
                 new JSONKey("can_cancel", true), //boolaen for can cancel can_cancel
-                new JSONKey("show_edit", true)//boolean to show edit button or not show_edit             
+                new JSONKey("show_edit", true),//boolean to show edit button or not show_edit
+                
+                
+                
         };
 
         JSONBuilder builder = new JSONBuilder(taskKeys);
@@ -95,12 +98,12 @@ public class TaskServlet extends HttpServlet {
                 task.getEndTime(),
                 task.getAvailable(),
                 task.getNotes(),
-                task.isApproved(),
+                task.getIsApproved(),
                 task.getTaskDescription(),
                 task.getTaskCity(),
-                task.isSubmitted(),
+                task.getIsSubmitted(),
                 task.getApprovalNotes(),
-                task.isDissaproved(),
+                task.getIsDissaproved(),
                 task.getTeamId().getTeamId(),
                 signUpOrCancel(task, loggedInUserId),
                 cancelTaskButtonShow(task, loggedInUserId),

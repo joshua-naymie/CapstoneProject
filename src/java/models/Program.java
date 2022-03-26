@@ -6,19 +6,7 @@ package models;
 
 import java.io.Serializable;
 import java.util.List;
-import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -49,13 +37,13 @@ public class Program implements Serializable {
     @Column(name = "is_active")
     private boolean isActive;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User userId;
-    @OneToMany(mappedBy = "programId")
+    @OneToMany(mappedBy = "programId", fetch = FetchType.EAGER)
     private List<Team> teamList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "program")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "program", fetch = FetchType.EAGER)
     private List<ProgramTraining> programTrainingList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "programId", fetch = FetchType.EAGER)
     private List<Task> taskList;
 
     public Program() {
@@ -65,6 +53,12 @@ public class Program implements Serializable {
         this.programId = programId;
     }
 
+    public Program(Short programId, String programName, boolean isActive) {
+        this.programId = programId;
+        this.programName = programName;
+        this.isActive = isActive;
+    }
+    
     public Program(User userId, String programName, boolean isActive) {
         this.userId = userId;
         this.programName = programName;

@@ -36,12 +36,12 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label>Description:</label>
-                                    <input class="form-control" type="text" name="description" value="" placeholder="">
+                                    <input class="form-control" type="text" name="description" value="" placeholder="" required>
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label for="programAdd" class="input-label">Program</label>
-                                    <select name="programAdd" id="programAdd" class="form-control">
+                                    <select name="programAdd" id="programAdd" class="form-control" required>
                                         <option value="" selected>Choose here</option>
                                         <c:forEach items="${allPrograms}" var="program">
                                             <option value="${program.getProgramName()};${program.getProgramId()}">
@@ -51,7 +51,7 @@
                                     </select>
                                 </div>
 
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-2 foodDeliveryFields">
                                     <label for="cityAdd" class="input-label">City</label>
                                     <select name="cityAdd" id="cityAdd" class="form-control">
                                         <option value="" selected>Choose here</option>
@@ -66,12 +66,12 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label>Date:</label>
-                                    <input class="form-control" type="date" name="taskDate" value="" placeholder="">
+                                    <input class="form-control" type="date" name="taskDate" value="" placeholder="" required>
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label>Start Time:</label>
-                                    <input class="form-control" type="time" name="taskStart" value="" placeholder="">
+                                    <input class="form-control" type="time" name="taskStart" value="" placeholder="" required>
                                 </div>
 
 
@@ -81,14 +81,22 @@
                                         placeholder="">
                                 </div>
                             </div>
-
+                            
                             <div class="form-group">
                                 <label for="supervisorAdd" class="input-label">Approving Supervisor</label>
-                                <select name="supervisorAdd" id="supervisorAdd" class="form-control col-md-5">
+                                <select name="supervisorAdd" id="supervisorAdd" class="form-control col-md-5" required>
                                     <option value="" selected>Choose here</option>
 
                                 </select>
 
+                            </div>
+                            
+                            <div class="form-group hotlineFields">
+                                <label for="coordinatorAdd" class="input-label">Approving Coordinator</label>
+                                <select name="coordinatorAdd" id="coordinatorAdd" class="form-control col-md-5">
+                                    <option value="" selected>Choose here</option>
+
+                                </select>
                             </div>
 
 
@@ -121,7 +129,7 @@
                             <!-- Number of volunteers for the task -->
                             <input type="submit" value="Add" name="action" class="btn btn-primary"> 
                             
-                            <input type="submit" value="Cancel" name="action" class="btn btn-secondary"> 
+                            <input type="submit" value="Cancel" name="action" class="btn btn-secondary" formnovalidate> 
 
 
                         </form>
@@ -159,6 +167,7 @@
 
                 $(document).ready(function(){
                     $('.foodDeliveryFields').hide();
+                    $('.hotlineFields').hide();
                     $('#programAdd').on('change', function() {
                         console.log(this.value);
                         let pid = $('#programAdd').val();
@@ -167,10 +176,40 @@
                       //.....................^.......
                       {
                         $('.foodDeliveryFields').show();
+                        $('.hotlineFields').hide();
+                        $("#coordinatorAdd").removeAttr('required');
+                        $("#storeAdd").attr('required', '');
+                        $("#cityAdd").attr('required', '');
                       }
                       else
                       {
-                        $('.foodDeliveryFields').hide();
+                       $('.foodDeliveryFields').hide(); 
+                       $('.hotlineFields').show();
+                       $("#coordinatorAdd").attr('required', '');
+                       $("#storeAdd").removeAttr('required');
+                      $("#cityAdd").removeAttr('required');
+                       
+                       $('#coordinatorAdd').find('option').remove();
+                       
+                        $('#coordinatorAdd').append(
+                                            '<option value="">Choose here'+ '</option>'
+                        );
+                
+                        $.ajax({
+                            type: "GET",
+                            url: "data",
+                            data: {"operation": "hotlineCoordinators"},
+                            success:
+                                function (data) {
+                                    console.log(data);
+                                    let obj = $.parseJSON(data);
+                                    $.each(obj, function (key, value) {
+                                        $('#coordinatorAdd').append(
+                                            '<option value="' + value.user_id + '">' + value.user_name + '</option>'
+                                        )
+                                    })
+                                }
+                        });
                       }
                     });
                 });

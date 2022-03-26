@@ -78,6 +78,12 @@ public class AccountServices {
         return users;
     }
     
+    public List<User> getAllActiveHotlineCoordinators() throws Exception {
+        UserDB userDB = new UserDB();
+        List<User> users = userDB.getAllActiveHotlineCoordinators();
+        return users;
+    }
+    
     // irina
     // getAll for getting all users
     public List<User> getAll() throws Exception {
