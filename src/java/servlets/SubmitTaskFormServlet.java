@@ -36,20 +36,7 @@ public class SubmitTaskFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-//        String op = request.getParameter("operation");
-//        if(op.equals("idInfo")){
-//                   
-//         String test = request.getParameter("test");
-//         log(test);
-//        }
 
-         
-        
-        //String task_id = request.getParameter("task_id");
-	//Long taskId = Long.parseLong(task_id);
-
-        //log((String) request.getParameter("task_id"));
         TaskService ts = new TaskService();
         
         Long submitTaskId = -1L;
@@ -59,6 +46,8 @@ public class SubmitTaskFormServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        request.setAttribute("task_id", submitTaskId);
         
         log("" + submitTaskId);
         
@@ -120,7 +109,7 @@ public class SubmitTaskFormServlet extends HttpServlet {
         
         String action = (String) request.getParameter("action");
         
-        if(action != null && action.equals("Add")){
+        if(action != null && action.equals("Submit Task")){
         
         try{
             
@@ -144,32 +133,36 @@ public class SubmitTaskFormServlet extends HttpServlet {
 
             Short foodDeliveryId = 1;
 
-            String taskStart = request.getParameter("taskStart");
+//            String taskStart = request.getParameter("taskStart");
+//
+//            Date taskStartTime = null;
+//            Date taskEndTime = null;
+//
+//            try {
+//                taskStartTime = new SimpleDateFormat("hh:mm").parse(taskStart);
+//                log(taskStartTime.toString());
+//
+//            } catch (ParseException ex) {
+//                Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//            String taskEnd = request.getParameter("taskEnd");
+//
+//            try {
+//                taskEndTime = new SimpleDateFormat("hh:mm").parse(taskEnd);
+//                log(taskEndTime.toString());
+//
+//            } catch (ParseException ex) {
+//                Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//            BigDecimal totalHours = new BigDecimal(0);
+//
+//            totalHours = new BigDecimal(((taskEndTime.getTime() - taskStartTime.getTime()) / (1000.0 * 60 * 60)));
 
-            Date taskStartTime = null;
-            Date taskEndTime = null;
-
-            try {
-                taskStartTime = new SimpleDateFormat("hh:mm").parse(taskStart);
-                log(taskStartTime.toString());
-
-            } catch (ParseException ex) {
-                Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            String taskEnd = request.getParameter("taskEnd");
-
-            try {
-                taskEndTime = new SimpleDateFormat("hh:mm").parse(taskEnd);
-                log(taskEndTime.toString());
-
-            } catch (ParseException ex) {
-                Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            BigDecimal totalHours = new BigDecimal(0);
-
-            totalHours = new BigDecimal(((taskEndTime.getTime() - taskStartTime.getTime()) / (1000.0 * 60 * 60)));
+            String total = request.getParameter("totalHours");
+             
+            BigDecimal totalHours = new BigDecimal(total);
 
             String notes = request.getParameter("notes");
 
@@ -223,12 +216,13 @@ public class SubmitTaskFormServlet extends HttpServlet {
 //            return;
         }
         
-        }else if(action != null && action.equals("Cancel")){
+        }
+        else if(action != null && action.equals("Cancel")){
             response.sendRedirect("submitTask");
             return;
         }
         
-       getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
+        response.sendRedirect("submitTask");
 
     }
 

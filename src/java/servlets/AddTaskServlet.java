@@ -193,6 +193,8 @@ public class AddTaskServlet extends HttpServlet {
             
             addTask = new Task(0L, -1L, sTime, true, false, supervisorId, (short) 0, cityAdd);
             
+            if(eTime != null) addTask.setEndTime(eTime);
+            
                 addTask.setTaskDescription(description);
 
                 addTask.setMaxUsers(spotsAdd);

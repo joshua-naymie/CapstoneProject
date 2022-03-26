@@ -26,15 +26,8 @@
         <form action="" method="post" class="mt-3">   
         
         <div class="row mb-3">
-            <div class="form-group col-md-6">
-                <label class="form-label">Start Time:</label>
-                <input class="form-control" type="time" name="taskStart" value="" placeholder="">
-            </div>
-        
-            <div class="form-group col-md-6">
-                    <label class="form-label">End Time:</label>
-                    <input class="form-control" type="time" name="taskEnd" value="" placeholder="">
-            </div>
+            <label for="totalHours">Hours Worked: </label>
+            <input type="number" id="totalHours" name="totalHours" step="0.25" min="0.25" max="5" value="2" required>
         </div>
         
         <div class="form-floating mb-3">
