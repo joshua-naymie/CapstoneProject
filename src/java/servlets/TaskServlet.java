@@ -20,7 +20,7 @@ public class TaskServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession httpSession = request.getSession();
-        String user_id = (String) httpSession.getAttribute("email");
+        String user_id = httpSession.getAttribute("email") + "";
         System.out.println(user_id);
 
         int loggedInUserId = Integer.parseInt(user_id);
