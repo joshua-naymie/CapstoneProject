@@ -62,6 +62,7 @@ public class AddTaskServlet extends HttpServlet {
     
         try {
             allPrograms = ps.getAll();
+            allPrograms.subList(2, allPrograms.size()).clear();
         } catch (Exception ex) {
             Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -130,6 +131,15 @@ public class AddTaskServlet extends HttpServlet {
         ProgramServices ps = new ProgramServices();
         TeamServices tes = new TeamServices();
         AccountServices as = new AccountServices();
+           
+//        Long nextTaskId = -1L;
+//        try {
+//            nextTaskId = ts.getNextTaskId();
+//        } catch (Exception ex) {
+//            Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        log(nextTaskId + "");
         
         String action = (String) request.getParameter("action");
 
@@ -140,86 +150,49 @@ public class AddTaskServlet extends HttpServlet {
             try{
                 
                 String taskDate = request.getParameter("taskDate");
-            
-            //Date taskDateStart = new Date();
-            //Date taskDateEnd = new Date();
-            LocalDateTime st = LocalDateTime.now();
-            LocalDateTime et = LocalDateTime.now();
-            
-            //Date registrationDate = new SimpleDateFormat("yyyy-MM-dd").parse(regDate);
-            //String registrationDate = regDate;
-            //            Date taskDateEnd = new Date();
-//            try {
-//                taskDateEnd = new SimpleDateFormat("yyyy-MM-dd").parse("2022-08-31");
-//            } catch (ParseException ex) {
-//                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-
                 String taskStart = request.getParameter("taskStart");
-
-                //Date taskStartTime = new SimpleDateFormat("hh:mm").parse(taskStart);
-                //taskDateStart = new Date(registrationDate.getTime() + taskStartTime.getTime());
-
                 String taskEnd = request.getParameter("taskEnd");
-                //Date taskEndTime = new SimpleDateFormat("hh:mm").parse(taskEnd);
-                //String taskEndTime = taskEnd;
-                //log(taskEndTime.toString());
-
-                LocalDate datePart = LocalDate.parse(taskDate);
-                LocalTime timePart = LocalTime.parse(taskEnd);
-                et = LocalDateTime.of(datePart, timePart);
                 
-                LocalDate datePart1 = LocalDate.parse(taskDate);
-                LocalTime timePart1 = LocalTime.parse(taskStart);
-                st = LocalDateTime.of(datePart1, timePart1);
-                //log(st.toString());
+                Date sTime = null;
+                Date eTime = null;
+                
+                if(taskStart !=null){
 
-//            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-//            SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
-//
-//            String dateAsString = dateFormatter.format(date);
-//            String timeAsString = timeFormatter.format(date);
-
-//taskDateEnd = new Date(registrationDate.getTime() + taskEndTime.getTime());
-            
-            //log(taskDateStart.toString());
-            //log(taskDateEnd.toString());
+                    LocalDateTime st = LocalDateTime.now();
+                    LocalDate datePart = LocalDate.parse(taskDate);
+                    LocalTime timePart = LocalTime.parse(taskStart);
+                    st = LocalDateTime.of(datePart, timePart);
                     
-            String programAdd = (String) request.getParameter("programAdd");
-            
-            String[] parts = programAdd.split(";");
-            
-            String programAddName = parts[0];
-            pogramAddId = Short.valueOf(parts[1]);
-            
-            String description = (String) request.getParameter("description");
-            String cityAdd = (String) request.getParameter("cityAdd");
-            
-                                    
-            
-//            Date taskDateStart = new Date();
-//            try {
-//                taskDateStart = new SimpleDateFormat("yyyy-MM-dd").parse("2022-08-30");
-//            } catch (ParseException ex) {
-//                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-            //log(programAddName);
-            //log(programAdd);
-            
-            ZonedDateTime zdt = st.atZone(ZoneId.systemDefault());
-            Date sTime = Date.from(zdt.toInstant());
-            
-            ZonedDateTime zdt1 = et.atZone(ZoneId.systemDefault());
-            Date eTime = Date.from(zdt1.toInstant());
-            
-            
-            //log(sTime.toString());        
-            
+                    ZonedDateTime zdt = st.atZone(ZoneId.systemDefault());
+                    sTime = Date.from(zdt.toInstant());
+                    log(sTime.toString());
+                }
+                
+                if(!taskEnd.equals("")){
+                    LocalDateTime et = LocalDateTime.now();
+                    LocalDate datePart1 = LocalDate.parse(taskDate);
+                    LocalTime timePart1 = LocalTime.parse(taskEnd);
+                    et = LocalDateTime.of(datePart1, timePart1);
+
+                    ZonedDateTime zdt1 = et.atZone(ZoneId.systemDefault());
+                    eTime = Date.from(zdt1.toInstant());
+                }
+                    
+                String programAdd = (String) request.getParameter("programAdd");
+
+                String[] parts = programAdd.split(";");
+
+                String programAddName = parts[0];
+                pogramAddId = Short.valueOf(parts[1]);
+
+                String description = (String) request.getParameter("description");
+                String cityAdd = (String) request.getParameter("cityAdd");
+                
             Short spotsAdd = Short.parseShort((String) request.getParameter("spotsAdd"));
-            Long supervisorId = Long.parseLong((String) request.getParameter("supervisorAdd"));
+            int supervisorId = Integer.parseInt((String) request.getParameter("supervisorAdd"));
             
+            addTask = new Task(0L, -1L, sTime, true, false, supervisorId, (short) 0, cityAdd);
             
-            addTask = new Task(0L, sTime, eTime, true, false, "Jane Doe", cityAdd);
                 addTask.setTaskDescription(description);
 
                 addTask.setMaxUsers(spotsAdd);
@@ -230,10 +203,11 @@ public class AddTaskServlet extends HttpServlet {
 //            }
 //
 //            try {
-                String fullName = as.getByID(supervisorId).getFirstName() + " " + as.getByID(supervisorId).getLastName();
-                addTask.setApprovingManager(fullName);
+                //String fullName = as.getByID(supervisorId).getFirstName() + " " + as.getByID(supervisorId).getLastName();
+                //addTask.setApprovingManager(fullName);
                 
             } catch (Exception ex) {
+                
                 Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
                 
             }
@@ -251,6 +225,8 @@ public class AddTaskServlet extends HttpServlet {
                 }
             
             Short foodDeliveryId = 1;
+            Short hotlineId = 2;
+            int hotlineTeamId = 1;
 
             if(pogramAddId == foodDeliveryId){
                 Integer storeId = Integer.parseInt ((String) request.getParameter("storeAdd"));
@@ -258,10 +234,10 @@ public class AddTaskServlet extends HttpServlet {
 //                fd.setStoreId(new Store(storeId));
 //                addTask.setFoodDeliveryData(fd);
 
-                List<Team> team = null;
+                List<Team> teams = null;
                         
                 try {
-                     team = tes.getAll();
+                     teams = tes.getAll();
                 } catch (Exception ex) {
                     Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -270,8 +246,12 @@ public class AddTaskServlet extends HttpServlet {
 
                 Team teamAdd = null;
 
-                for(Team t: team){
-                    if( storeId == (t.getStoreId().getStoreId()) ) {
+                for(Team t: teams){
+                    int teamStoreId = -1;
+                    
+                    if(t.getStoreId() != null)  teamStoreId = t.getStoreId().getStoreId();
+                    
+                    if( storeId == teamStoreId ) {
                         teamCheck = true;
                         teamAdd = t;
                     }
@@ -284,15 +264,44 @@ public class AddTaskServlet extends HttpServlet {
             
                 addTask.setTeamId(teamAdd);
 
-            }else{
-                
-                addTask.setMaxUsers((short) 1);
-            }                
+            }else if(pogramAddId == hotlineId){
+                Team hTeam;
+                try {
+                    hTeam = tes.get(hotlineTeamId);
+                    addTask.setTeamId(hTeam);
+                } catch (Exception ex) {
+                    Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                addTask.setMaxUsers((short) 2);
+                addTask.setTaskCity(null);
+            } 
+            
             try {
                 addTask.setIsApproved(false);
                 addTask.setIsSubmitted(false);
                 addTask.setIsDissaproved(false);
-                ts.insert(addTask);
+                
+                Long groupId = ts.insert(addTask);
+                Task task = ts.get(groupId);
+                
+                task.setGroupId(groupId);
+                ts.update(task);
+                
+                int extraTasks = task.getMaxUsers() - 1;
+                
+                if(extraTasks != 0){
+                    addTask.setGroupId(groupId);
+                    
+                    if(pogramAddId == hotlineId){            
+                        int coordinatorId = Integer.parseInt((String) request.getParameter("coordinatorAdd"));
+                        addTask.setApprovingManager(coordinatorId);
+                    }
+                    
+                    for(int i = 0; i <extraTasks; i++){
+                        ts.insert(addTask);
+                    }
+                }
+
                 request.setAttribute("userMessage", "Task posted.");
                 doGet(request, response);
                 return;

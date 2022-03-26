@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import models.*;
+import org.eclipse.persistence.sessions.Session;
 
 /**
  *
@@ -127,20 +128,66 @@ public class TaskDB {
             em.close();
         }
     }
+    
+//    public Long getNextTaskId() throws Exception{
+//      
+//        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+//        
+////        Long taskId = em.unwrap(Session.class).getNextSequenceNumberValue(Task.class).longValue();
+////        
+////        return taskId;
+//
+////        try {   
+////            
+////            Query q = em.createQuery("SELECT AUTO_INCREMENT\n" +
+////"FROM information_schema.tables\n" +
+////"WHERE table_name = :databaseTable\n" +
+////"AND table_schema = DATABASE( )");
+////            
+////            q.setParameter("databaseTable", "task");
+////            
+////            Long taskId = (Long) q.getSingleResult();
+////            return taskId;
+////
+////        } finally {
+////            em.close();
+////        }
+//
+//        try {   
+//            
+//            Query q = em.createQuery("SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = :databaseName AND TABLE_NAME = :databaseTable");
+//            
+//            q.setParameter("databaseName", "ecssendb");
+//            q.setParameter("databaseTable", "task");
+//            
+//            Long taskId = (Long) q.getSingleResult();
+//            return taskId;
+//
+//        } finally {
+//            em.close();
+//        }
+//    }
 
      
-    public void insert(Task task) throws Exception{
+    public Long insert(Task task) throws Exception{
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
+        
+        Long taskId = -1L;
+        
         try {
             trans.begin();
             em.persist(task);
-            trans.commit();
+            trans.commit();  
+            taskId = task.getTaskId();
         } catch (Exception ex) {
             trans.rollback();
         } finally {
+            //em.flush();
             em.close();
+            return taskId;  
         }
+
     }
 
     public void update(Task task) throws Exception {
