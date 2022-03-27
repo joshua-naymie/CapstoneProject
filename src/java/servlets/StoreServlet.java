@@ -9,8 +9,11 @@ import models.util.JSONKey;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import models.*;
+import models.util.*;
 import services.*;
 
 /**
@@ -140,6 +143,125 @@ public class StoreServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException
     {
+        // getting user action from JSP
+        String action = request.getParameter("action");
+try {
+            switch (action) {
+                // add new program
+                case "add":
+                    add(request, response);
+                    break;
+                // edit current store
+                // change status of store  
+                case "Edit":
+                    edit(request, response);
+                    break;
+                // save edit changes
+                case "update":
+                    save(request, response);
+                    break;
+                // throw exception if the action is none of the above    
+                default:
+                    throw new Exception();
+            }
+        } catch (Exception e) {
+            Logger.getLogger(StoreServlet.class.getName()).log(Level.WARNING, null, e);
+            System.err.println("Error Occured carrying out action:" + action);
+        }
         
     }
+
+     private void add(HttpServletRequest request, HttpServletResponse response) {
+
+     StoreServices ss = new StoreServices();
+     CompanyService cs = new CompanyService();
+     
+     try {
+            List<Store> stores = ss.getAll();
+            String storeName = request.getParameter("store-name");
+            String streetAddress = request.getParameter("");
+            String postalCode = request.getParameter("");
+            String storeCity = request.getParameter("");
+            String phoneNum = request.getParameter("");
+            String contact = request.getParameter("");
+            String status = request.getParameter("");
+            boolean isActive = status.equals("active");
+            String companyId = request.getParameter("");
+            short ci = Short.parseShort(companyId);
+            CompanyName c = cs.get(ci);
+            boolean isFound = false;
+             for (int i = 0; i < stores.size(); i++) {
+                if (stores.get(i).getStoreName().equals(storeName)) {
+
+
+                    isFound = true;
+                   // set usermsg "The store already exists"
+                }
+             
+            }
+        // creating the store trough store services
+             if (isFound){
+            String userMsg = ss.insert(streetAddress,postalCode,storeCity, storeName, isActive, phoneNum, contact, c); 
+
+           }
+                  
+     
+
 }
+catch (Exception e) {
+            Logger.getLogger(StoreServlet.class.getName()).log(Level.WARNING, null, e);
+        }
+
+
+
+
+}
+
+    private void edit(HttpServletRequest request, HttpServletResponse response) {
+        StoreServices ss = new StoreServices();
+        //CompanyService cs = new CompanyService();
+
+  try {
+            // getting the store that is to be edited
+            Store editStore = ss.get(Short.parseShort(request.getParameter("storeID")));
+
+            // setting store attribute to edit
+            request.setAttribute("editStore", editStore);
+            getServletContext().getRequestDispatcher("/WEB-INF/program.jsp").forward(request, response);
+        } catch (Exception e) {
+            Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
+        }
+
+}
+
+    private void save(HttpServletRequest request, HttpServletResponse response) {
+            StoreServices ss = new StoreServices();
+            CompanyService cs = new CompanyService();
+
+ try {
+            // getting store ID
+            int storeID = Integer.parseInt(request.getParameter("store-ID"));
+
+            String storeName = request.getParameter("store-name");
+            String streetAddress = request.getParameter("");
+            String postalCode = request.getParameter("");
+            String storeCity = request.getParameter("");
+            String phoneNum = request.getParameter("");
+            String contact = request.getParameter("");
+            String status = request.getParameter("");
+            boolean isActive = status.equals("active");
+            String companyId = request.getParameter("");
+            short ci = Short.parseShort(companyId);
+            CompanyName c = cs.get(ci);
+
+            // updating store
+            String userMsg = ss.update(storeID,streetAddress,postalCode,storeCity,
+                             storeName,isActive,phoneNum,contact,c);
+
+            response.sendRedirect("stores");
+        } catch (Exception e) {
+            Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
+        }
+
+}
+    }
