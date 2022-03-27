@@ -192,6 +192,8 @@ try {
             boolean isFound = false;
              for (int i = 0; i < stores.size(); i++) {
                 if (stores.get(i).getStoreName().equals(storeName)) {
+
+
                     isFound = true;
                    // set usermsg "The store already exists"
                 }
