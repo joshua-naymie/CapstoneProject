@@ -18,12 +18,16 @@ public class TaskServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        HttpSession httpSession = request.getSession();
-        String user_id = httpSession.getAttribute("email") + "";
-        System.out.println(user_id);
-
-        int loggedInUserId = Integer.parseInt(user_id);
+        
+        //uncomment later
+//        HttpSession httpSession = request.getSession();
+//        String user_id = httpSession.getAttribute("email") + "";
+//        System.out.println(user_id);
+//
+//        int loggedInUserId = Integer.parseInt(user_id);
+        
+        //delete later
+        int loggedInUserId = 4;
         
         AccountServices as = new AccountServices();
         
@@ -122,15 +126,19 @@ public class TaskServlet extends HttpServlet {
         
         TaskService ts = new TaskService();
 
-        int loggedInUserId = -1;
-
-        try{
-            loggedInUserId = (int) httpSession.getAttribute("email");
-            System.out.println(loggedInUserId);
-
-        }catch (Exception ex){
-            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+          //uncomment later
+//        int loggedInUserId = -1;
+//
+//        try{
+//            loggedInUserId = (int) httpSession.getAttribute("email");
+//            System.out.println(loggedInUserId);
+//
+//        }catch (Exception ex){
+//            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        
+        //delete later
+        int loggedInUserId = 4;
         
         Long taskId = -1L;
         
@@ -161,7 +169,30 @@ public class TaskServlet extends HttpServlet {
        
     private boolean cancelTaskButtonShow(Task task, int loggedInUserId){
         
-        try{
+        TaskService ts = new TaskService();
+        AccountServices as = new AccountServices();
+        
+        List <Task> tasks = null;
+        
+        try {
+           tasks = ts.getAllTasksByGroupId(task.getGroupId());
+            
+        } catch (Exception ex) {
+            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Task matchedTask = null;
+        
+        for(Task oneTask : tasks){
+            if(oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId){
+                matchedTask = oneTask;
+                break;
+            }
+        }
+        
+        if(matchedTask != null){
+            task = matchedTask;
+            try{
             Date taskStart = task.getStartTime();
             
             LocalDateTime taskTime = taskStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
@@ -175,17 +206,18 @@ public class TaskServlet extends HttpServlet {
            
            //System.out.println("Diff " + diffInHours);
            
-           int sevenDaystoHours = 168;
-           
-           if(diffInHours < sevenDaystoHours ){
-               return false;
-           }
-           else {
-                return true;
-           }
-            
-        } catch (Exception ex){
-            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            int sevenDaystoHours = 168;
+
+            if(diffInHours < sevenDaystoHours ){
+                return false;
+            }
+            else {
+                 return true;
+            }
+
+            } catch (Exception ex){
+                Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         return false;
@@ -193,25 +225,52 @@ public class TaskServlet extends HttpServlet {
     
     private boolean signUpOrCancel(Task task, int loggedInUserId){
         
-        UserTaskService uts = new UserTaskService();
+//        UserTaskService uts = new UserTaskService();
+//        
+//        List<User> users = null;
+//        
+//        try {
+//            users = uts.getChosenUsers(task.getTaskId());
+//        } catch (Exception ex) {
+//            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        if(users!= null){
+//            for(User user: users){
+//                if(user.getUserId() == loggedInUserId){
+//                    return false;
+//                }
+//                
+//            }
+//        }
+    
+                
+        TaskService ts = new TaskService();
+        AccountServices as = new AccountServices();
         
-        List<User> users = null;
+        List <Task> tasks = null;
         
         try {
-            users = uts.getChosenUsers(task.getTaskId());
+           tasks = ts.getAllTasksByGroupId(task.getGroupId());
+            
         } catch (Exception ex) {
             Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        if(users!= null){
-            for(User user: users){
-                if(user.getUserId() == loggedInUserId){
-                    return false;
-                }
-                
+        Task matchedTask = null;
+        
+        for(Task oneTask : tasks){
+            if(oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId){
+                matchedTask = oneTask;
+                break;
             }
         }
-
+        
+//        if(matchedTask != null){
+//            log(matchedTask.getTaskDescription());
+//            return false;
+//        }
+        
         return true;
     }
 
@@ -222,23 +281,36 @@ public class TaskServlet extends HttpServlet {
         //Long task_id = Long.parseLong((String) request.getParameter("task_id"));
         //Task task = ts.get(task_id);
         
-        List<UserTask> userTasks = task.getUserTaskList();
+        //List<UserTask> userTasks = task.getUserTaskList();
                
-        for( UserTask userTask: userTasks){
-            if(userTask.getUser().getUserId() == loggedInUserId){
-             
-                UserTaskService us = new UserTaskService();
-                userTask.setIsAssigned(Boolean.FALSE);
-                userTask.setIsChosen(Boolean.FALSE);
-                
+        //for( UserTask userTask: userTasks){
+        TaskService ts = new TaskService();
+        AccountServices as = new AccountServices();
+        
+        List <Task> tasks = null;
+        
+        try {
+           tasks = ts.getAllTasksByGroupId(task.getGroupId());
+            
+        } catch (Exception ex) {
+            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for(Task oneTask : tasks){
+            if(oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId){
                 try {
-                    us.remove(userTask);
-                } catch (Exception ex) {
-                    
+                    task.setAssigned(Boolean.FALSE);
+                    task.setSpotsTaken( (short) (task.getSpotsTaken() - ( (short) 1 )));
+                    task.setUserId(null);
+                    ts.update(task);
+                } catch (Exception ex) {  
                     Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                break;
             }
         }
+
+        //}
     }
     
     protected void signUp(HttpServletRequest request, HttpServletResponse response, Task task, int loggedInUserId)
@@ -247,22 +319,53 @@ public class TaskServlet extends HttpServlet {
         //TaskService ts = new TaskService();
         //Long task_id = Long.parseLong((String) request.getParameter("task_id"));
         //Task task = ts.get(task_id);
+                    //UserTask ut = new UserTask(loggedInUserId, task.getTaskId());
+//
+//        String action = request.getParameter("action");
+//        
+//        if(action.equalsIgnoreCase("SignUp")){
         
-        UserTaskService uts = new UserTaskService();
+        TaskService ts = new TaskService();
+        AccountServices as = new AccountServices();
         
-        UserTask ut = new UserTask(loggedInUserId, task.getTaskId());
+        List <Task> tasks = null;
         
-        String action = request.getParameter("action");
+        try {
+           tasks = ts.getAllTasksByGroupId(task.getGroupId());
+            
+        } catch (Exception ex) {
+            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        if(action.equalsIgnoreCase(action)){
-            try {
-                ut.setIsChosen(Boolean.TRUE);
-                uts.update(ut);
-                
-            } catch (Exception ex) {
-                Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        boolean addTask = true;
+        
+        for(Task oneTask : tasks){
+            if(oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId){
+                addTask = false;
+                log("here");
+                break;
             }
         }
+        
+        if(addTask){
+             for(Task oneTask : tasks){
+                 if(oneTask.getUserId() == null){            
+                    try {
+                        User user = as.getByID(loggedInUserId);
+                        task.setUserId(user);
+                        task.setSpotsTaken( (short) (task.getSpotsTaken() + ( (short) 1 )));
+                        ts.update(task);
+
+                    } catch (Exception ex) {
+                        Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                 }
+                 break;
+             }
+
+        }
+
+        //}
          
     }
     

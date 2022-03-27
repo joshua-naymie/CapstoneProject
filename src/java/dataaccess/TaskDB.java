@@ -27,6 +27,18 @@ public class TaskDB {
         }
     }
     
+    public List<Task> getAllTasksByGroupId(Long groupId) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {         
+            Query q = em.createQuery("SELECT t FROM Task t WHERE t.groupId = :groupId");
+            q.setParameter("groupId", groupId);
+            List<Task> allTasks = q.getResultList();
+            return allTasks;
+        } finally {
+            em.close();
+        }
+    }
+    
     /**
      * Gets all Tasks belonging to a specific User
      * @param userId The ID of the User

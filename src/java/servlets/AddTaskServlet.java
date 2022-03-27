@@ -142,6 +142,8 @@ public class AddTaskServlet extends HttpServlet {
 //        log(nextTaskId + "");
         
         String action = (String) request.getParameter("action");
+        
+        int supervisorId = -1;
 
         if(action != null && action.equals("Add")){
             Task addTask = new Task();
@@ -189,7 +191,7 @@ public class AddTaskServlet extends HttpServlet {
                 String cityAdd = (String) request.getParameter("cityAdd");
                 
             Short spotsAdd = Short.parseShort((String) request.getParameter("spotsAdd"));
-            int supervisorId = Integer.parseInt((String) request.getParameter("supervisorAdd"));
+            supervisorId = Integer.parseInt((String) request.getParameter("supervisorAdd"));
             
             addTask = new Task(0L, -1L, sTime, true, false, supervisorId, (short) 0, cityAdd);
             
@@ -297,6 +299,9 @@ public class AddTaskServlet extends HttpServlet {
                     if(pogramAddId == hotlineId){            
                         int coordinatorId = Integer.parseInt((String) request.getParameter("coordinatorAdd"));
                         addTask.setApprovingManager(coordinatorId);
+                        User user = as.getByID(supervisorId);
+                        addTask.setUserId(user);
+                        addTask.setAssigned(Boolean.TRUE);
                     }
                     
                     for(int i = 0; i <extraTasks; i++){

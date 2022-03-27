@@ -20,6 +20,12 @@ public class TaskService {
         List<Task> tasks = taskDB.getAll();
         return tasks;
     }
+    
+    public List<Task> getAllTasksByGroupId(Long groupId) throws Exception {
+        TaskDB taskDB = new TaskDB();
+        List<Task> tasks = taskDB.getAllTasksByGroupId(groupId);
+        return tasks;
+    }
 
     public Task get(long id) throws Exception {
         TaskDB taskDB = new TaskDB();
