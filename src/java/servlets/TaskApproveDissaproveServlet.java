@@ -271,15 +271,14 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         try {
             // Get the task based on task id
             TaskService ts = new TaskService();
-            // match with front end task id input, task_id_db?
+            
+            // get task Id to update approval
             String taskId = request.getParameter("id");
-            //Task task = ts.get((long) 4);
-            Task task = ts.get(Long.parseLong(taskId));
-
-            task.setIsSubmitted(false);
-            task.setIsApproved(false);
-            task.setIsDissaproved(true);
-
+            
+            //call on db to set this task to approved
+            ts.disapproveTask(Long.parseLong(taskId));
+            
+            response.sendRedirect("approve");
         } catch (Exception ex) {
             Logger.getLogger(TaskApproveDissaproveServlet.class.getName()).log(Level.WARNING, null, ex);
         }

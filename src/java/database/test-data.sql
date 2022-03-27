@@ -186,13 +186,13 @@ INSERT INTO `ecssendb`.hotline_data VALUES (4, 5);
 -- -----------------------------------------------------
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`,`family_count`)
-     VALUES (2, 12345, 30, 4.5, 1, 12, 3);
+     VALUES (4, 12345, 30, 4.5, 1, 12, 3);
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`, `organization_id`)
      VALUES (3, 12345, 20, 3, 1, 6, 1);
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`, `organization_id`, `family_count`)
-     VALUES (8, 12345, 20, 3, 1, 6, 1, 1);
+     VALUES (2, 12345, 20, 3, 1, 6, 1, 1);
 
 
 -- -----------------------------------------------------

@@ -17,7 +17,35 @@ import org.eclipse.persistence.sessions.Session;
  * @author srvad
  */
 public class TaskDB {
+    
+    /**
+     * disapprove the task and set appropriate boolean attributes
+     * @param taskId the task to be disapproved
+     */
+    public void disapproveTask(long taskId) {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        Query getTask = em.createNamedQuery("Task.findByTaskId", Task.class);
 
+        try {
+            Task disapprovedTask = (Task) getTask.setParameter("taskId", taskId).getSingleResult();
+            disapprovedTask.setIsApproved(false);
+            disapprovedTask.setIsDissaproved(true);
+            disapprovedTask.setIsSubmitted(false);
+            trans.begin();
+            em.merge(disapprovedTask);
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
+        } finally {
+            em.close();
+        }
+    }
+    
+    /**
+     * approve the task and set appropriate boolean attributes
+     * @param taskId the task to be approved
+     */
     public void approveTask(long taskId) {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
