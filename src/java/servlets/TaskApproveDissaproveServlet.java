@@ -51,7 +51,8 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             JSONKey[] hotlineTaskKeys = {new JSONKey("taskID", false),
                 new JSONKey("programID", false),
                 new JSONKey("programName", true),
-                new JSONKey("fullName", true),
+                new JSONKey("firstName", true),
+                new JSONKey("lastName", true),
                 new JSONKey("startTime", true),
                 new JSONKey("endTime", true),
                 new JSONKey("description", true),
@@ -62,7 +63,8 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             JSONKey[] communityFoodTaskKeys = {new JSONKey("taskID", false),
                 new JSONKey("programID", false),
                 new JSONKey("programName", true),
-                new JSONKey("fullName", true),
+                new JSONKey("firstName", true),
+                new JSONKey("lastName", true),
                 new JSONKey("startTime", true),
                 new JSONKey("endTime", true),
                 new JSONKey("description", true),
@@ -78,7 +80,8 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             JSONKey[] orgFoodTaskKeys = {new JSONKey("taskID", false),
                 new JSONKey("programID", false),
                 new JSONKey("programName", true),
-                new JSONKey("fullName", true),
+                new JSONKey("firstName", true),
+                new JSONKey("lastName", true),
                 new JSONKey("startTime", true),
                 new JSONKey("endTime", true),
                 new JSONKey("description", true),
@@ -137,19 +140,9 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
      */
     private String buildFoodJSON(Task task, JSONBuilder communityFoodBuilder, boolean isCommunity) {
 
-        // String builder to hold all user names per task
-        StringBuilder allUserNames = new StringBuilder();
-
-        // for loop to run through the whole task and grabs every volunteers
-//        for (UserTask userTask : task.getUserTaskList()) {
-//            allUserNames.append(userTask.getUser().getFirstName());
-//            allUserNames.append(" ");
-//            allUserNames.append(userTask.getUser().getLastName());
-//            allUserNames.append(", ");
-//        }
         // calculating hours worked
-        long hoursWorkedInMilliSeconds = task.getStartTime().getTime() - task.getEndTime().getTime();
-        long hoursWorked = (hoursWorkedInMilliSeconds / (1000 * 60)) % 60;
+//        long hoursWorkedInMilliSeconds = task.getStartTime().getTime() - task.getEndTime().getTime();
+//        long hoursWorked = (hoursWorkedInMilliSeconds / (1000 * 60)) % 60;
 
         // getting package type
         String packageType = task.getFoodDeliveryData().getPackageId().getPackageName();
@@ -161,7 +154,8 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         Object[] comFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
             task.getProgramId().getProgramId(),
             task.getProgramId().getProgramName(),
-            allUserNames,
+            task.getUserId().getFirstName(),
+            task.getUserId().getLastName(),
             jsonDateFormat.format(task.getStartTime()),
             jsonDateFormat.format(task.getEndTime()),
             task.getTaskDescription(),
@@ -169,14 +163,15 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             task.getFoodDeliveryData().getMileage(),
             task.getFoodDeliveryData().getFamilyCount(),
             task.getFoodDeliveryData().getFoodAmount(),
-            hoursWorked,
+            task.getFoodDeliveryData().getFoodHoursWorked(),
             packageType,
-            task.getTeamId().getStoreId().getStoreName()};
+            task.getFoodDeliveryData().getStoreId().getStoreName()};
 
         Object[] orgFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
             task.getProgramId().getProgramId(),
             task.getProgramId().getProgramName(),
-            allUserNames,
+            task.getUserId().getFirstName(),
+            task.getUserId().getLastName(),
             jsonDateFormat.format(task.getStartTime()),
             jsonDateFormat.format(task.getEndTime()),
             task.getTaskDescription(),
@@ -184,9 +179,9 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             task.getFoodDeliveryData().getMileage(),
             task.getFoodDeliveryData().getOrganizationId().getOrgName(),
             task.getFoodDeliveryData().getFoodAmount(),
-            hoursWorked,
+            task.getFoodDeliveryData().getFoodHoursWorked(),
             packageType,
-            task.getTeamId().getStoreId().getStoreName()};
+            task.getFoodDeliveryData().getStoreId().getStoreName()};
 
         if (isCommunity) {
             return communityFoodBuilder.buildJSON(comFoodTaskValues);
@@ -204,21 +199,12 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
      */
     private String buildHotlineJSON(Task task, JSONBuilder hotLineBuilder) {
 
-        // String builder to hold all user names per task
-        StringBuilder allUserNames = new StringBuilder();
-
-        // for loop to run through the whole task and grabs every volunteers
-//        for (UserTask userTask : task.getUserTaskList()) {
-//            allUserNames.append(userTask.getUser().getFirstName());
-//            allUserNames.append(" ");
-//            allUserNames.append(userTask.getUser().getLastName());
-//        }
-
         // retrieving program values into an array
         Object[] hotLineValues = {task.getHotlineData().getTaskHotlineId(),
             task.getProgramId().getProgramId(),
             task.getProgramId().getProgramName(),
-            allUserNames,
+            task.getUserId().getFirstName(),
+            task.getUserId().getLastName(),
             jsonDateFormat.format(task.getStartTime()),
             jsonDateFormat.format(task.getEndTime()),
             task.getTaskDescription(),
@@ -268,14 +254,14 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         try {
             // Get the task based on task id
             TaskService ts = new TaskService();
-            // match with front end task id input, task_id_db?
+            
+            // get task Id to update approval
             String taskId = request.getParameter("id");
-            //Task task = ts.get((long) 4);
-            Task task = ts.get(Long.parseLong(taskId));
-
-            task.setIsApproved(true);
-            task.setIsDissaproved(false);
-
+            
+            //call on db to set this task to approved
+            ts.approveTask(Long.parseLong(taskId));
+            
+            response.sendRedirect("approve");
         } catch (Exception ex) {
             Logger.getLogger(TaskApproveDissaproveServlet.class.getName()).log(Level.WARNING, null, ex);
         }

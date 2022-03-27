@@ -15,6 +15,11 @@ import models.Task;
  * @author srvad
  */
 public class TaskService {
+    public void approveTask(long taskId){
+        TaskDB taskDB = new TaskDB();
+        taskDB.approveTask(taskId);
+    }
+    
     public List<Task> getAll() throws Exception {
         TaskDB taskDB = new TaskDB();
         List<Task> tasks = taskDB.getAll();
@@ -153,7 +158,7 @@ public class TaskService {
         return parsedPrograms;
     }
         
-    public List<Task> getSubmittedToManager(String id) throws Exception
+    public List<Task> getSubmittedToManager(int id) throws Exception
     {
         TaskDB taskDB = new TaskDB();
         return taskDB.getSubmittedToManager(id);
@@ -170,6 +175,7 @@ public class TaskService {
 //        Long taskId = taskDB.getNextTaskId();
 //        return taskId;
 //    }
+    
     
     public Long insert(Task task) throws Exception {
         TaskDB taskDB  = new TaskDB();
