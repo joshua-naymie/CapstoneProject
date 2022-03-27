@@ -204,7 +204,7 @@ public class ProgramServlet extends HttpServlet {
 
             // retrieve the user with the matching ID
             User updateRole = accService.getByID(userId);
-            System.out.println(updateRole.getUserId());
+            //System.out.println(updateRole.getUserId());
 
             // get current programs the user entered is linked to
             List<ProgramTraining> currentRoles = updateRole.getProgramTrainingList();
