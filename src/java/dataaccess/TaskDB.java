@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import models.*;
+import org.eclipse.persistence.sessions.Session;
 
 /**
  *
@@ -20,6 +21,18 @@ public class TaskDB {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {         
             List<Task> allTasks = em.createNamedQuery("Task.findAll", Task.class).getResultList();
+            return allTasks;
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Task> getAllTasksByGroupId(Long groupId) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {         
+            Query q = em.createQuery("SELECT t FROM Task t WHERE t.groupId = :groupId");
+            q.setParameter("groupId", groupId);
+            List<Task> allTasks = q.getResultList();
             return allTasks;
         } finally {
             em.close();
@@ -90,24 +103,17 @@ public class TaskDB {
      
     public List<Task> getAllNotApprovedTasksByUserId(int userId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
-        
-        //remove this later
-        userId = 4;
-        
+
         try {   
-            Query q = em.createQuery("SELECT t FROM Task t, UserTask ut "
-            + "WHERE ut.userTaskPK.userId = :userId "
-            + "AND t.taskId = ut.userTaskPK.taskId "
-            + "AND (t.isApproved = FALSE) AND (t.isSubmitted = FALSE) AND (ut.isAssigned  = TRUE)");
+            Query q = em.createQuery("SELECT t FROM Task t, User u "
+            + "WHERE u.userId = :userId "
+            + "AND t.isApproved = FALSE AND t.isSubmitted = FALSE AND t.assigned = TRUE");
 
             q.setParameter("userId", userId);
             
             List<Task> allTasks = q.getResultList();
             return allTasks;
-            
-//            Query getTask = em.createNamedQuery("Task.findByIsApproved", Task.class);
-//            List<Task> allTasks = getTask.setParameter("isApproved", false).getResultList();
-//            return allTasks;
+
         } finally {
             em.close();
         }
@@ -127,20 +133,66 @@ public class TaskDB {
             em.close();
         }
     }
+    
+//    public Long getNextTaskId() throws Exception{
+//      
+//        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+//        
+////        Long taskId = em.unwrap(Session.class).getNextSequenceNumberValue(Task.class).longValue();
+////        
+////        return taskId;
+//
+////        try {   
+////            
+////            Query q = em.createQuery("SELECT AUTO_INCREMENT\n" +
+////"FROM information_schema.tables\n" +
+////"WHERE table_name = :databaseTable\n" +
+////"AND table_schema = DATABASE( )");
+////            
+////            q.setParameter("databaseTable", "task");
+////            
+////            Long taskId = (Long) q.getSingleResult();
+////            return taskId;
+////
+////        } finally {
+////            em.close();
+////        }
+//
+//        try {   
+//            
+//            Query q = em.createQuery("SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = :databaseName AND TABLE_NAME = :databaseTable");
+//            
+//            q.setParameter("databaseName", "ecssendb");
+//            q.setParameter("databaseTable", "task");
+//            
+//            Long taskId = (Long) q.getSingleResult();
+//            return taskId;
+//
+//        } finally {
+//            em.close();
+//        }
+//    }
 
      
-    public void insert(Task task) throws Exception{
+    public Long insert(Task task) throws Exception{
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
+        
+        Long taskId = -1L;
+        
         try {
             trans.begin();
             em.persist(task);
-            trans.commit();
+            trans.commit();  
+            taskId = task.getTaskId();
         } catch (Exception ex) {
             trans.rollback();
         } finally {
+            //em.flush();
             em.close();
+            return taskId;  
         }
+
     }
 
     public void update(Task task) throws Exception {
