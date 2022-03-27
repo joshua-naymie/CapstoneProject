@@ -266,6 +266,10 @@ public class TaskServlet extends HttpServlet {
             }
         }
         
+        if(task.getMaxUsers() == task.getSpotsTaken()){
+            return false;
+        }
+        
 //        if(matchedTask != null){
 //            log(matchedTask.getTaskDescription());
 //            return false;
@@ -359,8 +363,9 @@ public class TaskServlet extends HttpServlet {
                     } catch (Exception ex) {
                         Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    break;
                  }
-                 break;
+
              }
 
         }
