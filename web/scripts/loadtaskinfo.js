@@ -171,7 +171,7 @@ function load()
     approveButton.className = "btn";
     approveButton.id = "approve-submit-button";
     approveButton.name = "action";
-    approveButton.value = "Add";
+    approveButton.value = "Approve";
 
     let disapproveButton = document.createElement("button"); // after clicking this, add the task to the disapproved tasks list in DB
     disapproveButton.innerHTML = "Disapprove";
@@ -179,13 +179,13 @@ function load()
     disapproveButton.className = "btn";
     disapproveButton.id = "disapprove-submit-button";
     disapproveButton.name = "action";
-    disapproveButton.value = "Add";
+    disapproveButton.value = "Disapprove";
 
     let cancelButton = document.createElement("button"); // after clicking this, send the user back to the previous page (tasks list)
     cancelButton.innerHTML = "Cancel";
     cancelButton.type = "reset";
     cancelButton.className = "btn";
-    cancelButton.id = "cancel-button";
+    cancelButton.id = "Cancel";
 
     // Add "Submit" and "Cancel" button to the DOM
     containerLeft.appendChild(disapproveButton);
