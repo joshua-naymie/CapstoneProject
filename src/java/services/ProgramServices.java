@@ -70,7 +70,7 @@ public class ProgramServices {
         if (toUpdate == null) {
             return "Program does exist";
         }
-//        toUpdate.setUser(user);
+        toUpdate.setUserId(user);
         toUpdate.setProgramName(programName);
         toUpdate.setIsActive(isActive);
         progDB.update(toUpdate);

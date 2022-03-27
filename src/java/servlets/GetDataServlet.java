@@ -116,17 +116,55 @@ public class GetDataServlet extends HttpServlet {
 			response.setContentType("text/html");
 			response.getWriter().write(programJSON.toString());
 		}
+                
+                if (op.equals("hotlineCoordinators")) {
+                        
+                        List<User> allCoordinators = null;
+
+			try {
+				allCoordinators = as.getAllActiveHotlineCoordinators();
+
+			} catch (Exception ex) {
+				Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+			}
+
+			StringBuilder programJSON = new StringBuilder();
+			programJSON.append('[');
+
+			if (allCoordinators != null) {
+
+				for (User user : allCoordinators) {
+					programJSON.append('{');
+					programJSON
+							.append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName() + "\",");
+					programJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
+					programJSON.append("},");
+				}
+			}
+
+			if (programJSON.length() > 2) {
+				programJSON.setLength(programJSON.length() - 1);
+			}
+
+			programJSON.append(']');
+
+			response.setContentType("text/html");
+			response.getWriter().write(programJSON.toString());
+		}
 
 		if (op.equals("allProgram")) {
 			List<Program> programs = null;
 			ProgramServices ps = new ProgramServices();
 
 			try {
-				programs = ps.getAll();
-
+                            programs = ps.getAll();
+                            
 			} catch (Exception ex) {
 				Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
 			}
+                        
+                        
+                        
 			StringBuilder programJSON = new StringBuilder();
 			programJSON.append('[');
 

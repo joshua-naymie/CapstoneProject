@@ -211,10 +211,10 @@ public class ProgramServlet extends HttpServlet {
 
             // get newly created programId
             short programId = proService.getProgramId(request.getParameter("program-name"));
-            System.out.println(programId);
+            //System.out.println(programId);
 
             // get roleId, fully implement when theres a page
-            short roleId = 4;
+            short roleId = 3;
 
             // role service to access the role data
             RoleService rs = new RoleService();
@@ -279,6 +279,9 @@ public class ProgramServlet extends HttpServlet {
     private void save(HttpServletRequest request, HttpServletResponse response) {
         // program services to have data access
         ProgramServices proService = new ProgramServices();
+        
+        // user services to create program_training data
+        AccountServices accService = new AccountServices();
 
         // getting user entered values and editing program data
         try {
@@ -288,15 +291,30 @@ public class ProgramServlet extends HttpServlet {
             // getting program status
             String status = request.getParameter("status");
             boolean isActive = status.equals("active");
+            
+            // get user entered user name (match with frontend)  
+            int userId = Integer.parseInt(request.getParameter("manager-ID"));
 
+            // retrieve the user with the matching ID
+            User updateRole = accService.getByID(userId);
+            
+            // role service to access the role data
+            RoleService rs = new RoleService();
+            // get the role object based on roleId
+            Role newRole = rs.get((short)3);
+            
+            // update program training table
+            ProgramTraining roleAdd = new ProgramTraining(updateRole, proService.get(programID) , newRole);
+            proService.updateProgramTraining(roleAdd);
+            
             // updating program
-//            String userMsg = proService.update(programID,
-//                    // is active (change later with front end connect)
-//                    isActive,
-//                    // obtaining user entered program name
-//                    request.getParameter("program-name"),
-//                    // obtaining user entered manager name
-//                    request.getParameter("manager-name"));
+            String userMsg = proService.update(programID,
+                    // is active (change later with front end connect)
+                    isActive,
+                    // obtaining user entered program name
+                    request.getParameter("program-name"),
+                    // obtaining the user to become manager of this program
+                    updateRole);
             response.sendRedirect("programs");
         } catch (Exception e) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);

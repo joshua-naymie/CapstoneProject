@@ -23,18 +23,11 @@
         <div class="container">
 			<p class="h1 text-center header"> Task: ${description} </p>
         
-        <form action="" method="post" class="mt-3">   
+        <form action="submitTaskForm" method="post" class="mt-3">   
         
         <div class="row mb-3">
-            <div class="form-group col-md-6">
-                <label class="form-label">Start Time:</label>
-                <input class="form-control" type="time" name="taskStart" value="" placeholder="">
-            </div>
-        
-            <div class="form-group col-md-6">
-                    <label class="form-label">End Time:</label>
-                    <input class="form-control" type="time" name="taskEnd" value="" placeholder="">
-            </div>
+            <label for="totalHours">Hours Worked: </label>
+            <input type="number" id="totalHours" name="totalHours" step="0.25" min="0.25" max="5" value="2" required>
         </div>
         
         <div class="form-floating mb-3">
@@ -45,7 +38,7 @@
         <c:if test="${foodDelivery}">
             <div class="form-group col-md-6">
                 <label for="deliveryType" class="form-label">Delivered to </label>
-                    <select name="deliveryType" id="deliveryType" class="form-select">
+                    <select name="deliveryType" id="deliveryType" class="form-select" required>
                         <option value="" selected>Choose here</option>
                         <option value="Organization">Organization</option>
                         <option value="Community">Community</option>
@@ -54,7 +47,7 @@
             
             <div class="form-group col-md-4" id="organization_id" style='display:none;' >
                 <label for="organization_id" class="input-label">Organization Name</label>
-                <select name="organization_id" id="organization_id" class="form-select">
+                <select name="organization_id" id="org_id" class="form-select">
                     <option value="" selected>Choose here</option>
                         <c:forEach items="${organizations}" var="org">
                             <option value="${org.getOrganizationId()}"> ${org.getOrgName()}
@@ -64,7 +57,7 @@
             </div>
 
             <div class="row" id="family_count" style='display:none;' >            
-                <label for="family_count" class="form-label">Family Count</label>
+                <label for="family_count" id= "fam" class="form-label">Family Count</label>
                 <input type="number" name="family_count" min="1" max="20" value="" class="form-control">  
             </div>
             
@@ -72,7 +65,7 @@
             <div class="row mb-3">
             <div class="form-group col-md-4">
                 <label for="package_id" class="form-label">Package Type </label>
-                <select name="package_id" class="form-select">
+                <select name="package_id" class="form-select" required>
                     <option value="" selected>Choose here</option>
                         <c:forEach items="${allPackages}" var="packages">
                             <option value="${packages.getPackageId()}"> ${packages.getPackageName()} (${packages.getWeightLb()} lb)
@@ -83,13 +76,13 @@
 
             <div class="form-group col-md-4">
                 <label for="food_amount" class="form-label">Package Count </label>
-                <input type="number" name="food_amount" min="1" max="20" value="1" class="form-control">   
+                <input type="number" name="food_amount" min="1" max="20" value="1" class="form-control" required>   
             </div>
            
            <div class="form-group col-md-4">
                 <label for="mileage" class="form-label">Mileage </label>
                 <div class="input-group">
-                    <input class="form-control" type="number" name="mileage" min="1" max="20" value="1" aria-describedby="km">
+                    <input class="form-control" type="number" name="mileage" min="1" max="20" value="1" aria-describedby="km" required>
                     <span class="input-group-text" id="km">km</span>
                 </div>
            </div>
@@ -100,7 +93,7 @@
         <p>${userMessage}</p>
 
         <input class="btn btn-primary" type="submit" value="Submit Task" name="action"> 
-        <input class="btn btn-secondary" type="submit" value="Cancel" name="action"> 
+        <input class="btn btn-secondary" type="submit" value="Cancel" name="action" formnovalidate> 
            
         </form>
         </div>
@@ -115,11 +108,15 @@
               {
                 $("#organization_id").show();
                 $("#family_count").hide();
+                $("#org_id").attr('required', '');
+                $("#fam").removeAttr('required');
               }
               else if ( this.value == "Community")
               {
                 $("#organization_id").hide();
                 $("#family_count").show();
+                $("#fam").attr('required', '');
+                $("#org_id").removeAttr('required');
               }
             });
         });
