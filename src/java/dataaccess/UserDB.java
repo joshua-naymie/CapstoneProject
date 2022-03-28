@@ -114,6 +114,44 @@ public class UserDB {
         em.close();
         return allSupervisors;
  }
+    
+    public List<User> getAllActiveHotlineCoordinators() throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        
+        RoleDB rdb = new RoleDB();
+        Role r = rdb.getByRoleName("Coordinator");
+        //Short roleId = r.getRoleId();
+        
+        List<ProgramTraining> allUsers = null;
+        List<User> allCoordinators = new ArrayList<>();
+        try {
+            Query q = em.createQuery("SELECT p FROM ProgramTraining p WHERE p.roleId = :roleId AND p.programTrainingPK.programId = :programId", ProgramTraining.class);
+            //q.setParameter("programId",1);
+            q.setParameter("roleId", r);
+            q.setParameter("programId", 2);
+            allUsers = q.getResultList();
+        } finally {
+            //em.close();
+        }
+        
+        for(ProgramTraining u: allUsers){
+            //EntityManager ema = DBUtil.getEMFactory().createEntityManager();
+                    try {
+            Query q;
+            q = em.createQuery("SELECT u FROM User u WHERE  u.isActive =:isActive AND u.userId=:userId ORDER BY u.lastName, u.firstName", User.class);
+            q.setParameter("isActive", true);
+            q.setParameter("userId", u.getUser().getUserId());
+            
+            User ur = (User) q.getSingleResult();
+            
+            if(ur!=null) allCoordinators.add(ur);
+        } finally {
+            //em.close();
+        }
+    }
+        em.close();
+        return allCoordinators;
+    }
 
     // irina
     // getAll for getting all users
@@ -122,7 +160,7 @@ public class UserDB {
         try {
 //            List<User> allUsers = em.createNamedQuery("User.findAll", User.class).getResultList();
             Query q = em.createQuery("SELECT u FROM User u ORDER BY u.lastName, u.firstName", User.class);
-             List<User> allUsers = q.getResultList();
+            List<User> allUsers = q.getResultList();
             return allUsers;
         } finally {
             em.close();

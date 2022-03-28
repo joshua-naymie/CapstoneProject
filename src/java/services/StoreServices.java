@@ -14,21 +14,23 @@ import models.Store;
  */
 public class StoreServices {
 
-
-public List<Store> getAll() throws Exception {
+    public List<Store> getAll() throws Exception {
         StoreDB storeDB = new StoreDB();
         List<Store> stores = storeDB.getAll();
         return stores;
     }
-    
 
-
-  public Store get (int storeId)throws Exception{
+    public Store get(int storeId) throws Exception {
         StoreDB storeDB = new StoreDB();
         Store store = storeDB.get(storeId);
         return store;
     }
-  
+    
+    public List<Store> getStoresByName(String storeName) throws Exception {
+        StoreDB storeDB = new StoreDB();
+        List<Store> stores = storeDB.getStoresByName(storeName);
+        return stores;
+    }
 
 //public String insert (String streetAddress, String postalCode, String storeCity, boolean isActive, String phoneNum, String contact) throws Exception{
 //       StoreDB storeDB = new StoreDB();
@@ -43,5 +45,4 @@ public List<Store> getAll() throws Exception {
 //        return "Store has been created";
 //
 //}
-
 }

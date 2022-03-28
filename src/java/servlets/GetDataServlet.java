@@ -116,17 +116,55 @@ public class GetDataServlet extends HttpServlet {
 			response.setContentType("text/html");
 			response.getWriter().write(programJSON.toString());
 		}
+                
+                if (op.equals("hotlineCoordinators")) {
+                        
+                        List<User> allCoordinators = null;
+
+			try {
+				allCoordinators = as.getAllActiveHotlineCoordinators();
+
+			} catch (Exception ex) {
+				Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+			}
+
+			StringBuilder programJSON = new StringBuilder();
+			programJSON.append('[');
+
+			if (allCoordinators != null) {
+
+				for (User user : allCoordinators) {
+					programJSON.append('{');
+					programJSON
+							.append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName() + "\",");
+					programJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
+					programJSON.append("},");
+				}
+			}
+
+			if (programJSON.length() > 2) {
+				programJSON.setLength(programJSON.length() - 1);
+			}
+
+			programJSON.append(']');
+
+			response.setContentType("text/html");
+			response.getWriter().write(programJSON.toString());
+		}
 
 		if (op.equals("allProgram")) {
 			List<Program> programs = null;
 			ProgramServices ps = new ProgramServices();
 
 			try {
-				programs = ps.getAll();
-
+                            programs = ps.getAll();
+                            
 			} catch (Exception ex) {
 				Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
 			}
+                        
+                        
+                        
 			StringBuilder programJSON = new StringBuilder();
 			programJSON.append('[');
 
@@ -281,6 +319,36 @@ public class GetDataServlet extends HttpServlet {
 					storeJSON.append('{');
 					storeJSON.append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName() + "\",");
 					storeJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
+					storeJSON.append("},");
+				}
+			}
+			if (storeJSON.length() > 2) {
+				storeJSON.setLength(storeJSON.length() - 1);
+			}
+
+			storeJSON.append(']');
+
+			response.setContentType("text/html");
+			response.getWriter().write(storeJSON.toString());
+		}
+                
+                if (op.equals("findTeam")) {
+			String teamName = request.getParameter("teamName");
+
+			List<Team> teamList = null;
+			try {
+				teamList = tms.getTeamByName(teamName);
+			} catch (Exception ex) {
+				Logger.getLogger(GetDataServlet.class.getName()).log(Level.WARNING, null, ex);
+			}
+
+			StringBuilder storeJSON = new StringBuilder();
+			storeJSON.append('[');
+			if (teamList != null) {
+				for (Team lookForTeam : teamList) {
+					storeJSON.append('{');
+					storeJSON.append("\"team_name\":" + "\"" + lookForTeam.getStoreId().getStoreName() + "\",");
+					storeJSON.append("\"team_id\":" + "\"" + lookForTeam.getTeamId() + "\"");
 					storeJSON.append("},");
 				}
 			}

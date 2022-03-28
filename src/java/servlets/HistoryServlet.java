@@ -99,15 +99,15 @@ public class HistoryServlet extends HttpServlet
     
     private String getTaskStatus(Task task)
     {
-        if(task.isApproved())
+        if(task.getIsApproved())
         {
             return "Approved";
         }
-        else if(task.isDissaproved() != null &&task.isDissaproved())
+        else if(task.getIsDissaproved() != null &&task.getIsDissaproved())
         {
             return "Dissaproved";
         }
-        else if(task.isDissaproved() != null && task.isSubmitted())
+        else if(task.getIsDissaproved() != null && task.getIsSubmitted())
         {
             return "Submitted";
         }

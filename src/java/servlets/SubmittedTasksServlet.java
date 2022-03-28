@@ -27,8 +27,8 @@ public class SubmittedTasksServlet extends HttpServlet {
         List<Task> needApproval = null;
 
         try {
-            needApproval = ts.getSubmittedToManager("Manager Jane");  //get a list of all tasks that need approval
-            //System.out.println("check needapproval size: " + needApproval.size());
+            needApproval = ts.getSubmittedToManager(4);  //get a list of all tasks that need approval
+            System.out.println("check needapproval size: " + needApproval.size());
             // sending json data
             StringBuilder taskReturnData = new StringBuilder();
             taskReturnData.append("var taskData = [");
@@ -53,7 +53,7 @@ public class SubmittedTasksServlet extends HttpServlet {
 
             // builder for food delivery
             JSONBuilder foodBuilder = new JSONBuilder(foodDeliveryKeys);
-            
+
             // Create task JSON objects
             if (needApproval.size() > 0) {
                 int i;
@@ -95,21 +95,17 @@ public class SubmittedTasksServlet extends HttpServlet {
      */
     private String buildFoodJSON(Task task, JSONBuilder foodBuilder) {
 
-        StringBuilder allUserNames = new StringBuilder();
+        StringBuilder fullUserName = new StringBuilder();
+        fullUserName.append(task.getUserId().getFirstName() + " ");
+        fullUserName.append(task.getUserId().getLastName() + " ");
 
-        for (UserTask userTask : task.getUserTaskList()) {
-            allUserNames.append(userTask.getUser().getFirstName());
-            allUserNames.append(" ");
-            allUserNames.append(userTask.getUser().getLastName());
-            allUserNames.append(", ");
-        }
         // retrieving program values into an array
         Object[] foodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
             task.getFoodDeliveryData().getTaskFdId(),
             task.getProgramId().getProgramName(),
             jsonDateFormat.format(task.getStartTime()),
-            allUserNames,
-            task.getTeamId().getStoreId().getStoreName()};
+            fullUserName,
+            task.getFoodDeliveryData().getStoreId().getStoreName()};
 
         return foodBuilder.buildJSON(foodTaskValues);
     }
