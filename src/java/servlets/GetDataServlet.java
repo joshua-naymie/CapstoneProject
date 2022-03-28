@@ -209,8 +209,8 @@ public class GetDataServlet extends HttpServlet {
 				String date = simpleDateFormat.format(startDate);
 				simpleDateFormat = new SimpleDateFormat("HH:mm");
 				String startTime = simpleDateFormat.format(startDate);
-				Date endDate = task.getEndTime();
-				String endTime = simpleDateFormat.format(endDate);
+//				Date endDate = task.getEndTime();
+//				String endTime = simpleDateFormat.format(endDate);
 
 				taskJSON.append('{');
 				taskJSON.append("\"task_id\":" + "\"" + task.getTaskId() + "\",");
@@ -220,7 +220,7 @@ public class GetDataServlet extends HttpServlet {
 				taskJSON.append("\"start_time\":" + "\"" + task.getStartTime() + "\",");
 				taskJSON.append("\"end_time\":" + "\"" + task.getEndTime() + "\",");
 				taskJSON.append("\"approving_manager\":" + "\"" + task.getApprovingManager() + "\",");
-				taskJSON.append("\"store_name\":" + "\"" + task.getTeamId().getStoreId().getStoreName() + "\",");
+				taskJSON.append("\"spots_taken\":" + "\"" + task.getSpotsTaken() + "\",");
 				taskJSON.append("\"max_users\":" + "\"" + task.getMaxUsers() + "\"");
 				taskJSON.append("},");
 

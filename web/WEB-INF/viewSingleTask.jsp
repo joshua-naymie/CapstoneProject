@@ -43,11 +43,11 @@
                                 </div>
 
 
-                                <div class="form-group col-md-8">
+<!--                                <div class="form-group col-md-8">
                                     <label>End Time:</label>
                                     <input class="form-control" type="time" name="taskEnd" value=""
                                         placeholder="" id="end_time">
-                                </div>
+                                </div>-->
                         </div>
 
                         <div class="form-group">
@@ -71,13 +71,17 @@
                                 </select>
                         </div>
 
-                        <div class="form-group">
+<!--                        <div class="form-group">
                                 <label for="storeAdd" class="form-label">Store Name:</label>
                                 <select name="storeAdd" id="store" class="form-control col-md-5">
                                     <option value="" selected>Choose here</option>
                                 </select>
-                        </div>
-                            
+                        </div>-->
+                        <div class="form-group">
+                            <label for="spotsAdd" class="form-label">Spots Taken: </label>
+                            <input type="number" id="spots_taken" name="spotsAdd" min="1" max="10" value="1" class="form-control">
+                        </div>  
+
                         <div class="form-group">
                             <label for="spotsAdd" class="form-label">Spots: </label>
                             <input type="number" id="spots" name="spotsAdd" min="1" max="10" value="1" class="form-control">
