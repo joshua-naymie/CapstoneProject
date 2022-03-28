@@ -119,44 +119,44 @@ INSERT INTO `package_type` (`package_name`,`weight_lb`)
 -- TASK
 -- -----------------------------------------------------
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`start_time`,`end_time`,`available`,`is_approved`,
-                    `approving_manager`,`task_city`)
-    VALUES (1, 0, 1, 1, "2022-03-15 09:30:00", "2022-03-15 10:30:00", TRUE, FALSE, 1,
-            'Calgary');
+                    `approving_manager`,`task_city`, `user_id`, `is_submitted`)
+    VALUES (1, 0, 2, 1, "2022-03-15 09:30:00", "2022-03-15 10:30:00", FALSE, FALSE, 4,
+            'Calgary', 4, TRUE);
+-- INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+--                     `notes`,`approving_manager`,`task_description`, `task_city`)
+--      VALUES (2, 0, 1, 1, 2, "2022-03-15 09:30:00", "2022-03-15 10:30:00", TRUE, FALSE, 
+--             'Task completed. No issues.', 2, 
+--             'Pickup boxes and drop to Ross Family', 'Calgary');
+-- INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+--                     `notes`,`approving_manager`,`task_description`, `task_city`)
+--      VALUES (2, 0, 1, 1, 2, "2022-03-15 09:30:00", "2022-03-15 10:30:00", TRUE, FALSE, 
+--             'Task completed. No issues.', 2, 
+--             'Pickup boxes and drop to Ross Family', 'Calgary');
+-- INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+--                     `notes`,`approving_manager`,`task_description`, `task_city`)
+--      VALUES (3, 0, 1, 1, 1, "2022-03-18 12:30:00", "2022-03-19 15:30:00", TRUE, FALSE, 
+--             'Task completed. No issues.', 1, 
+--             'Pickup boxes and drop to Wilson Family', 'Calgary');
+-- INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+--                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
+--      VALUES (4, 0, 1, 1, 1, "2022-03-18 12:30:00", "2022-03-19 15:30:00", FALSE, FALSE, 
+--             'Task completed. No issues.', 1, 
+--             'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
+-- INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+--                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
+--      VALUES (5, 0, 1, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, TRUE, 
+--             'Task completed. No issues.', 1, 
+--             'Pickup boxes and drop to Wilson Family', 'Calgary', FALSE, FALSE);
+-- INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+--                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
+--      VALUES (6, 0, 1, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
+--             'Task completed. No issues.', 1, 
+--             'Pickup boxes and drop to Wilson Family', 'Calgary', FALSE, TRUE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
-                    `notes`,`approving_manager`,`task_description`, `task_city`)
-     VALUES (2, 0, 2, 1, 2, "2022-03-15 09:30:00", "2022-03-15 10:30:00", TRUE, FALSE, 
-            'Task completed. No issues.', 2, 
-            'Pickup boxes and drop to Ross Family', 'Calgary');
-INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
-                    `notes`,`approving_manager`,`task_description`, `task_city`)
-     VALUES (2, 0, 2, 1, 2, "2022-03-15 09:30:00", "2022-03-15 10:30:00", TRUE, FALSE, 
-            'Task completed. No issues.', 2, 
-            'Pickup boxes and drop to Ross Family', 'Calgary');
-INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
-                    `notes`,`approving_manager`,`task_description`, `task_city`)
-     VALUES (3, 0, 3, 1, 1, "2022-03-18 12:30:00", "2022-03-19 15:30:00", TRUE, FALSE, 
-            'Task completed. No issues.', 1, 
-            'Pickup boxes and drop to Wilson Family', 'Calgary');
-INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
-                    `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
-     VALUES (4, 0, 2, 1, 1, "2022-03-18 12:30:00", "2022-03-19 15:30:00", FALSE, FALSE, 
-            'Task completed. No issues.', 1, 
-            'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
-INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
-                    `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
-     VALUES (5, 0, 2, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, TRUE, 
-            'Task completed. No issues.', 1, 
-            'Pickup boxes and drop to Wilson Family', 'Calgary', FALSE, FALSE);
-INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
-                    `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
-     VALUES (6, 0, 1, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
-            'Task completed. No issues.', 1, 
-            'Pickup boxes and drop to Wilson Family', 'Calgary', FALSE, TRUE);
-INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
-                    `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
+                    `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `user_id`, `is_dissaproved`)
      VALUES (7, 0, 1, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
-            'Task completed. No issues.', 1, 
-            'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, FALSE);
+            'Task completed. No issues.', 4, 
+            'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, 4, FALSE);
 
 INSERT INTO `task` (`group_id`,  `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
@@ -186,13 +186,13 @@ INSERT INTO `ecssendb`.hotline_data VALUES (4, 5);
 -- -----------------------------------------------------
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`,`family_count`)
-     VALUES (2, 12345, 30, 4.5, 1, 12, 3);
+     VALUES (4, 12345, 30, 4.5, 1, 12, 3);
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`, `organization_id`)
      VALUES (3, 12345, 20, 3, 1, 6, 1);
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`, `organization_id`, `family_count`)
-     VALUES (7, 12345, 20, 3, 1, 6, 1, 1);
+     VALUES (2, 12345, 20, 3, 1, 6, 1, 1);
 
 
 -- -----------------------------------------------------

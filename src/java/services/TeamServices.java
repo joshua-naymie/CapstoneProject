@@ -27,4 +27,11 @@ public class TeamServices {
         return teams;
 
     }
+    
+    public List<Team> getTeamByName(String teamName) throws Exception {
+        TeamDB teamDB = new TeamDB();
+        List<Team> teams = teamDB.getTeamsByName(teamName);
+        return teams;
+    }
+        
 }

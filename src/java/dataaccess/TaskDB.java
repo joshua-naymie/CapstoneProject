@@ -17,88 +17,142 @@ import org.eclipse.persistence.sessions.Session;
  * @author srvad
  */
 public class TaskDB {
-     public List<Task> getAll() throws Exception {
+    
+    /**
+     * disapprove the task and set appropriate boolean attributes
+     * @param taskId the task to be disapproved
+     */
+    public void disapproveTask(long taskId) {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
-        try {         
-            List<Task> allTasks = em.createNamedQuery("Task.findAll", Task.class).getResultList();
-            return allTasks;
+        EntityTransaction trans = em.getTransaction();
+        Query getTask = em.createNamedQuery("Task.findByTaskId", Task.class);
+
+        try {
+            Task disapprovedTask = (Task) getTask.setParameter("taskId", taskId).getSingleResult();
+            disapprovedTask.setIsApproved(false);
+            disapprovedTask.setIsDissaproved(true);
+            disapprovedTask.setIsSubmitted(false);
+            trans.begin();
+            em.merge(disapprovedTask);
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
         } finally {
             em.close();
         }
     }
     
     /**
+     * approve the task and set appropriate boolean attributes
+     * @param taskId the task to be approved
+     */
+    public void approveTask(long taskId) {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        Query getTask = em.createNamedQuery("Task.findByTaskId", Task.class);
+
+        try {
+            Task approvedTask = (Task) getTask.setParameter("taskId", taskId).getSingleResult();
+            approvedTask.setIsApproved(true);
+            approvedTask.setIsDissaproved(false);
+            approvedTask.setIsSubmitted(false);
+            trans.begin();
+            em.merge(approvedTask);
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Task> getAll() throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {
+            List<Task> allTasks = em.createNamedQuery("Task.findAll", Task.class).getResultList();
+            return allTasks;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Task> getAllTasksByGroupId(Long groupId) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {
+            Query q = em.createQuery("SELECT t FROM Task t WHERE t.groupId = :groupId");
+            q.setParameter("groupId", groupId);
+            List<Task> allTasks = q.getResultList();
+            return allTasks;
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
      * Gets all Tasks belonging to a specific User
+     *
      * @param userId The ID of the User
      * @return A list of tasks belonging to the User
      */
     public List<Task> getHistoryByUserId(long userId, LocalDateTime startDate, LocalDateTime endDate,
-                                         Short[] programs) throws Exception
-    {
+            Short[] programs) throws Exception {
         StringBuilder queryBuilder = new StringBuilder();
         startDate = startDate == null ? LocalDateTime.now() : startDate;
-        
+
         queryBuilder.append("SELECT t FROM Task t, UserTask ut");
         queryBuilder.append(" WHERE t.taskId = ut.userTaskPK.taskId");
         queryBuilder.append(" AND ut.userTaskPK.userId = :userId ");
         queryBuilder.append(" AND t.startTime <= ");
         queryBuilder.append(startDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
-        
-        if(endDate != null)
-        {
+
+        if (endDate != null) {
             queryBuilder.append(" AND t.endTime >= ");
             queryBuilder.append(endDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
         }
-        
-        if(programs != null && programs.length > 0)
-        {
+
+        if (programs != null && programs.length > 0) {
             queryBuilder.append(" AND t.programId IN (");
             int i;
-            for(i=0; i<programs.length-1; i++)
-            {
+            for (i = 0; i < programs.length - 1; i++) {
                 queryBuilder.append(programs[i]);
                 queryBuilder.append(',');
             }
             queryBuilder.append(programs[i]);
-            
+
             queryBuilder.append(')');
         }
-        
-        return  DBUtil
+
+        return DBUtil
                 .getEMFactory()
                 .createEntityManager()
                 .createQuery(queryBuilder.toString(), Task.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }
-    
-    public List<Task> getSubmittedToManager(String managerId) throws Exception
-    {
+
+    public List<Task> getSubmittedToManager(int managerId) throws Exception {
         EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
-        
-        try
-        {
+
+        try {
             TypedQuery query = entityManager.createNamedQuery("Task.findSubmittedToManger", Task.class);
             query.setParameter("approvingManager", managerId);
-            
+
             return query.getResultList();
-        }
-        finally
-        {
+        } finally {
             entityManager.close();
         }
     }
-     
+
     public List<Task> getAllNotApprovedTasksByUserId(int userId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
 
-        try {   
+        try {
             Query q = em.createQuery("SELECT t FROM Task t, User u "
-            + "WHERE u.userId = :userId "
-            + "AND t.isApproved = FALSE AND t.isSubmitted = FALSE AND t.assigned = TRUE");
+                    + "WHERE u.userId = :userId "
+                    + "AND t.isApproved = FALSE AND t.isSubmitted = FALSE AND t.assigned = TRUE");
 
             q.setParameter("userId", userId);
-            
+
             List<Task> allTasks = q.getResultList();
             return allTasks;
 
@@ -121,7 +175,7 @@ public class TaskDB {
             em.close();
         }
     }
-    
+
 //    public Long getNextTaskId() throws Exception{
 //      
 //        EntityManager em = DBUtil.getEMFactory().createEntityManager();
@@ -160,25 +214,23 @@ public class TaskDB {
 //            em.close();
 //        }
 //    }
-
-     
-    public Long insert(Task task) throws Exception{
+    public Long insert(Task task) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
-        
+
         Long taskId = -1L;
-        
+
         try {
             trans.begin();
             em.persist(task);
-            trans.commit();  
+            trans.commit();
             taskId = task.getTaskId();
         } catch (Exception ex) {
             trans.rollback();
         } finally {
             //em.flush();
             em.close();
-            return taskId;  
+            return taskId;
         }
 
     }
