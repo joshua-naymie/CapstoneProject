@@ -8,6 +8,7 @@ window.onload = () => {
 	$('#hotlineReport').click(() => $('#additionalInfo').empty());
 }
 
+// Function to return a list of cities
 function onCitySelection() {
 	let cityList = ["Calgary", "Edmonton", "LethBridge", "Airdrie"];
 	
@@ -24,6 +25,7 @@ function onCitySelection() {
 	})
 }
 
+//Function to get all stores from AJAX call
 function onStoreSelection() {
 	$.ajax({
 		type:"GET",

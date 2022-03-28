@@ -32,13 +32,9 @@
 			<label class="form-label">To</label>
 			<input type="date" class="form-control"/>
 		    </div>
-
-<!--		<select class="form-select">
-			<option><button>Whole Program</button></option>
-			<option id="cityReport"><button >City</button></option>
-		</select>-->
 		</div>
 		
+		<!--DropDown list for report generation options-->
 		<div class="dropdown mt-3">
 		    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 		      Generate report on
