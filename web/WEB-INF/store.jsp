@@ -37,7 +37,7 @@
                         </div>
                         <div class="list-panel__top-buttons">
                             <input id="search-input" type="search" class="search-stores__input" placeholder="Search by Program, Manager">
-                            <input id="notempty" type="button" class="add-store__button" onclick="addProgram()" value="New Program">
+                            <input id="notempty" type="button" class="add-store__button" onclick="addStore()" value="New Program">
                         </div>
                         <div id="list-base" class="store-list__base">
 
@@ -50,11 +50,15 @@
                             <input id="manager-ID" name="manager-ID" type="hidden">
                             
                             <div id="store-name__input" style="margin: 2px 0 30px 0;"></div>
+                            <div id="street-address__input" style="margin: 2px 0 30px 0;"></div>
+                            
+                            <div class="address-inputs">
+                                <div id="city__input"></div>
+                                <div id="province__input"></div>
+                                <div id="postal-code__input"></div>
+                            </div>
                             
                             <div class="status-input">
-                                <div id="manager-name__display" class="manager-name__display"></div>
-                                <!--<img src="content/images/cancel-red_1.png" width="25px">-->
-                                <input id="remove-manager" class="remove-manager--hidden" type="button"  value="remove">
                                 <div id="status__input" >
                                     <select class="status__select" id="status" name="status">
                                         <option disabled hidden style='display: none' value=''></option>

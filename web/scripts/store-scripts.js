@@ -30,6 +30,11 @@ var removeManagerInput;
 var userList;
 var storeList;
 var storeNameInput,
+    streetAddressInput,
+    provinceInput,
+    postalCodeInput,
+    cityInput,
+    
     managerNameDisplay,
     statusInput;
 
@@ -90,13 +95,13 @@ function load()
     // setup 'Show Inactive' checkbox
     filterCheckbox = document.getElementById("store-filter");
     filterCheckbox.checked = false;
-    filterCheckbox.addEventListener("change", () => { searchstoreList(storeSearchInput.value); });
+    filterCheckbox.addEventListener("change", () => { searchStoreList(storeSearchInput.value); });
 
     storeList = new AutoList("grid");
     storeList.container = document.getElementById("list-base");
     storeList.setFilterMethod(filterstore);
-    storeList.setSortMethod(comparestore);
-    generatestoreList();
+    storeList.setSortMethod(compareStore);
+    generateStoreList();
     
     // setup input area
     inputArea = document.getElementById("input-area");
@@ -122,38 +127,55 @@ function load()
     // setup store search input
     storeSearchInput = document.getElementById("search-input");
     storeSearchInput.value = "";
-    storeSearchInput.addEventListener("input", () => { searchstoreList(storeSearchInput.value) });
+    storeSearchInput.addEventListener("input", () => { searchStoreList(storeSearchInput.value) });
 
     // setup store name InputGroup
     storeNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-name");
-    storeNameInput.setLabelText("store Name");
+    storeNameInput.setLabelText("Company Name");
     storeNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     storeNameInput.setPlaceHolderText("eg. Hotline");
     storeNameInput.container = document.getElementById("store-name__input");
     configCustomInput(storeNameInput);
-
-    // setup manager name InputGroup
-    managerNameDisplay = new InputGroup(CSS_INPUTGROUP_MAIN, "manager-name");
-    managerNameDisplay.setLabelText("Manager Name");
-    managerNameDisplay.setPlaceHolderText("No manager");
-    managerNameDisplay.input.setAttribute("autocomplete", "off");
-    managerNameDisplay.input.setAttribute("disabled", "disabled");
-    managerNameDisplay.input.type = "search";
-    managerNameDisplay.container = document.getElementById("manager-name__display");
-    configCustomInput(managerNameDisplay);
     
-    // add EventListener to remove manager button
-    removeManagerInput = document.getElementById("remove-manager");
-    removeManagerInput.addEventListener("click", () => { setManager(); });
-    
-    // setup user search input
-//    let userSearchInput = document.getElementById("user-search");
-//    userSearchInput.addEventListener("input", () => {userSearchInputTimer(userSearchInput.value)});
+    // setup store street address InputGroup
+    streetAddressInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-address");
+    streetAddressInput.setLabelText("Street Address");
+    streetAddressInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
+    streetAddressInput.setPlaceHolderText("1234 Main St.");
+    streetAddressInput.container = document.getElementById("street-address__input");
+    configCustomInput(streetAddressInput);
 
+    // setup store city InputGroup
+    cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "city");
+    cityInput.setLabelText("City");
+    cityInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
+    cityInput.setPlaceHolderText("eg. Calgary");
+    cityInput.container = document.getElementById("city__input");
+    configCustomInput(cityInput);
+
+    // setup store province InputGroup
+    provinceInput = new InputGroup(CSS_INPUTGROUP_MAIN, "province");
+    provinceInput.setLabelText("Prov.");
+    provinceInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*");
+    provinceInput.setPlaceHolderText("eg. AB");
+    provinceInput.container = document.getElementById("province__input");
+    configCustomInput(provinceInput);
+
+    // setup store postal code InputGroup
+    postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "postal-code");
+    postalCodeInput.setLabelText("Postal");
+    postalCodeInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*");
+    postalCodeInput.setPlaceHolderText("A1A 1A1");
+    postalCodeInput.container = document.getElementById("postal-code__input");
+    configCustomInput(postalCodeInput);
+    
     // add InputGroups to a collection
     inputs = new InputGroupCollection();
     inputs.add(storeNameInput);
-    inputs.add(managerNameDisplay);
+    inputs.add(streetAddressInput);
+    inputs.add(cityInput);
+    inputs.add(provinceInput);
+    inputs.add(postalCodeInput);
 
  
 }
@@ -183,7 +205,7 @@ function configCustomInput(group)
  * Generates the list of stores displayed to the user.
  * Creates store cards and inserts line breaks between them.
  */
-function generatestoreList()
+function generateStoreList()
 {
     removeAllChildren(document.getElementById("list-base"));
 
@@ -191,7 +213,7 @@ function generatestoreList()
     for(let i=0; i<storeData.length; i++)
     {
         let store = storeData[i];
-        storeList.addItem(generatestoreRow(store), store);
+        storeList.addItem(generateStoreRow(store), store);
     }
 
     storeList.generateList();
@@ -202,33 +224,23 @@ function generatestoreList()
  * @param {store} store  The store whose info will populate the row
  * @returns {Element}  A div representing a row in a store list.
  */
-function generatestoreRow(store)
+function generateStoreRow(store)
 {
     // item card
     let item = document.createElement("div");
     item.classList.add("list-item");
-    item.addEventListener("click", () => { editstore(store); });
+    item.addEventListener("click", () => { editStore(store); });
 
-    let managerDiv = document.createElement("div");
-    managerDiv.classList.add("manager-area");
-
-    let managerName = document.createElement("p");
-    managerName.classList.add("manager-name");
-    managerName.innerText = store.managerId == null ? "" : userData[store.managerId].name;
+    let address = document.createElement("div");
+    address.classList.add("---REPLACE---");
     
-    managerDiv.appendChild(managerName);
-
-    let storeDiv = document.createElement("div");
-    storeDiv.classList.add("store-area");
-
-    let storeName = document.createElement("p");
-    storeName.classList.add("store-name");
-    storeName.innerText = store.name;
-
-    storeDiv.appendChild(storeName);
-
-    item.appendChild(storeDiv);
-    item.appendChild(managerDiv);
+    let streetAddress = document.createElement("p");
+    streetAddress.classList.add("---REPLACE---");
+    streetAddress.innerText = store.streetAddress;
+    
+    let restOfAddrees = document.createElement("p");
+    restOfAddrees.classList.add("---REPLACE---");
+    restOfAddrees.innerText = `${store.city}`;
 
     return item;
 }
@@ -237,7 +249,7 @@ function generatestoreRow(store)
  * Filters the list by matching store name or manager name.
  * Regenerates the list with filtered stores
  */
-function searchstoreList(searchValue)
+function searchStoreList(searchValue)
 {
     searchValue = searchValue == null ? "" : searchValue;
     storeList.filter(searchValue);
@@ -253,11 +265,10 @@ function cancelPressed()
     currentAction = "none";
     
     setContainerWidth("container--list-size");
-    changeHeaderText("stores");
+    changeHeaderText("Stores");
     fadeOutIn(inputArea, listArea);
     setTimeout(() => {
-        document.getElementById("addstoreForm").reset();
-        userList.filter();
+        document.getElementById("addStoreForm").reset();
         inputs.resetInputs();
     }, 200);
 }
@@ -267,15 +278,14 @@ function cancelPressed()
  * Sets the currentAction and the submit button text.
  * Fades ui to input panel.
  */
-function addstore()
+function addStore()
 {
     currentAction = "add";
     submitButton.value = "Add";
-    setManager();
     setStatusSelectColor();
     
     setContainerWidth("container--input-size");
-    changeHeaderText("Add store");
+    changeHeaderText("Add Store");
     fadeOutIn(listArea, inputArea);
 }
 
@@ -286,20 +296,19 @@ function addstore()
  * @param {type} store
  * @returns {undefined}
  */
-function editstore(store)
+function editStore(store)
 {
     currentAction = "update";
     submitButton.value = "Update";
 
     storeNameInput.setInputText(store.name);
-    setManager(userData[store.managerId]);
     statusInput.value = store.isActive ? "active" : "inactive";
     setStatusSelectColor();
 
     document.getElementById("store-ID").value = store.storeId;
     
     setContainerWidth("container--input-size");
-    changeHeaderText("Edit store");
+    changeHeaderText("Edit Store");
     fadeOutIn(listArea, inputArea);
 }
 
@@ -314,7 +323,7 @@ function submitForm()
     {
         showConfirmationModal(`Are you sure you want to ${currentAction} this store?`, () => {
             managerNameDisplay.input.value = managerNameDisplay.input.value.split(":")[0];
-            postAction(currentAction, "addstoreForm", "stores")
+            postAction(currentAction, "addStoreForm", "stores")
         });
     }
 }
@@ -344,36 +353,13 @@ function fadeOutIn(outElement, inElement)
  * @param {type} store2   the second store to compare
  * @returns {Number}
  */
-function comparestore(store1, store2)
+function compareStore(store1, store2)
 {
     if(store1.object.name > store2.object.name)
     {
         return 1;
     }
     else if(store1.object.name < store2.object.name)
-    {
-        return -1;
-    }
-    else
-    {
-        return 0;
-    }
-}
-
-/**
- * Sorting algorithm for user objects.
- * Sorts by user name.
- * @param {type} user1   the first user to compare
- * @param {type} user2   the second user to compare
- * @returns {Number}
- */
-function compareUser(user1, user2)
-{
-    if(user1.object.name > user2.object.name)
-    {
-        return 1;
-    }
-    else if(user1.object.name < user2.object.name)
     {
         return -1;
     }
@@ -418,86 +404,9 @@ function setStatusSelectColor()
     }
 }
 
-/**
- * Filters the user list by the search value
- * Destroys input timer
- * @param {string} searchValue The value to search for in the user list
- */
-function searchUsers(searchValue)
-{
-    userSearchTimer = null;
-    userList.filter(searchValue);
-}
-
-/**
- * Generates the user list.
- * Adds all users to the AutoList.
- * Generates the list from the AutoList.
- */
-//function generateUserTable()
-//{
-//    let keys = Object.keys(userData);
-//    for(let i=0; i<keys.length; i++)
-//    {
-//        let user = userData[keys[i]];
-//        userList.addItem(generateUserRow(user), user);
-//    }
-//
-//    userList.generateList();
-//}
-
-/**
- * Generates the content for a user row in the user list
- * @param {type} user The user to generate content from 
- * @returns A div populated with the user's content
- */
-function generateUserRow(user)
-{
-    let item = document.createElement("li");
-    item.classList.add("user-item");
-    item.addEventListener("click", () => {setManager(user)});
-    
-    let name = document.createElement("p");
-    name.classList.add("user-name");
-    name.innerText = user.name;
-    
-    let email = document.createElement("p");
-    email.classList.add("user-email");
-    email.innerText = user.email;
-
-    item.appendChild(name);
-    item.appendChild(email);
-    
-    return item;
-}
-
-/**
- * Sets the manager display and hidden field.
- * @param {type} user The manager to set. Can be null.
- */
-function setManager(user)
-{
-    if(user == null)
-    {
-        document.getElementById("manager-ID").value = -1;
-        managerNameDisplay.setInputText("");
-        removeManagerInput.disabled = true;
-        removeManagerInput.classList.remove("remove-manager");
-        removeManagerInput.classList.add("remove-manager--hidden");
-    }
-    else
-    {
-        document.getElementById("manager-ID").value = user.id;
-        managerNameDisplay.setInputText(user.name);
-        removeManagerInput.disabled = false;
-        removeManagerInput.classList.add("remove-manager");
-        removeManagerInput.classList.remove("remove-manager--hidden");
-    }
-}
-
 function changeHeaderText(text)
 {
-    let header = document.getElementById("stores-header");
+    let header = document.getElementById("store-header");
     header.classList.add("header--hidden");
     
     setTimeout(() => { header.innerText = text; header.classList.remove("header--hidden") }, 150);
