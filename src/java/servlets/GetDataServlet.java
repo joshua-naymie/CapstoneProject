@@ -40,6 +40,7 @@ public class GetDataServlet extends HttpServlet {
 
 		String op = request.getParameter("operation");
 
+		// Get all stores for a certain company
 		if (op.equals("store")) {
 			String companyId = request.getParameter("companyId");
 
@@ -73,13 +74,9 @@ public class GetDataServlet extends HttpServlet {
 
 		List<User> allSupervisors = null;
 
+		// Get Supervisors for a program
 		if (op.equals("program")) {
-
 			String programAdd = (String) request.getParameter("programId");
-
-			// String[] parts = programAdd.split(";");
-
-			// String programAddName = parts[0];
 			Short pogramAddId = Short.valueOf(programAdd);
 
 			try {
@@ -107,16 +104,14 @@ public class GetDataServlet extends HttpServlet {
 				programJSON.setLength(programJSON.length() - 1);
 			}
 
-			// if (programJSON.length() == 1) {
-			// programJSON.setLength(programJSON.length() - 1);
-			// }
-
 			programJSON.append(']');
 
 			response.setContentType("text/html");
 			response.getWriter().write(programJSON.toString());
 		}
                 
+
+		// Get coordinators for a hotline program
                 if (op.equals("hotlineCoordinators")) {
                         
                         List<User> allCoordinators = null;
@@ -152,6 +147,7 @@ public class GetDataServlet extends HttpServlet {
 			response.getWriter().write(programJSON.toString());
 		}
 
+		// Get all the programs
 		if (op.equals("allProgram")) {
 			List<Program> programs = null;
 			ProgramServices ps = new ProgramServices();
@@ -187,6 +183,7 @@ public class GetDataServlet extends HttpServlet {
 			response.getWriter().write(programJSON.toString());
 		}
 
+		// Get detailed information on a specific task
 		if (op.equals("singleTaskInfo")) {
 			Task task = null;
 			TaskService ts = new TaskService();
@@ -200,8 +197,8 @@ public class GetDataServlet extends HttpServlet {
 			} catch (Exception ex) {
 				Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
 			}
+
 			StringBuilder taskJSON = new StringBuilder();
-//			taskJSON.append('[');
 
 			if (task != null) {
 				Date startDate = task.getStartTime();
@@ -228,8 +225,6 @@ public class GetDataServlet extends HttpServlet {
 					taskJSON.setLength(taskJSON.length() - 1);
 				}
 
-//				taskJSON.append(']');
-
 				response.setContentType("text/html");
 				response.getWriter().write(taskJSON.toString());
 			}
@@ -239,11 +234,7 @@ public class GetDataServlet extends HttpServlet {
                     
                 }
 
-		// if (taskJSON.length() > 2) {
-		// taskJSON.setLength(programJSON.length() - 1);
-		// }
-
-		// taskJSON();
+		// Get all the stores
 		if (op.equals("storeAll")) {
 
 			List<Store> storelist = null;
@@ -273,6 +264,7 @@ public class GetDataServlet extends HttpServlet {
 			response.getWriter().write(storeJSON.toString());
 		}
 
+		// Get all the teams
 		if (op.equals("teamAll")) {
 
 			List<Team> teamlist = null;
@@ -302,6 +294,7 @@ public class GetDataServlet extends HttpServlet {
 			response.getWriter().write(storeJSON.toString());
 		}
 
+		// Get a list of users based on their first and last name
 		if (op.equals("findUser")) {
 			String name = request.getParameter("name");
 
@@ -332,6 +325,7 @@ public class GetDataServlet extends HttpServlet {
 			response.getWriter().write(storeJSON.toString());
 		}
                 
+		// Find a team from team name
                 if (op.equals("findTeam")) {
 			String teamName = request.getParameter("teamName");
 
