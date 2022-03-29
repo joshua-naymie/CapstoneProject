@@ -76,6 +76,10 @@
         <servlet-name>ReportServlet</servlet-name>
         <servlet-class>servlets.ReportServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TeamsServlet</servlet-name>
+        <servlet-class>servlets.TeamsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccountServlet</servlet-name>
         <url-pattern>/users</url-pattern>
@@ -151,6 +155,10 @@
     <servlet-mapping>
         <servlet-name>ReportServlet</servlet-name>
         <url-pattern>/reports</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TeamsServlet</servlet-name>
+        <url-pattern>/teams</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

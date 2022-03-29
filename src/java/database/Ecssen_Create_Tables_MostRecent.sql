@@ -103,11 +103,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `ecssendb`.`team` ( 
-team_id INT NOT NULL AUTO_INCREMENT,
-program_id SMALLINT UNSIGNED,
-team_size SMALLINT UNSIGNED,
-team_supervisor INT,
-store_id INT,
+`team_id` INT NOT NULL AUTO_INCREMENT,
+`program_id` SMALLINT UNSIGNED,
+`team_size` SMALLINT UNSIGNED,
+`team_supervisor` INT,
+`store_id` INT,
+`team_name` VARCHAR(100),
 PRIMARY KEY (`team_id`),
 INDEX `fk_team_team_id_idx` (`team_id` ASC),
 CONSTRAINT `fk_team_program_id`
