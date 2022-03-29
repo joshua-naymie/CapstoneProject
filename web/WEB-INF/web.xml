@@ -65,6 +65,10 @@
         <servlet-class>servlets.StoreServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>TeamServlet</servlet-name>
+        <servlet-class>servlets.TeamServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>LoadTaskInfo</servlet-name>
         <servlet-class>servlets.LoadTaskInfo</servlet-class>
     </servlet>
