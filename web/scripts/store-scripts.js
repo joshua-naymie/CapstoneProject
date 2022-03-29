@@ -144,7 +144,6 @@ function load()
     {
         let temp = document.createElement("option");
         temp.value = companyData[i].name;
-        temp.innerText = companyData[i].id;
         
         companyList.appendChild(temp);
     }

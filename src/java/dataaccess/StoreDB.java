@@ -28,6 +28,23 @@ public class StoreDB {
         }
     }
 
+    public List<Store> getAllByCompany (short companyId){
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        Query q = em.createQuery ("SELECT s FROM Store S WHERE s.companyId = :company", Store.class);
+        q.setParameter("company", companyId);
+        try
+        {
+            List<Store> result = q.getResultList();
+            return result;
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+
+
+    
     public List<Store> getStoresByName(String storeName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -79,6 +96,8 @@ public class StoreDB {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         try {
+            System.out.println("POSTAL: " + store.getPostalCode());
+            System.out.println("CITY: " + store.getStoreCity());
             trans.begin();
             em.merge(store);
             trans.commit();

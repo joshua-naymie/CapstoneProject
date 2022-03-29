@@ -6,6 +6,7 @@ package services;
 
 import dataaccess.StoreDB;
 import java.util.List;
+import models.CompanyName;
 import models.Store;
 
 /**
@@ -14,47 +15,58 @@ import models.Store;
  */
 public class StoreServices {
 
-    public List<Store> getAll() throws Exception {
+public List<Store> getAllByCompany (short companyId){
+        StoreDB storeDB = new StoreDB();
+        List<Store> stores = storeDB.getAllByCompany(companyId);
+        return stores;
+
+}
+public List<Store> getAll() throws Exception {
         StoreDB storeDB = new StoreDB();
         List<Store> stores = storeDB.getAll();
         return stores;
     }
+    
 
-    public Store get(int storeId) throws Exception {
+
+  public Store get (int storeId)throws Exception{
         StoreDB storeDB = new StoreDB();
         Store store = storeDB.get(storeId);
         return store;
     }
-    
-    public List<Store> getStoresByName(String storeName) throws Exception {
-        StoreDB storeDB = new StoreDB();
-        List<Store> stores = storeDB.getStoresByName(storeName);
-        return stores;
-    }
+  
 
-    public String insert (String streetAddress, String postalCode, String storeCity, boolean isActive, String phoneNum, String contact) throws Exception{
-        StoreDB storeDB = new StoreDB();
-        Store checkStore = storeDB.getByStreetAddress(streetAddress);
-        if (checkStore != null){
-            return "This store already exists";
-        }
-        Store newStore = new Store (streetAddress, postalCode, storeCity, isActive, phoneNum, contact);
-
+public String insert (String streetAddress, String postalCode, String storeCity,String storeName, boolean isActive, String phoneNum, String contact, CompanyName companyId) throws Exception{
+       StoreDB storeDB = new StoreDB();
+         Store checkStore = storeDB.getByStreetAddress(streetAddress);
+               if (checkStore != null){
+               return "This store already exists";
+}
+       Store newStore = new Store ( streetAddress, postalCode, storeCity, storeName, isActive, companyId);
         storeDB.insert(newStore);
-
         return "Store has been created";
+}
 
-    }
-    public String update(int id, String name, String companyName, String address, String city,
-                         String postalCode, boolean isActive) throws Exception
-    {
-        CompanyService companyService = new CompanyService();
-        System.out.println(companyService.getByName(companyName).getCompanyName());
+public String update (int storeId, String streetAddress, String postalCode, String storeCity, String storeName, boolean isActive, String phoneNum, String contact, String companyName) throws Exception{
+       StoreDB storeDB = new StoreDB();
+       CompanyService companyService = new CompanyService();
+       System.out.println("----====" + companyService.getByName(companyName).getCompanyName() + "====----");
         
-        StoreDB storeDB = new StoreDB();
-        Store store = new Store(id, address, postalCode, city, name, isActive);
-        storeDB.update(store);
-        
-        return "string";
-    }
+       Store toUpdate = storeDB.get(storeId);
+       if (toUpdate == null ){
+       return "Store does not exist";
+       
+}
+       toUpdate.setContact(contact);
+       toUpdate.setPhoneNum(phoneNum);
+       toUpdate.setPostalCode(postalCode);
+       toUpdate.setIsActive(isActive);
+       toUpdate.setStoreCity(storeCity);
+       toUpdate.setStoreName(storeName);
+       toUpdate.setStreetAddress(streetAddress);
+       
+       storeDB.update(toUpdate);
+        return "Store "+ storeName + " has been added.";
+}
+
 }
