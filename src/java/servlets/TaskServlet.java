@@ -56,6 +56,7 @@ public class TaskServlet extends HttpServlet {
         JSONKey[] taskKeys = { new JSONKey("task_id", true),
                 new JSONKey("program_id", true),
                 new JSONKey("program_name", true),
+		new JSONKey("group_id", true),
                 new JSONKey("max_users", true),
                 new JSONKey("start_time", true),
                 new JSONKey("end_time", true),
@@ -71,6 +72,8 @@ public class TaskServlet extends HttpServlet {
                 new JSONKey("show_signupT_cancelF", true), //pass boolean for signup or cancel show_signup_cancel
                 new JSONKey("can_cancel", true), //boolaen for can cancel can_cancel
                 new JSONKey("show_edit", true),//boolean to show edit button or not show_edit
+		new JSONKey("spots_taken", true),
+		new JSONKey("user_name", true)
                 
                 
                 
@@ -97,6 +100,7 @@ public class TaskServlet extends HttpServlet {
         Object[] taskValues = { task.getTaskId(),
                 task.getProgramId().getProgramId(),
                 task.getProgramId().getProgramName(),
+		task.getGroupId(),
                 task.getMaxUsers(),
                 task.getStartTime(),
                 task.getEndTime(),
@@ -111,7 +115,9 @@ public class TaskServlet extends HttpServlet {
                 task.getTeamId().getTeamId(),
                 signUpOrCancel(task, loggedInUserId),
                 cancelTaskButtonShow(task, loggedInUserId),
-                show_edit};
+                show_edit,
+		task.getSpotsTaken(),
+		getUserName(task.getUserId())};
 
         return builder.buildJSON(taskValues);
     }
@@ -374,5 +380,14 @@ public class TaskServlet extends HttpServlet {
          
     }
     
+    protected String getUserName (User user) {
+       
+	if (user != null) {
+		return user.getFirstName() + " " + user.getLastName();
+	}
+	
+	return "";
+	
+    }
     //chozen use agambeers method to cehck, return boolean, either sign up or cancel
 }
