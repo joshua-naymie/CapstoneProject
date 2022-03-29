@@ -47,8 +47,11 @@ public String insert (String streetAddress, String postalCode, String storeCity,
         return "Store has been created";
 }
 
-public String update (int storeId, String streetAddress, String postalCode, String storeCity,String storeName, boolean isActive, String phoneNum, String contact, CompanyName companyId) throws Exception{
+public String update (int storeId, String streetAddress, String postalCode, String storeCity, String storeName, boolean isActive, String phoneNum, String contact, String companyName) throws Exception{
        StoreDB storeDB = new StoreDB();
+       CompanyService companyService = new CompanyService();
+       System.out.println("----====" + companyService.getByName(companyName).getCompanyName() + "====----");
+        
        Store toUpdate = storeDB.get(storeId);
        if (toUpdate == null ){
        return "Store does not exist";
@@ -61,7 +64,7 @@ public String update (int storeId, String streetAddress, String postalCode, Stri
        toUpdate.setStoreCity(storeCity);
        toUpdate.setStoreName(storeName);
        toUpdate.setStreetAddress(streetAddress);
-
+       
        storeDB.update(toUpdate);
         return "Store "+ storeName + " has been added.";
 }

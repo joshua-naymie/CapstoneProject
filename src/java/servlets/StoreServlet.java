@@ -244,8 +244,8 @@ catch (Exception e) {
 
             String storeName = request.getParameter("store-name");
             String streetAddress = request.getParameter("store-address");
-            String postalCode = request.getParameter("store-city");
-            String storeCity = request.getParameter("store-postal-code");
+            String postalCode = request.getParameter("store-postal-code");
+            String storeCity = request.getParameter("store-city");
             String phoneNum = request.getParameter("store-phone");
             String contact = request.getParameter("store-contact");
             String status = request.getParameter("status");
@@ -255,7 +255,7 @@ catch (Exception e) {
 //            CompanyName c = cs.get(ci);
 
             // updating store
-            String userMsg = ss.update(storeID, storeName, companyName, streetAddress,postalCode,storeCity,isActive);
+            String userMsg = ss.update(storeID, streetAddress, postalCode, storeCity, storeName, isActive, phoneNum, contact, companyName);
 
             response.sendRedirect("stores");
         } catch (Exception e) {
