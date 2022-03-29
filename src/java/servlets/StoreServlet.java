@@ -250,12 +250,12 @@ catch (Exception e) {
             String contact = request.getParameter("store-contact");
             String status = request.getParameter("status");
             boolean isActive = status.equals("active");
-            String companyId = request.getParameter("");
-            short ci = Short.parseShort(companyId);
-            CompanyName c = cs.get(ci);
+            String companyName = request.getParameter("company-name");
+//            short ci = Short.parseShort(companyId);
+//            CompanyName c = cs.get(ci);
 
             // updating store
-            String userMsg = ss.update(storeID, storeName, streetAddress,postalCode,storeCity,isActive);
+            String userMsg = ss.update(storeID, storeName, companyName, streetAddress,postalCode,storeCity,isActive);
 
             response.sendRedirect("stores");
         } catch (Exception e) {

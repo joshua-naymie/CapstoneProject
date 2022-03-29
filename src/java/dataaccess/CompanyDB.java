@@ -5,6 +5,7 @@
 package dataaccess;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import java.util.List;
 import models.CompanyName;
 
@@ -32,6 +33,21 @@ public class CompanyDB {
             return allCompanies;
         } finally {
             em.close();
+        }
+    }
+    
+    public CompanyName getByName(String name) throws Exception
+    {
+        EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
+        try
+        {
+            TypedQuery query = entityManager.createNamedQuery("CompanyName.findByCompanyName", CompanyName.class);
+            query.setParameter("companyName", name);
+            return (CompanyName)query.getSingleResult();
+        }
+        finally
+        {
+            entityManager.close();
         }
     }
 }

@@ -150,7 +150,7 @@ function load()
     }
     
     // setup company InputGroup
-    companyInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-name");
+    companyInput = new InputGroup(CSS_INPUTGROUP_MAIN, "company-name");
     companyInput.input.setAttribute("list", "company-list");
     companyInput.setLabelText("Company");
     companyInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");

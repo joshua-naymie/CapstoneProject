@@ -45,9 +45,12 @@ public class StoreServices {
         return "Store has been created";
 
     }
-    public String update(int id, String name, String address, String city,
+    public String update(int id, String name, String companyName, String address, String city,
                          String postalCode, boolean isActive) throws Exception
     {
+        CompanyService companyService = new CompanyService();
+        System.out.println(companyService.getByName(companyName).getCompanyName());
+        
         StoreDB storeDB = new StoreDB();
         Store store = new Store(id, address, postalCode, city, name, isActive);
         storeDB.update(store);
