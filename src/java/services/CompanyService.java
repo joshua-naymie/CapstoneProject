@@ -24,4 +24,11 @@ public class CompanyService {
         CompanyName com = comDB.get(companyId);
         return com;
     }
+      
+    public CompanyName getByName(String name) throws Exception
+    {
+        CompanyDB companyDB = new CompanyDB();
+        
+        return companyDB.getByName(name);
+    }
 }

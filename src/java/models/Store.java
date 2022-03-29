@@ -69,6 +69,15 @@ public class Store implements Serializable {
         this.storeId = storeId;
     }
 
+    public Store(String streetAddress, String postalCode, String storeCity, String storeName, boolean isActive, CompanyName companyId) {
+        this.streetAddress = streetAddress;
+        this.postalCode = postalCode;
+        this.storeCity = storeCity;
+        this.storeName = storeName;
+        this.isActive = isActive;
+        this.companyId = companyId;
+    }
+    
     public Store(Integer storeId, String streetAddress, String postalCode, String storeCity, String storeName, boolean isActive) {
         this.storeId = storeId;
         this.streetAddress = streetAddress;
@@ -76,6 +85,7 @@ public class Store implements Serializable {
         this.storeCity = storeCity;
         this.storeName = storeName;
         this.isActive = isActive;
+        this.companyId = companyId; 
     }
 
     public Integer getStoreId() {
