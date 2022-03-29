@@ -50,11 +50,11 @@ INSERT INTO `program` (`program_name`, `is_active`) VALUES ('Bursary and Scholar
 -- STORE
 -- -----------------------------------------------------
 INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, `is_active`,`phone_num`, `contact`,`company_id`, `store_name`) 
-     VALUES (12345, '10 17 Ave SW', 'A9A9A9', 'Calgary', True, '123-2345', 'Jane Doe', 1234, 'Kensingston COBS');
+     VALUES (12345, '10 17 Ave SW', 'A9A9A9', 'Calgary', True, '456-123-2345', 'Jane Doe', 1234, 'Kensingston COBS');
 INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, `is_active`,`phone_num`, `contact`,`company_id`, `store_name`) 
-     VALUES (123, '17 Ave SW', 'A9A9A3', 'Calgary', True, '123-2345', 'John Doe', 12, 'Kensingston Starbucks');
+     VALUES (123, '17 Ave SW', 'A9A9A3', 'Calgary', True, '456-123-2345', 'John Doe', 12, 'Kensingston Starbucks');
 INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, `is_active`,`phone_num`, `contact`,`company_id`, `store_name`) 
-     VALUES (1234, '20 Ave SW', 'A2A9A3', 'Calgary', True, '122-2345', 'Jack Doe', 12, 'Brentwood Starbucks');
+     VALUES (1234, '20 Ave SW', 'A2A9A3', 'Calgary', True, '456-122-2345', 'Jack Doe', 12, 'Brentwood Starbucks');
 -- -----------------------------------------------------
 -- TEAM
 -- -----------------------------------------------------
