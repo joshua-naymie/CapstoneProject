@@ -24,6 +24,13 @@
         <%@ include file="navbar.jsp" %>
         <div id="main" class="body">
             <h1>History</h1>
+            <div>
+                <div>
+                    <input type="date">
+                    <label>start</label>
+                </div>
+                
+            </div>
         </div>
     </body>
 </html>

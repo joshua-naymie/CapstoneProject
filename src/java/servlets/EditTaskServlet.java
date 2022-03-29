@@ -186,14 +186,14 @@ public class EditTaskServlet extends HttpServlet {
             request.setAttribute("allPrograms", allPrograms);
 
             try {
-                UserTaskService userTaskService = new UserTaskService();
-                List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
-                Team team = new Team(editTask.getTeamId().getTeamId());
-                List<User> canBeAssigned = team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
-                canBeAssigned.remove(loggedInUser);
-
-                request.setAttribute("chosenUsers", chosenUsers);
-                request.setAttribute("canBeAssigned", canBeAssigned);
+//                UserTaskService userTaskService = new UserTaskService();
+//                List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
+//                Team team = new Team(editTask.getTeamId().getTeamId());
+////                List<User> canBeAssigned = team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
+//                canBeAssigned.remove(loggedInUser);
+//
+//                request.setAttribute("chosenUsers", chosenUsers);
+//                request.setAttribute("canBeAssigned", canBeAssigned);
             } catch (Exception ex) {
                 Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
