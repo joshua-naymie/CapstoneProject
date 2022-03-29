@@ -74,8 +74,8 @@
 {
     max-width: 450px;
     min-width: 450px;
-    max-height: 640px;
-    min-height: 640px;
+    max-height: 700px;
+    min-height: 700px;
     
     transition: max-width 0.2s,
                 min-width 0.2s,

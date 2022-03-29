@@ -175,6 +175,7 @@ function load()
 
     // setup store province InputGroup
     provinceInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-province");
+    provinceInput.input.disabled = true;
     provinceInput.setLabelText("Prov.");
     provinceInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*");
     provinceInput.setPlaceHolderText("eg. AB");
@@ -197,7 +198,7 @@ function load()
     
     phoneInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-phone");
     phoneInput.setLabelText("Phone Number");
-    phoneInput.addValidator(REGEX_PHONE, INPUTGROUP_STATE_WARNING, "*");
+    phoneInput.addValidator(REGEX_PHONE_OPTIONAL, INPUTGROUP_STATE_WARNING, "*invalid");
     phoneInput.setPlaceHolderText("555-555-5555");
     phoneInput.container = document.getElementById("phone__input");
     configCustomInput(phoneInput);
@@ -209,6 +210,7 @@ function load()
     inputs.add(cityInput);
     inputs.add(provinceInput);
     inputs.add(postalCodeInput);
+    inputs.add(phoneInput);
 
  
 }
@@ -358,6 +360,8 @@ function editStore(store)
 
     document.getElementById("store-ID").value = store.storeId;
     storeNameInput.setInputText(store.name);
+    let company = getCompanyByID(store.companyId);
+    companyInput.setInputText(company.name);
     streetAddressInput.setInputText(store.streetAddress);
     cityInput.setInputText(store.city);
     provinceInput.setInputText("AB");
@@ -471,4 +475,17 @@ function changeHeaderText(text)
     header.classList.add("header--hidden");
     
     setTimeout(() => { header.innerText = text; header.classList.remove("header--hidden") }, 150);
+}
+
+function getCompanyByID(id)
+{
+    for(let i=0; i<companyData.length; i++)
+    {
+        if(companyData[i].id === id)
+        {
+            return companyData[i];
+        }
+    }
+    
+    return null;
 }
