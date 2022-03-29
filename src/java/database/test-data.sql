@@ -118,9 +118,9 @@ INSERT INTO `package_type` (`package_name`,`weight_lb`)
 -- -----------------------------------------------------
 -- TASK
 -- -----------------------------------------------------
-INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`start_time`,`end_time`,`available`,`is_approved`,
+INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`, `start_time`,`end_time`,`available`,`is_approved`,
                     `approving_manager`,`task_city`, `user_id`, `is_submitted`)
-    VALUES (1, 0, 2, 1, "2022-03-15 09:30:00", "2022-03-15 10:30:00", FALSE, FALSE, 4,
+    VALUES (1, 0, 2, 1, 1, "2022-03-15 09:30:00", "2022-03-15 10:30:00", FALSE, FALSE, 4,
             'Calgary', 4, TRUE);
 -- INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
 --                     `notes`,`approving_manager`,`task_description`, `task_city`)
