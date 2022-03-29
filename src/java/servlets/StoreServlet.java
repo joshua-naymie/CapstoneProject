@@ -179,12 +179,12 @@ try {
      try {
             List<Store> stores = ss.getAll();
             String storeName = request.getParameter("store-name");
-            String streetAddress = request.getParameter("");
-            String postalCode = request.getParameter("");
-            String storeCity = request.getParameter("");
+            String streetAddress = request.getParameter("store-address");
+            String postalCode = request.getParameter("postal-code");
+            String storeCity = request.getParameter("city");
             String phoneNum = request.getParameter("");
             String contact = request.getParameter("");
-            String status = request.getParameter("");
+            String status = request.getParameter("status");
             boolean isActive = status.equals("active");
             String companyId = request.getParameter("");
             short ci = Short.parseShort(companyId);
@@ -243,20 +243,19 @@ catch (Exception e) {
             int storeID = Integer.parseInt(request.getParameter("store-ID"));
 
             String storeName = request.getParameter("store-name");
-            String streetAddress = request.getParameter("");
-            String postalCode = request.getParameter("");
-            String storeCity = request.getParameter("");
-            String phoneNum = request.getParameter("");
-            String contact = request.getParameter("");
-            String status = request.getParameter("");
+            String streetAddress = request.getParameter("store-address");
+            String postalCode = request.getParameter("store-city");
+            String storeCity = request.getParameter("store-postal-code");
+            String phoneNum = request.getParameter("store-phone");
+            String contact = request.getParameter("store-contact");
+            String status = request.getParameter("status");
             boolean isActive = status.equals("active");
-            String companyId = request.getParameter("");
-            short ci = Short.parseShort(companyId);
-            CompanyName c = cs.get(ci);
+            String companyName = request.getParameter("company-name");
+//            short ci = Short.parseShort(companyId);
+//            CompanyName c = cs.get(ci);
 
             // updating store
-            String userMsg = ss.update(storeID,streetAddress,postalCode,storeCity,
-                             storeName,isActive,phoneNum,contact,c);
+            String userMsg = ss.update(storeID, storeName, companyName, streetAddress,postalCode,storeCity,isActive);
 
             response.sendRedirect("stores");
         } catch (Exception e) {

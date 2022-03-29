@@ -3,11 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dataaccess;
-
 import models.Store;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import java.util.List;
 
@@ -17,9 +15,23 @@ import java.util.List;
  */
 public class StoreDB {
 
-    public List<Store> getAll() throws Exception {
+public List<Store> getAllByCompany (short companyId){
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
-        try {
+        
+        Query q = em.createQuery ("SELECT s FROM Store S WHERE s.companyId = :company", Store.class);
+        q.setParameter("company", companyId);
+        try{
+        List<Store> result = q.getResultList();
+        return result;
+        }finally {
+            em.close();
+                 }
+}
+
+
+public List<Store> getAll() throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {         
 
             List<Store> allStores = em.createNamedQuery("Store.findAll", models.Store.class).getResultList();
             return allStores;
@@ -28,22 +40,9 @@ public class StoreDB {
         }
     }
 
-    public List<Store> getStoresByName(String storeName) throws Exception {
-        EntityManager em = DBUtil.getEMFactory().createEntityManager();
-        try {
-            Query getFoundStores = em.createNamedQuery("Store.findByStoreName", models.Store.class);
-            List<Store> foundStores = getFoundStores.setParameter("storeName", storeName).getResultList();
-            return foundStores;
-        } catch (NoResultException e) {
-            return null;
-        } finally {
-            em.close();
-        }
-    }
-
     public Store get(int storeId) throws Exception {
-        EntityManager em = DBUtil.getEMFactory().createEntityManager();
-        try {
+      EntityManager em = DBUtil.getEMFactory().createEntityManager();
+      try {
             Store s = em.find(Store.class, storeId);
             return s;
         } finally {
@@ -52,15 +51,15 @@ public class StoreDB {
     }
 
     public Store getByStreetAddress(String streetAddress) throws Exception {
-        EntityManager em = DBUtil.getEMFactory().createEntityManager();
-        try {
+      EntityManager em = DBUtil.getEMFactory().createEntityManager();
+      try {
             Store s = em.find(Store.class, streetAddress);
             return s;
         } finally {
             em.close();
         }
     }
-
+   
     public void insert(Store store) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -75,7 +74,8 @@ public class StoreDB {
         }
     }
 
-    public void update(Store store) throws Exception {
+
+     public void update(Store store) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         try {
@@ -89,3 +89,5 @@ public class StoreDB {
         }
     }
 }
+
+
