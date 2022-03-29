@@ -32,7 +32,7 @@ public class StoreServices {
         return stores;
     }
 
-public String insert (String streetAddress, String postalCode, String storeCity, boolean isActive, String phoneNum, String contact) throws Exception{
+    public String insert (String streetAddress, String postalCode, String storeCity, boolean isActive, String phoneNum, String contact) throws Exception{
         StoreDB storeDB = new StoreDB();
         Store checkStore = storeDB.getByStreetAddress(streetAddress);
         if (checkStore != null){
@@ -44,5 +44,14 @@ public String insert (String streetAddress, String postalCode, String storeCity,
 
         return "Store has been created";
 
-}
+    }
+    public String update(int id, String name, String address, String city,
+                         String postalCode, boolean isActive) throws Exception
+    {
+        StoreDB storeDB = new StoreDB();
+        Store store = new Store(id, address, postalCode, city, name, isActive);
+        storeDB.update(store);
+        
+        return "string";
+    }
 }

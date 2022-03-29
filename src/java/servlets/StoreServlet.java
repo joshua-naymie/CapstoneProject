@@ -255,8 +255,7 @@ catch (Exception e) {
             CompanyName c = cs.get(ci);
 
             // updating store
-            String userMsg = ss.update(storeID,streetAddress,postalCode,storeCity,
-                             storeName,isActive,phoneNum,contact,c);
+            String userMsg = ss.update(storeID, storeName, streetAddress,postalCode,storeCity,isActive);
 
             response.sendRedirect("stores");
         } catch (Exception e) {

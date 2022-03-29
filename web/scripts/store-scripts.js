@@ -30,6 +30,7 @@ var removeManagerInput;
 var userList;
 var storeList;
 var storeNameInput,
+    companyInput,
     streetAddressInput,
     provinceInput,
     postalCodeInput,
@@ -131,11 +132,31 @@ function load()
 
     // setup store name InputGroup
     storeNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-name");
-    storeNameInput.setLabelText("Company Name");
+    storeNameInput.setLabelText("Store Name");
     storeNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     storeNameInput.setPlaceHolderText("eg. Hotline");
     storeNameInput.container = document.getElementById("store-name__input");
     configCustomInput(storeNameInput);
+    
+    let companyList = document.getElementById("company-list");
+    
+    for(let i=0; i<companyData.length; i++)
+    {
+        let temp = document.createElement("option");
+        temp.value = companyData[i].name;
+        temp.innerText = companyData[i].id;
+        
+        companyList.appendChild(temp);
+    }
+    
+    // setup company InputGroup
+    companyInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-name");
+    companyInput.input.setAttribute("list", "company-list");
+    companyInput.setLabelText("Company");
+    companyInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
+    companyInput.setPlaceHolderText("eg. Hotline");
+    companyInput.container = document.getElementById("company__input");
+    configCustomInput(companyInput);
     
     // setup store street address InputGroup
     streetAddressInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-address");

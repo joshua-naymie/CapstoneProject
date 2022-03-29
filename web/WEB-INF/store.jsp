@@ -48,7 +48,11 @@
                             <input id="action" name="action" type="hidden">
                             <input id="store-ID" name="store-ID" type="hidden">
                             
-                            <div id="store-name__input" style="margin: 2px 0 50px 0;"></div>
+                            <div id="store-name__input" style="margin: 2px 0 10px 0;"></div>
+                            <div id="company__input" style="margin: 2px 0 50px 0;"></div>
+                            <datalist id="company-list">
+                            </datalist>
+                            
                             <div id="street-address__input" style="margin: 2px 0 10px 0;"></div>
                             
                             <div class="address-inputs">
