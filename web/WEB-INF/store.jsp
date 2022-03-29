@@ -37,7 +37,7 @@
                         </div>
                         <div class="list-panel__top-buttons">
                             <input id="search-input" type="search" class="search-stores__input" placeholder="Search by Program, Manager">
-                            <input id="notempty" type="button" class="add-store__button" onclick="addStore()" value="New Program">
+                            <input id="notempty" type="button" class="add-store__button" onclick="addStore()" value="New Store">
                         </div>
                         <div id="list-base" class="store-list__base">
 
@@ -47,10 +47,9 @@
                         <form id="addStoreForm">
                             <input id="action" name="action" type="hidden">
                             <input id="store-ID" name="store-ID" type="hidden">
-                            <input id="manager-ID" name="manager-ID" type="hidden">
                             
-                            <div id="store-name__input" style="margin: 2px 0 30px 0;"></div>
-                            <div id="street-address__input" style="margin: 2px 0 30px 0;"></div>
+                            <div id="store-name__input" style="margin: 2px 0 50px 0;"></div>
+                            <div id="street-address__input" style="margin: 2px 0 10px 0;"></div>
                             
                             <div class="address-inputs">
                                 <div id="city__input"></div>
@@ -58,7 +57,10 @@
                                 <div id="postal-code__input"></div>
                             </div>
                             
+                            <div id="contact__input" style="margin: 2px 0 10px 0;"></div>
+                            
                             <div class="status-input">
+                                <div id="phone__input" style="margin: 2px 0 30px 0;"></div>
                                 <div id="status__input" >
                                     <select class="status__select" id="status" name="status">
                                         <option disabled hidden style='display: none' value=''></option>
@@ -68,6 +70,9 @@
                                     <label class="status__label">Status</label>
                                 </div>
                             </div>
+                            
+                            
+                            
                             
                             <div class="input-action-buttons">
                                 <input id="cancel__button" class="cancel__button" type="button" value="Cancel">

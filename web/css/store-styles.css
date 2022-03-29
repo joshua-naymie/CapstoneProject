@@ -74,8 +74,8 @@
 {
     max-width: 450px;
     min-width: 450px;
-    max-height: 560px;
-    min-height: 560px;
+    max-height: 640px;
+    min-height: 640px;
     
     transition: max-width 0.2s,
                 min-width 0.2s,
@@ -369,15 +369,16 @@
 
 .status-input
 {
-    display: flex;
-    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: 1fr 0.25fr;
+    gap: 10px;
 }
 
-.status-input div
+/*.status-input div
 {
     display: flex;
     flex-direction: column;
-}
+}*/
 
 status__select
 {
@@ -416,7 +417,7 @@ status__select
 {
     display: flex;
     justify-content: space-between;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 .input-action-buttons input
@@ -568,5 +569,5 @@ remove-manager--hidden:hover
     display: grid;
     grid-template-columns: 1.8fr 0.5fr 1fr;
     gap: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }

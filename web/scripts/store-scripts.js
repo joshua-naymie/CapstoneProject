@@ -146,7 +146,7 @@ function load()
     configCustomInput(streetAddressInput);
 
     // setup store city InputGroup
-    cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "city");
+    cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-city");
     cityInput.setLabelText("City");
     cityInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     cityInput.setPlaceHolderText("eg. Calgary");
@@ -154,7 +154,7 @@ function load()
     configCustomInput(cityInput);
 
     // setup store province InputGroup
-    provinceInput = new InputGroup(CSS_INPUTGROUP_MAIN, "province");
+    provinceInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-province");
     provinceInput.setLabelText("Prov.");
     provinceInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*");
     provinceInput.setPlaceHolderText("eg. AB");
@@ -162,12 +162,25 @@ function load()
     configCustomInput(provinceInput);
 
     // setup store postal code InputGroup
-    postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "postal-code");
+    postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-postal-code");
     postalCodeInput.setLabelText("Postal");
     postalCodeInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*");
     postalCodeInput.setPlaceHolderText("A1A 1A1");
     postalCodeInput.container = document.getElementById("postal-code__input");
     configCustomInput(postalCodeInput);
+    
+    contactInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-contact");
+    contactInput.setLabelText("Contact Name");
+    contactInput.setPlaceHolderText("John Smith");
+    contactInput.container = document.getElementById("contact__input");
+    configCustomInput(contactInput);
+    
+    phoneInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-phone");
+    phoneInput.setLabelText("Phone Number");
+    phoneInput.addValidator(REGEX_PHONE, INPUTGROUP_STATE_WARNING, "*");
+    phoneInput.setPlaceHolderText("555-555-5555");
+    phoneInput.container = document.getElementById("phone__input");
+    configCustomInput(phoneInput);
     
     // add InputGroups to a collection
     inputs = new InputGroupCollection();
@@ -240,7 +253,28 @@ function generateStoreRow(store)
     
     let restOfAddrees = document.createElement("p");
     restOfAddrees.classList.add("---REPLACE---");
-    restOfAddrees.innerText = `${store.city}`;
+    restOfAddrees.innerText = `${store.city}, AB ${store.postalCode}`;
+    
+    address.appendChild(streetAddress);
+    address.appendChild(restOfAddrees);
+    
+    let leftSide = document.createElement("div");
+    leftSide.classList.add("---REPLACE---");
+    
+    let name = document.createElement("p");
+    name.classList.add("---REPLACE---");
+    name.innerText = store.name;
+    
+    let phone = document.createElement("p");
+    phone.classList.add("---REPLACE---");
+    phone.innerText = store.phoneNum;
+    
+    leftSide.appendChild(name);
+    leftSide.appendChild(phone);
+    
+    
+    item.appendChild(address);
+    item.appendChild(leftSide);
 
     return item;
 }
@@ -282,6 +316,7 @@ function addStore()
 {
     currentAction = "add";
     submitButton.value = "Add";
+    document.getElementById("store-ID").value = -1;
     setStatusSelectColor();
     
     setContainerWidth("container--input-size");
@@ -301,7 +336,14 @@ function editStore(store)
     currentAction = "update";
     submitButton.value = "Update";
 
+    document.getElementById("store-ID").value = store.storeId;
     storeNameInput.setInputText(store.name);
+    streetAddressInput.setInputText(store.streetAddress);
+    cityInput.setInputText(store.city);
+    provinceInput.setInputText("AB");
+    postalCodeInput.setInputText(store.postalCode);
+    contactInput.setInputText(store.contactName);
+    phoneInput.setInputText(store.phoneNum);
     statusInput.value = store.isActive ? "active" : "inactive";
     setStatusSelectColor();
 
@@ -322,7 +364,6 @@ function submitForm()
     if(inputs.validateAll())
     {
         showConfirmationModal(`Are you sure you want to ${currentAction} this store?`, () => {
-            managerNameDisplay.input.value = managerNameDisplay.input.value.split(":")[0];
             postAction(currentAction, "addStoreForm", "stores")
         });
     }
