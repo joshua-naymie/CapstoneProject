@@ -85,6 +85,7 @@ public class Store implements Serializable {
         this.storeCity = storeCity;
         this.storeName = storeName;
         this.isActive = isActive;
+        this.companyId = companyId; 
     }
 
     public Integer getStoreId() {

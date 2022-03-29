@@ -40,7 +40,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 TaskService ts = new TaskService();
                 //task = ts.get((long) 7);
                 task = ts.get(Long.parseLong(taskId));
-                System.out.println(task.getTaskId());
+                //System.out.println(task.getTaskId());
             }
 
             // sending json data

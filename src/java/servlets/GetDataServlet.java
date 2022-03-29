@@ -336,24 +336,24 @@ public class GetDataServlet extends HttpServlet {
 				Logger.getLogger(GetDataServlet.class.getName()).log(Level.WARNING, null, ex);
 			}
 
-			StringBuilder storeJSON = new StringBuilder();
-			storeJSON.append('[');
+			StringBuilder teamJSON = new StringBuilder();
+			teamJSON.append('[');
 			if (teamList != null) {
 				for (Team lookForTeam : teamList) {
-					storeJSON.append('{');
-					storeJSON.append("\"team_name\":" + "\"" + lookForTeam.getStoreId().getStoreName() + "\",");
-					storeJSON.append("\"team_id\":" + "\"" + lookForTeam.getTeamId() + "\"");
-					storeJSON.append("},");
+					teamJSON.append('{');
+					teamJSON.append("\"team_name\":" + "\"" + lookForTeam.getStoreId().getStoreName() + "\",");
+					teamJSON.append("\"team_id\":" + "\"" + lookForTeam.getTeamId() + "\"");
+					teamJSON.append("},");
 				}
 			}
-			if (storeJSON.length() > 2) {
-				storeJSON.setLength(storeJSON.length() - 1);
+			if (teamJSON.length() > 2) {
+				teamJSON.setLength(teamJSON.length() - 1);
 			}
 
-			storeJSON.append(']');
+			teamJSON.append(']');
 
 			response.setContentType("text/html");
-			response.getWriter().write(storeJSON.toString());
+			response.getWriter().write(teamJSON.toString());
 		}
 	}
 
