@@ -29,338 +29,334 @@ import services.TeamServices;
  */
 public class GetDataServlet extends HttpServlet {
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		CompanyService cs = new CompanyService();
-		StoreServices ss = new StoreServices();
-		TeamServices tms = new TeamServices();
-		AccountServices as = new AccountServices();
+        CompanyService cs = new CompanyService();
+        StoreServices ss = new StoreServices();
+        TeamServices tms = new TeamServices();
+        AccountServices as = new AccountServices();
 
-		String op = request.getParameter("operation");
+        String op = request.getParameter("operation");
 
-		// Get all stores for a certain company
-		if (op.equals("store")) {
-			String companyId = request.getParameter("companyId");
+        // Get all stores for a certain company
+        if (op.equals("store")) {
+            String companyId = request.getParameter("companyId");
 
-			List<Store> storelist = null;
-			try {
-				storelist = cs.get(Short.parseShort(companyId)).getStoreList();
-			} catch (Exception ex) {
-				Logger.getLogger(GetDataServlet.class.getName()).log(Level.SEVERE, null, ex);
-			}
+            List<Store> storelist = null;
+            try {
+                storelist = cs.get(Short.parseShort(companyId)).getStoreList();
+            } catch (Exception ex) {
+                Logger.getLogger(GetDataServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-			StringBuilder storeJSON = new StringBuilder();
-			storeJSON.append('[');
-			if (storelist != null) {
-				for (Store store : storelist) {
-					storeJSON.append('{');
-					storeJSON.append("\"store_name\":" + "\"" + store.getStoreName() + "\",");
-					storeJSON.append("\"store_id\":" + "\"" + store.getStoreId() + "\"");
-					storeJSON.append("},");
-				}
-			}
-			if (storeJSON.length() > 2) {
-				storeJSON.setLength(storeJSON.length() - 1);
-			}
+            StringBuilder storeJSON = new StringBuilder();
+            storeJSON.append('[');
+            if (storelist != null) {
+                for (Store store : storelist) {
+                    storeJSON.append('{');
+                    storeJSON.append("\"store_name\":" + "\"" + store.getStoreName() + "\",");
+                    storeJSON.append("\"store_id\":" + "\"" + store.getStoreId() + "\"");
+                    storeJSON.append("},");
+                }
+            }
+            if (storeJSON.length() > 2) {
+                storeJSON.setLength(storeJSON.length() - 1);
+            }
 
-			storeJSON.append(']');
+            storeJSON.append(']');
 
-			response.setContentType("text/html");
-			response.getWriter().write(storeJSON.toString());
-		}
+            response.setContentType("text/html");
+            response.getWriter().write(storeJSON.toString());
+        }
 
+        List<User> allSupervisors = null;
 
-		List<User> allSupervisors = null;
+        // Get Supervisors for a program
+        if (op.equals("program")) {
+            String programAdd = (String) request.getParameter("programId");
+            Short pogramAddId = Short.valueOf(programAdd);
 
-		// Get Supervisors for a program
-		if (op.equals("program")) {
-			String programAdd = (String) request.getParameter("programId");
-			Short pogramAddId = Short.valueOf(programAdd);
+            try {
+                allSupervisors = as.getAllActiveSupervisorsByProgram(pogramAddId);
 
-			try {
-				allSupervisors = as.getAllActiveSupervisorsByProgram(pogramAddId);
+            } catch (Exception ex) {
+                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-			} catch (Exception ex) {
-				Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-			}
+            StringBuilder programJSON = new StringBuilder();
+            programJSON.append('[');
 
-			StringBuilder programJSON = new StringBuilder();
-			programJSON.append('[');
+            if (allSupervisors != null) {
 
-			if (allSupervisors != null) {
+                for (User user : allSupervisors) {
+                    programJSON.append('{');
+                    programJSON
+                            .append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName() + "\",");
+                    programJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
+                    programJSON.append("},");
+                }
+            }
 
-				for (User user : allSupervisors) {
-					programJSON.append('{');
-					programJSON
-							.append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName() + "\",");
-					programJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
-					programJSON.append("},");
-				}
-			}
+            if (programJSON.length() > 2) {
+                programJSON.setLength(programJSON.length() - 1);
+            }
 
-			if (programJSON.length() > 2) {
-				programJSON.setLength(programJSON.length() - 1);
-			}
+            programJSON.append(']');
 
-			programJSON.append(']');
+            response.setContentType("text/html");
+            response.getWriter().write(programJSON.toString());
+        }
 
-			response.setContentType("text/html");
-			response.getWriter().write(programJSON.toString());
-		}
-                
+        // Get coordinators for a hotline program
+        if (op.equals("hotlineCoordinators")) {
 
-		// Get coordinators for a hotline program
-                if (op.equals("hotlineCoordinators")) {
-                        
-                        List<User> allCoordinators = null;
+            List<User> allCoordinators = null;
 
-			try {
-				allCoordinators = as.getAllActiveHotlineCoordinators();
+            try {
+                allCoordinators = as.getAllActiveHotlineCoordinators();
 
-			} catch (Exception ex) {
-				Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-			}
+            } catch (Exception ex) {
+                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-			StringBuilder programJSON = new StringBuilder();
-			programJSON.append('[');
+            StringBuilder programJSON = new StringBuilder();
+            programJSON.append('[');
 
-			if (allCoordinators != null) {
+            if (allCoordinators != null) {
 
-				for (User user : allCoordinators) {
-					programJSON.append('{');
-					programJSON
-							.append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName() + "\",");
-					programJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
-					programJSON.append("},");
-				}
-			}
+                for (User user : allCoordinators) {
+                    programJSON.append('{');
+                    programJSON
+                            .append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName() + "\",");
+                    programJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
+                    programJSON.append("},");
+                }
+            }
 
-			if (programJSON.length() > 2) {
-				programJSON.setLength(programJSON.length() - 1);
-			}
+            if (programJSON.length() > 2) {
+                programJSON.setLength(programJSON.length() - 1);
+            }
 
-			programJSON.append(']');
+            programJSON.append(']');
 
-			response.setContentType("text/html");
-			response.getWriter().write(programJSON.toString());
-		}
+            response.setContentType("text/html");
+            response.getWriter().write(programJSON.toString());
+        }
 
-		// Get all the programs
-		if (op.equals("allProgram")) {
-			List<Program> programs = null;
-			ProgramServices ps = new ProgramServices();
+        // Get all the programs
+        if (op.equals("allProgram")) {
+            List<Program> programs = null;
+            ProgramServices ps = new ProgramServices();
 
-			try {
-                            programs = ps.getAll();
-                            
-			} catch (Exception ex) {
-				Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-			}
-                        
-                        
-                        
-			StringBuilder programJSON = new StringBuilder();
-			programJSON.append('[');
+            try {
+                programs = ps.getAll();
 
-			if (programs != null) {
-				for (Program program : programs) {
-					programJSON.append('{');
-					programJSON.append("\"program_name\":" + "\"" + program.getProgramName() + "\",");
-					programJSON.append("\"program_id\":" + "\"" + program.getProgramId() + "\"");
-					programJSON.append("},");
-				}
-			}
+            } catch (Exception ex) {
+                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-			if (programJSON.length() > 2) {
-				programJSON.setLength(programJSON.length() - 1);
-			}
+            StringBuilder programJSON = new StringBuilder();
+            programJSON.append('[');
 
-			programJSON.append(']');
+            if (programs != null) {
+                for (Program program : programs) {
+                    programJSON.append('{');
+                    programJSON.append("\"program_name\":" + "\"" + program.getProgramName() + "\",");
+                    programJSON.append("\"program_id\":" + "\"" + program.getProgramId() + "\"");
+                    programJSON.append("},");
+                }
+            }
 
-			response.setContentType("text/html");
-			response.getWriter().write(programJSON.toString());
-		}
+            if (programJSON.length() > 2) {
+                programJSON.setLength(programJSON.length() - 1);
+            }
 
-		// Get detailed information on a specific task
-		if (op.equals("singleTaskInfo")) {
-			Task task = null;
-			TaskService ts = new TaskService();
+            programJSON.append(']');
 
-			String task_id = request.getParameter("task_id");
-			Long taskId = Long.parseLong(task_id);
+            response.setContentType("text/html");
+            response.getWriter().write(programJSON.toString());
+        }
 
-			try {
-				task = ts.get(taskId);
+        // Get detailed information on a specific task
+        if (op.equals("singleTaskInfo")) {
+            Task task = null;
+            TaskService ts = new TaskService();
 
-			} catch (Exception ex) {
-				Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-			}
+            String task_id = request.getParameter("task_id");
+            Long taskId = Long.parseLong(task_id);
 
-			StringBuilder taskJSON = new StringBuilder();
+            try {
+                task = ts.get(taskId);
 
-			if (task != null) {
-				Date startDate = task.getStartTime();
-				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				String date = simpleDateFormat.format(startDate);
-				simpleDateFormat = new SimpleDateFormat("HH:mm");
-				String startTime = simpleDateFormat.format(startDate);
+            } catch (Exception ex) {
+                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            StringBuilder taskJSON = new StringBuilder();
+
+            if (task != null) {
+                Date startDate = task.getStartTime();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String date = simpleDateFormat.format(startDate);
+                simpleDateFormat = new SimpleDateFormat("HH:mm");
+                String startTime = simpleDateFormat.format(startDate);
 //				Date endDate = task.getEndTime();
 //				String endTime = simpleDateFormat.format(endDate);
 
-				taskJSON.append('{');
-				taskJSON.append("\"task_id\":" + "\"" + task.getTaskId() + "\",");
-				taskJSON.append("\"task_description\":" + "\"" + task.getTaskDescription() + "\",");
-				taskJSON.append("\"program_name\":" + "\"" + task.getProgramId().getProgramName() + "\",");
-				taskJSON.append("\"task_city\":" + "\"" + task.getTaskCity() + "\",");
-				taskJSON.append("\"start_time\":" + "\"" + task.getStartTime() + "\",");
-				taskJSON.append("\"end_time\":" + "\"" + task.getEndTime() + "\",");
-				taskJSON.append("\"approving_manager\":" + "\"" + task.getApprovingManager() + "\",");
-				taskJSON.append("\"spots_taken\":" + "\"" + task.getSpotsTaken() + "\",");
-				taskJSON.append("\"max_users\":" + "\"" + task.getMaxUsers() + "\"");
-				taskJSON.append("},");
+                taskJSON.append('{');
+                taskJSON.append("\"task_id\":" + "\"" + task.getTaskId() + "\",");
+                taskJSON.append("\"task_description\":" + "\"" + task.getTaskDescription() + "\",");
+                taskJSON.append("\"program_name\":" + "\"" + task.getProgramId().getProgramName() + "\",");
+                taskJSON.append("\"task_city\":" + "\"" + task.getTaskCity() + "\",");
+                taskJSON.append("\"start_time\":" + "\"" + task.getStartTime() + "\",");
+                taskJSON.append("\"end_time\":" + "\"" + task.getEndTime() + "\",");
+                taskJSON.append("\"approving_manager\":" + "\"" + task.getApprovingManager() + "\",");
+                taskJSON.append("\"spots_taken\":" + "\"" + task.getSpotsTaken() + "\",");
+                taskJSON.append("\"max_users\":" + "\"" + task.getMaxUsers() + "\"");
+                taskJSON.append("},");
 
-				if (taskJSON.length() > 2) {
-					taskJSON.setLength(taskJSON.length() - 1);
-				}
-
-				response.setContentType("text/html");
-				response.getWriter().write(taskJSON.toString());
-			}
-		}
-                
-                if(op.equals("cancelTask")){
-                    
+                if (taskJSON.length() > 2) {
+                    taskJSON.setLength(taskJSON.length() - 1);
                 }
 
-		// Get all the stores
-		if (op.equals("storeAll")) {
+                response.setContentType("text/html");
+                response.getWriter().write(taskJSON.toString());
+            }
+        }
 
-			List<Store> storelist = null;
-			try {
-				storelist = ss.getAll();
-			} catch (Exception ex) {
-				Logger.getLogger(GetDataServlet.class.getName()).log(Level.SEVERE, null, ex);
-			}
+        if (op.equals("cancelTask")) {
 
-			StringBuilder storeJSON = new StringBuilder();
-			storeJSON.append('[');
-			if (storelist != null) {
-				for (Store store : storelist) {
-					storeJSON.append('{');
-					storeJSON.append("\"store_name\":" + "\"" + store.getStoreName() + "\",");
-					storeJSON.append("\"store_id\":" + "\"" + store.getStoreId() + "\"");
-					storeJSON.append("},");
-				}
-			}
-			if (storeJSON.length() > 2) {
-				storeJSON.setLength(storeJSON.length() - 1);
-			}
+        }
 
-			storeJSON.append(']');
+        // Get all the stores
+        if (op.equals("storeAll")) {
 
-			response.setContentType("text/html");
-			response.getWriter().write(storeJSON.toString());
-		}
+            List<Store> storelist = null;
+            try {
+                storelist = ss.getAll();
+            } catch (Exception ex) {
+                Logger.getLogger(GetDataServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-		// Get all the teams
-		if (op.equals("teamAll")) {
+            StringBuilder storeJSON = new StringBuilder();
+            storeJSON.append('[');
+            if (storelist != null) {
+                for (Store store : storelist) {
+                    storeJSON.append('{');
+                    storeJSON.append("\"store_name\":" + "\"" + store.getStoreName() + "\",");
+                    storeJSON.append("\"store_id\":" + "\"" + store.getStoreId() + "\"");
+                    storeJSON.append("},");
+                }
+            }
+            if (storeJSON.length() > 2) {
+                storeJSON.setLength(storeJSON.length() - 1);
+            }
 
-			List<Team> teamlist = null;
-			try {
-				teamlist = tms.getAll();
-			} catch (Exception ex) {
-				Logger.getLogger(GetDataServlet.class.getName()).log(Level.SEVERE, null, ex);
-			}
+            storeJSON.append(']');
 
-			StringBuilder storeJSON = new StringBuilder();
-			storeJSON.append('[');
-			if (teamlist != null) {
-				for (Team team : teamlist) {
-					storeJSON.append('{');
-					storeJSON.append("\"team_supervisor\":" + "\"" + team.getTeamSupervisor() + "\",");
-					storeJSON.append("\"team_id\":" + "\"" + team.getTeamId() + "\"");
-					storeJSON.append("},");
-				}
-			}
-			if (storeJSON.length() > 2) {
-				storeJSON.setLength(storeJSON.length() - 1);
-			}
+            response.setContentType("text/html");
+            response.getWriter().write(storeJSON.toString());
+        }
 
-			storeJSON.append(']');
+        // Get all the teams
+        if (op.equals("teamAll")) {
 
-			response.setContentType("text/html");
-			response.getWriter().write(storeJSON.toString());
-		}
+            List<Team> teamlist = null;
+            try {
+                teamlist = tms.getAll();
+            } catch (Exception ex) {
+                Logger.getLogger(GetDataServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-		// Get a list of users based on their first and last name
-		if (op.equals("findUser")) {
-			String name = request.getParameter("name");
+            StringBuilder storeJSON = new StringBuilder();
+            storeJSON.append('[');
+            if (teamlist != null) {
+                for (Team team : teamlist) {
+                    storeJSON.append('{');
+                    storeJSON.append("\"team_supervisor\":" + "\"" + team.getTeamSupervisor() + "\",");
+                    storeJSON.append("\"team_id\":" + "\"" + team.getTeamId() + "\"");
+                    storeJSON.append("},");
+                }
+            }
+            if (storeJSON.length() > 2) {
+                storeJSON.setLength(storeJSON.length() - 1);
+            }
 
-			List<User> userlist = null;
-			try {
-				userlist = as.getUsersByFullName(name, name);
-			} catch (Exception ex) {
-				Logger.getLogger(GetDataServlet.class.getName()).log(Level.SEVERE, null, ex);
-			}
+            storeJSON.append(']');
 
-			StringBuilder storeJSON = new StringBuilder();
-			storeJSON.append('[');
-			if (userlist != null) {
-				for (User user : userlist) {
-					storeJSON.append('{');
-					storeJSON.append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName() + "\",");
-					storeJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
-					storeJSON.append("},");
-				}
-			}
-			if (storeJSON.length() > 2) {
-				storeJSON.setLength(storeJSON.length() - 1);
-			}
+            response.setContentType("text/html");
+            response.getWriter().write(storeJSON.toString());
+        }
 
-			storeJSON.append(']');
+        // Get a list of users based on their first and last name
+        if (op.equals("findUser")) {
+            String name = request.getParameter("name");
 
-			response.setContentType("text/html");
-			response.getWriter().write(storeJSON.toString());
-		}
-                
-		// Find a team from team name
-                if (op.equals("findTeam")) {
-			String teamName = request.getParameter("teamName");
+            List<User> userlist = null;
+            try {
+                userlist = as.getUsersByFullName(name, name);
+            } catch (Exception ex) {
+                Logger.getLogger(GetDataServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-			List<Team> teamList = null;
-			try {
-				teamList = tms.getTeamByName(teamName);
-			} catch (Exception ex) {
-				Logger.getLogger(GetDataServlet.class.getName()).log(Level.WARNING, null, ex);
-			}
+            StringBuilder storeJSON = new StringBuilder();
+            storeJSON.append('[');
+            if (userlist != null) {
+                for (User user : userlist) {
+                    storeJSON.append('{');
+                    storeJSON.append("\"user_name\":" + "\"" + user.getFirstName() + " " + user.getLastName() + "\",");
+                    storeJSON.append("\"user_id\":" + "\"" + user.getUserId() + "\"");
+                    storeJSON.append("},");
+                }
+            }
+            if (storeJSON.length() > 2) {
+                storeJSON.setLength(storeJSON.length() - 1);
+            }
 
-			StringBuilder teamJSON = new StringBuilder();
-			teamJSON.append('[');
-			if (teamList != null) {
-				for (Team lookForTeam : teamList) {
-					teamJSON.append('{');
-					teamJSON.append("\"team_name\":" + "\"" + lookForTeam.getStoreId().getStoreName() + "\",");
-					teamJSON.append("\"team_id\":" + "\"" + lookForTeam.getTeamId() + "\"");
-					teamJSON.append("},");
-				}
-			}
-			if (teamJSON.length() > 2) {
-				teamJSON.setLength(teamJSON.length() - 1);
-			}
+            storeJSON.append(']');
 
-			teamJSON.append(']');
+            response.setContentType("text/html");
+            response.getWriter().write(storeJSON.toString());
+        }
 
-			response.setContentType("text/html");
-			response.getWriter().write(teamJSON.toString());
-		}
-	}
+        // Find a team from team name
+        if (op.equals("findTeam")) {
+            String teamName = request.getParameter("teamName");
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+            List<Team> teamList = null;
+            try {
+                teamList = tms.getTeamByName(teamName);
+            } catch (Exception ex) {
+                Logger.getLogger(GetDataServlet.class.getName()).log(Level.WARNING, null, ex);
+            }
 
-	}
+            StringBuilder teamJSON = new StringBuilder();
+            teamJSON.append('[');
+            if (teamList != null) {
+                for (Team lookForTeam : teamList) {
+                    teamJSON.append('{');
+                    teamJSON.append("\"team_name\":" + "\"" + lookForTeam.getStoreId().getStoreName() + "\",");
+                    teamJSON.append("\"team_id\":" + "\"" + lookForTeam.getTeamId() + "\"");
+                    teamJSON.append("},");
+                }
+            }
+            if (teamJSON.length() > 2) {
+                teamJSON.setLength(teamJSON.length() - 1);
+            }
+
+            teamJSON.append(']');
+
+            response.setContentType("text/html");
+            response.getWriter().write(teamJSON.toString());
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+    }
 
 }

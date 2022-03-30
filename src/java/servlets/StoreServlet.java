@@ -178,17 +178,16 @@ try {
      
      try {
             List<Store> stores = ss.getAll();
-            String storeName = request.getParameter("store-name");
+         String storeName = request.getParameter("store-name");
             String streetAddress = request.getParameter("store-address");
-            String postalCode = request.getParameter("postal-code");
-            String storeCity = request.getParameter("city");
-            String phoneNum = request.getParameter("");
-            String contact = request.getParameter("");
+            String postalCode = request.getParameter("store-city");
+            String storeCity = request.getParameter("store-postal-code");
+            String phoneNum = request.getParameter("store-phone");
+            String contact = request.getParameter("store-contact");
             String status = request.getParameter("status");
             boolean isActive = status.equals("active");
-            String companyId = request.getParameter("");
-            short ci = Short.parseShort(companyId);
-            CompanyName c = cs.get(ci);
+            String companyName = request.getParameter("company-name");
+            //CompanyName c = cs.getByName(companyName);
             boolean isFound = false;
              for (int i = 0; i < stores.size(); i++) {
                 if (stores.get(i).getStoreName().equals(storeName)) {
@@ -201,7 +200,7 @@ try {
             }
         // creating the store trough store services
              if (isFound){
-            String userMsg = ss.insert(streetAddress,postalCode,storeCity, storeName, isActive, phoneNum, contact, c); 
+            String userMsg = ss.insert(streetAddress,postalCode,storeCity, storeName, isActive, phoneNum, contact, companyName); 
 
            }
                   

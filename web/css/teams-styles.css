@@ -125,7 +125,7 @@
     margin: 0 0px 20px 0px;
 }
 
-.search-stores__input
+.search-teams__input
 {
     width: 100%;
     height: 30px;
@@ -135,7 +135,7 @@
     font-size: 1rem;
 }
 
-.add-store__button
+.add-team__button
 {
     width: 25%;
     min-width: 110px;
@@ -148,7 +148,7 @@
     transition: background-color 0.1s;
 }
 
-.add-store__button:hover
+.add-team__button:hover
 {
     cursor: pointer;
     background-color: #9FCA6A;
@@ -164,7 +164,7 @@
     margin-top: 30px;
 }
 
-.store-list__base
+.team-list__base
 {
     display: flex;
     flex-direction: column;
@@ -181,7 +181,7 @@
     transition: max-height 0.2s;
 }
 
-.store-list__base hr
+.team-list__base hr
 {
     width: 92%;
     color: gray;
@@ -212,7 +212,7 @@
     white-space: nowrap;
 }
 
-.store-name
+.team-name
 {
     font-size: 1.4rem;
 }
@@ -231,7 +231,7 @@
     overflow: hidden;
 }
 
-.store-area
+.team-area
 {
     overflow: hidden;
     margin-right: 10px;
@@ -348,12 +348,12 @@
     justify-content: space-between;
 }
 
-.store__custom-input
+.team__custom-input
 {
     margin-bottom: 10px;
 }
 
-.store__custom-input input
+.team__custom-input input
 {
     width: 100%;
 }
@@ -572,13 +572,13 @@ remove-manager--hidden:hover
     margin-bottom: 50px;
 }
 
-.store-list__row-left
+.team-list__row-left
 {
     max-width: 48%;
     overflow-y: hidden;
 }
 
-.store-list__row-right
+.team-list__row-right
 {
     display: flex;
     flex-direction: column;
@@ -588,7 +588,7 @@ remove-manager--hidden:hover
     overflow-y: hidden;
 }
 
-.store-list__large-field
+.team-list__large-field
 {
     font-size: 1.1em;
 }
