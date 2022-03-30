@@ -36,13 +36,20 @@ public List<Store> getAll() throws Exception {
     }
   
 
-public String insert (String streetAddress, String postalCode, String storeCity,String storeName, boolean isActive, String phoneNum, String contact, CompanyName companyId) throws Exception{
+public String insert (String streetAddress, String postalCode, String storeCity,String storeName, boolean isActive, String phoneNum, String contact, String companyName) throws Exception{
        StoreDB storeDB = new StoreDB();
          Store checkStore = storeDB.getByStreetAddress(streetAddress);
+      CompanyService companyService = new CompanyService();
+      CompanyName cn = companyService.getByName(companyName);
+       if ( cn == null){
+        companyService.insert(companyName);
+        cn = companyService.getByName(companyName);
+}
                if (checkStore != null){
                return "This store already exists";
-}
-       Store newStore = new Store ( streetAddress, postalCode, storeCity, storeName, isActive, companyId);
+}  
+       
+       Store newStore = new Store ( streetAddress, postalCode, storeCity, storeName, isActive, cn);
         storeDB.insert(newStore);
         return "Store has been created";
 }
@@ -51,7 +58,10 @@ public String update (int storeId, String streetAddress, String postalCode, Stri
        StoreDB storeDB = new StoreDB();
        CompanyService companyService = new CompanyService();
        System.out.println("----====" + companyService.getByName(companyName).getCompanyName() + "====----");
-        
+        CompanyName cn = companyService.getByName(companyName);
+       if ( cn == null){
+        companyService.insert(companyName);
+}
        Store toUpdate = storeDB.get(storeId);
        if (toUpdate == null ){
        return "Store does not exist";
