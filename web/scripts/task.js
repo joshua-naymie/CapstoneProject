@@ -266,8 +266,7 @@ function buildAccordionTask(tasks) {
   accordionHeader.id = `grouptask_heading${task.group_id}`;
 
   let accordionButton = document.createElement("button");
-  let buttonCollapsed = "collapase";
-  accordionButton.className = "accordion-button " + buttonCollapsed;
+  accordionButton.className = "accordion-button collapsed";
   accordionButton.type = "button";
   accordionButton.setAttribute("data-bs-toggle", "collapse");
   accordionButton.setAttribute(
@@ -290,8 +289,7 @@ function buildAccordionTask(tasks) {
   // ----------------- Sub Task as Accordion Body: START ----------------//
   let accordionBodyWrapper = document.createElement("div");
   accordionBodyWrapper.id = "collapse_taskgroup" + task.group_id;
-  let showBody = false ? "show" : "collapse";
-  accordionBodyWrapper.className = "accordion-collapse collapse " + showBody;
+  accordionBodyWrapper.className = "accordion-collapse collapse";
   accordionBodyWrapper.setAttribute(
     "aria-labelledby",
     "group_task_heading" + task.group_id
