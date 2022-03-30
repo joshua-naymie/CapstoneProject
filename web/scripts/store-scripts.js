@@ -340,7 +340,6 @@ function addStore()
     currentAction = "add";
     submitButton.value = "Add";
     document.getElementById("store-ID").value = -1;
-    provinceInput.setInputText("AB");
     setStatusSelectColor();
     
     setContainerWidth("container--input-size");
