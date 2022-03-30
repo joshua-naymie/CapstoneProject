@@ -8,6 +8,7 @@ import models.User;
 import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import java.util.ArrayList;
 import models.ProgramTraining;
@@ -18,7 +19,7 @@ import models.Role;
  * @author DWEI
  */
 public class UserDB {
-    
+
     // get and return a user with matching PK ID
     // get for getting a specific user
     public User getByID(long ID) throws Exception {
@@ -35,7 +36,7 @@ public class UserDB {
             em.close();
         }
     }
-    
+
     // get user by full name
     public User getUserByFullName(String firstName, String lastName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
@@ -49,7 +50,7 @@ public class UserDB {
             em.close();
         }
     }
-    
+
     public List<User> getUsersByFullName(String firstName, String lastName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         Query q = em.createQuery("SELECT u FROM User u WHERE u.firstName LIKE :firstName OR u.lastName LIKE :lastName", User.class);
@@ -62,7 +63,7 @@ public class UserDB {
             em.close();
         }
     }
-    
+
     // getAll active users only
     public List<User> getAllActive() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
@@ -75,15 +76,55 @@ public class UserDB {
             em.close();
         }
     }
-    
-        // getAll active supervisors only
+
+    // getAll active supervisors or managers base on role name
+    public List<User> getAllActiveSupervisorsOrManagers(String roleName) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+
+        RoleDB rdb = new RoleDB();
+        Role r = rdb.getByRoleName(roleName);
+        //Short roleId = r.getRoleId();
+
+        List<ProgramTraining> allUsers = null;
+        List<User> allSupervisors = new ArrayList<>();
+        try {
+            Query q = em.createQuery("SELECT p FROM ProgramTraining p WHERE p.roleId = :roleId", ProgramTraining.class);
+            //q.setParameter("programId",1);
+            q.setParameter("roleId", r);
+            allUsers = q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+
+        for (ProgramTraining u : allUsers) {
+            //EntityManager ema = DBUtil.getEMFactory().createEntityManager();
+            try {
+                Query q;
+                q = em.createQuery("SELECT u FROM User u WHERE  u.isActive =:isActive AND u.userId=:userId ORDER BY u.lastName, u.firstName", User.class);
+                q.setParameter("isActive", true);
+                q.setParameter("userId", u.getUser().getUserId());
+
+                User ur = (User) q.getSingleResult();
+
+                if (ur != null) {
+                    allSupervisors.add(ur);
+                }
+            } catch (NoResultException e) {
+                return null;
+            }
+        }
+        em.close();
+        return allSupervisors;
+    }
+
+    // getAll active supervisors only
     public List<User> getAllActiveSupervisorsByProgram(Short programId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
-        
+
         RoleDB rdb = new RoleDB();
         Role r = rdb.getByRoleName("Supervisor");
         //Short roleId = r.getRoleId();
-        
+
         List<ProgramTraining> allUsers = null;
         List<User> allSupervisors = new ArrayList<>();
         try {
@@ -95,33 +136,35 @@ public class UserDB {
         } finally {
             //em.close();
         }
-        
-        for(ProgramTraining u: allUsers){
+
+        for (ProgramTraining u : allUsers) {
             //EntityManager ema = DBUtil.getEMFactory().createEntityManager();
-                    try {
-            Query q;
-            q = em.createQuery("SELECT u FROM User u WHERE  u.isActive =:isActive AND u.userId=:userId ORDER BY u.lastName, u.firstName", User.class);
-            q.setParameter("isActive", true);
-            q.setParameter("userId", u.getUser().getUserId());
-            
-            User ur = (User) q.getSingleResult();
-            
-            if(ur!=null) allSupervisors.add(ur);
-        } finally {
-            //em.close();
+            try {
+                Query q;
+                q = em.createQuery("SELECT u FROM User u WHERE  u.isActive =:isActive AND u.userId=:userId ORDER BY u.lastName, u.firstName", User.class);
+                q.setParameter("isActive", true);
+                q.setParameter("userId", u.getUser().getUserId());
+
+                User ur = (User) q.getSingleResult();
+
+                if (ur != null) {
+                    allSupervisors.add(ur);
+                }
+            } finally {
+                //em.close();
+            }
         }
-    }
         em.close();
         return allSupervisors;
- }
-    
+    }
+
     public List<User> getAllActiveHotlineCoordinators() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
-        
+
         RoleDB rdb = new RoleDB();
         Role r = rdb.getByRoleName("Coordinator");
         //Short roleId = r.getRoleId();
-        
+
         List<ProgramTraining> allUsers = null;
         List<User> allCoordinators = new ArrayList<>();
         try {
@@ -133,22 +176,24 @@ public class UserDB {
         } finally {
             //em.close();
         }
-        
-        for(ProgramTraining u: allUsers){
+
+        for (ProgramTraining u : allUsers) {
             //EntityManager ema = DBUtil.getEMFactory().createEntityManager();
-                    try {
-            Query q;
-            q = em.createQuery("SELECT u FROM User u WHERE  u.isActive =:isActive AND u.userId=:userId ORDER BY u.lastName, u.firstName", User.class);
-            q.setParameter("isActive", true);
-            q.setParameter("userId", u.getUser().getUserId());
-            
-            User ur = (User) q.getSingleResult();
-            
-            if(ur!=null) allCoordinators.add(ur);
-        } finally {
-            //em.close();
+            try {
+                Query q;
+                q = em.createQuery("SELECT u FROM User u WHERE  u.isActive =:isActive AND u.userId=:userId ORDER BY u.lastName, u.firstName", User.class);
+                q.setParameter("isActive", true);
+                q.setParameter("userId", u.getUser().getUserId());
+
+                User ur = (User) q.getSingleResult();
+
+                if (ur != null) {
+                    allCoordinators.add(ur);
+                }
+            } finally {
+                //em.close();
+            }
         }
-    }
         em.close();
         return allCoordinators;
     }
@@ -227,17 +272,17 @@ public class UserDB {
             em.close();
         }
     }
-       
+
     public User getByUUID(String uuid) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
-        
-        try{
+
+        try {
             Query q = em.createNamedQuery("User.findByResetPasswordUuid");
             q.setParameter("resetPasswordUuid", uuid);
             return (User) q.getSingleResult();
-        }finally{
+        } finally {
             em.close();
-        } 
+        }
     }
 
 }

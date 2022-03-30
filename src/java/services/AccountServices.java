@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -68,6 +68,13 @@ public class AccountServices {
     public List<User> getAllActive() throws Exception {
         UserDB userDB = new UserDB();
         List<User> users = userDB.getAllActive();
+        return users;
+    }
+    
+    // get all active supervisor users
+    public List<User> getAllActiveSupervisorsOrManagers(String roleName) throws Exception {
+        UserDB userDB = new UserDB();
+        List<User> users = userDB.getAllActiveSupervisorsOrManagers(roleName);
         return users;
     }
     
