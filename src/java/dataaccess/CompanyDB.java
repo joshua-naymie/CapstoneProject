@@ -5,6 +5,7 @@
 package dataaccess;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 import models.CompanyName;
@@ -50,4 +51,19 @@ public class CompanyDB {
             entityManager.close();
         }
     }
+
+     public void insert (CompanyName cn){
+
+ EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            em.persist(cn);
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
+        } finally {
+            em.close();
+        }
+}
 }

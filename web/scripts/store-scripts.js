@@ -32,7 +32,7 @@ var storeList;
 var storeNameInput,
     companyInput,
     streetAddressInput,
-    provinceInput,
+   // provinceInput,
     postalCodeInput,
     cityInput,
     
@@ -174,13 +174,13 @@ function load()
     configCustomInput(cityInput);
 
     // setup store province InputGroup
-    provinceInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-province");
-    provinceInput.input.disabled = true;
-    provinceInput.setLabelText("Prov.");
-    provinceInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*");
-    provinceInput.setPlaceHolderText("eg. AB");
-    provinceInput.container = document.getElementById("province__input");
-    configCustomInput(provinceInput);
+    //provinceInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-province");
+   // provinceInput.input.disabled = true;
+    //provinceInput.setLabelText("Prov.");
+    //provinceInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*");
+   // provinceInput.setPlaceHolderText("eg. AB");
+    //provinceInput.container = document.getElementById("province__input");
+   // configCustomInput(provinceInput);
 
     // setup store postal code InputGroup
     postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-postal-code");
@@ -209,7 +209,7 @@ function load()
     inputs.add(companyInput);
     inputs.add(streetAddressInput);
     inputs.add(cityInput);
-    inputs.add(provinceInput);
+   // inputs.add(provinceInput);
     inputs.add(postalCodeInput);
     inputs.add(phoneInput);
 
@@ -366,7 +366,7 @@ function editStore(store)
     companyInput.setInputText(company.name);
     streetAddressInput.setInputText(store.streetAddress);
     cityInput.setInputText(store.city);
-    provinceInput.setInputText("AB");
+   // provinceInput.setInputText("AB");
     postalCodeInput.setInputText(store.postalCode);
     contactInput.setInputText(store.contactName);
     phoneInput.setInputText(store.phoneNum);

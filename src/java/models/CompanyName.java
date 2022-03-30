@@ -42,6 +42,10 @@ public class CompanyName implements Serializable {
         this.companyId = companyId;
     }
 
+     public CompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
     public CompanyName(Short companyId, String companyName) {
         this.companyId = companyId;
         this.companyName = companyName;

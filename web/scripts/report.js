@@ -94,7 +94,7 @@ function searchUser() {
 		data: {operation:"findUser", name:name},
 		success: function(data) {
 			let obj = JSON.parse(data);
-			
+			console.log(obj);
 			obj.forEach((user) => {
 				console.log(user);
 				$('#individualSelection').append(

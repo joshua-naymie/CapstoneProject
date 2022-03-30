@@ -1,234 +1,7 @@
-//let taskDataSet = [
-//  {
-//    task_id: "1",
-//    program_id: "1",
-//    team_id: "1",
-//    max_users: null,
-//    start_time: "2022-03-03 09:30:00.000",
-//    end_time: "2022-03-03 10:30:00.000",
-//    available: "true",
-//    notes: null,
-//    is_approved: "false",
-//    approving_manager: "test manager",
-//    task_description: "pick up food from Starbucks",
-//    task_city: "Calgary",
-//  },
-//];
-
 window.onload = () => {
-  let numOfLastWeek = new Date(new Date().getFullYear(), 11, 31).getWeek();
-  const bodyNode = document.getElementById("accordionWeek");
+  const bodyNode = document.getElementById("main");
 
-  for (let i = 1; i <= numOfLastWeek; i++) {
-    //		Bootstrap Accordion Structure:
-    //		div:accordion-item
-    //			h2: class="accordion-header" id="headingOne"
-    //				button: class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
-    //			div: id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample"
-    //				div: class="accordion-body"
-    //					other content
-
-    let accordionItem = document.createElement("div");
-    let accordionHeader = document.createElement("h2");
-    let accordionButton = document.createElement("button");
-    let accordionBodyWrapper = document.createElement("div");
-    let accordionBody = document.createElement("div");
-
-    //		Create accordion-item wrapper
-    accordionItem.className = "accordion-item";
-
-    //		Accordion header
-    accordionHeader.className = "accordion-header";
-    accordionHeader.id = "heading" + i;
-
-    //		Accordion header content
-    let buttonCollapsed = i === new Date().getWeek() ? "" : "collapsed";
-    accordionButton.className = "accordion-button " + buttonCollapsed;
-    accordionButton.type = "button";
-    accordionButton.setAttribute("data-bs-toggle", "collapse");
-    accordionButton.setAttribute("data-bs-target", "#collapse" + i);
-    accordionButton.setAttribute("aria-expanded", "true");
-    accordionButton.setAttribute("aria-controls", "collapse1");
-    accordionButton.innerText = getDateRangeOfWeek(i);
-
-    //		Accordion Div
-    accordionBodyWrapper.id = "collapse" + i;
-    let showBody = i === new Date().getWeek() ? "show" : "collapse";
-    accordionBodyWrapper.className = "accordion-collapse collapse " + showBody;
-    accordionBodyWrapper.setAttribute("aria-labelledby", "heading" + i);
-    accordionBodyWrapper.setAttribute("data-bs-parent", "accordionWeek");
-
-    //		Accordion Body
-    accordionBody.className = "accordion-body";
-
-    //		Tasks by week
-    //		One Task: Program (2), Time (2), Small Description(4), Edit Button(1), Sign Up Button(1), (Dropdown list of volunteers supervisor only)(2)
-    let accordionBodyContent = document.createElement("div");
-    accordionBodyContent.className = "container";
-
-    // ------------------------- Table ------------------------------
-    let table = document.createElement("table");
-    table.className = "table table-striped table-hover align-middle";
-
-    // ------------------- Table Header ---------------------
-    let thead = document.createElement("thead");
-    let tr = document.createElement("tr");
-
-    let th_program = document.createElement("th");
-    th_program.innerText = "Program";
-    th_program.setAttribute("scope", "col");
-    tr.appendChild(th_program);
-
-    let th_date = document.createElement("th");
-    th_date.innerText = "Date";
-    th_date.setAttribute("scope", "col");
-    tr.appendChild(th_date);
-
-    let th_start_time = document.createElement("th");
-    th_start_time.innerText = "Start Time";
-    th_start_time.setAttribute("scope", "col");
-    tr.appendChild(th_start_time);
-
-    let th_end_time = document.createElement("th");
-    th_end_time.innerText = "End Time";
-    th_end_time.setAttribute("scope", "col");
-    tr.appendChild(th_end_time);
-
-    let th_desc = document.createElement("th");
-    th_desc.innerText = "Description";
-    th_desc.setAttribute("scope", "col");
-    tr.appendChild(th_desc);
-
-    let th_operation = document.createElement("th");
-    th_operation.innerText = "Operation";
-    th_operation.setAttribute("scope", "col");
-    th_operation.setAttribute("colspan", "3");
-    tr.appendChild(th_operation);
-
-    thead.appendChild(tr);
-    table.appendChild(thead);
-
-    // ------------------------- Table Body ----------------------------
-    let tbody = document.createElement("tbody");
-
-    // accordionBody.appendChild(accordionBodyRow);
-    taskDataSet.forEach((taskData) => {
-	    console.log(taskData);
-      let taskTime = new Date(taskData.start_time);
-
-      if (taskTime.getWeek() === i) {
-        let tr = document.createElement("tr");
-
-        let td_program = document.createElement("td");
-        td_program.innerText = taskData.program_name;
-        tr.appendChild(td_program);
-
-        let td_date = document.createElement("td");
-        td_date.innerText = new Date(taskData.start_time).toLocaleDateString();
-        tr.appendChild(td_date);
-
-        let td_start_time = document.createElement("td");
-        td_start_time.innerText = new Date(
-          taskData.start_time
-        ).toLocaleTimeString(navigator.language, {
-          hour: "2-digit",
-          minute: "2-digit",
-        });
-        tr.appendChild(td_start_time);
-
-        let td_end_time = document.createElement("td");
-        td_end_time.innerText = new Date(taskData.end_time).toLocaleTimeString(
-          navigator.language,
-          {
-            hour: "2-digit",
-            minute: "2-digit",
-          }
-        );
-        tr.appendChild(td_end_time);
-
-        let td_desc = document.createElement("td");
-        td_desc.innerText = taskData.task_description;
-        tr.appendChild(td_desc);
-
-        // View Button
-        let accordionViewButton = document.createElement("button");
-        accordionViewButton.className = "btn btn-info";
-        accordionViewButton.setAttribute("type", "button");
-        accordionViewButton.setAttribute("task_id", taskData.task_id);
-        accordionViewButton.setAttribute("data-bs-toggle", "modal");
-        accordionViewButton.setAttribute("data-bs-target", "#taskModal");
-        accordionViewButton.innerText = "View";
-        accordionViewButton.addEventListener("click", () => {
-          onView(taskData.task_id);
-        });
-
-        // Edit Button
-        let accordionEditButton = document.createElement("button");
-        accordionEditButton.className = "btn btn-primary";
-        accordionEditButton.setAttribute("type", "button");
-        accordionEditButton.setAttribute("task_id", taskData.task_id);
-        accordionEditButton.innerText = "Edit";
-        let body = document.getElementsByTagName("body")[0];
-        accordionEditButton.addEventListener("click", () => {
-          onEdit(taskData.task_id);
-        });
-
-        // Sign Up Button
-        let accordionSignupButton = document.createElement("button");
-        accordionSignupButton.className = "btn btn-secondary";
-        accordionSignupButton.setAttribute("type", "button");
-        accordionSignupButton.innerText = "SignUp";
-        accordionSignupButton.addEventListener("click", () => {
-          onSignup(taskData.task_id);
-        });
-	
-	// Cancel Button
-	let accordionCancelButton = document.createElement("button");
-	accordionCancelButton.className = "btn btn-danger";
-	accordionCancelButton.setAttribute("type", "button");
-	accordionCancelButton.innerText = "Cancel";
-	accordionCancelButton.addEventListener("click", () => {
-		onCancel(taskData.task_id);
-	})
-
-        let td_view_button = document.createElement("td");
-        td_view_button.appendChild(accordionViewButton);
-        tr.appendChild(td_view_button);
-
-	let showEditButton = JSON.parse(taskData.show_edit);
-	if (showEditButton) {
-		let td_edit_button = document.createElement("td");
-	        td_edit_button.appendChild(accordionEditButton);
-		tr.appendChild(td_edit_button);	
-	}
-
-	let showSignUpButton = JSON.parse(taskData.show_signupT_cancelF);
-	if (showSignUpButton) {
-		let td_signup_button = document.createElement("td");
-		td_signup_button.appendChild(accordionSignupButton);
-		tr.appendChild(td_signup_button);
-	}
-	
-	let showCancelButton = !(JSON.parse(taskData.show_signupT_cancelF)) && JSON.parse(taskData.can_cancel);
-	if (showCancelButton) {
-		let td_cancel_button = document.createElement("td");
-		td_cancel_button.appendChild(accordionCancelButton);
-		tr.appendChild(td_signup_button);
-	}
-
-        tbody.appendChild(tr);
-      }
-    });
-    table.appendChild(tbody);
-
-    //		Append elements to DOM
-    accordionHeader.appendChild(accordionButton);
-    accordionItem.appendChild(accordionHeader);
-    accordionBody.appendChild(table);
-    accordionBodyWrapper.appendChild(accordionBody);
-    accordionItem.appendChild(accordionBodyWrapper);
-    bodyNode.appendChild(accordionItem);
-  }
+  bodyNode.appendChild(buildWeekList());
 };
 
 function onEdit(task_id) {
@@ -237,7 +10,7 @@ function onEdit(task_id) {
     url: "/editTask",
     data: { task_id: task_id },
     success: function (response) {
-	$("body").html(response);
+      $("body").html(response);
     },
   });
 }
@@ -277,7 +50,7 @@ function onSignup(task_id) {
   $.ajax({
     type: "POST",
     url: "tasks",
-    data: { task_id: task_id, action:"SignUp" },
+    data: { task_id: task_id, action: "SignUp" },
     success: function (data) {
       console.log(data);
     },
@@ -285,12 +58,412 @@ function onSignup(task_id) {
 }
 
 function onCancel(task_id) {
-	$.ajax({
-		type:"POST",
-		url: "tasks",
-		data: {task_id: task_id, action: "Cancel"},
-		success: function(response) {
-			console.log(response);
-		}
-	})
+  $.ajax({
+    type: "POST",
+    url: "tasks",
+    data: { task_id: task_id, action: "Cancel" },
+    success: function (response) {
+      console.log(response);
+    },
+  });
+}
+
+function buildWeekList() {
+  let numOfLastWeek = new Date(new Date().getFullYear(), 11, 31).getWeek();
+  let weekList = document.createElement("div");
+  weekList.className = "accordion";
+  weekList.id = "accordionWeek";
+
+  for (let i = 1; i <= numOfLastWeek; i++) {
+    let thisWeek = new Date().getWeek();
+    let collapase = i === thisWeek;
+    let headerText = getDateRangeOfWeek(i);
+    let tasksInWeek = getTasksInWeek(taskDataSet, i);
+
+    weekList.appendChild(
+      buildAccrodionItem(i, collapase, headerText, tasksInWeek)
+    );
+  }
+
+  return weekList;
+}
+
+function buildAccordionHeader(id, collapased, headerContent, isNode = false) {
+  let accordionHeader = document.createElement("h2");
+
+  //		Accordion header
+  accordionHeader.className = "accordion-header";
+  accordionHeader.id = "heading" + id;
+
+  //		Accordion header content
+  let accordionButton = document.createElement("button");
+  let buttonCollapsed = collapased ? "" : "collapsed";
+  accordionButton.className = "accordion-button " + buttonCollapsed;
+  accordionButton.type = "button";
+  accordionButton.setAttribute("data-bs-toggle", "collapse");
+  accordionButton.setAttribute("data-bs-target", "#collapse" + id);
+  accordionButton.setAttribute("aria-expanded", "true");
+  accordionButton.setAttribute("aria-controls", "collapse" + id);
+  if (isNode) {
+    accordionButton.appendChild(headerContent);
+  } else {
+    accordionButton.innerText = headerContent;
+  }
+
+  accordionHeader.appendChild(accordionButton);
+
+  return accordionHeader;
+}
+
+function buildAccordionBody(id, collapase, tasksInWeek) {
+  let accordionBodyWrapper = document.createElement("div");
+
+  //		Accordion Body
+  let accordionBody = document.createElement("div");
+  accordionBody.className = "accordion-body";
+  // Generate table for tasks in that week
+  let headerNames = [
+    { colName: "Program" },
+    { colName: "Date" },
+    { colName: "Start Time" },
+    { colName: "End Time" },
+    { colName: "Description" },
+    { colName: "Spots Available" },
+    { colName: "Operation", colspan: 3 },
+  ];
+
+  let table = buildTable(headerNames, tasksInWeek);
+  accordionBody.appendChild(table);
+
+  //		Accordion Div
+  accordionBodyWrapper.id = "collapse" + id;
+  let showBody = collapase ? "show" : "collapse";
+  accordionBodyWrapper.className = "accordion-collapse collapse " + showBody;
+  accordionBodyWrapper.setAttribute("aria-labelledby", "heading" + id);
+  accordionBodyWrapper.setAttribute("data-bs-parent", "accordionWeek");
+  accordionBodyWrapper.appendChild(accordionBody);
+
+  return accordionBodyWrapper;
+}
+
+function buildAccrodionItem(id, collapase, headerText, tasksInWeek) {
+  let accordionItem = document.createElement("div");
+  accordionItem.className = "accordion-item";
+
+  let accordionHeader = buildAccordionHeader(id, collapase, headerText);
+  let accordionBody = buildAccordionBody(id, collapase, tasksInWeek);
+
+  accordionItem.appendChild(accordionHeader);
+  accordionItem.appendChild(accordionBody);
+
+  return accordionItem;
+}
+
+function getTasksInWeek(tasks, weekNumber) {
+  return tasks.filter(
+    (task) => new Date(task.start_time).getWeek() === weekNumber
+  );
+}
+
+function buildTable(headerNames, taskList) {
+  // ------------------------- Table ------------------------------
+  let table = document.createElement("table");
+  table.className = "table table-striped table-hover align-middle";
+
+  let thead = buildTableHeader(headerNames);
+  let tbody = buildTableBody(taskList);
+
+  // If there is task to display add header
+  if (taskList.length !== 0) table.appendChild(thead);
+  else table.appendChild(noTasksTableRow());
+  table.appendChild(tbody);
+
+  return table;
+}
+
+function noTasksTableRow() {
+  let th = document.createElement("th");
+  th.textContent = "There are no tasks to display";
+  th.className = "display-6 text-center text-muted";
+
+  return th;
+}
+
+function buildTableHeader(colNames) {
+  // ------------------- Table Header ---------------------
+  let thead = document.createElement("thead");
+  let tr = document.createElement("tr");
+  tr.className = "text-center";
+
+  colNames.forEach(({ colName, colspan }) => {
+    let th = document.createElement("th");
+    th.innerText = colName;
+    th.setAttribute("scope", "col");
+    colspan && th.setAttribute("colspan", colspan);
+    tr.appendChild(th);
+  });
+
+  thead.appendChild(tr);
+
+  return thead;
+}
+
+function buildTableBody(taskList) {
+  // ------------------------- Table Body ----------------------------
+  let tbody = document.createElement("tbody");
+  let groupIdMap = new Map();
+
+  taskList.forEach((task) => {
+    // First run through task list find unique group_id
+    if (!groupIdMap.has(task.group_id)) {
+      groupIdMap.set(task.group_id, 1);
+    } else {
+      groupIdMap.set(task.group_id, groupIdMap.get(task.group_id) + 1);
+    }
+  });
+
+  // Second run through find all tasks under one group_id, build table
+  groupIdMap.forEach((value, uniqueGroupId) => {
+    if (value > 1) {
+      let tasks = taskList.filter((task) => task.group_id == uniqueGroupId);
+
+      let groupTr = buildAccordionTask(tasks);
+      tbody.appendChild(groupTr);
+    } else {
+      let tasks = taskList.filter((task) => task.group_id == uniqueGroupId);
+      let tr = buildTableRow(tasks[0]);
+      tbody.appendChild(tr);
+    }
+  });
+
+  // console.log(groupIdMap);
+  return tbody;
+}
+
+function buildAccordionTask(tasks) {
+  let tr = document.createElement("tr");
+  let task = tasks[0];
+  tr.className = "text-center";
+  tr.setAttribute("id", `group_id${task.group_id}`);
+  tr.className = "accordion";
+
+  let td = document.createElement("td");
+  td.setAttribute("colspan", 9);
+
+  let table = document.createElement("table");
+  table.className = "table mb-0";
+  let tbody = document.createElement("tbody");
+  let taskTr = buildTableRow(task);
+  tbody.appendChild(taskTr);
+  table.appendChild(tbody);
+
+  let accordionItem = document.createElement("div");
+  accordionItem.className = "accordion-item";
+
+  // ----------------- Task as Accordion Header: START ---------------//
+  let accordionHeader = document.createElement("h2");
+  accordionHeader.className = "accordion-header";
+  accordionHeader.id = `grouptask_heading${task.group_id}`;
+
+  let accordionButton = document.createElement("button");
+  let buttonCollapsed = "collapase";
+  accordionButton.className = "accordion-button " + buttonCollapsed;
+  accordionButton.type = "button";
+  accordionButton.setAttribute("data-bs-toggle", "collapse");
+  accordionButton.setAttribute(
+    "data-bs-target",
+    "#collapse_taskgroup" + task.group_id
+  );
+  accordionButton.setAttribute("aria-expanded", "true");
+  accordionButton.setAttribute(
+    "aria-controls",
+    "collapse_taskgroup" + task.group_id
+  );
+
+  // Build up DOM
+  accordionButton.appendChild(table);
+  accordionHeader.appendChild(accordionButton);
+  // accordionHeader.appendChild(taskTr);
+  accordionItem.appendChild(accordionHeader);
+  // ----------------- Task as Accordion Header: END ----------------//
+
+  // ----------------- Sub Task as Accordion Body: START ----------------//
+  let accordionBodyWrapper = document.createElement("div");
+  accordionBodyWrapper.id = "collapse_taskgroup" + task.group_id;
+  let showBody = false ? "show" : "collapse";
+  accordionBodyWrapper.className = "accordion-collapse collapse " + showBody;
+  accordionBodyWrapper.setAttribute(
+    "aria-labelledby",
+    "group_task_heading" + task.group_id
+  );
+  accordionBodyWrapper.setAttribute(
+    "data-bs-parent",
+    `group_id${task.group_id}`
+  );
+  let accordionBody = document.createElement("div");
+  accordionBody.className = "accordion-body";
+
+  // ------------- Build Nested Table: START ----------------- //
+  {
+    let table = document.createElement("table");
+    table.className = "table table-bordered mb-0";
+    let nestedTbody = document.createElement("tbody");
+
+    tasks.forEach((task) => {
+      let nestedTr = buildNestedTableRow(task);
+      nestedTbody.appendChild(nestedTr);
+    });
+
+    table.appendChild(nestedTbody);
+    accordionBody.appendChild(table);
+  }
+
+  // Build up DOM
+  accordionBodyWrapper.appendChild(accordionBody);
+  accordionItem.appendChild(accordionBodyWrapper);
+  // ----------------- Sub Task as Accordion Body: END ----------------//
+
+  td.appendChild(accordionItem);
+  tr.appendChild(td);
+
+  return tr;
+}
+
+function buildTableRow({
+  group_id,
+  program_name,
+  start_time,
+  end_time,
+  task_description,
+  spots_taken,
+  max_users,
+  show_edit,
+}) {
+  let tr = document.createElement("tr");
+  tr.className = "text-center";
+  tr.setAttribute("id", `group_id${group_id}`);
+
+  let td_program = buildTableCell(program_name);
+  tr.appendChild(td_program);
+
+  let td_date = buildTableCell(start_time, true);
+  tr.appendChild(td_date);
+
+  let td_start_time = buildTableCell(start_time, false, true);
+  tr.appendChild(td_start_time);
+
+  let td_end_time = buildTableCell(end_time, false, true);
+  tr.appendChild(td_end_time);
+
+  let td_desc = buildTableCell(task_description);
+  tr.appendChild(td_desc);
+
+  let td_spot = buildTableCell(`${spots_taken}/${max_users}`);
+  tr.appendChild(td_spot);
+
+  let td_view_button = document.createElement("td");
+  td_view_button.appendChild(createButton("View", onView, "info"));
+  tr.appendChild(td_view_button);
+
+  let td_signup_button = document.createElement("td");
+  td_signup_button.appendChild(createButton("SignUp", onSignup, "primary"));
+  tr.appendChild(td_signup_button);
+
+  let td_cancel_button = document.createElement("td");
+  td_cancel_button.appendChild(createButton("Cancel", onCancel, "danger"));
+
+  if (show_edit) {
+    let td_edit_button = document.createElement("td");
+    td_edit_button.appendChild(createButton("Edit", onEdit, "secondary"));
+    tr.appendChild(td_edit_button);
+  }
+
+  //     let showSignUpButton = JSON.parse(taskData.show_signupT_cancelF);
+  //     if (showSignUpButton) {
+  //       let td_signup_button = document.createElement("td");
+  //       td_signup_button.appendChild(accordionSignupButton);
+  //       tr.appendChild(td_signup_button);
+  //     }
+
+  //     let showCancelButton =
+  //       !JSON.parse(taskData.show_signupT_cancelF) &&
+  //       JSON.parse(taskData.can_cancel);
+  //     if (showCancelButton) {
+  //       let td_cancel_button = document.createElement("td");
+  //       td_cancel_button.appendChild(accordionCancelButton);
+  //       tr.appendChild(td_signup_button);
+  //     }
+
+  return tr;
+}
+
+function buildNestedTableRow({
+  group_id,
+  program_name,
+  start_time,
+  end_time,
+  task_description,
+  spots_taken,
+  max_users,
+  user_name,
+}) {
+  let tr = document.createElement("tr");
+  tr.className = "text-center";
+  tr.setAttribute("id", `group_id${group_id}`);
+
+  let td_program = buildTableCell(program_name);
+  tr.appendChild(td_program);
+
+  let td_date = buildTableCell(start_time, true);
+  tr.appendChild(td_date);
+
+  let td_start_time = buildTableCell(start_time, false, true);
+  tr.appendChild(td_start_time);
+
+  let td_end_time = buildTableCell(end_time, false, true);
+  tr.appendChild(td_end_time);
+
+  let td_desc = buildTableCell(task_description);
+  tr.appendChild(td_desc);
+
+  let td_spot = buildTableCell(`${spots_taken}/${max_users}`);
+  tr.appendChild(td_spot);
+
+  let td_username = buildTableCell(user_name);
+  tr.appendChild(td_username);
+
+  return tr;
+}
+
+function buildTableCell(text, isDate = false, isTime = false) {
+  let td = document.createElement("td");
+
+  // Check if text is of Date type
+  if (isTime) {
+    td.innerText = new Date(text).toLocaleTimeString(navigator.language, {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  } else if (isDate) {
+    td.innerText = new Date(text).toLocaleDateString();
+  } else {
+    td.innerText = text;
+  }
+
+  return td;
+}
+
+function createButton(buttonText, onClick, buttonType) {
+  let button = document.createElement("button");
+  button.className = "btn btn-" + buttonType;
+  button.setAttribute("type", "button");
+  // button.setAttribute("task_id", taskData.task_id);
+  button.setAttribute("data-bs-toggle", "modal");
+  button.setAttribute("data-bs-target", "#taskModal");
+  button.innerText = buttonText;
+  button.addEventListener("click", () => {
+    onClick();
+  });
+
+  return button;
 }
