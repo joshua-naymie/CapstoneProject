@@ -31,4 +31,12 @@ public class CompanyService {
         
         return companyDB.getByName(name);
     }
+
+
+    public String insert (String companyName){
+        CompanyDB companyDB = new CompanyDB();
+        CompanyName cn = new CompanyName (companyName);
+        companyDB.insert(cn);
+        return "Company added"; 
+}
 }
