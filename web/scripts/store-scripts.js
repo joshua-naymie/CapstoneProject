@@ -151,6 +151,7 @@ function load()
     // setup company InputGroup
     companyInput = new InputGroup(CSS_INPUTGROUP_MAIN, "company-name");
     companyInput.input.setAttribute("list", "company-list");
+    companyInput.input.setAttribute("autocomplete", "false");
     companyInput.setLabelText("Company");
     companyInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     companyInput.setPlaceHolderText("eg. Starbucks");

@@ -173,6 +173,7 @@ try {
 
      private void add(HttpServletRequest request, HttpServletResponse response) {
 
+    System.out.println("HERERERER");
      StoreServices ss = new StoreServices();
      CompanyService cs = new CompanyService();
      
@@ -201,7 +202,7 @@ try {
         // creating the store trough store services
              if (isFound){
             String userMsg = ss.insert(streetAddress,postalCode,storeCity, storeName, isActive, phoneNum, contact, companyName); 
-
+            System.out.println(userMsg);
            }
                   
      
