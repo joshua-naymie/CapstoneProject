@@ -49,7 +49,7 @@ public class TeamsServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, ex);
         }
-        request.setAttribute("supervisorUsers", supervisorUsers);
+        request.setAttribute("supervisorData", supervisorUsers);
 
         // sending Json data of all supervisor user info to the front end
         StringBuilder supervisorData = new StringBuilder();
