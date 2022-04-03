@@ -200,7 +200,7 @@ public class TeamsServlet extends HttpServlet {
         }
         
         Object[] userValues = {team.getTeamId(),
-            "team name", // replace after data base change
+            team.getTeamName(),
             supervisorUser.getFirstName() + " " + supervisorUser.getLastName()};
 
         return builder.buildJSON(userValues);
