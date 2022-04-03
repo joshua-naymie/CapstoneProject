@@ -86,7 +86,7 @@ function searchTeam() {
     $.ajax({
         type: "get",
         url: "data",
-        data: {operation: "findTeam", name: teamName},
+        data: {operation: "findTeam", teamName: teamName},
         success: function (data) {
             let obj = JSON.parse(data);
 

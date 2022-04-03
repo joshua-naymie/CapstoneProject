@@ -60,10 +60,10 @@ INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, 
 -- -----------------------------------------------------
 INSERT INTO `team` (`program_id`) VALUES (2);
 INSERT INTO `team` (`program_id`,`store_id`) VALUES (1, 12345);
-INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`) 
-     VALUES (1, 3, 1,12345);
-INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`) 
-     VALUES (1, 5, 1,123);
+INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`) 
+     VALUES (1, 3, 1,12345, 'Kensingston COBS');
+INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`) 
+     VALUES (1, 5, 1,123, 'Kensingston Starbucks');
 -- -----------------------------------------------------
 -- USER
 -- -----------------------------------------------------

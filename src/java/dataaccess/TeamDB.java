@@ -42,24 +42,16 @@ public class TeamDB {
     public List<Team> getTeamsByName(String teamName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
-            Query getFoundStores = em.createQuery("SELECT s FROM Store s WHERE s.storeName LIKE :storeName", Store.class);
-            getFoundStores.setParameter("storeName", "%" + teamName + "%");
-            List<Store> foundStores = getFoundStores.getResultList();
+             Query getFoundTeams = em.createQuery("SELECT t FROM Team t WHERE t.teamName LIKE :teamName", Team.class);
+             // testing
+//             System.out.println("got here");
+//             System.out.println("%" + teamName + "%");
+             getFoundTeams.setParameter("teamName", "%" + teamName + "%");
+             // testing
+//             System.out.println("got here 2");
+             List<Team> foundTeams = getFoundTeams.getResultList();
              
-            System.out.print("Team name:" + foundStores.get(0).getStoreName());
-            
-            //List<Team> allTeams = getAll();
-
-            List<Team> matchingTeams = new ArrayList<Team>();
-            
-            for (Store store : foundStores) {
-                for (Team team : store.getTeamList()) {
-                    matchingTeams.add(team);
-                    System.out.print("Team ID:" + team.getTeamId());
-                }
-            }
-            
-            return matchingTeams;
+            return foundTeams;
         } catch (NoResultException e) {
             return null;
         } finally {
