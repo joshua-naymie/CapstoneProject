@@ -328,6 +328,7 @@ function buildAccordionTask(tasks) {
 }
 
 function buildTableRow({
+  task_id,
   group_id,
   program_name,
   start_time,
@@ -336,6 +337,8 @@ function buildTableRow({
   spots_taken,
   max_users,
   show_edit,
+  show_signup,
+  can_cancel,
 }) {
   let tr = document.createElement("tr");
   tr.className = "text-center";
@@ -360,15 +363,8 @@ function buildTableRow({
   tr.appendChild(td_spot);
 
   let td_view_button = document.createElement("td");
-  td_view_button.appendChild(createButton("View", onView, "info"));
+  td_view_button.appendChild(createButton("View", onView(task_id), "info"));
   tr.appendChild(td_view_button);
-
-  let td_signup_button = document.createElement("td");
-  td_signup_button.appendChild(createButton("SignUp", onSignup, "primary"));
-  tr.appendChild(td_signup_button);
-
-  let td_cancel_button = document.createElement("td");
-  td_cancel_button.appendChild(createButton("Cancel", onCancel, "danger"));
 
   if (show_edit) {
     let td_edit_button = document.createElement("td");
@@ -376,20 +372,19 @@ function buildTableRow({
     tr.appendChild(td_edit_button);
   }
 
-       let showSignUpButton = JSON.parse(taskData.show_signup);
-       if (showSignUpButton) {
-         let td_signup_button = document.createElement("td");
-         td_signup_button.appendChild(accordionSignupButton);
-         tr.appendChild(td_signup_button);
-       }
+  let showSignUpButton = JSON.parse(show_signup);
+  if (showSignUpButton) {
+    let td_signup_button = document.createElement("td");
+    td_signup_button.appendChild(createButton("SignUp", onSignup, "primary"));
+    tr.appendChild(td_signup_button);
+  }
 
-       let showCancelButton =
-         JSON.parse(taskData.can_cancel);
-       if (showCancelButton) {
-         let td_cancel_button = document.createElement("td");
-         td_cancel_button.appendChild(accordionCancelButton);
-         tr.appendChild(td_signup_button);
-       }
+  let showCancelButton = JSON.parse(can_cancel);
+  if (showCancelButton) {
+    let td_cancel_button = document.createElement("td");
+    td_cancel_button.appendChild(createButton("Cancel", onCancel, "danger"));
+    tr.appendChild(td_cancel_button);
+  }
 
   return tr;
 }
@@ -423,8 +418,8 @@ function buildNestedTableRow({
   let td_desc = buildTableCell(task_description);
   tr.appendChild(td_desc);
 
-  let td_spot = buildTableCell(`${spots_taken}/${max_users}`);
-  tr.appendChild(td_spot);
+  // let td_spot = buildTableCell(`${spots_taken}/${max_users}`);
+  // tr.appendChild(td_spot);
 
   let td_username = buildTableCell(user_name);
   tr.appendChild(td_username);
@@ -455,11 +450,13 @@ function createButton(buttonText, onClick, buttonType) {
   button.className = "btn btn-" + buttonType;
   button.setAttribute("type", "button");
   // button.setAttribute("task_id", taskData.task_id);
-  button.setAttribute("data-bs-toggle", "modal");
-  button.setAttribute("data-bs-target", "#taskModal");
+  if (buttonText === "View") {
+    button.setAttribute("data-bs-toggle", "modal");
+    button.setAttribute("data-bs-target", "#taskModal");
+  }
   button.innerText = buttonText;
   button.addEventListener("click", () => {
-    onClick();
+    onClick;
   });
 
   return button;
