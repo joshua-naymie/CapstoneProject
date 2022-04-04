@@ -9,6 +9,9 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import servlets.StoreServlet;
 
 /**
  *
@@ -67,14 +70,20 @@ public List<Store> getAll() throws Exception {
         }
     }
 
-    public Store getByStreetAddress(String streetAddress) throws Exception {
+    public Store getByStreetAddress(String streetAddress)  {
       EntityManager em = DBUtil.getEMFactory().createEntityManager();
       try {
-            Store s = em.find(Store.class, streetAddress);
-            return s;
-        } finally {
+          Query getStoreByAddress= em.createNamedQuery("Store.findByStreetAddress", models.Store.class);
+          Store s = (Store)getStoreByAddress.setParameter("streetAddress", streetAddress).getSingleResult();
             em.close();
-        }
+            return s;
+            
+        } catch(NoResultException e) {
+        em.close();
+        return null;
+         
+    }
+         
     }
    
     public void insert(Store store) throws Exception {
@@ -85,6 +94,7 @@ public List<Store> getAll() throws Exception {
             em.persist(store);
             trans.commit();
         } catch (Exception ex) {
+System.out.println("----====" + ex + "====----");
             trans.rollback();
         } finally {
             em.close();
