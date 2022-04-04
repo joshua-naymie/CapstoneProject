@@ -302,6 +302,20 @@ public class AddTaskServlet extends HttpServlet {
                         User user = as.getByID(supervisorId);
                         addTask.setUserId(user);
                         addTask.setAssigned(Boolean.TRUE);
+                        
+                        List <Task> tasks = null;
+
+                        try {
+                           tasks = ts.getAllTasksByGroupId(task.getGroupId());
+
+                        } catch (Exception ex) {
+                            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                        for(Task singleTask : tasks){
+                            singleTask.setSpotsTaken( (short) (task.getSpotsTaken() + ( (short) 1 )));
+                            ts.update(singleTask);
+                        }
                     }
                     
                     for(int i = 0; i <extraTasks; i++){

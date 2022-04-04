@@ -69,14 +69,12 @@ public class TaskServlet extends HttpServlet {
                 new JSONKey("approval_notes", true),
                 new JSONKey("is_dissaproved", false),
                 new JSONKey("team_id", true),
-                new JSONKey("show_signupT_cancelF", true), //pass boolean for signup or cancel show_signup_cancel
+                new JSONKey("show_signup", true), //pass boolean for signup or cancel show_signup_cancel
                 new JSONKey("can_cancel", true), //boolaen for can cancel can_cancel
                 new JSONKey("show_edit", true),//boolean to show edit button or not show_edit
 		new JSONKey("spots_taken", true),
 		new JSONKey("user_name", true)
-                
-                
-                
+    
         };
 
         JSONBuilder builder = new JSONBuilder(taskKeys);
@@ -113,11 +111,13 @@ public class TaskServlet extends HttpServlet {
                 task.getApprovalNotes(),
                 task.getIsDissaproved(),
                 task.getTeamId().getTeamId(),
-                signUpOrCancel(task, loggedInUserId),
+                signUpButtonShow(task, loggedInUserId),
                 cancelTaskButtonShow(task, loggedInUserId),
                 show_edit,
 		task.getSpotsTaken(),
 		getUserName(task.getUserId())};
+        
+        log(signUpButtonShow(task, loggedInUserId) + "");
 
         return builder.buildJSON(taskValues);
     }
@@ -229,27 +229,7 @@ public class TaskServlet extends HttpServlet {
         return false;
     }
     
-    private boolean signUpOrCancel(Task task, int loggedInUserId){
-        
-//        UserTaskService uts = new UserTaskService();
-//        
-//        List<User> users = null;
-//        
-//        try {
-//            users = uts.getChosenUsers(task.getTaskId());
-//        } catch (Exception ex) {
-//            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        if(users!= null){
-//            for(User user: users){
-//                if(user.getUserId() == loggedInUserId){
-//                    return false;
-//                }
-//                
-//            }
-//        }
-    
+    private boolean signUpButtonShow(Task task, int loggedInUserId){
                 
         TaskService ts = new TaskService();
         AccountServices as = new AccountServices();
@@ -258,6 +238,7 @@ public class TaskServlet extends HttpServlet {
         
         try {
            tasks = ts.getAllTasksByGroupId(task.getGroupId());
+           //log(tasks.size() + " ");
             
         } catch (Exception ex) {
             Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -276,10 +257,23 @@ public class TaskServlet extends HttpServlet {
             return false;
         }
         
-//        if(matchedTask != null){
-//            log(matchedTask.getTaskDescription());
-//            return false;
-//        }
+        if(matchedTask != null){
+            //log(matchedTask.getTaskDescription());
+            return false;
+        }
+        
+        Date taskStart = task.getStartTime();
+            
+            LocalDateTime taskTime = taskStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            LocalDateTime currTime = LocalDateTime.now();
+
+            long diffInHours = java.time.Duration.between(taskTime, currTime).toHours();
+            
+            log(diffInHours + " ");
+            
+            if(diffInHours <= 0 ){
+                return false;
+            }
         
         return true;
     }
@@ -309,10 +303,14 @@ public class TaskServlet extends HttpServlet {
         for(Task oneTask : tasks){
             if(oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId){
                 try {
-                    task.setAssigned(Boolean.FALSE);
-                    task.setSpotsTaken( (short) (task.getSpotsTaken() - ( (short) 1 )));
-                    task.setUserId(null);
-                    ts.update(task);
+                    for(Task singleTask : tasks){
+                        singleTask.setSpotsTaken( (short) (task.getSpotsTaken() - ( (short) 1 )));
+                        ts.update(singleTask);
+                    }
+                    oneTask.setAssigned(Boolean.FALSE);
+                    //task.setSpotsTaken( (short) (task.getSpotsTaken() - ( (short) 1 )));
+                    oneTask.setUserId(null);
+                    ts.update(oneTask);
                 } catch (Exception ex) {  
                     Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -361,10 +359,14 @@ public class TaskServlet extends HttpServlet {
              for(Task oneTask : tasks){
                  if(oneTask.getUserId() == null){            
                     try {
+                        for(Task singleTask : tasks){
+                            singleTask.setSpotsTaken( (short) (task.getSpotsTaken() + ( (short) 1 )));
+                            ts.update(singleTask);
+                        }
                         User user = as.getByID(loggedInUserId);
-                        task.setUserId(user);
-                        task.setSpotsTaken( (short) (task.getSpotsTaken() + ( (short) 1 )));
-                        ts.update(task);
+                        oneTask.setUserId(user);
+                        //task.setSpotsTaken( (short) (task.getSpotsTaken() + ( (short) 1 )));
+                        ts.update(oneTask);
 
                     } catch (Exception ex) {
                         Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);

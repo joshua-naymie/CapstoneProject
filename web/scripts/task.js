@@ -376,21 +376,20 @@ function buildTableRow({
     tr.appendChild(td_edit_button);
   }
 
-  //     let showSignUpButton = JSON.parse(taskData.show_signupT_cancelF);
-  //     if (showSignUpButton) {
-  //       let td_signup_button = document.createElement("td");
-  //       td_signup_button.appendChild(accordionSignupButton);
-  //       tr.appendChild(td_signup_button);
-  //     }
+       let showSignUpButton = JSON.parse(taskData.show_signup);
+       if (showSignUpButton) {
+         let td_signup_button = document.createElement("td");
+         td_signup_button.appendChild(accordionSignupButton);
+         tr.appendChild(td_signup_button);
+       }
 
-  //     let showCancelButton =
-  //       !JSON.parse(taskData.show_signupT_cancelF) &&
-  //       JSON.parse(taskData.can_cancel);
-  //     if (showCancelButton) {
-  //       let td_cancel_button = document.createElement("td");
-  //       td_cancel_button.appendChild(accordionCancelButton);
-  //       tr.appendChild(td_signup_button);
-  //     }
+       let showCancelButton =
+         JSON.parse(taskData.can_cancel);
+       if (showCancelButton) {
+         let td_cancel_button = document.createElement("td");
+         td_cancel_button.appendChild(accordionCancelButton);
+         tr.appendChild(td_signup_button);
+       }
 
   return tr;
 }
