@@ -31,15 +31,26 @@ import services.TaskService;
 import services.UserTaskService;
 
 /**
- *
+ * Backend for the Submit Task page
+ * 
  * @author srvad
  */
 public class SubmitTaskServlet extends HttpServlet {
 
+   /**
+     * Get information to show on the Submit Task Page
+     * 
+     * @param request Request object created by the web container 
+     * for each request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters difficulty
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
+    // get the loggined in user from the sesstion
     HttpSession httpSession = request.getSession();
     
     int loggedInUserId = -1;
@@ -55,6 +66,8 @@ public class SubmitTaskServlet extends HttpServlet {
     //delete later
     loggedInUserId = 4;
         
+    
+    //get all tasks that have not been approved for that user
     TaskService ts = new TaskService();
       
     List<Task> taskList = null;
@@ -67,10 +80,12 @@ public class SubmitTaskServlet extends HttpServlet {
 
     request.setAttribute("allTasks", taskList);
     
+    //build a JSOn object for all the tasks and send it to the front end
     StringBuilder returnData = new StringBuilder();
     returnData.append("[");
     
-            JSONKey[] keys = { new JSONKey("task_id", true),
+        //each column in the task data needs to be transformed to a key value pair  
+        JSONKey[] keys = { new JSONKey("task_id", true),
                 new JSONKey("program_name", true),
                 new JSONKey("start_time", true),
                 new JSONKey("end_time", true),
@@ -88,17 +103,24 @@ public class SubmitTaskServlet extends HttpServlet {
         }
         returnData.append("];");
 
-        log(returnData.toString());
-
         request.setAttribute("taskData", returnData);
         
-    getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
+        //forward to submit task page
+        getServletContext().getRequestDispatcher("/WEB-INF/submitTask.jsp").forward(request, response);
     
     }
     
+    /**
+     * 
+     * @param task a task object
+     * @param builder builder for JSON
+     * @return JSON object with task information
+     */
     private String buildTaskJSON(Task task, JSONBuilder builder)
     {
         Program program = task.getProgramId();
+        
+        //set the values for a task to their respective keys
         Object[] taskValues = { task.getTaskId(),
                 program.getProgramName(),
                 task.getStartTime(),
