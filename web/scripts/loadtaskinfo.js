@@ -185,7 +185,7 @@ function load()
     cancelButton.innerHTML = "Cancel";
     cancelButton.type = "reset";
     cancelButton.className = "btn";
-    cancelButton.id = "Cancel";
+    cancelButton.id = "cancel-button";
 
     // Add "Submit" and "Cancel" button to the DOM
     containerLeft.appendChild(disapproveButton);
