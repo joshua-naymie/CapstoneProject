@@ -42,7 +42,7 @@ public class TaskServlet extends HttpServlet {
 
         HttpSession httpSession = request.getSession();
         if (httpSession.getAttribute("email") != null) {
-            Integer user_id = httpSession.getAttribute("email");
+            int user_id = (int) httpSession.getAttribute("email");
             System.out.println(user_id);
             User loggedInUser = new User(user_id);
             if (user_id != null && user_id.matches("[0-9]+")) {
