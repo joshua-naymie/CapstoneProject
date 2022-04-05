@@ -26,7 +26,7 @@
 		<script src="scripts/task.js"></script>
 		
 		<!------------------------------ Accordion Start ------------------------------------>
-		<div class="accordion col-md-9" id="accordionWeek">
+		<div class="container" id="main">
 			<p class="h1 text-center">Task</p>
 		</div>
 

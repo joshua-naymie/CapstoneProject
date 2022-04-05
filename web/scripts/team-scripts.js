@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', load, false);
 const CSS_INPUTGROUP_MAIN = "main-input";
 
 /**
- * @type Array  The current, filtered list of stores
+ * @type Array  The current, filtered list of teams
  */
 var currentListData;
 var currentUserData;
@@ -18,7 +18,7 @@ var currentWidthClass = "container--list-size";
 var listArea;
 var inputArea
 
-var storeSearchInput;
+var teamSearchInput;
 var filterCheckbox;
 
 var inputForm;
@@ -28,11 +28,11 @@ var actionInput;
 var inputs;
 var removeManagerInput;
 var userList;
-var storeList;
-var storeNameInput,
+var teamList;
+var teamNameInput,
     companyInput,
     streetAddressInput,
-   // provinceInput,
+    provinceInput,
     postalCodeInput,
     cityInput,
     
@@ -55,17 +55,17 @@ const userSearchInputTimer = (searchValue) => {
 }
 
 /**
- * Filters a store based on given search value.
- * Checks store and manager name, case-insensitive.
- * @param {type} store The store to filter
- * @param {string} searchValue The value to find in the store or manager name
- * @returns Whether the search value is contained in the store or manager name
+ * Filters a team based on given search value.
+ * Checks team and manager name, case-insensitive.
+ * @param {type} team The team to filter
+ * @param {string} searchValue The value to find in the team or manager name
+ * @returns Whether the search value is contained in the team or manager name
  */
-const filterstore = (store, searchValue) => {
-    if (store.name.toLowerCase().includes(searchValue)
-    ||((store.managerId != null) && userData[store.managerId].name.toLowerCase().includes(searchValue)))
+const filterTeam = (team, searchValue) => {
+    if (team.name.toLowerCase().includes(searchValue)
+    ||((team.managerId != null) && userData[team.managerId].name.toLowerCase().includes(searchValue)))
     {
-        return filterCheckbox.checked ? true : store.isActive;
+        return filterCheckbox.checked ? true : team.isActive;
     }
 
     return false;
@@ -76,7 +76,7 @@ const filterstore = (store, searchValue) => {
  * Checks user's name and email, case-insensitive.
  * @param {type} user The user to filter
  * @param {string} searchValue The value to find in the user's name or email
- * @returns Whether the search value is contained in the store or manager name
+ * @returns Whether the search value is contained in the team or manager name
  */
 const filterUser = (user, searchValue) => {
     if(user.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -94,14 +94,14 @@ const filterUser = (user, searchValue) => {
 function load()
 {
     // setup 'Show Inactive' checkbox
-    filterCheckbox = document.getElementById("store-filter");
+    filterCheckbox = document.getElementById("team-filter");
     filterCheckbox.checked = false;
-    filterCheckbox.addEventListener("change", () => { searchStoreList(storeSearchInput.value); });
+    filterCheckbox.addEventListener("change", () => { searchStoreList(teamSearchInput.value); });
 
-    storeList = new AutoList("flex");
-    storeList.container = document.getElementById("list-base");
-    storeList.setFilterMethod(filterstore);
-    storeList.setSortMethod(compareStore);
+    teamList = new AutoList("flex");
+    teamList.container = document.getElementById("list-base");
+    teamList.setFilterMethod(filterTeam);
+    teamList.setSortMethod(compareStore);
     generateStoreList();
     
     // setup input area
@@ -125,18 +125,18 @@ function load()
     document.getElementById("cancel__button").addEventListener("click", cancelPressed);
     submitButton.addEventListener("click", () => { submitForm(currentAction) });
     
-    // setup store search input
-    storeSearchInput = document.getElementById("search-input");
-    storeSearchInput.value = "";
-    storeSearchInput.addEventListener("input", () => { searchStoreList(storeSearchInput.value) });
+    // setup team search input
+    teamSearchInput = document.getElementById("search-input");
+    teamSearchInput.value = "";
+    teamSearchInput.addEventListener("input", () => { searchStoreList(teamSearchInput.value) });
 
-    // setup store name InputGroup
-    storeNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-name");
-    storeNameInput.setLabelText("Store Name");
-    storeNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    storeNameInput.setPlaceHolderText("eg. Kensington Starbucks");
-    storeNameInput.container = document.getElementById("store-name__input");
-    configCustomInput(storeNameInput);
+    // setup team name InputGroup
+    teamNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "team-name");
+    teamNameInput.setLabelText("Store Name");
+    teamNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
+    teamNameInput.setPlaceHolderText("eg. Kensington Starbucks");
+    teamNameInput.container = document.getElementById("team-name__input");
+    configCustomInput(teamNameInput);
     
     let companyList = document.getElementById("company-list");
     
@@ -157,16 +157,16 @@ function load()
     companyInput.container = document.getElementById("company__input");
     configCustomInput(companyInput);
     
-    // setup store street address InputGroup
-    streetAddressInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-address");
+    // setup team street address InputGroup
+    streetAddressInput = new InputGroup(CSS_INPUTGROUP_MAIN, "team-address");
     streetAddressInput.setLabelText("Street Address");
     streetAddressInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     streetAddressInput.setPlaceHolderText("eg. 1234 Main St.");
     streetAddressInput.container = document.getElementById("street-address__input");
     configCustomInput(streetAddressInput);
 
-    // setup store city InputGroup
-    cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-city");
+    // setup team city InputGroup
+    cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "team-city");
     cityInput.setLabelText("City");
     cityInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     cityInput.setPlaceHolderText("eg. Calgary");
@@ -174,13 +174,13 @@ function load()
     configCustomInput(cityInput);
 
     // setup store province InputGroup
-    //provinceInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-province");
-   // provinceInput.input.disabled = true;
-    //provinceInput.setLabelText("Prov.");
-    //provinceInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*");
-   // provinceInput.setPlaceHolderText("eg. AB");
-    //provinceInput.container = document.getElementById("province__input");
-   // configCustomInput(provinceInput);
+    provinceInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-province");
+    provinceInput.input.disabled = true;
+    provinceInput.setLabelText("Prov.");
+    provinceInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*");
+    provinceInput.setPlaceHolderText("eg. AB");
+    provinceInput.container = document.getElementById("province__input");
+    configCustomInput(provinceInput);
 
     // setup store postal code InputGroup
     postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-postal-code");
@@ -209,7 +209,7 @@ function load()
     inputs.add(companyInput);
     inputs.add(streetAddressInput);
     inputs.add(cityInput);
-   // inputs.add(provinceInput);
+    inputs.add(provinceInput);
     inputs.add(postalCodeInput);
     inputs.add(phoneInput);
 
@@ -340,6 +340,7 @@ function addStore()
     currentAction = "add";
     submitButton.value = "Add";
     document.getElementById("store-ID").value = -1;
+    provinceInput.setInputText("AB");
     setStatusSelectColor();
     
     setContainerWidth("container--input-size");
@@ -365,7 +366,7 @@ function editStore(store)
     companyInput.setInputText(company.name);
     streetAddressInput.setInputText(store.streetAddress);
     cityInput.setInputText(store.city);
-   // provinceInput.setInputText("AB");
+    provinceInput.setInputText("AB");
     postalCodeInput.setInputText(store.postalCode);
     contactInput.setInputText(store.contactName);
     phoneInput.setInputText(store.phoneNum);

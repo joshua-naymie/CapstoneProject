@@ -178,17 +178,16 @@ try {
      
      try {
             List<Store> stores = ss.getAll();
-            String storeName = request.getParameter("store-name");
-            String streetAddress = request.getParameter("");
-            String postalCode = request.getParameter("");
-            String storeCity = request.getParameter("");
-            String phoneNum = request.getParameter("");
-            String contact = request.getParameter("");
-            String status = request.getParameter("");
+         String storeName = request.getParameter("store-name");
+            String streetAddress = request.getParameter("store-address");
+            String postalCode = request.getParameter("store-postal-code");
+            String storeCity = request.getParameter("store-city");
+            String phoneNum = request.getParameter("store-phone");
+            String contact = request.getParameter("store-contact");
+            String status = request.getParameter("status");
             boolean isActive = status.equals("active");
-            String companyId = request.getParameter("");
-            short ci = Short.parseShort(companyId);
-            CompanyName c = cs.get(ci);
+            String companyName = request.getParameter("company-name");
+            //CompanyName c = cs.getByName(companyName);
             boolean isFound = false;
              for (int i = 0; i < stores.size(); i++) {
                 if (stores.get(i).getStoreName().equals(storeName)) {
@@ -200,12 +199,13 @@ try {
              
             }
         // creating the store trough store services
-             if (isFound){
-            String userMsg = ss.insert(streetAddress,postalCode,storeCity, storeName, isActive, phoneNum, contact, c); 
-
+             if (!isFound){
+            String userMsg = ss.insert(streetAddress,postalCode,storeCity, storeName, isActive, phoneNum, contact, companyName); 
+            System.out.println (userMsg );
+            System.out.println ("store added " + storeName );
            }
                   
-     
+        response.sendRedirect("stores");
 
 }
 catch (Exception e) {
@@ -227,7 +227,7 @@ catch (Exception e) {
 
             // setting store attribute to edit
             request.setAttribute("editStore", editStore);
-            getServletContext().getRequestDispatcher("/WEB-INF/program.jsp").forward(request, response);
+             response.sendRedirect("stores");
         } catch (Exception e) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
         }
@@ -243,20 +243,19 @@ catch (Exception e) {
             int storeID = Integer.parseInt(request.getParameter("store-ID"));
 
             String storeName = request.getParameter("store-name");
-            String streetAddress = request.getParameter("");
-            String postalCode = request.getParameter("");
-            String storeCity = request.getParameter("");
-            String phoneNum = request.getParameter("");
-            String contact = request.getParameter("");
-            String status = request.getParameter("");
+            String streetAddress = request.getParameter("store-address");
+            String postalCode = request.getParameter("store-postal-code");
+            String storeCity = request.getParameter("store-city");
+            String phoneNum = request.getParameter("store-phone");
+            String contact = request.getParameter("store-contact");
+            String status = request.getParameter("status");
             boolean isActive = status.equals("active");
-            String companyId = request.getParameter("");
-            short ci = Short.parseShort(companyId);
-            CompanyName c = cs.get(ci);
+            String companyName = request.getParameter("company-name");
+//            short ci = Short.parseShort(companyId);
+//            CompanyName c = cs.get(ci);
 
             // updating store
-            String userMsg = ss.update(storeID,streetAddress,postalCode,storeCity,
-                             storeName,isActive,phoneNum,contact,c);
+            String userMsg = ss.update(storeID, streetAddress, postalCode, storeCity, storeName, isActive, phoneNum, contact, companyName);
 
             response.sendRedirect("stores");
         } catch (Exception e) {

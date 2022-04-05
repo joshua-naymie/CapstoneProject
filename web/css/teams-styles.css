@@ -5,7 +5,7 @@
     width: 100%;
     margin: 0;
     padding: 0;
-    /*background-color: rgb(214, 235, 194);*/
+    background-color: rgb(214, 235, 194);
 }
 
 .main
@@ -48,9 +48,9 @@
     flex-direction: column;
     align-items: center;
     background: rgb(248,248,248);
-    border: 1px solid #cecece;
-    border-radius: 15px;
-    box-shadow: 0px 0px 2px #cecece;
+    border: 1px solid black;
+    border-radius: 25px;
+    box-shadow: 2px 2px 12px darkslategrey;
     min-width: 370px;
     padding: 40px;
     height: calc(100vh - 80px);
@@ -60,7 +60,7 @@
 
 .container--list-size
 {
-    max-width: calc(100vw - 350px);;
+    max-width: 700px;
     min-width: 450px;
     max-height: calc(100vh - 80px);
     
@@ -74,8 +74,8 @@
 {
     max-width: 450px;
     min-width: 450px;
-    max-height: 640px;
-    min-height: 640px;
+    max-height: 700px;
+    min-height: 700px;
     
     transition: max-width 0.2s,
                 min-width 0.2s,
@@ -83,13 +83,13 @@
                 min-height 0.2s;
 }
 
-@media (min-width: 1433px)
+/*@media (min-width: 1433px)
 {
     .container--list-size
     {
         max-width: 1100px;
     }
-}
+}*/
 
 .list-panel
 {
@@ -125,7 +125,7 @@
     margin: 0 0px 20px 0px;
 }
 
-.search-programs__input
+.search-teams__input
 {
     width: 100%;
     height: 30px;
@@ -135,7 +135,7 @@
     font-size: 1rem;
 }
 
-.add-program__button
+.add-team__button
 {
     width: 25%;
     min-width: 110px;
@@ -148,7 +148,7 @@
     transition: background-color 0.1s;
 }
 
-.add-program__button:hover
+.add-team__button:hover
 {
     cursor: pointer;
     background-color: #9FCA6A;
@@ -164,7 +164,7 @@
     margin-top: 30px;
 }
 
-.program-list__base
+.team-list__base
 {
     display: flex;
     flex-direction: column;
@@ -181,7 +181,7 @@
     transition: max-height 0.2s;
 }
 
-.program-list__base hr
+.team-list__base hr
 {
     width: 92%;
     color: gray;
@@ -190,25 +190,16 @@
 
 .list-item
 {
-    grid-template-columns: 0.85fr 0.15fr;
+    display: flex;
+    justify-content: space-between;
     padding: 8px 2% 8px 2%;
-    border-width: 1px 0 1px 0;
-    border-color: #fff0;
-    border-style: solid;
-    
-    transition: border-color 0.1s, background-color 0.1s;
 }
 
 .list-item:hover
 {
-    background-color: rgb(248, 248, 248);
+    background-color: rgb(255, 244, 223);
     transition: background-color 0.1s;
     cursor: pointer;
-    border-width: 1px 0 1px 0;
-    border-color: #b0b0b0;
-    border-style: solid;
-    
-    transition: border-color 0.1s, background-color 0.1s;
 }
 
 .list-item p
@@ -221,7 +212,7 @@
     white-space: nowrap;
 }
 
-.program-name
+.team-name
 {
     font-size: 1.4rem;
 }
@@ -240,7 +231,7 @@
     overflow: hidden;
 }
 
-.program-area
+.team-area
 {
     overflow: hidden;
     margin-right: 10px;
@@ -357,12 +348,12 @@
     justify-content: space-between;
 }
 
-.program__custom-input
+.team__custom-input
 {
     margin-bottom: 10px;
 }
 
-.program__custom-input input
+.team__custom-input input
 {
     width: 100%;
 }
@@ -379,8 +370,15 @@
 .status-input
 {
     display: grid;
-    grid-template-columns: 0.9fr 0.1fr .38fr;
+    grid-template-columns: 1fr 0.25fr;
+    gap: 10px;
 }
+
+/*.status-input div
+{
+    display: flex;
+    flex-direction: column;
+}*/
 
 status__select
 {
@@ -419,7 +417,7 @@ status__select
 {
     display: flex;
     justify-content: space-between;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .input-action-buttons input
@@ -564,4 +562,33 @@ status__select
 remove-manager--hidden:hover
 {
     cursor: auto;
+}
+
+.address-inputs
+{
+    display: grid;
+    grid-template-columns: 1.8fr 0.5fr 1fr;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+.team-list__row-left
+{
+    max-width: 48%;
+    overflow-y: hidden;
+}
+
+.team-list__row-right
+{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    /*text-align: right;*/
+    max-width: 48%;
+    overflow-y: hidden;
+}
+
+.team-list__large-field
+{
+    font-size: 1.1em;
 }

@@ -29,15 +29,26 @@ import services.TaskService;
 import services.PackageTypeService;
 
 /**
- *
+ * Backend code for Submit Task Form Page
+ * 
  * @author srvad
  */
 public class SubmitTaskFormServlet extends HttpServlet {
 
+    /**
+     * Display required information in the submitTaskForm page
+     * 
+     * @param request Request object created by the web container 
+     * for each request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters difficulty
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        //get the task_id coming from the Submit button in the Submit Task page
         TaskService ts = new TaskService();
         
         Long submitTaskId = -1L;
@@ -48,13 +59,11 @@ public class SubmitTaskFormServlet extends HttpServlet {
             Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        //create a session to store the task_id for the task to be submitted
         HttpSession session = request.getSession();
         session.setAttribute("submitTaskFormId", submitTaskId);
 
-        log("" + submitTaskId);
-        
-        //submitTaskId = 1L;
-
+        //get the task for the specified task_id
         Task editTask = null;
 
         try {
@@ -65,12 +74,16 @@ public class SubmitTaskFormServlet extends HttpServlet {
 
         Short foodDeliveryId = 1;
 
+        //get description for the current task
         String description = editTask.getTaskDescription();
 
+        
+        //if the selected task was food delivery get information for extra fields
         if (foodDeliveryId == editTask.getProgramId().getProgramId()) {
 
             request.setAttribute("foodDelivery", true);
 
+            //get all the package types available in the package_type table
             PackageTypeService pts = new PackageTypeService();
 
             List<PackageType> allPackages = null;
@@ -83,6 +96,7 @@ public class SubmitTaskFormServlet extends HttpServlet {
 
             request.setAttribute("allPackages", allPackages);
 
+            //get all the organizations available in the organization table
             OrganizationService os = new OrganizationService();
 
             List<Organization> organizations = null;
@@ -95,22 +109,31 @@ public class SubmitTaskFormServlet extends HttpServlet {
 
             request.setAttribute("organizations", organizations);
 
-        } else {
-            // log("here");
         }
 
         request.setAttribute("description", description);
 
+        // forward to submit Task form page
         getServletContext().getRequestDispatcher("/WEB-INF/submitTaskForm.jsp").forward(request, response);
 
     }
 
+    /**
+     * Get information from when the user submits a task or cancels their submission
+     * 
+     * @param request Request object created by the web container 
+     * for each request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters difficulty
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         String action = (String) request.getParameter("action");
         
+        //if user clicks the submit task button, do the following:
         if(action != null && action.equals("Submit Task")){
         
         try{
@@ -119,6 +142,7 @@ public class SubmitTaskFormServlet extends HttpServlet {
             
                 HttpSession httpSession = request.getSession();
     
+                //get the current task_id from the session
                 Long submitTaskId = -1L;
 
                 try{
@@ -128,12 +152,10 @@ public class SubmitTaskFormServlet extends HttpServlet {
                     Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
+                //end the session after getting the task_id
                 httpSession.invalidate();
 
-            //Long submitTaskId = Long.parseLong( (String) request.getParameter("task_id") );
-
-            //Long submitTaskId = 6L;
-
+            //get the task from the task_id
             Task editTask = null;
 
             try {
@@ -142,38 +164,12 @@ public class SubmitTaskFormServlet extends HttpServlet {
                 Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            //get the necessary information from the fields typed by the user
             String programName = editTask.getProgramId().getProgramName();
 
             Short programId = editTask.getProgramId().getProgramId();
 
             Short foodDeliveryId = 1;
-
-//            String taskStart = request.getParameter("taskStart");
-//
-//            Date taskStartTime = null;
-//            Date taskEndTime = null;
-//
-//            try {
-//                taskStartTime = new SimpleDateFormat("hh:mm").parse(taskStart);
-//                log(taskStartTime.toString());
-//
-//            } catch (ParseException ex) {
-//                Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//            String taskEnd = request.getParameter("taskEnd");
-//
-//            try {
-//                taskEndTime = new SimpleDateFormat("hh:mm").parse(taskEnd);
-//                log(taskEndTime.toString());
-//
-//            } catch (ParseException ex) {
-//                Logger.getLogger(SubmitTaskFormServlet.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//            BigDecimal totalHours = new BigDecimal(0);
-//
-//            totalHours = new BigDecimal(((taskEndTime.getTime() - taskStartTime.getTime()) / (1000.0 * 60 * 60)));
 
             String total = request.getParameter("totalHours");
              
@@ -185,6 +181,7 @@ public class SubmitTaskFormServlet extends HttpServlet {
 
             FoodHotlineDataService fds = new FoodHotlineDataService();
 
+            //if program is food delivery get extra fields from user input
             if (programId == foodDeliveryId) {
                 Short mileage = Short.valueOf(request.getParameter("mileage"));
                 Short fooodAmount = Short.valueOf(request.getParameter("food_amount"));
@@ -201,24 +198,28 @@ public class SubmitTaskFormServlet extends HttpServlet {
                 Short familyCount = -1;
                 Integer organizationId = -1;
 
+                //create food delivery data for a task and assign values
                 FoodDeliveryData fd = new FoodDeliveryData(submitTaskId);
                 fd.setTaskFdId(submitTaskId);
                 fd.setMileage(mileage);
                 fd.setFoodHoursWorked(totalHours);
                 fd.setFoodAmount(fooodAmount);
                 
+                //if family is selected in "delivered to" field do the following
                 if(family !=""){
                     familyCount = Short.valueOf(family);
                     fd.setFamilyCount(familyCount);
 
                 }
 
+                //id organization is selected do the following
                 if(org != ""){
                     organizationId = Integer.valueOf(org);
                     Organization ot = new Organization(organizationId);
                     fd.setOrganizationId(ot);
                 }
 
+                //set package and store id and insert the food delivery data
                 PackageType pt = new PackageType(packageId);
                 fd.setPackageId(pt);
 
@@ -227,6 +228,8 @@ public class SubmitTaskFormServlet extends HttpServlet {
                 fds.insertFoodDeliveryData(fd);
 
             } else {
+                
+                //else create a hotline data and insert it into the database
                 HotlineData hd = new HotlineData(submitTaskId);
                 hd.setTaskHotlineId(submitTaskId);
                 hd.setHotlineHoursWorked(totalHours);
@@ -234,6 +237,8 @@ public class SubmitTaskFormServlet extends HttpServlet {
             }
 
             try {
+                
+                //once the user submits, this field becomes true
                 editTask.setIsSubmitted(Boolean.TRUE);
                 ts.update(editTask);
 
@@ -241,18 +246,18 @@ public class SubmitTaskFormServlet extends HttpServlet {
                 Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         
+            //if there was an error submitting task, show the message to the user
         } catch(Exception ex){
             Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("userMessage", "Task could not be submitted. Please try again.");
             doGet(request, response);
             return;
-//            response.sendRedirect("sbmitTaskForm");
-//            return;
+
+        }
+
         }
         
-        
-        
-        }
+        //if the user cancels redirect to the submit task page
         else if(action != null && action.equals("Cancel")){
             response.sendRedirect("submitTask");
             return;

@@ -24,4 +24,19 @@ public class CompanyService {
         CompanyName com = comDB.get(companyId);
         return com;
     }
+      
+    public CompanyName getByName(String name) throws Exception
+    {
+        CompanyDB companyDB = new CompanyDB();
+        
+        return companyDB.getByName(name);
+    }
+
+
+    public String insert (String companyName){
+        CompanyDB companyDB = new CompanyDB();
+        CompanyName cn = new CompanyName (companyName);
+        companyDB.insert(cn);
+        return "Company added"; 
+}
 }

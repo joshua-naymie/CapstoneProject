@@ -7,6 +7,7 @@ package dataaccess;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 import models.Store;
 import models.Team;
@@ -41,17 +42,16 @@ public class TeamDB {
     public List<Team> getTeamsByName(String teamName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
-            Query getFoundStores = em.createNamedQuery("Store.findByStoreName", models.Store.class);
-            List<Store> foundStores = getFoundStores.setParameter("storeName", teamName).getResultList();
-
-            List<Team> allTeams = null;
-            for (Store store : foundStores) {
-                for (Team team : store.getTeamList()) {
-                    allTeams.add(team);
-                }
-            }
-            
-            return allTeams;
+             Query getFoundTeams = em.createQuery("SELECT t FROM Team t WHERE t.teamName LIKE :teamName", Team.class);
+             // testing
+//             System.out.println("got here");
+//             System.out.println("%" + teamName + "%");
+             getFoundTeams.setParameter("teamName", "%" + teamName + "%");
+             // testing
+//             System.out.println("got here 2");
+             List<Team> foundTeams = getFoundTeams.getResultList();
+             
+            return foundTeams;
         } catch (NoResultException e) {
             return null;
         } finally {
