@@ -50,11 +50,11 @@ INSERT INTO `program` (`program_name`, `is_active`) VALUES ('Bursary and Scholar
 -- STORE
 -- -----------------------------------------------------
 INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, `is_active`,`phone_num`, `contact`,`company_id`, `store_name`) 
-     VALUES (12345, '10 17 Ave SW', 'A9A9A9', 'Calgary', True, '456-123-2345', 'Jane Doe', 1234, 'Kensington COBS');
+     VALUES (12, '10 17 Ave SW', 'A9A9A9', 'Calgary', True, '456-123-2345', 'Jane Doe', 1234, 'Kensingston COBS');
 INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, `is_active`,`phone_num`, `contact`,`company_id`, `store_name`) 
      VALUES (123, '17 Ave SW', 'A9A9A3', 'Calgary', True, '456-123-2345', 'John Doe', 12, 'Kensington Starbucks');
 INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, `is_active`,`phone_num`, `contact`,`company_id`, `store_name`) 
-     VALUES (1234, '20 Ave SW', 'A2A9A3', 'Calgary', True, '456-122-2345', 'Jack Doe', 12, 'Brentwood Starbucks');
+     VALUES (12345, '20 Ave SW', 'A2A9A3', 'Calgary', True, '456-122-2345', 'Jack Doe', 12, 'Brentwood Starbucks');
 -- -----------------------------------------------------
 -- TEAM
 -- -----------------------------------------------------
@@ -122,11 +122,11 @@ INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users
                     `approving_manager`,`task_city`, `user_id`, `is_submitted`)
     VALUES (1, 0, 2, 1, 1, "2022-03-15 09:30:00", "2022-03-15 10:30:00", FALSE, FALSE, 4,
             'Calgary', 4, TRUE);
--- INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
---                     `notes`,`approving_manager`,`task_description`, `task_city`)
---      VALUES (2, 0, 1, 1, 2, "2022-03-15 09:30:00", "2022-03-15 10:30:00", TRUE, FALSE, 
---             'Task completed. No issues.', 2, 
---             'Pickup boxes and drop to Ross Family', 'Calgary');
+INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+                    `notes`,`approving_manager`,`task_description`, `task_city`)
+     VALUES (2, 0, 1, 1, 2, "2022-03-15 09:30:00", "2022-03-15 10:30:00", TRUE, FALSE, 
+            'Task completed. No issues.', 2, 
+            'Pickup boxes and drop to Ross Family', 'Calgary');
 -- INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
 --                     `notes`,`approving_manager`,`task_description`, `task_city`)
 --      VALUES (2, 0, 1, 1, 2, "2022-03-15 09:30:00", "2022-03-15 10:30:00", TRUE, FALSE, 
@@ -154,45 +154,48 @@ INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users
 --             'Pickup boxes and drop to Wilson Family', 'Calgary', FALSE, TRUE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `user_id`, `is_dissaproved`)
-     VALUES (7, 0, 1, 1, 1, "2017-07-18 12:30:00", "2017-07-19 15:30:00", FALSE, FALSE, 
+     VALUES (7, 0, 1, 1, 1, "2022-04-18 12:30:00", "2022-04-19 15:30:00", FALSE, FALSE, 
             'Task completed. No issues.', 4, 
             'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, 4, FALSE);
-
 INSERT INTO `task` (`group_id`,  `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
-     VALUES (8, 0, 1, 3, 3, "2022-03-18 12:30:00", "2022-03-19 15:30:00", FALSE, FALSE, 
+     VALUES (8, 0, 1, 2, 3, "2022-04-18 12:30:00", "2022-04-19 15:30:00", FALSE, FALSE, 
             '3', 'Pickup 2 boxes ', 'Calgary', FALSE, FALSE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
-     VALUES (8, 0, 1, 3, 3, "2022-03-18 12:30:00", "2022-03-19 15:30:00", FALSE, FALSE, 
+     VALUES (8, 0, 1, 3, 3, "2022-04-18 12:30:00", "2022-04-19 15:30:00", FALSE, FALSE, 
             '3', 'Pickup 2 boxes ', 'Calgary', FALSE, FALSE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`,`user_id`, `assigned`)
-     VALUES (8, 0, 1, 3, 3, "2022-03-18 12:30:00", "2022-03-19 15:30:00", FALSE, FALSE, 
+     VALUES (8, 0, 1, 3, 3, "2022-04-18 12:30:00", "2022-04-19 15:30:00", FALSE, FALSE, 
             '3', 'Pickup 2 boxes ', 'Calgary', FALSE, FALSE, 4, TRUE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`, `available`,`is_approved`,
                     `approving_manager`,`task_description`, `is_submitted`, `is_dissaproved`,`user_id`, `assigned`)
      VALUES (10, 0, 2, 1, 2, "2022-03-22 16:30:00", FALSE, FALSE, 
             '3', 'Call at 10 people', FALSE, FALSE, 4, TRUE);
+INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`, `available`,`is_approved`,
+                    `approving_manager`,`task_description`, `is_submitted`, `is_dissaproved`,`assigned`)
+     VALUES (11, 0, 2, 1, 2, "2022-04-18 16:30:00", FALSE, FALSE, 
+            '3', 'Call at 10 people', FALSE, FALSE, FALSE);
 --
 
 -- -----------------------------------------------------
 -- HOTLINE DATA
 -- -----------------------------------------------------
-INSERT INTO `ecssendb`.hotline_data VALUES (1, 1);
-INSERT INTO `ecssendb`.hotline_data VALUES (4, 5);
+INSERT INTO `ecssendb`.hotline_data VALUES (7, 1);
+INSERT INTO `ecssendb`.hotline_data VALUES (8, 5);
 -- -----------------------------------------------------
 -- FOOD DELIVERY DATA
 -- -----------------------------------------------------
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`,`family_count`)
-     VALUES (4, 12345, 30, 4.5, 1, 12, 3);
+     VALUES (1, 123, 30, 4.5, 1, 12, 3);
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`, `organization_id`)
      VALUES (3, 12345, 20, 3, 1, 6, 1);
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`, `organization_id`, `family_count`)
-     VALUES (2, 12345, 20, 3, 1, 6, 1, 1);
+     VALUES (2, 123, 20, 3, 1, 6, 1, 1);
 
 
 -- -----------------------------------------------------

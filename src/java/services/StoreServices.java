@@ -38,22 +38,25 @@ public List<Store> getAll() throws Exception {
 
 public String insert (String streetAddress, String postalCode, String storeCity,String storeName, boolean isActive, String phoneNum, String contact, String companyName) throws Exception{
        StoreDB storeDB = new StoreDB();
-         Store checkStore = storeDB.getByStreetAddress(streetAddress);
+      
+            if (storeDB.getByStreetAddress(streetAddress)!= null){
+               return "This store already exists";
+}  else{
       CompanyService companyService = new CompanyService();
       CompanyName cn = companyService.getByName(companyName);
+//System.out.println("----====" + companyService.getByName(companyName).getCompanyName() + "====----");
        if ( cn == null){
         companyService.insert(companyName);
         cn = companyService.getByName(companyName);
 }
-               if (checkStore != null){
-               return "This store already exists";
-}  
-       
-       Store newStore = new Store ( streetAddress, postalCode, storeCity, storeName, isActive, cn);
+              
+       //boolean isActive, String phoneNum,String postalCode, String storeCity, String storeName ,String streetAddress,CompanyName companyId
+       Store newStore = new Store ( 0,contact,isActive,phoneNum, postalCode,storeCity,storeName,streetAddress,  cn );
+       System.out.println("----====Postal" + postalCode + "====----");
         storeDB.insert(newStore);
         return "Store has been created";
 }
-
+}
 public String update (int storeId, String streetAddress, String postalCode, String storeCity, String storeName, boolean isActive, String phoneNum, String contact, String companyName) throws Exception{
        StoreDB storeDB = new StoreDB();
        CompanyService companyService = new CompanyService();
