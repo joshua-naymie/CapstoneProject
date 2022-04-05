@@ -43,6 +43,9 @@ public class EditTaskServlet extends HttpServlet {
                         new JSONKey("program_id", true),
                         new JSONKey("program_name", true),
                         new JSONKey("max_users", true),
+                        new JSONKey("group_id", true),
+                        new JSONKey("spots_taken", true),
+                        new JSONKey("is_assigned", false),
                         new JSONKey("date", true),
                         new JSONKey("start_time", true),
                         new JSONKey("end_time", true),
@@ -59,7 +62,7 @@ public class EditTaskServlet extends HttpServlet {
                         new JSONKey("company_id", true),
                         new JSONKey("company_name", true),
                         new JSONKey("store_id", true),
-                        new JSONKey("store_name", true)};
+                        new JSONKey("store_name", true) };
 
                 JSONBuilder taskBuilder = new JSONBuilder(taskKeys);
 
@@ -77,6 +80,9 @@ public class EditTaskServlet extends HttpServlet {
                         editTask.getProgramId().getProgramId(),
                         editTask.getProgramId().getProgramName(),
                         editTask.getMaxUsers(),
+                        editTask.getGroupId(),
+                        editTask.getSpotsTaken(),
+                        editTask.getAssigned(),
                         date,
                         startTime,
                         endTime,
@@ -238,7 +244,7 @@ public class EditTaskServlet extends HttpServlet {
             task.setTeamId(team);
 
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
-                task.setApprovingManager(request.getParameter("approving_manager"));
+                task.setApprovingManager(Integer.parseInt(request.getParameter("approving_manager")));
             }
             
             taskService.update(task);
