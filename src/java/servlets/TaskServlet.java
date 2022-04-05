@@ -38,16 +38,28 @@ public class TaskServlet extends HttpServlet {
 //        int loggedInUserId = Integer.parseInt(user_id);
         
         //delete later
-        int loggedInUserId = 4;
-        
+//        int loggedInUserId = 4;
+
+        HttpSession httpSession = request.getSession();
+        String user_id = (String) httpSession.getAttribute("email");
+        System.out.println(user_id);
+        User loggedInUser = new User();
+        if (user_id != null && user_id.matches("[0-9]+")) {
+            loggedInUser = new User(Integer.parseInt(user_id));
+            TaskService taskService = new TaskService();
+            List<Integer> supervisors = taskService.getSupervisors();
+            if (loggedInUser.getIsAdmin() || supervisors.contains(loggedInUser.getUserId())) {
+                httpSession.setAttribute("show_edit");
+            }
+        }
         AccountServices as = new AccountServices();
         
-        User loggedInUser = new User();
-        try {
-            loggedInUser = as.getByID(loggedInUserId);
-        } catch (Exception ex) {
-            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        User loggedInUser = new User();
+//        try {
+//            loggedInUser = as.getByID(loggedInUserId);
+//        } catch (Exception ex) {
+//            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+//        }
        
         boolean show_edit = false;
         if(loggedInUser.getIsAdmin()) show_edit = true;

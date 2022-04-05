@@ -31,7 +31,6 @@ public class TeamDB {
     public List<Team> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
-
             List<Team> allTeams = em.createNamedQuery("Team.findAll", Team.class).getResultList();
             return allTeams;
         } finally {
