@@ -4,11 +4,14 @@
  */
 package services;
 
-import dataaccess.TaskDB;
+import dataaccess.*;
 import java.time.*;
 import java.time.format.*;
 import java.util.List;
 import models.Task;
+import models.Team;
+
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  *
@@ -165,6 +168,16 @@ public class TaskService {
         TaskDB taskDB = new TaskDB();
         List<Task> tasks = taskDB.getAllNotApprovedTasksByUserId(userId);
         return tasks;
+    }
+
+    public List<Integer> getSupervisors() throws Exception {
+        TeamDB teamDB = new TeamDB();
+        List<Team> teamList = teamDB.getAll();
+        List<Integer> supervisors = null;
+        for (Team team : teamList) {
+            supervisors.add(team.getTeamSupervisor());
+        }
+        return supervisors;
     }
 
 //    public Long getNextTaskId() throws Exception{
