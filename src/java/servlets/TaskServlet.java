@@ -41,17 +41,20 @@ public class TaskServlet extends HttpServlet {
 //        int loggedInUserId = 4;
 
         HttpSession httpSession = request.getSession();
-        String user_id = (String) httpSession.getAttribute("email");
-        System.out.println(user_id);
-        User loggedInUser = new User();
-        if (user_id != null && user_id.matches("[0-9]+")) {
-            loggedInUser = new User(Integer.parseInt(user_id));
-            TaskService taskService = new TaskService();
-            List<Integer> supervisors = taskService.getSupervisors();
-            if (loggedInUser.getIsAdmin() || supervisors.contains(loggedInUser.getUserId())) {
-                httpSession.setAttribute("show_edit");
+        if (httpSession.getAttribute("email") != null) {
+            Integer user_id = httpSession.getAttribute("email");
+            System.out.println(user_id);
+            User loggedInUser = new User(user_id);
+            if (user_id != null && user_id.matches("[0-9]+")) {
+//            loggedInUser = new User(Integer.parseInt(user_id));
+                TaskService taskService = new TaskService();
+                List<Integer> supervisors = taskService.getSupervisors();
+                if (loggedInUser.getIsAdmin() || supervisors.contains(loggedInUser.getUserId())) {
+                    httpSession.setAttribute("show_edit");
+                }
             }
         }
+
         AccountServices as = new AccountServices();
         
 //        User loggedInUser = new User();
