@@ -112,14 +112,14 @@ function searchStore() {
     $.ajax({
         type: "get",
         url: "data",
-        data: {operation: "findTeam", name: name},
+        data: {operation: "storeAll", name: name},
         success: function (data) {
             let obj = JSON.parse(data);
 
             obj.forEach((store) => {
                 console.log(store);
                 $('#individualSelection').append(
-                        '<option value="' + store.user_id + '">' + store.user_name + '</option>'
+                        '<option value="' + store.store_id + '">' + store.store_name + '</option>'
                         )
             })
         }
