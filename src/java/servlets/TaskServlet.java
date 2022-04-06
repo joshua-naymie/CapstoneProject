@@ -31,27 +31,27 @@ public class TaskServlet extends HttpServlet {
             throws ServletException, IOException {
         
         //uncomment later
-//        HttpSession httpSession = request.getSession();
-//        String user_id = httpSession.getAttribute("email") + "";
+        HttpSession httpSession = request.getSession();
+        String user_id = httpSession.getAttribute("email") + "";
 //        System.out.println(user_id);
 //
-//        int loggedInUserId = Integer.parseInt(user_id);
-        
+        int loggedInUserId = Integer.parseInt(user_id);
+//        
         //delete later
 //        int loggedInUserId = 4;
 
-        HttpSession httpSession = request.getSession();
-        String user_id = (String) httpSession.getAttribute("email");
-        System.out.println(user_id);
+//        HttpSession httpSession = request.getSession();
+//        String user_id = "" + httpSession.getAttribute("email");
+//        System.out.println(user_id);
         User loggedInUser = new User();
-        if (user_id != null && user_id.matches("[0-9]+")) {
-            loggedInUser = new User(Integer.parseInt(user_id));
-            TaskService taskService = new TaskService();
-            List<Integer> supervisors = taskService.getSupervisors();
-            if (loggedInUser.getIsAdmin() || supervisors.contains(loggedInUser.getUserId())) {
-                httpSession.setAttribute("show_edit");
-            }
-        }
+//        if (user_id != null && user_id.matches("[0-9]+")) {
+//            loggedInUser = new User(Integer.parseInt(user_id));
+//            TaskService taskService = new TaskService();
+//            List<Integer> supervisors = taskService.getSupervisors();
+//            if (loggedInUser.getIsAdmin() || supervisors.contains(loggedInUser.getUserId())) {
+//                httpSession.setAttribute("show_edit");
+//            }
+//        }
         AccountServices as = new AccountServices();
         
 //        User loggedInUser = new User();

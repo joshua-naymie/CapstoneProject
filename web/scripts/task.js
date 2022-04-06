@@ -363,12 +363,21 @@ function buildTableRow({
   tr.appendChild(td_spot);
 
   let td_view_button = document.createElement("td");
-  td_view_button.appendChild(createButton("View", onView(task_id), "info"));
+  let view_button = createButton("View", "info");
+  view_button.onclick = (event) => {
+    onView(task_id);
+  };
+  td_view_button.appendChild(view_button);
+
   tr.appendChild(td_view_button);
 
   if (show_edit) {
     let td_edit_button = document.createElement("td");
-    td_edit_button.appendChild(createButton("Edit", onEdit, "secondary"));
+    let edit_button = createButton("Edit", "secondary");
+    edit_button.onclick = () => {
+      onEdit(task_id);
+    };
+    td_edit_button.appendChild(edit_button);
     tr.appendChild(td_edit_button);
   }
 
@@ -445,19 +454,15 @@ function buildTableCell(text, isDate = false, isTime = false) {
   return td;
 }
 
-function createButton(buttonText, onClick, buttonType) {
+function createButton(buttonText, buttonType) {
   let button = document.createElement("button");
   button.className = "btn btn-" + buttonType;
   button.setAttribute("type", "button");
-  // button.setAttribute("task_id", taskData.task_id);
   if (buttonText === "View") {
     button.setAttribute("data-bs-toggle", "modal");
     button.setAttribute("data-bs-target", "#taskModal");
   }
   button.innerText = buttonText;
-  button.addEventListener("click", () => {
-    onClick;
-  });
 
   return button;
 }
