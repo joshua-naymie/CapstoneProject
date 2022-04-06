@@ -62,7 +62,8 @@ public class EditTaskServlet extends HttpServlet {
                         new JSONKey("company_id", true),
                         new JSONKey("company_name", true),
                         new JSONKey("store_id", true),
-                        new JSONKey("store_name", true) };
+                        new JSONKey("store_name", true),
+                        new JSONKey("assigned_user_id", true) };
 
                 JSONBuilder taskBuilder = new JSONBuilder(taskKeys);
 
@@ -135,7 +136,8 @@ public class EditTaskServlet extends HttpServlet {
                         new JSONKey("is_submitted", false),
                         new JSONKey("approval_notes", true),
                         new JSONKey("is_dissaproved", false),
-                        new JSONKey("team_id", true) };
+                        new JSONKey("team_id", true),
+                        new JSONKey("assigned_user_id", true) };
 
                 JSONBuilder taskBuilder = new JSONBuilder(taskKeys);
 
@@ -177,7 +179,7 @@ public class EditTaskServlet extends HttpServlet {
             try {
                 allPrograms = ps.getAll();
             } catch (Exception ex) {
-                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EditTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             //     for(Program p: allPrograms) {
@@ -185,7 +187,12 @@ public class EditTaskServlet extends HttpServlet {
             //         System.out.println(p.getProgramId());
             //     }
             request.setAttribute("allPrograms", allPrograms);
-
+            try {
+                List<User> canBeAssignedUsers = taskService.getCanBeAssignedUsers(Long.parseLong(task_id), editTask.getProgramId().getProgramId());
+                request.setAttribute("canBeAssignedUsers", canBeAssignedUsers);
+            } catch (Exception ex) {
+                Logger.getLogger(EditTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 //            try {
 ////                UserTaskService userTaskService = new UserTaskService();
 ////                List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
@@ -238,7 +245,10 @@ public class EditTaskServlet extends HttpServlet {
             Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
             task.setTeamId(team);
 
-
+            if (request.getParameter("assigned_user_id") != null) {
+                User user = new User(Integer.parseInt(request.getParameter("assigned_user_id")));
+                task.setUserId(user);
+            }
 
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
                 task.setApprovingManager(Integer.parseInt(request.getParameter("approving_manager")));

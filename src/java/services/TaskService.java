@@ -10,6 +10,8 @@ import java.time.format.*;
 import java.util.List;
 import models.Task;
 import models.Team;
+import models.User;
+import org.apache.poi.ss.formula.functions.T;
 
 import javax.persistence.criteria.CriteriaBuilder;
 
@@ -178,6 +180,28 @@ public class TaskService {
             supervisors.add(team.getTeamSupervisor());
         }
         return supervisors;
+    }
+
+    public List<User> getCanBeAssignedUsers(long taskId, short programId) throws Exception {
+        TaskDB taskDB = new TaskDB();
+        Task task = taskDB.get(taskId);
+        Team team = task.getTeamId();
+
+        UserDB userDB = new UserDB();
+        List<User> allUsers = userDB.getAll();
+        List<User> canBeAssignedUsers = null;
+
+        for (User user : allUsers) {
+            if (user.getTeamId().equals(team)) {
+                canBeAssignedUsers.add(user);
+            }
+        }
+        for (User user : allUsers) {
+            if (user.getProgramList().contains(team.getProgramId()) && !canBeAssignedUsers.contains(user)) {
+                canBeAssignedUsers.add(user);
+            }
+        }
+        return canBeAssignedUsers;
     }
 
 //    public Long getNextTaskId() throws Exception{
