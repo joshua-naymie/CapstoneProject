@@ -19,12 +19,12 @@ public class EditTaskServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // logged in user
         HttpSession httpSession = request.getSession();
-        String user_id = (String) httpSession.getAttribute("email");
-        System.out.println(user_id);
-        User loggedInUser = new User();
-        if (user_id != null && user_id.matches("[0-9]+")) {
-            loggedInUser = new User(Integer.parseInt(user_id));
-        }
+//        String user_id = (String) httpSession.getAttribute("email");
+//        System.out.println(user_id);
+//        User loggedInUser = new User();
+//        if (user_id != null && user_id.matches("[0-9]+")) {
+//            loggedInUser = new User(Integer.parseInt(user_id));
+//        }
         String task_id = request.getParameter("task_id");
         if (task_id != null) {
             TaskService taskService = new TaskService();
@@ -199,7 +199,7 @@ public class EditTaskServlet extends HttpServlet {
 //                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
 //            }
 
-            request.setAttribute("user_id", user_id);
+//            request.setAttribute("user_id", user_id);
 
             System.out.println("ID: " + task_id);
         }
@@ -210,9 +210,9 @@ public class EditTaskServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // logged in user
         HttpSession httpSession = request.getSession();
-        String user_id = (String) httpSession.getAttribute("email");
-        System.out.println(user_id);
-        User loggedInUser = new User(Integer.parseInt(user_id));
+//        String user_id = (String) httpSession.getAttribute("email");
+//        System.out.println(user_id);
+//        User loggedInUser = new User(Integer.parseInt(user_id));
 
         try {
             TaskService taskService = new TaskService();
