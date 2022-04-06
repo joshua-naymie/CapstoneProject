@@ -44,7 +44,7 @@ public class AccountServices {
         return null;
     }
     // get user by matching ID
-    public User getByID (long ID)throws Exception{
+    public User getByID (int ID)throws Exception{
         UserDB userDB = new UserDB();
         User user = userDB.getByID(ID);
         return user;
@@ -111,6 +111,12 @@ public class AccountServices {
         UserDB userDB = new UserDB();
         List<User> users = userDB.getUserByLastName(lastName);
         return users;
+    }
+
+    public boolean admin(int user_id) throws Exception {
+        UserDB userDB = new UserDB();
+        User user = userDB.getByID(user_id);
+        return user.getIsAdmin();
     }
 
     //agambeer

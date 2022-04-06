@@ -22,7 +22,7 @@ public class UserDB {
 
     // get and return a user with matching PK ID
     // get for getting a specific user
-    public User getByID(long ID) throws Exception {
+    public User getByID(int ID) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
             List<User> users = getAll();

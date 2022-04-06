@@ -110,15 +110,10 @@ public class EditTaskServlet extends HttpServlet {
                     CompanyService companyService = new CompanyService();
                     List<CompanyName> companyNames = companyService.getAll();
 
-                    UserTaskService userTaskService = new UserTaskService();
-                    List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
-                    Team team = new Team(editTask.getTeamId().getTeamId());
-                    List<User> teamUserList = team.getUserList();
-                    teamUserList.removeAll(chosenUsers);
-                    List<User> canBeAssigned = teamUserList;
 
-                    request.setAttribute("chosenUsers", chosenUsers);
-                    request.setAttribute("canBeAssigned", canBeAssigned);
+
+//                    request.setAttribute("chosenUsers", chosenUsers);
+//                    request.setAttribute("canBeAssigned", canBeAssigned);
                     request.setAttribute("stores", stores);
                     request.setAttribute("companies", companyNames);
                 } catch (Exception ex) {
@@ -191,18 +186,18 @@ public class EditTaskServlet extends HttpServlet {
             //     }
             request.setAttribute("allPrograms", allPrograms);
 
-            try {
-//                UserTaskService userTaskService = new UserTaskService();
-//                List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
-//                Team team = new Team(editTask.getTeamId().getTeamId());
-////                List<User> canBeAssigned = team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
-//                canBeAssigned.remove(loggedInUser);
-//
-//                request.setAttribute("chosenUsers", chosenUsers);
-//                request.setAttribute("canBeAssigned", canBeAssigned);
-            } catch (Exception ex) {
-                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+////                UserTaskService userTaskService = new UserTaskService();
+////                List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
+////                Team team = new Team(editTask.getTeamId().getTeamId());
+//////                List<User> canBeAssigned = team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
+////                canBeAssigned.remove(loggedInUser);
+////
+////                request.setAttribute("chosenUsers", chosenUsers);
+////                request.setAttribute("canBeAssigned", canBeAssigned);
+//            } catch (Exception ex) {
+//                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+//            }
 
             request.setAttribute("user_id", user_id);
 
@@ -243,31 +238,33 @@ public class EditTaskServlet extends HttpServlet {
             Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
             task.setTeamId(team);
 
+
+
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
                 task.setApprovingManager(Integer.parseInt(request.getParameter("approving_manager")));
             }
             
             taskService.update(task);
 
-            // Insert and update UserTask
-            UserTaskService userTaskService = new UserTaskService();
-
-            String userIdList = request.getParameter("selected_user_id_list");
-            String[] list_of_ids = userIdList.split("&");
-            List<Integer> listOfAssinedUserIds = null;
-            for (String userAndId : list_of_ids) {
-                String[] thisUserId = userAndId.split("=");
-                listOfAssinedUserIds.add(Integer.parseInt(thisUserId[1]));
-            }
-            for (int userId : listOfAssinedUserIds) {
-                UserTask userTask = new UserTask(userId, taskId);
-                userTask.setIsAssigned(true);
-                if (userTaskService.getAll().contains(userTask)) {
-                    userTaskService.update(userTask);
-                } else {
-                    userTaskService.insert(userTask);
-                }
-            }
+//            // Insert and update UserTask
+//            UserTaskService userTaskService = new UserTaskService();
+//
+//            String userIdList = request.getParameter("selected_user_id_list");
+//            String[] list_of_ids = userIdList.split("&");
+//            List<Integer> listOfAssinedUserIds = null;
+//            for (String userAndId : list_of_ids) {
+//                String[] thisUserId = userAndId.split("=");
+//                listOfAssinedUserIds.add(Integer.parseInt(thisUserId[1]));
+//            }
+//            for (int userId : listOfAssinedUserIds) {
+//                UserTask userTask = new UserTask(userId, taskId);
+//                userTask.setIsAssigned(true);
+//                if (userTaskService.getAll().contains(userTask)) {
+//                    userTaskService.update(userTask);
+//                } else {
+//                    userTaskService.insert(userTask);
+//                }
+//            }
 
             response.sendRedirect("tasks");
         } catch (Exception ex) {
