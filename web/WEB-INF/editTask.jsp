@@ -28,8 +28,7 @@
             <body>
                 <%@ include file="navbar.jsp" %>
 		<script>${taskData}</script>
-		<script>console.log("${chosenUser}")</script>
-		<script src="scripts/editTask.js"></script>
+		<%-- <script src="scripts/editTask.js"></script> --%>
 
 
                     <div class="container">
@@ -110,7 +109,7 @@
                                     </ul>
                                 </div>
 
-                                <div clas="form-group col-md-6">
+                                <div class="form-group col-md-6">
                                     <label class="form-label" for="available_volunteers">Other Available Volunteers</label>
                                     <ul class="list-group">
                                         <c:if test="${empty canbeAssigned || canbeAssigned.size() == 0}">

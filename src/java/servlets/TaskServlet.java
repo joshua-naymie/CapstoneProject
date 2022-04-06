@@ -28,11 +28,11 @@ public class TaskServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         //uncomment later
-        HttpSession httpSession = request.getSession();
-        String user_id = httpSession.getAttribute("email") + "";
+//        HttpSession httpSession = request.getSession();
+//        String user_id = httpSession.getAttribute("email") + "";
 //        System.out.println(user_id);
 //
-        int loggedInUserId = Integer.parseInt(user_id);
+//        int loggedInUserId = Integer.parseInt(user_id);
 //        
         //delete later
 //        int loggedInUserId = 4;
