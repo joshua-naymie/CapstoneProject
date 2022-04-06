@@ -49,13 +49,14 @@ public class TaskServlet extends HttpServlet {
             List<Integer> supervisors = null;
             try {
                 supervisors = taskService.getSupervisors();
+                if (supervisors.contains(loggedInUser.getUserId()) || loggedInUser.getIsAdmin()) {
+                    httpSession.setAttribute("show_edit", true);
+                    show_edit = true;
+                }
             } catch (Exception ex) {
                 Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (loggedInUser.getIsAdmin() || supervisors.contains(loggedInUser.getUserId())) {
-                httpSession.setAttribute("show_edit", true);
-                show_edit = true;
-            }
+            
         }
 
         AccountServices as = new AccountServices();
