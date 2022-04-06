@@ -23,12 +23,9 @@ public class TaskServlet extends HttpServlet {
      * @param request Request object created by the web container 
      * for each request of the client
      * @param response HTTP Response sent by a server to the client
-     * @throws ServletException a general exception a servlet can throw when it encounters difficulty
-     * @throws IOException Occurs when an IO operation fails
-     */
+    */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         //uncomment later
 //        HttpSession httpSession = request.getSession();
@@ -41,17 +38,23 @@ public class TaskServlet extends HttpServlet {
 //        int loggedInUserId = 4;
 
         HttpSession httpSession = request.getSession();
+        int loggedInUserId = -1;
+        boolean show_edit = false;
         if (httpSession.getAttribute("email") != null) {
-            int user_id = (int) httpSession.getAttribute("email");
-            System.out.println(user_id);
-            User loggedInUser = new User(user_id);
-            if (user_id != null && user_id.matches("[0-9]+")) {
-//            loggedInUser = new User(Integer.parseInt(user_id));
-                TaskService taskService = new TaskService();
-                List<Integer> supervisors = taskService.getSupervisors();
-                if (loggedInUser.getIsAdmin() || supervisors.contains(loggedInUser.getUserId())) {
-                    httpSession.setAttribute("show_edit");
-                }
+            loggedInUserId = (int) httpSession.getAttribute("email");
+            System.out.println(loggedInUserId);
+            User loggedInUser = new User(loggedInUserId);
+
+            TaskService taskService = new TaskService();
+            List<Integer> supervisors = null;
+            try {
+                supervisors = taskService.getSupervisors();
+            } catch (Exception ex) {
+                Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (loggedInUser.getIsAdmin() || supervisors.contains(loggedInUser.getUserId())) {
+                httpSession.setAttribute("show_edit", true);
+                show_edit = true;
             }
         }
 
@@ -64,8 +67,8 @@ public class TaskServlet extends HttpServlet {
 //            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
 //        }
        
-        boolean show_edit = false;
-        if(loggedInUser.getIsAdmin()) show_edit = true;
+//        boolean show_edit = false;
+//        if(loggedInUser.getIsAdmin()) show_edit = true;
         
         TaskService taskService = new TaskService();
         List<Task> taskList = null;
@@ -190,7 +193,7 @@ public class TaskServlet extends HttpServlet {
         try{
             taskId = Long.parseLong( (String) request.getParameter("task_id") );
         } catch (Exception ex) {
-            Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         Task task = null;
