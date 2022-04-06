@@ -177,7 +177,7 @@ public class EditTaskServlet extends HttpServlet {
             try {
                 allPrograms = ps.getAll();
             } catch (Exception ex) {
-                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EditTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             //     for(Program p: allPrograms) {
@@ -185,7 +185,12 @@ public class EditTaskServlet extends HttpServlet {
             //         System.out.println(p.getProgramId());
             //     }
             request.setAttribute("allPrograms", allPrograms);
-
+            try {
+                List<User> canBeAssignedUsers = taskService.getCanBeAssignedUsers(Long.parseLong(task_id), editTask.getProgramId().getProgramId());
+                request.setAttribute("canBeAssignedUsers", canBeAssignedUsers);
+            } catch (Exception ex) {
+                Logger.getLogger(EditTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 //            try {
 ////                UserTaskService userTaskService = new UserTaskService();
 ////                List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
