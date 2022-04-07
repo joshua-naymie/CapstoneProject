@@ -209,7 +209,75 @@ public class TeamsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // getting user action from JSP
+        String action = request.getParameter("action");
+        // switch to determine users chosen action
+        try {
+            switch (action) {
+                // add new program
+                case "add":
+                    add(request, response);
+                    break;
+                // save edit changes
+                case "update":
+                    save(request, response);
+                    break;
+                // throw exception if the action is none of the above    
+                default:
+                    throw new Exception();
+            }
+        } catch (Exception e) {
+            Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, e);
+            System.err.println("Error Occured carrying out action:" + action);
+        }
+    }
 
+    private void add(HttpServletRequest request, HttpServletResponse response) {
+        // team service
+        TeamServices tmService = new TeamServices();
+       
+        // getting user entered values and insert new team
+        try {
+            // creating the yteam through team services
+            String userMsg = tmService.insert(Short.parseShort(request.getParameter("programId")),
+                    // team size
+                    Short.parseShort(request.getParameter("teamSize")),
+                    // supervisor Id
+                    Integer.parseInt(request.getParameter("teamSupervisor")),
+                    // store id (if theres no store selected send -1?)
+                    Integer.parseInt(request.getParameter("storeId")),
+                    //teamName
+                    request.getParameter("teamName"));
+
+            response.sendRedirect("teams");
+        } catch (Exception e) {
+            Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, e);
+        }
+    }
+
+    private void save(HttpServletRequest request, HttpServletResponse response) {
+        // team service
+        TeamServices tmService = new TeamServices();
+       
+        // getting the edited values and updating the team
+        try {
+            // updating the team
+            String userMsg = tmService.update(Integer.parseInt(request.getParameter("teamId")),
+                    // program Id
+                    Short.parseShort(request.getParameter("programId")),
+                    // team size
+                    Short.parseShort(request.getParameter("teamSize")),
+                    // supervisor Id
+                    Integer.parseInt(request.getParameter("teamSupervisor")),
+                    // store id (if theres no store selected send -1?)
+                    Integer.parseInt(request.getParameter("storeId")),
+                    //teamName
+                    request.getParameter("teamName"));
+
+            response.sendRedirect("teams");
+        } catch (Exception e) {
+            Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, e);
+        }
     }
 
     
