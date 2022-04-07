@@ -45,7 +45,17 @@ public List<Store> getAll() throws Exception {
         }
     }
 
-
+// public List<Store> getStoresByName(String storeName) throws Exception {
+//        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+//        Query q = em.createQuery("SELECT s FROM Store s WHERE s.storeName = :storeName", Store.class);
+//        q.setParameter("storeName", storeName);
+//        try {
+//            List<Store> foundStore = q.getResultList();
+//            return foundStore;
+//        } finally {
+//            em.close();
+//        }
+//    }
     
     public List<Store> getStoresByName(String storeName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();

@@ -354,11 +354,11 @@ public class GetDataServlet extends HttpServlet {
 
         // Find a stpre from store name
         if (op.equals("findStore")) {
-            String storeName = request.getParameter("name");
+            String storeName = request.getParameter("storeName");
 
             List<Store> storeList = null;
             try {
-                storeList = ss.getStoreByName(storeName);
+                storeList = ss.getStoresByName(storeName);
             } catch (Exception ex) {
                 Logger.getLogger(GetDataServlet.class.getName()).log(Level.WARNING, null, ex);
             }

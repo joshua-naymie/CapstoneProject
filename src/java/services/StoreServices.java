@@ -82,7 +82,7 @@ public String update (int storeId, String streetAddress, String postalCode, Stri
         return "Store "+ storeName + " has been added.";
 }
 
-  public List<Store> getStoreByName(String storeName) throws Exception {
+public List<Store> getStoresByName(String storeName) throws Exception {
        
         StoreDB storeDB = new StoreDB();
         List<Store> stores = storeDB.getStoresByName(storeName);

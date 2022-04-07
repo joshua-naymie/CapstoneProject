@@ -107,12 +107,12 @@ function searchStore() {
     $('#formGroup').append("<label class='form-label'>Select a store:</label>");
     $('#formGroup').append("<select id='individualSelection' class='form-select'></select>");
 
-    let name = $('#nameInput').val();
-    console.log(name);
+    let storeName = $('#nameInput').val();
+    console.log(storeName);
     $.ajax({
         type: "get",
         url: "data",
-        data: {operation: "storeAll", name: name},
+        data: {operation: "findStore", storeName: storeName},
         success: function (data) {
             let obj = JSON.parse(data);
 
