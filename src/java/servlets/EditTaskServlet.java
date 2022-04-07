@@ -100,7 +100,8 @@ public class EditTaskServlet extends HttpServlet {
                         editTask.getTeamId().getStoreId().getCompanyId().getCompanyId(),
                         editTask.getTeamId().getStoreId().getCompanyId().getCompanyName(),
                         editTask.getTeamId().getStoreId().getStoreId(),
-                        editTask.getTeamId().getStoreId().getStoreName()};
+                        editTask.getTeamId().getStoreId().getStoreName(),
+                        editTask.getUserId().getUserId() };
 
                 returnData.append(taskBuilder.buildJSON(taskData));
                 returnData.append(";");
@@ -166,7 +167,8 @@ public class EditTaskServlet extends HttpServlet {
                         editTask.getIsSubmitted(),
                         editTask.getApprovalNotes(),
                         editTask.getIsDissaproved(),
-                        editTask.getTeamId().getTeamId()};
+                        editTask.getTeamId().getTeamId(),
+                        editTask.getUserId().getUserId() };
 
                 returnData.append(taskBuilder.buildJSON(taskData));
                 returnData.append(";");
