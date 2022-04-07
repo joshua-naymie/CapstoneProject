@@ -112,12 +112,12 @@
                                 <div class="form-group col-md-6">
                                     <label class="form-label" for="available_volunteers">Other Available Volunteers</label>
                                     <ul class="list-group">
-                                        <c:if test="${empty canbeAssigned || canbeAssigned.size() == 0}">
+                                        <c:if test="${empty canbeAssignedUsers || canbeAssignedUsers.size() == 0}">
                                             <li class="list-group-item">
                                                 There are no volunteers can be assigned 
                                             </li>
                                         </c:if>
-                                        <c:forEach items="${canbeAssigned}" var="canbeAssignedUser">
+                                        <c:forEach items="${canbeAssignedUser}" var="canbeAssignedUsers">
                                             <li class="list-group-item">
                                                 <input class="form-check-input me-1" type="checkbox" value="${canbeAssignedUser.getFirstName} ${canbeAssignedUser.getLastName}">
                                             </li>
