@@ -86,9 +86,14 @@
 
 
                             <div class="form-row">
-                                <div class="form-group">
-                                    <label for="spotsAdd" class="form-label">Spots: </label>
+                                <div class="form-group col-md-4">
+                                    <label for="spotsAdd" class="form-label">Max Users: </label>
                                     <input type="number" id="spotsAdd" name="spotsAdd" min="1" max="10" value="1" class="form-control">
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="spotsAdd" class="form-label">Spots Taken: </label>
+                                    <input type="number" id="spotsAdd" name="spotsAdd" min="1" max="10" value="1" class="form-control" disabled>
                                 </div>
                             </div>
 
@@ -124,10 +129,19 @@
                                         </c:forEach>
                                     </ul>
                                 </div>
+
+                                <div class="form-group col-md-4 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="isAvailable">
+                                        <label class="form-check-label" for="isAvailable">
+                                            Is Available 
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                             
                             <!-- Number of volunteers for the task -->
-                            <%-- <input type="submit" value="Add" name="action" class="btn btn-primary">  --%>
+                            <button type="submit" name="action" class="btn btn-primary">Confirm</button>
 
                         </form>
                     </div>
