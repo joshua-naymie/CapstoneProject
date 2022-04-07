@@ -47,15 +47,27 @@ function load()
             familyCountInput = new InputGroup(CSS_INPUTGROUP_MAIN, "family_count"),
             approvalNotesFromDB = new InputGroup(CSS_INPUTGROUP_MAIN, "approval_notes_db");
 
-    taskIDFromDB.setLabelText("Task ID:");
+    //taskIDFromDB.setLabelText("Task ID:");
+    const labelZero = document.createElement('p');
+    labelZero.setAttribute('id','label-zero');
+    containerLeft.appendChild(labelZero);
+    document.getElementsByTagName("p")[0].innerHTML="Task ID:";
     taskIDFromDB.setPlaceHolderText("Placeholder Text");
     containerLeft.appendChild(taskIDFromDB.container);
     document.getElementById("task_id_db").setAttribute("readonly", true);
+    document.getElementById("task_id_db").style.display = "none";
+    document.getElementById("label-zero").style.display = "none";
 
-    programIDFromDB.setLabelText("Program ID:");
+    const labelOne = document.createElement('p');
+    labelOne.setAttribute('id','label-one');
+    containerRight.appendChild(labelOne);
+    document.getElementsByTagName("p")[1].innerHTML="Program ID:";
+    //programIDFromDB.setLabelText("Program ID:");
     programIDFromDB.setPlaceHolderText("Placeholder Text");
     containerRight.appendChild(programIDFromDB.container);
     document.getElementById("program_id_db").setAttribute("readonly", true);
+    document.getElementById("program_id_db").style.display = "none";
+    document.getElementById("label-one").style.display = "none";
 
 //    teamIDFromDB.setLabelText("Team ID:");
 //    teamIDFromDB.setPlaceHolderText("n");
@@ -68,10 +80,19 @@ function load()
 //    document.getElementById("user_id_db").setAttribute("readonly", true);
 
     firstNameInput.setLabelText("First Name:");
+//    const labelTwo = document.createElement('p');
+//    labelOne.setAttribute('id','label-two');
+//    containerLeft.appendChild(labelTwo);
+//    document.getElementsByTagName("p")[2].innerHTML="First Name:";
     firstNameInput.setPlaceHolderText("John");
     containerLeft.appendChild(firstNameInput.container);
     document.getElementById("user_firstname").setAttribute("readonly", true);
+    // document.getElementById("label-two").style.display = "block";
 
+//const labelThree = document.createElement('p');
+//    labelThree.setAttribute('id','label-three');
+//    containerRight.appendChild(labelThree);
+//    document.getElementsByTagName("p")[3].innerHTML="Last Name:";
     lastNameInput.setLabelText("Last Name:");
     lastNameInput.setPlaceHolderText("Smith");
     containerRight.appendChild(lastNameInput.container);
@@ -97,7 +118,7 @@ function load()
     endTimeInput.input.value = new Date().toISOString().substring(0, 10);
     containerRight.appendChild(endTimeInput.container);
     document.getElementById("end_time").setAttribute("readonly", true);
-
+    
     mileageInput.setLabelText("Mileage:"); // FOOD PROGRAM ONLY
     mileageInput.setPlaceHolderText("100");
     containerLeft.appendChild(mileageInput.container);
@@ -117,7 +138,7 @@ function load()
     weightFoodInput.setPlaceHolderText("100");
     containerRight.appendChild(weightFoodInput.container);
     document.getElementById("food_weight").setAttribute("readonly", true);
-
+    
     orgNameInput.setLabelText("Organization Name:"); // FOOD PROGRAM ONLY
     orgNameInput.setPlaceHolderText("ECSSEN");
     containerLeft.appendChild(orgNameInput.container);
@@ -202,8 +223,8 @@ function populateFields()
     programIDFromDB.setInputText(taskData.programID);
     teamIDFromDB.setInputText(taskData.teamID);
     userIDFromDB.setInputText(taskData.userID);
-    firstNameInput.setInputText(taskData.fullName);
-    lastNameInput.setInputText(taskData.fullName);
+    firstNameInput.setInputText(taskData.firstName);
+    lastNameInput.setInputText(taskData.lastName);
     programNameFromDB.setInputText(taskData.programName); // script.JSON name
     taskCityInput.setInputText(taskData.city);
     startTimeInput.setInputText(taskData.startTime);
