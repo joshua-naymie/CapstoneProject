@@ -26,7 +26,6 @@ public class TaskServlet extends HttpServlet {
     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
         //uncomment later
 //        HttpSession httpSession = request.getSession();
 //        String user_id = httpSession.getAttribute("email") + "";
@@ -118,8 +117,10 @@ public class TaskServlet extends HttpServlet {
             returnData.append(buildTaskJSON(taskList.get(i), builder, loggedInUserId, show_edit));
         }
         returnData.append("];");
-
+        
         request.setAttribute("taskData", returnData);
+        
+        log("yes sir");
         getServletContext().getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
     }
 
@@ -165,7 +166,7 @@ public class TaskServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         String action = (String) request.getParameter("action");
     
         //get the logged in user saved in the session
@@ -205,20 +206,27 @@ public class TaskServlet extends HttpServlet {
             //if user clicks singup do the following
             if(action != null && action.equals("SignUp")){
                 signUp(request, response, task, loggedInUserId);
-                
+                //response.sendRedirect("tasks");
+
             //if user clicks cancel do the following
             }else if(action != null && action.equals("Cancel")){
                 cancel(request, response, task, loggedInUserId);
+                //response.sendRedirect("tasks");
                 
             }
-        
+            
+            //getServletContext().getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
+
         } catch (Exception ex) {
             Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        //reload the page in case anything falis
+
+        //response.sendRedirect("tasks");
+        //reload the page 
+        response.setHeader("Refresh", "0");
         doGet(request,response);
-        
+        return;
+  
     }
        
     /**
@@ -247,7 +255,9 @@ public class TaskServlet extends HttpServlet {
         
         //loop through all tasks in a group
         for(Task oneTask : tasks){
-            
+            //log(oneTask.getTaskDescription());
+            if(oneTask.getUserId() != null)
+                //log(oneTask.getUserId().getFirstName() + loggedInUserId + " ");
             //find if a user is already singed up for a task in that group
             if(oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId){
                 matchedTask = oneTask;
@@ -255,7 +265,7 @@ public class TaskServlet extends HttpServlet {
                 break;
             }
         }
-        
+              
         //if user has singed up for a task in the current group
         if(matchedTask != null){
             task = matchedTask;
@@ -462,6 +472,7 @@ public class TaskServlet extends HttpServlet {
                         //set the logged in user for that task and update to database
                         User user = as.getByID(loggedInUserId);
                         oneTask.setUserId(user);
+                        oneTask.setAssigned(true);
                         ts.update(oneTask);
 
                     } catch (Exception ex) {
@@ -473,8 +484,6 @@ public class TaskServlet extends HttpServlet {
              }
 
         }
-
-        //}
          
     }
     

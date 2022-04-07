@@ -75,8 +75,10 @@ public class ForgotServlet extends HttpServlet {
         //and update the password to the database
         if (request.getParameter("uuid") != "") {
             uuidC = request.getParameter("uuid");
-            String password = request.getParameter("nPassword");
-            as.changePassword(uuidC, password);
+            log(uuidC);
+            String password = request.getParameter("confirmPassUser");
+            if(password != null) as.changePassword(uuidC, password);
+            log(password);
             response.sendRedirect("login");
             return;
         }

@@ -223,6 +223,23 @@ public class AccountServices {
             return false;
         }
     }
+    
+    public boolean changePasswordAccountPage(User user, String password) {
+        //UserService us = new UserService();
+        UserDB userDB = new UserDB();
+
+        try {
+            String passwordSalt = getSalt();
+            String passwordHash = getHash(password, passwordSalt);
+            user.setPasswordSalt(passwordSalt);
+            user.setPasswordHash(passwordHash);
+            user.setResetPasswordUuid(null);
+            updateNoCheck(user);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
 
     public void updateNoCheck(User user){
         UserDB userDB = new UserDB();

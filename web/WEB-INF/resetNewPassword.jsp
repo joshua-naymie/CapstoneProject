@@ -29,9 +29,10 @@
                 <h1>Reset Password</h1>
                 <form id="newPassword-form">
                     <input id="action" name="action" type="hidden">
+                    <input type="hidden" name="uuid" value="${uuid}">
                     <div id="inputs" class="input-area">
 
-                    </div>
+                    </div> 
                 </form>
 
                 <div id="message" class="message" onfocus="focusFunction()" onblur="blurFunction()" onkeyup="keyUpFunction()">
