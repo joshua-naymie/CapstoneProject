@@ -404,14 +404,22 @@ function buildTableRow({
   let showSignUpButton = JSON.parse(show_signup);
   if (showSignUpButton) {
     let td_signup_button = document.createElement("td");
-    td_signup_button.appendChild(createButton("SignUp", onSignup, "primary"));
+    signup_button = createButton("SignUp", "primary");
+    signup_button.onclick = () => {
+      onSignup(task_id);
+    };
+    td_signup_button.appendChild(signup_button);
     tr.appendChild(td_signup_button);
   }
 
   let showCancelButton = JSON.parse(can_cancel);
   if (showCancelButton) {
     let td_cancel_button = document.createElement("td");
-    td_cancel_button.appendChild(createButton("Cancel", onCancel, "danger"));
+    cancel_button = createButton("Cancel", "danger");
+    cancel_button.onclick = () => {
+      onCancel(task_id);
+    };
+    td_cancel_button.appendChild(cancel_button);
     tr.appendChild(td_cancel_button);
   }
 
