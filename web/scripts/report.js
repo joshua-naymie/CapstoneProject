@@ -107,19 +107,19 @@ function searchStore() {
     $('#formGroup').append("<label class='form-label'>Select a store:</label>");
     $('#formGroup').append("<select id='individualSelection' class='form-select'></select>");
 
-    let name = $('#nameInput').val();
-    console.log(name);
+    let storeName = $('#nameInput').val();
+    console.log(storeName);
     $.ajax({
         type: "get",
         url: "data",
-        data: {operation: "findTeam", name: name},
+        data: {operation: "findStore", storeName: storeName},
         success: function (data) {
             let obj = JSON.parse(data);
 
             obj.forEach((store) => {
                 console.log(store);
                 $('#individualSelection').append(
-                        '<option value="' + store.user_id + '">' + store.user_name + '</option>'
+                        '<option value="' + store.store_id + '">' + store.store_name + '</option>'
                         )
             })
         }

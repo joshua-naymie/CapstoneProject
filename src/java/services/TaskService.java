@@ -4,11 +4,16 @@
  */
 package services;
 
-import dataaccess.TaskDB;
+import dataaccess.*;
 import java.time.*;
 import java.time.format.*;
 import java.util.List;
 import models.Task;
+import models.Team;
+import models.User;
+import org.apache.poi.ss.formula.functions.T;
+
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  *
@@ -165,6 +170,38 @@ public class TaskService {
         TaskDB taskDB = new TaskDB();
         List<Task> tasks = taskDB.getAllNotApprovedTasksByUserId(userId);
         return tasks;
+    }
+
+    public List<Integer> getSupervisors() throws Exception {
+        TeamDB teamDB = new TeamDB();
+        List<Team> teamList = teamDB.getAll();
+        List<Integer> supervisors = null;
+        for (Team team : teamList) {
+            supervisors.add(team.getTeamSupervisor());
+        }
+        return supervisors;
+    }
+
+    public List<User> getCanBeAssignedUsers(long taskId, short programId) throws Exception {
+        TaskDB taskDB = new TaskDB();
+        Task task = taskDB.get(taskId);
+        Team team = task.getTeamId();
+
+        UserDB userDB = new UserDB();
+        List<User> allUsers = userDB.getAll();
+        List<User> canBeAssignedUsers = null;
+
+        for (User user : allUsers) {
+            if (user.getTeamId().equals(team)) {
+                canBeAssignedUsers.add(user);
+            }
+        }
+        for (User user : allUsers) {
+            if (user.getProgramList().contains(team.getProgramId()) && !canBeAssignedUsers.contains(user)) {
+                canBeAssignedUsers.add(user);
+            }
+        }
+        return canBeAssignedUsers;
     }
 
 //    public Long getNextTaskId() throws Exception{

@@ -19,9 +19,9 @@
         <a class="navbartxtandimg" href="users"><img src="content/images/group.png"><span>Users</span></a>
         <div class="dropdown-btn"><div class="navbartxtandimg"><img src="content/images/003-to-do-list.png"><span>Tasks</span></div></div>
         <div class="dropdown-container">
-            <a href="users"><span>Users (Test)</span></a>
-            <a href="LoadTaskInfo"><span>Load Task (Test)</span></a>
-            <a href="programs"><span>Programs (test)</span></a>
+            <a href="tasks"><span>List of Tasks</span></a>
+            <a href="approve"><span>Submitted Tasks</span></a>
+            <a href="programs"><span>Programs (replace)</span></a>
         </div>
         <a class="navbartxtandimg" href="#"><img src="content/images/006-report.png"><span>Reports</span></a>
         <a class="navbartxtandimg" href="#"><img src="content/images/001-heart.png"><span>Donations</span></a>
