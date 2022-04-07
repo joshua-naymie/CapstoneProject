@@ -61,7 +61,7 @@ public List<Store> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
             Query getFoundStores = em.createNamedQuery("Store.findByStoreName", models.Store.class);
-            List<Store> foundStores = getFoundStores.setParameter("storeName", storeName).getResultList();
+            List<Store> foundStores = getFoundStores.setParameter("storeName", "%" + storeName + "%").getResultList();
             return foundStores;
         } catch (NoResultException e) {
             return null;

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Store.findByStoreCity", query = "SELECT s FROM Store s WHERE s.storeCity = :storeCity"),
     @NamedQuery(name = "Store.findByPhoneNum", query = "SELECT s FROM Store s WHERE s.phoneNum = :phoneNum"),
     @NamedQuery(name = "Store.findByContact", query = "SELECT s FROM Store s WHERE s.contact = :contact"),
-    @NamedQuery(name = "Store.findByStoreName", query = "SELECT s FROM Store s WHERE s.storeName = :storeName"),
+    @NamedQuery(name = "Store.findByStoreName", query = "SELECT s FROM Store s WHERE s.storeName LIKE :storeName"),
     @NamedQuery(name = "Store.findByIsActive", query = "SELECT s FROM Store s WHERE s.isActive = :isActive")})
 public class Store implements Serializable {
 
