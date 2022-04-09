@@ -198,7 +198,7 @@ public class TeamsServlet extends HttpServlet {
         }catch (Exception ex) {
             Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, ex);
         }
-        
+       
         Object[] userValues = {team.getTeamId(),
             team.getTeamName(),
             supervisorUser.getFirstName() + " " + supervisorUser.getLastName()};
