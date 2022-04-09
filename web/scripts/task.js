@@ -71,8 +71,11 @@ function onSignup(task_id) {
     type: "POST",
     url: "tasks",
     data: { task_id: task_id, action: "SignUp" },
-    success: function (data) {
-      console.log(data);
+    // success: function (data) {
+    //   console.log(data);
+    // },
+    complete: () => {
+      window.location.reload();
     },
   });
 }
