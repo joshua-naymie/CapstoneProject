@@ -13,9 +13,11 @@
         <script type="text/javascript" src="scripts/models/autolist.js"></script>
         <script type="text/javascript" src="scripts/models/functions.js"></script>
         <script>${teamData}</script>
-        <script>${companyData}</script>
+        <script>${storeData}</script>
+        <script>${supervisorData}</script>
+        <script>${programData}</script>
 
-        <link rel="stylesheet" href="css/team-styles.css">
+        <link rel="stylesheet" href="css/teams-styles.css">
         <title>ECSSEN Teams</title>
     </head>
     <body class="body">

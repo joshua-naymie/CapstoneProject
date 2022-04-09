@@ -9,6 +9,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 import models.Program;
@@ -145,5 +146,14 @@ public class ProgramDB {
         List<Short> ids = entityManager.createQuery("SELECT p.programId FROM Program p", Short.class).getResultList();
 
         return ids;
+    }
+    
+    public List<Program> getAllActive() throws Exception
+    {
+        EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
+        TypedQuery<Program> query = entityManager.createNamedQuery("Program.findByIsActive", Program.class);
+        query.setParameter("isActive", true);
+        
+        return query.getResultList();
     }
 }
