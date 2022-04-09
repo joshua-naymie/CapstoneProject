@@ -35,7 +35,8 @@ public class EditTaskServlet extends HttpServlet {
                 StringBuilder returnData = new StringBuilder();
 
                 if (editTask.getProgramId().getProgramName().equals("Food Delivery")) {
-                    JSONKey[] taskKeys = {new JSONKey("task_id", true),
+                    JSONKey[] taskKeys = {
+                            new JSONKey("task_id", true),
                             new JSONKey("program_id", true),
                             new JSONKey("program_name", true),
                             new JSONKey("max_users", true),
@@ -46,20 +47,15 @@ public class EditTaskServlet extends HttpServlet {
                             new JSONKey("start_time", true),
                             new JSONKey("end_time", true),
                             new JSONKey("available", false),
-                            new JSONKey("notes", true),
-                            new JSONKey("is_approved", false),
-                            new JSONKey("approving_manager", true),
                             new JSONKey("task_description", true),
                             new JSONKey("task_city", true),
-                            new JSONKey("is_submitted", false),
-                            new JSONKey("approval_notes", true),
-                            new JSONKey("is_dissaproved", false),
                             new JSONKey("team_id", true),
+                            new JSONKey("team_name", true),
                             new JSONKey("company_id", true),
                             new JSONKey("company_name", true),
                             new JSONKey("store_id", true),
-                            new JSONKey("store_name", true),
-                            new JSONKey("assigned_user_id", true) };
+                            new JSONKey("store_name", true)
+                    };
 
                     JSONBuilder taskBuilder = new JSONBuilder(taskKeys);
 
@@ -70,13 +66,73 @@ public class EditTaskServlet extends HttpServlet {
                     String date = simpleDateFormat.format(startDate);
                     simpleDateFormat = new SimpleDateFormat("HH:mm");
                     String startTime = simpleDateFormat.format(startDate);
-                    Date endDate = editTask.getEndTime();
-                    String endTime = simpleDateFormat.format(endDate);
 
-                    Object[] taskData = {editTask.getTaskId(),
+                    Date endDate = null;
+                    String endTime = null;
+                    if (editTask.getEndTime() != null) {
+                        endDate = editTask.getEndTime();
+                        endTime = simpleDateFormat.format(endDate);
+                    }
+
+                    User approvingManager = new User(editTask.getApprovingManager());
+                    List<User> canBeApprovingManagers = null;
+                    TeamServices teamServices = new TeamServices();
+                    for (Team team : teamServices.getAll()) {
+                        User user = new User(team.getTeamSupervisor());
+                        canBeApprovingManagers.add(user);
+                    }
+                    ProgramServices programServices = new ProgramServices();
+                    for (Program program : programServices.getAll()) {
+                        canBeApprovingManagers.add(program.getUserId());
+                    }
+
+                    short maxUsers = -1;
+                    if (editTask.getMaxUsers() != null) {
+                         maxUsers = editTask.getMaxUsers();
+                    }
+                    String taskDescription = null;
+                    if (editTask.getTaskDescription() != null) {
+                        taskDescription = editTask.getTaskDescription();
+                    }
+                    String taskCity = null;
+                    if (editTask.getTaskCity() != null) {
+                        taskCity = editTask.getTaskCity();
+                    }
+                    int storeId = -1;
+                    String storeName = null;
+                    short companyId = -1;
+                    String companyName = null;
+                    if (editTask.getTeamId().getStoreId() != null) {
+                        storeId = editTask.getTeamId().getStoreId().getStoreId();
+                        storeName = editTask.getTeamId().getStoreId().getStoreName();
+                        if (editTask.getTeamId().getStoreId().getCompanyId() != null) {
+                            companyId = editTask.getTeamId().getStoreId().getCompanyId().getCompanyId();
+                            companyName = editTask.getTeamId().getStoreId().getCompanyId().getCompanyName();
+                        }
+                    }
+                    List<User> assignedUsers = null;
+                    List<User> canBeAssignedUsers = taskService.getCanBeAssignedUsersFoodDelivery(editTask.getGroupId());
+                    if (editTask.getSpotsTaken() > 0) {
+                        for (Task task : taskService.getAllTasksInGroup(editTask.getGroupId())) {
+                            if (task.getUserId() != null) {
+                                assignedUsers.add(task.getUserId());
+                            }
+                        }
+                        for (User user : assignedUsers) {
+                            canBeAssignedUsers.remove(user);
+                        }
+                    }
+
+                    request.setAttribute("approving_manager", approvingManager);
+                    request.setAttribute("can_be_approving_managers", canBeApprovingManagers);
+                    request.setAttribute("assigned_users", assignedUsers);
+                    request.setAttribute("can_be_assigned_users", canBeAssignedUsers);
+
+                    Object[] taskData = {
+                            editTask.getTaskId(),
                             editTask.getProgramId().getProgramId(),
                             editTask.getProgramId().getProgramName(),
-                            editTask.getMaxUsers(),
+                            maxUsers,
                             editTask.getGroupId(),
                             editTask.getSpotsTaken(),
                             editTask.getAssigned(),
@@ -84,57 +140,30 @@ public class EditTaskServlet extends HttpServlet {
                             startTime,
                             endTime,
                             editTask.getAvailable(),
-                            editTask.getNotes(),
-                            editTask.getIsApproved(),
-                            editTask.getApprovingManager(),
-                            editTask.getTaskDescription(),
-                            editTask.getTaskCity(),
-                            editTask.getIsSubmitted(),
-                            editTask.getApprovalNotes(),
-                            editTask.getIsDissaproved(),
+                            taskDescription,
+                            taskCity,
                             editTask.getTeamId().getTeamId(),
-                            editTask.getTeamId().getStoreId().getCompanyId().getCompanyId(),
-                            editTask.getTeamId().getStoreId().getCompanyId().getCompanyName(),
-                            editTask.getTeamId().getStoreId().getStoreId(),
-                            editTask.getTeamId().getStoreId().getStoreName(),
-                            editTask.getUserId().getUserId() };
+                            editTask.getTeamId().getTeamName(),
+                            companyId,
+                            companyName,
+                            storeId,
+                            storeName
+                    };
 
                     returnData.append(taskBuilder.buildJSON(taskData));
                     returnData.append(";");
-
-                    try {
-                        StoreServices storeServices = new StoreServices();
-                        List<Store> stores = storeServices.getAll();
-                        CompanyService companyService = new CompanyService();
-                        List<CompanyName> companyNames = companyService.getAll();
-
-
-
-//                    request.setAttribute("chosenUsers", chosenUsers);
-//                    request.setAttribute("canBeAssigned", canBeAssigned);
-                        request.setAttribute("stores", stores);
-                        request.setAttribute("companies", companyNames);
-                    } catch (Exception ex) {
-                        Logger.getLogger(TaskServlet.class.getName()).log(Level.WARNING, null, ex);
-                    }
                 } else {
                     JSONKey[] taskKeys = { new JSONKey("task_id", true),
                             new JSONKey("program_id", true),
                             new JSONKey("program_name", true),
-                            new JSONKey("max_users", true),
                             new JSONKey("date", true),
                             new JSONKey("start_time", true),
                             new JSONKey("end_time", true),
                             new JSONKey("available", false),
-                            new JSONKey("notes", true),
-                            new JSONKey("is_approved", false),
                             new JSONKey("task_description", true),
-                            new JSONKey("task_city", true),
-                            new JSONKey("is_submitted", false),
-                            new JSONKey("approval_notes", true),
-                            new JSONKey("is_dissaproved", false),
                             new JSONKey("team_id", true),
-                            new JSONKey("assigned_user_id", true) };
+                            new JSONKey("team_name", true),
+                    };
 
                     JSONBuilder taskBuilder = new JSONBuilder(taskKeys);
 
@@ -145,31 +174,46 @@ public class EditTaskServlet extends HttpServlet {
                     String date = simpleDateFormat.format(startDate);
                     simpleDateFormat = new SimpleDateFormat("HH:mm");
                     String startTime = simpleDateFormat.format(startDate);
-                    Date endDate = editTask.getEndTime();
-                    String endTime = simpleDateFormat.format(endDate);
 
-                    Object[] taskData = {editTask.getTaskId(),
+                    Date endDate = null;
+                    String endTime = null;
+                    if (editTask.getEndTime() != null) {
+                        endDate = editTask.getEndTime();
+                        endTime = simpleDateFormat.format(endDate);
+                    }
+                    String taskDescription = null;
+                    if (editTask.getTaskDescription() != null) {
+                        taskDescription = editTask.getTaskDescription();
+                    }
+                    List<User> canBeApprovingManagers = null;
+
+                    ProgramServices programServices = new ProgramServices();
+                    for (Program program : programServices.getAll()) {
+                        canBeApprovingManagers.add(program.getUserId());
+                    }
+                    canBeApprovingManagers.addAll(taskService.getCanBeApprovingManagersHotline(editTask.getTaskId()));
+
+                    request.setAttribute("approving_manager", editTask.getApprovingManager());
+                    request.setAttribute("can_be_approving_managers", canBeApprovingManagers);
+                    request.setAttribute("assigned_user", editTask.getUserId());
+                    request.setAttribute("can_be_assigned_users", taskService.getCanBeAssignedUsersHotline(editTask.getTaskId()));
+
+                    Object[] taskData = {
+                            editTask.getTaskId(),
                             editTask.getProgramId().getProgramId(),
                             editTask.getProgramId().getProgramName(),
-                            editTask.getMaxUsers(),
                             date,
                             startTime,
                             endTime,
                             editTask.getAvailable(),
-                            editTask.getNotes(),
-                            editTask.getIsApproved(),
-                            editTask.getTaskDescription(),
-                            editTask.getTaskCity(),
-                            editTask.getIsSubmitted(),
-                            editTask.getApprovalNotes(),
-                            editTask.getIsDissaproved(),
+                            taskDescription,
                             editTask.getTeamId().getTeamId(),
+                            editTask.getTeamId().getTeamName(),
                             editTask.getUserId().getUserId() };
 
                     returnData.append(taskBuilder.buildJSON(taskData));
                     returnData.append(";");
                 }
-
                 request.setAttribute("taskData", returnData);
             } catch (Exception ex) {
                 Logger.getLogger(TaskServlet.class.getName()).log(Level.WARNING, null, ex);
@@ -177,39 +221,19 @@ public class EditTaskServlet extends HttpServlet {
 
 
 
-            ProgramServices ps = new ProgramServices();
-            List<Program> allPrograms = null;
-            try {
-                allPrograms = ps.getAll();
-            } catch (Exception ex) {
-                Logger.getLogger(EditTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            //     for(Program p: allPrograms) {
-            //         System.out.println(p.getProgramName());
-            //         System.out.println(p.getProgramId());
-            //     }
-            request.setAttribute("allPrograms", allPrograms);
-            try {
-                List<User> canBeAssignedUsers = taskService.getCanBeAssignedUsers(Long.parseLong(task_id), editTask.getProgramId().getProgramId());
-                request.setAttribute("canBeAssignedUsers", canBeAssignedUsers);
-            } catch (Exception ex) {
-                Logger.getLogger(EditTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            ProgramServices ps = new ProgramServices();
+//            List<Program> allPrograms = null;
 //            try {
-////                UserTaskService userTaskService = new UserTaskService();
-////                List<User> chosenUsers = userTaskService.getChosenUsers(editTask.getTaskId());
-////                Team team = new Team(editTask.getTeamId().getTeamId());
-//////                List<User> canBeAssigned = team.getUserList().stream().filter(chosenUsers::contains).collect(Collectors.toList());
-////                canBeAssigned.remove(loggedInUser);
-////
-////                request.setAttribute("chosenUsers", chosenUsers);
-////                request.setAttribute("canBeAssigned", canBeAssigned);
+//                allPrograms = ps.getAll();
 //            } catch (Exception ex) {
-//                Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(EditTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
 //            }
-
-//            request.setAttribute("user_id", user_id);
+//
+//            //     for(Program p: allPrograms) {
+//            //         System.out.println(p.getProgramName());
+//            //         System.out.println(p.getProgramId());
+//            //     }
+//            request.setAttribute("allPrograms", allPrograms);
 
             System.out.println("ID: " + task_id);
         }
@@ -229,10 +253,6 @@ public class EditTaskServlet extends HttpServlet {
             long taskId = Long.parseLong(request.getParameter("task_id"));
             Task task = taskService.get(taskId);
 
-            task.setProgramId(new Program(Short.parseShort(request.getParameter("program_id"))));
-            short maxUsers = Short.parseShort(request.getParameter("max_users"));
-            task.setMaxUsers(maxUsers);
-
             String date = request.getParameter("date");
             String startTime = request.getParameter("start_time");
             String endTime = request.getParameter("end_time");
@@ -241,9 +261,18 @@ public class EditTaskServlet extends HttpServlet {
             task.setStartTime(simpleDateFormat.parse(date + startTime));
             task.setEndTime(simpleDateFormat.parse(date + endTime));
 
-            task.setNotes(request.getParameter("notes"));
             task.setTaskDescription(request.getParameter("task_description"));
-            task.setTaskCity(request.getParameter("task_city"));
+
+            task.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
+
+            if (task.getProgramId().getProgramName().equals("Food Delivery")) {
+                long groupId = task.getGroupId();
+                task.setTaskCity(request.getParameter("task_city"));
+
+            }
+            short maxUsers = Short.parseShort(request.getParameter("max_users"));
+            task.setMaxUsers(maxUsers);
+
 
             Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
             task.setTeamId(team);

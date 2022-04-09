@@ -61,7 +61,7 @@ const userSearchInputTimer = (searchValue) => {
  * @param {string} searchValue The value to find in the store or manager name
  * @returns Whether the search value is contained in the store or manager name
  */
-const filterstore = (store, searchValue) => {
+const filterStore = (store, searchValue) => {
     if (store.name.toLowerCase().includes(searchValue)
     ||((store.managerId != null) && userData[store.managerId].name.toLowerCase().includes(searchValue)))
     {
@@ -100,7 +100,7 @@ function load()
 
     storeList = new AutoList("flex");
     storeList.container = document.getElementById("list-base");
-    storeList.setFilterMethod(filterstore);
+    storeList.setFilterMethod(filterStore);
     storeList.setSortMethod(compareStore);
     generateStoreList();
     
@@ -151,6 +151,7 @@ function load()
     // setup company InputGroup
     companyInput = new InputGroup(CSS_INPUTGROUP_MAIN, "company-name");
     companyInput.input.setAttribute("list", "company-list");
+    companyInput.input.setAttribute("autocomplete", "false");
     companyInput.setLabelText("Company");
     companyInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     companyInput.setPlaceHolderText("eg. Starbucks");

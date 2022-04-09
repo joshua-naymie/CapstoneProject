@@ -119,16 +119,8 @@ public class TaskServlet extends HttpServlet {
         returnData.append("];");
 
         request.setAttribute("taskData", returnData);
-
-        log("yes sir");
-        if (refresh) {
-            log("no sir");
-            refresh = false;
-            response.sendRedirect("tasks");
-            return;
-        } else {
-            getServletContext().getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
-        }
+        
+        getServletContext().getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
 
     }
 
@@ -266,12 +258,12 @@ public class TaskServlet extends HttpServlet {
             //log(oneTask.getTaskDescription());
             if (oneTask.getUserId() != null) //log(oneTask.getUserId().getFirstName() + loggedInUserId + " ");
             //find if a user is already singed up for a task in that group
-            {
-                if (oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId) {
-                    matchedTask = oneTask;
-                    //log(matchedTask.getUserId() + matchedTask.getTaskDescription() + "--");
-                    break;
-                }
+
+            if(oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId){
+                matchedTask = oneTask;
+                log(matchedTask.getUserId() + matchedTask.getTaskDescription() + "--");
+                break;
+
             }
         }
 

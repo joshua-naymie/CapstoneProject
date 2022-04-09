@@ -47,7 +47,7 @@ public class ProgramServices {
 
     }
 
-    public String insert(boolean isActive, String programName, long userId) throws Exception {
+    public String insert(boolean isActive, String programName, int userId) throws Exception {
         ProgramDB progDB = new ProgramDB();
         Program checkProgram = progDB.getByProgramName(programName);
         if (checkProgram != null) {
@@ -81,5 +81,11 @@ public class ProgramServices {
     {
         ProgramDB programDB = new ProgramDB();
         return programDB.getAllIDs();
+    }
+    
+    public List<Program> getAllActive() throws Exception
+    {
+        ProgramDB programDB = new ProgramDB();
+        return programDB.getAllActive();
     }
 }
