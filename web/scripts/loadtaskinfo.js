@@ -48,26 +48,26 @@ function load()
             approvalNotesFromDB = new InputGroup(CSS_INPUTGROUP_MAIN, "approval_notes_db");
 
     //taskIDFromDB.setLabelText("Task ID:");
-    const labelZero = document.createElement('p');
-    labelZero.setAttribute('id','label-zero');
-    containerLeft.appendChild(labelZero);
-    document.getElementsByTagName("p")[0].innerHTML="Task ID:";
+    var divTaskID = document.createElement("Div");
+    divTaskID.id = "task-id-label";
+    divTaskID.innerHTML = "Task ID:";
+    containerLeft.appendChild(divTaskID);
     taskIDFromDB.setPlaceHolderText("Placeholder Text");
     containerLeft.appendChild(taskIDFromDB.container);
     document.getElementById("task_id_db").setAttribute("readonly", true);
     document.getElementById("task_id_db").style.display = "none";
-    document.getElementById("label-zero").style.display = "none";
+    document.getElementById("task-id-label").style.display = "none";
 
-    const labelOne = document.createElement('p');
-    labelOne.setAttribute('id','label-one');
-    containerRight.appendChild(labelOne);
-    document.getElementsByTagName("p")[1].innerHTML="Program ID:";
+    var divProgramID = document.createElement("Div");
+    divProgramID.id = "program-id-label";
+    divProgramID.innerHTML = "Program ID:";
+    containerRight.appendChild(divProgramID);
     //programIDFromDB.setLabelText("Program ID:");
     programIDFromDB.setPlaceHolderText("Placeholder Text");
     containerRight.appendChild(programIDFromDB.container);
     document.getElementById("program_id_db").setAttribute("readonly", true);
     document.getElementById("program_id_db").style.display = "none";
-    document.getElementById("label-one").style.display = "none";
+    document.getElementById("program-id-label").style.display = "none";
 
 //    teamIDFromDB.setLabelText("Team ID:");
 //    teamIDFromDB.setPlaceHolderText("n");
@@ -80,19 +80,10 @@ function load()
 //    document.getElementById("user_id_db").setAttribute("readonly", true);
 
     firstNameInput.setLabelText("First Name:");
-//    const labelTwo = document.createElement('p');
-//    labelOne.setAttribute('id','label-two');
-//    containerLeft.appendChild(labelTwo);
-//    document.getElementsByTagName("p")[2].innerHTML="First Name:";
     firstNameInput.setPlaceHolderText("John");
     containerLeft.appendChild(firstNameInput.container);
     document.getElementById("user_firstname").setAttribute("readonly", true);
-    // document.getElementById("label-two").style.display = "block";
 
-//const labelThree = document.createElement('p');
-//    labelThree.setAttribute('id','label-three');
-//    containerRight.appendChild(labelThree);
-//    document.getElementsByTagName("p")[3].innerHTML="Last Name:";
     lastNameInput.setLabelText("Last Name:");
     lastNameInput.setPlaceHolderText("Smith");
     containerRight.appendChild(lastNameInput.container);
@@ -115,39 +106,66 @@ function load()
 
     endTimeInput.setLabelText("End Time:");
     endTimeInput.input.type = "datetime-local";
-    endTimeInput.input.value = new Date().toISOString().substring(0, 10);
+    //endTimeInput.input.value = new Date().toISOString().substring(0, 10);
+    endTimeInput.input.value = JSON.stringify(new Date().toISOString());
     containerRight.appendChild(endTimeInput.container);
     document.getElementById("end_time").setAttribute("readonly", true);
-    
-    mileageInput.setLabelText("Mileage:"); // FOOD PROGRAM ONLY
+
+    var divMileage = document.createElement("Div");
+    divMileage.id = "mileage-label";
+    divMileage.innerHTML = "Mileage:";
+    containerLeft.appendChild(divMileage);
+    //mileageInput.setLabelText("Mileage:"); // FOOD PROGRAM ONLY
     mileageInput.setPlaceHolderText("100");
     containerLeft.appendChild(mileageInput.container);
     document.getElementById("food_mileage").setAttribute("readonly", true);
 
-    packageIDInput.setLabelText("Package ID:"); // FOOD PROGRAM ONLY
+    var divWeightLabel = document.createElement("Div");
+    divWeightLabel.id = "weight-label";
+    divWeightLabel.innerHTML = "Weight (lbs):";
+    containerRight.appendChild(divWeightLabel);
+//  weightFoodInput.setLabelText("Weight (lbs):"); // FOOD PROGRAM ONLY
+    weightFoodInput.setPlaceHolderText("100");
+    containerRight.appendChild(weightFoodInput.container);
+    document.getElementById("food_weight").setAttribute("readonly", true);
+
+    var divFamilyLabel = document.createElement("Div");
+    divFamilyLabel.id = "family-label";
+    divFamilyLabel.innerHTML = "Family Count:";
+    containerRight.appendChild(divFamilyLabel);
+    // familyCountInput.setLabelText("Family Count:"); // FOOD PROGRAM ONLY
+    familyCountInput.setPlaceHolderText("10");
+    containerRight.appendChild(familyCountInput.container);
+    document.getElementById("family_count").setAttribute("readonly", true);
+
+    var divPackageID = document.createElement("Div");
+    divPackageID.id = "package-id-label";
+    divPackageID.innerHTML = "Package ID:";
+    containerRight.appendChild(divPackageID);
+    // packageIDInput.setLabelText("Package ID:"); // FOOD PROGRAM ONLY
     packageIDInput.setPlaceHolderText("123");
     containerRight.appendChild(packageIDInput.container);
     document.getElementById("food_package_id").setAttribute("readonly", true);
+    document.getElementById("food_package_id").style.display = "none";
+    document.getElementById("package-id-label").style.display = "none";
 
-    packageNameInput.setLabelText("Package Name:"); // FOOD PROGRAM ONLY
+    var divPackageName = document.createElement("Div");
+    divPackageName.id = "package-name-label";
+    divPackageName.innerHTML = "Package Name:";
+    containerLeft.appendChild(divPackageName);
+    // packageNameInput.setLabelText("Package Name:"); // FOOD PROGRAM ONLY
     packageNameInput.setPlaceHolderText("Food");
     containerLeft.appendChild(packageNameInput.container);
     document.getElementById("food_package_name").setAttribute("readonly", true);
 
-    weightFoodInput.setLabelText("Weight (lbs):"); // FOOD PROGRAM ONLY
-    weightFoodInput.setPlaceHolderText("100");
-    containerRight.appendChild(weightFoodInput.container);
-    document.getElementById("food_weight").setAttribute("readonly", true);
-    
-    orgNameInput.setLabelText("Organization Name:"); // FOOD PROGRAM ONLY
+    var divOrganizationName = document.createElement("Div");
+    divOrganizationName.id = "organization-name-label";
+    divOrganizationName.innerHTML = "Organization Name:";
+    containerLeft.appendChild(divOrganizationName);
+    // orgNameInput.setLabelText("Organization Name:"); // FOOD PROGRAM ONLY
     orgNameInput.setPlaceHolderText("ECSSEN");
     containerLeft.appendChild(orgNameInput.container);
     document.getElementById("org_name").setAttribute("readonly", true);
-
-    familyCountInput.setLabelText("Family Count:"); // FOOD PROGRAM ONLY
-    familyCountInput.setPlaceHolderText("10");
-    containerRight.appendChild(familyCountInput.container);
-    document.getElementById("family_count").setAttribute("readonly", true);
 
     approvalNotesFromDB.setLabelText("Comments:");
     approvalNotesFromDB = document.createElement("TEXTAREA");
@@ -182,7 +200,7 @@ function load()
     containerLeft.appendChild(disapproveButton);
     containerRight.appendChild(cancelButton);
     containerRight.appendChild(approveButton);
-    
+
     //--------------
 //
     inputCollection = new InputGroupCollection();
@@ -229,10 +247,10 @@ function populateFields()
     taskCityInput.setInputText(taskData.city);
     startTimeInput.setInputText(taskData.startTime);
     endTimeInput.setInputText(taskData.endTime);
-    //mileageInput.setInputText(taskData.xxxxx);
-   //packageIDInput.setInputText(taskData.xxxxx);
-    //packageNameInput.setInputText(taskData.xxxxx);
-    //weightFoodInput.setInputText(taskData.xxxxx);
+    mileageInput.setInputText(taskData.mileage);
+    //packageIDInput.setInputText(taskData.xxxxx);
+    packageNameInput.setInputText(taskData.packageType);
+    weightFoodInput.setInputText(taskData.foodAmount);
     //orgNameInput.setInputText(taskData.xxxxx);
     familyCountInput.setInputText(taskData.familyCount);
 }
@@ -240,30 +258,37 @@ function populateFields()
 
 function checkTask(that) // how do I create an onChange that passes in the value to that? onchange="checkTask(this);
 {
-      if (that == 1) { // if program_Id == 1 show food inputs
+    if (that == 1) { // if program_Id == 1 show food inputs
         if (taskData.familyCount === false) { // task falls under an organization so display org name but not family count;
             document.getElementById("food_mileage").style.display = "block";
-            document.getElementById("food_package_id").style.display = "block";
+            //   document.getElementById("food_package_id").style.display = "block";
             document.getElementById("food_package_name").style.display = "block";
             document.getElementById("food_weight").style.display = "block";
             document.getElementById("org_name").style.display = "block";
             document.getElementById("family_count").style.display = "none";
         } else { // task falls under a community so display family count but not org name;
             document.getElementById("food_mileage").style.display = "block";
-            document.getElementById("food_package_id").style.display = "block";
+            //  document.getElementById("food_package_id").style.display = "block";
             document.getElementById("food_package_name").style.display = "block";
             document.getElementById("food_weight").style.display = "block";
             document.getElementById("org_name").style.display = "none";
             document.getElementById("family_count").style.display = "block";
+            document.getElementById("organization-name-label").style.display = "none";
         }
     } else if (that == 2) { // if program_Id == 2 show hotline but hide food inputs
         console.log("programID:" + that);
         document.getElementById("food_mileage").style.display = "none";
-        document.getElementById("food_package_id").style.display = "none";
+        //   document.getElementById("food_package_id").style.display = "none";
         document.getElementById("food_package_name").style.display = "none";
         document.getElementById("food_weight").style.display = "none";
         document.getElementById("org_name").style.display = "none";
         document.getElementById("family_count").style.display = "none";
+        document.getElementById("mileage-label").style.display = "none";
+        document.getElementById("package-name-label").style.display = "none";
+        document.getElementById("weight-label").style.display = "none";
+        document.getElementById("family-label").style.display = "none";
+        document.getElementById("organization-name-label").style.display = "none";
+
     } else {
         console.log("problem in checktask function");
     }

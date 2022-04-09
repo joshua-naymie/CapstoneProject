@@ -107,7 +107,7 @@ INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`)
 INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
      VALUES (5,4,2);
 
- -----------------------------------------------------
+-- -----------------------------------------------------
 -- PACKAGE TYPE
 -- -----------------------------------------------------
 INSERT INTO `package_type` (`package_name`,`weight_lb`) 
@@ -179,7 +179,7 @@ INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users
                     `approving_manager`,`task_description`, `is_submitted`, `is_dissaproved`,`assigned`)
      VALUES (11, 0, 2, 1, 2, "2022-04-18 16:30:00", FALSE, FALSE, 
             '3', 'Call at 10 people', FALSE, FALSE, FALSE);
---
+
 
 -- -----------------------------------------------------
 -- HOTLINE DATA

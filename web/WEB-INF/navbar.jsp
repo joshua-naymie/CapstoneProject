@@ -14,23 +14,25 @@
         <div class="littlelogo"><a href="#home"><img src="content/images/logo-small.png"></a></div>
         <div class="logo"><a href="#home"><img src="content/images/logo-big.png"></a></div>
         <hr>
-        <a class="navbartxtandimg" href="#"><img src="content/images/005-home.png"><span>Home</span></a>
-        <a class="navbartxtandimg" href="history"><img src="content/images/004-history.png"><span>History</span></a>
-        <a class="navbartxtandimg" href="users"><img src="content/images/group.png"><span>Users</span></a>
+<!--        <a class="navbartxtandimg" href="#"><img src="content/images/005-home.png"><span>Home</span></a>-->
         <div class="dropdown-btn"><div class="navbartxtandimg"><img src="content/images/003-to-do-list.png"><span>Tasks</span></div></div>
         <div class="dropdown-container">
             <a href="tasks"><span>List of Tasks</span></a>
-            <a href="approve"><span>Submitted Tasks</span></a>
-            <a href="programs"><span>Programs (replace)</span></a>
+            <a href="addTask"><span>Add Task</span></a>
+            <a href="submitTask"><span>Submit Task</span></a>
+            <a href="approve"><span>Approve Task</span></a>
         </div>
-        <a class="navbartxtandimg" href="#"><img src="content/images/006-report.png"><span>Reports</span></a>
-        <a class="navbartxtandimg" href="#"><img src="content/images/001-heart.png"><span>Donations</span></a>
+        <a class="navbartxtandimg" href="reports"><img src="content/images/006-report.png"><span>Reports</span></a>
+<!--        <a class="navbartxtandimg" href="#"><img src="content/images/001-heart.png"><span>Donations</span></a>-->
+        <a class="navbartxtandimg" href="users"><img src="content/images/group.png"><span>Users</span></a>
         <a class="navbartxtandimg" href="programs"><img src="content/images/007-code.png"><span>Programs</span></a>
-        <a class="navbartxtandimg" href="#"><img src="content/images/009-user.png"><span>Admin</span></a>
+        <a class="navbartxtandimg" href="teams"><img src="content/images/001-heart.png"><span>Teams</span></a>
+        <a class="navbartxtandimg" href="stores"><img src="content/images/009-user.png"><span>Stores</span></a>
+        <a class="navbartxtandimg" href="history"><img src="content/images/004-history.png"><span>History</span></a>
     </div>
     <div>
         <hr>
-        <a class="navbartxtandimg" href="#"><img src="content/images/008-user-2.png"><span>Account</span></a>
+        <a class="navbartxtandimg" href="userAccount"><img src="content/images/008-user-2.png"><span>Account</span></a>
         <a class="navbartxtandimg" href="login?logout"><img src="content/images/logout.png"><span>Logout</span></a>
     </div>
 </nav>
