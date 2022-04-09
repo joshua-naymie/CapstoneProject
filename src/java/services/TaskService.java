@@ -8,9 +8,7 @@ import dataaccess.*;
 import java.time.*;
 import java.time.format.*;
 import java.util.List;
-import models.Task;
-import models.Team;
-import models.User;
+import models.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
 
@@ -181,9 +179,9 @@ public class TaskService {
         return supervisors;
     }
 
-    public List<User> getCanBeAssignedUsers(long taskId, short programId) throws Exception {
+    public List<User> getCanBeAssignedUsersFoodDelivery(long groupId) throws Exception {
         TaskDB taskDB = new TaskDB();
-        Task task = taskDB.get(taskId);
+        Task task = taskDB.get(groupId);
         Team team = task.getTeamId();
 
         UserDB userDB = new UserDB();
@@ -203,6 +201,51 @@ public class TaskService {
         return canBeAssignedUsers;
     }
 
+    public List<User> getCanBeApprovingManagersHotline(long taskId) throws Exception {
+        List<User> canBeApprovingManager = null;
+        RoleDB roleDB = new RoleDB();
+        Role role = roleDB.getByRoleName("Coordinator");
+
+        ProgramTrainingDB programTrainingDB = new ProgramTrainingDB();
+        List<ProgramTraining> programTrainingList = programTrainingDB.getAll();
+
+
+        for (ProgramTraining programTraining : programTrainingList) {
+            if (programTraining.getRoleId().getRoleId() == role.getRoleId()) {
+                canBeApprovingManager.add(programTraining.getUser());
+            }
+        }
+
+        return canBeApprovingManager;
+    }
+
+    public List<User> getCanBeAssignedUsersHotline(long taskId) throws Exception {
+        TaskDB taskDB = new TaskDB();
+        Task task = taskDB.get(taskId);
+        Team team = task.getTeamId();
+
+        UserDB userDB = new UserDB();
+        List<User> allUsers = userDB.getAll();
+        List<User> canBeAssignedUsers = null;
+        for (User user : allUsers) {
+            if (user.getTeamId().equals(team)) {
+                canBeAssignedUsers.add(user);
+            }
+        }
+        return canBeAssignedUsers;
+    }
+
+    public List<Task> getAllTasksInGroup(long groupId) throws Exception {
+        TaskDB taskDB = new TaskDB();
+        List<Task> sameGroupTasks = null;
+        for (Task task : taskDB.getAll()) {
+            if (task.getGroupId() == groupId) {
+                sameGroupTasks.add(task);
+            }
+        }
+        return sameGroupTasks;
+    }
+
 //    public Long getNextTaskId() throws Exception{
 //        TaskDB taskDB = new TaskDB();
 //        Long taskId = taskDB.getNextTaskId();
@@ -217,4 +260,10 @@ public class TaskService {
         TaskDB taskDB = new TaskDB();
         taskDB.update(task);
     }
+
+    public void delete(Task task) throws Exception {
+        TaskDB taskDB = new TaskDB();
+        taskDB.delete(task);
+    }
+
 }

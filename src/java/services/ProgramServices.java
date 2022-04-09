@@ -82,4 +82,10 @@ public class ProgramServices {
         ProgramDB programDB = new ProgramDB();
         return programDB.getAllIDs();
     }
+    
+    public List<Program> getAllActive() throws Exception
+    {
+        ProgramDB programDB = new ProgramDB();
+        return programDB.getAllActive();
+    }
 }

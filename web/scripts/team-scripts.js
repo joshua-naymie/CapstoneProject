@@ -62,7 +62,7 @@ const userSearchInputTimer = (searchValue) => {
  * @returns Whether the search value is contained in the team or manager name
  */
 const filterTeam = (team, searchValue) => {
-    if (team.name.toLowerCase().includes(searchValue)
+    if ((team.teamName != null) && (team.teamName.toLowerCase().includes(searchValue))
     ||((team.managerId != null) && userData[team.managerId].name.toLowerCase().includes(searchValue)))
     {
         return filterCheckbox.checked ? true : team.isActive;
@@ -101,8 +101,8 @@ function load()
     teamList = new AutoList("flex");
     teamList.container = document.getElementById("list-base");
     teamList.setFilterMethod(filterTeam);
-    teamList.setSortMethod(compareStore);
-    generateStoreList();
+    teamList.setSortMethod(compareTeam);
+    generateTeamList();
     
     // setup input area
     inputArea = document.getElementById("input-area");
@@ -113,7 +113,7 @@ function load()
     listArea.classList.add("visible");
     
     // setup input form
-    inputForm = document.getElementById("addStoreForm");
+    inputForm = document.getElementById("addTeamForm");
     inputForm.reset();
     
     statusInput = document.getElementById("status");
@@ -137,16 +137,6 @@ function load()
     teamNameInput.setPlaceHolderText("eg. Kensington Starbucks");
     teamNameInput.container = document.getElementById("team-name__input");
     configCustomInput(teamNameInput);
-    
-    let companyList = document.getElementById("company-list");
-    
-    for(let i=0; i<companyData.length; i++)
-    {
-        let temp = document.createElement("option");
-        temp.value = companyData[i].name;
-        
-        companyList.appendChild(temp);
-    }
     
     // setup company InputGroup
     companyInput = new InputGroup(CSS_INPUTGROUP_MAIN, "company-name");
@@ -205,15 +195,13 @@ function load()
     
     // add InputGroups to a collection
     inputs = new InputGroupCollection();
-    inputs.add(storeNameInput);
+//    inputs.add(storeNameInput);
     inputs.add(companyInput);
     inputs.add(streetAddressInput);
     inputs.add(cityInput);
     inputs.add(provinceInput);
     inputs.add(postalCodeInput);
     inputs.add(phoneInput);
-
- 
 }
 
 /**
@@ -241,18 +229,18 @@ function configCustomInput(group)
  * Generates the list of stores displayed to the user.
  * Creates store cards and inserts line breaks between them.
  */
-function generateStoreList()
+function generateTeamList()
 {
     removeAllChildren(document.getElementById("list-base"));
 
-    // let keys = Object.keys(storeData);
-    for(let i=0; i<storeData.length; i++)
+    console.log(teamData.length);
+    for(let i=0; i<teamData.length; i++)
     {
-        let store = storeData[i];
-        storeList.addItem(generateStoreRow(store), store);
+        let team = teamData[i];
+        teamList.addItem(generateTeamRow(team), team);
     }
 
-    storeList.generateList();
+    teamList.generateList();
 }
 
 /**
@@ -260,45 +248,25 @@ function generateStoreList()
  * @param {store} store  The store whose info will populate the row
  * @returns {Element}  A div representing a row in a store list.
  */
-function generateStoreRow(store)
+function generateTeamRow(team)
 {
     // item card
     let item = document.createElement("div");
     item.classList.add("list-item");
-    item.addEventListener("click", () => { editStore(store); });
+    item.addEventListener("click", () => { editTeam(team); });
 
-    let address = document.createElement("div");
-    address.classList.add("store-list__row-left");
-    
-    let streetAddress = document.createElement("p");
-    streetAddress.classList.add("store-list__large-field");
-    streetAddress.innerText = store.streetAddress;
-    
-    let restOfAddrees = document.createElement("p");
-    restOfAddrees.classList.add("---REPLACE---");
-    restOfAddrees.innerText = `${store.city}, AB ${store.postalCode}`;
-    
-    address.appendChild(streetAddress);
-    address.appendChild(restOfAddrees);
-    
-    let leftSide = document.createElement("div");
-    leftSide.classList.add("store-list__row-right");
-    
     let name = document.createElement("p");
-    name.classList.add("store-list__large-field");
-    name.innerText = store.name;
+    name.innerText = team.name;
+    name.classList.add("---===REPLACE===---");
     
-    let phone = document.createElement("p");
-    phone.classList.add("---REPLACE---");
-    phone.innerText = store.phoneNum;
+    let program = document.createElement("p");
+    program.innerText = getProgramByID(team.programID).name;
+    name.classList.add("---===REPLACE===---");
     
-    leftSide.appendChild(name);
-    leftSide.appendChild(phone);
-    
-    
-    item.appendChild(address);
-    item.appendChild(leftSide);
+    item.appendChild(name);
+    item.appendChild(program);
 
+    console.log(`Item: ${item}`);
     return item;
 }
 
@@ -309,7 +277,7 @@ function generateStoreRow(store)
 function searchStoreList(searchValue)
 {
     searchValue = searchValue == null ? "" : searchValue;
-    storeList.filter(searchValue);
+    teamList.filter(searchValue);
 }
 
 /**
@@ -325,7 +293,7 @@ function cancelPressed()
     changeHeaderText("Stores");
     fadeOutIn(inputArea, listArea);
     setTimeout(() => {
-        document.getElementById("addStoreForm").reset();
+        document.getElementById("addTeamForm").reset();
         inputs.resetInputs();
     }, 200);
 }
@@ -335,16 +303,16 @@ function cancelPressed()
  * Sets the currentAction and the submit button text.
  * Fades ui to input panel.
  */
-function addStore()
+function addTeam()
 {
     currentAction = "add";
-    submitButton.value = "Add";
-    document.getElementById("store-ID").value = -1;
+    submitButton.value = "Add"; 
+    document.getElementById("team-ID").value = -1;
     provinceInput.setInputText("AB");
     setStatusSelectColor();
     
     setContainerWidth("container--input-size");
-    changeHeaderText("Add Store");
+    changeHeaderText("Add Team");
     fadeOutIn(listArea, inputArea);
 }
 
@@ -355,7 +323,7 @@ function addStore()
  * @param {type} store
  * @returns {undefined}
  */
-function editStore(store)
+function editTeam(store)
 {
     currentAction = "update";
     submitButton.value = "Update";
@@ -376,7 +344,7 @@ function editStore(store)
     document.getElementById("store-ID").value = store.storeId;
     
     setContainerWidth("container--input-size");
-    changeHeaderText("Edit Store");
+    changeHeaderText("Edit Team");
     fadeOutIn(listArea, inputArea);
 }
 
@@ -420,13 +388,13 @@ function fadeOutIn(outElement, inElement)
  * @param {type} store2   the second store to compare
  * @returns {Number}
  */
-function compareStore(store1, store2)
+function compareTeam(team1, team2)
 {
-    if(store1.object.name > store2.object.name)
+    if(team1.object.name > team2.object.name)
     {
         return 1;
     }
-    else if(store1.object.name < store2.object.name)
+    else if(team1.object.name < team2.object.name)
     {
         return -1;
     }
@@ -473,7 +441,7 @@ function setStatusSelectColor()
 
 function changeHeaderText(text)
 {
-    let header = document.getElementById("store-header");
+    let header = document.getElementById("team-header");
     header.classList.add("header--hidden");
     
     setTimeout(() => { header.innerText = text; header.classList.remove("header--hidden") }, 150);
@@ -486,6 +454,19 @@ function getCompanyByID(id)
         if(companyData[i].id === id)
         {
             return companyData[i];
+        }
+    }
+    
+    return null;
+}
+
+function getProgramByID(id)
+{
+    for(let i=0; i<programData.length; i++)
+    {
+        if(programData[i].id === id)
+        {
+            return programData[i];
         }
     }
     
