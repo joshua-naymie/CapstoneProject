@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "CompanyName.findAll", query = "SELECT c FROM CompanyName c"),
     @NamedQuery(name = "CompanyName.findByCompanyId", query = "SELECT c FROM CompanyName c WHERE c.companyId = :companyId"),
-    @NamedQuery(name = "CompanyName.findByCompanyName", query = "SELECT c FROM CompanyName c WHERE LOWER(c.companyName) = LOWER(:companyName)")})
+    @NamedQuery(name = "CompanyName.findByCompanyName", query = "SELECT c FROM CompanyName c WHERE c.companyName = :companyName")})
 public class CompanyName implements Serializable {
 
     private static final long serialVersionUID = 1L;

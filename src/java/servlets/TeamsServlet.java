@@ -222,6 +222,7 @@ public class TeamsServlet extends HttpServlet {
     {
         int supervisorID = team.getTeamSupervisor() == null ? -1 : team.getTeamSupervisor();
 
+        System.out.println("NAME: " + team.getTeamName());
         Object[] data = { team.getTeamId(),
                           team.getTeamName(),
                           team.getTeamSupervisor(),

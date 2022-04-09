@@ -96,7 +96,7 @@ function load()
     // setup 'Show Inactive' checkbox
     filterCheckbox = document.getElementById("team-filter");
     filterCheckbox.checked = false;
-    filterCheckbox.addEventListener("change", () => { searchStoreList(teamSearchInput.value); });
+    filterCheckbox.addEventListener("change", () => { searchTeamList(teamSearchInput.value); });
 
     teamList = new AutoList("flex");
     teamList.container = document.getElementById("list-base");
@@ -128,7 +128,7 @@ function load()
     // setup team search input
     teamSearchInput = document.getElementById("search-input");
     teamSearchInput.value = "";
-    teamSearchInput.addEventListener("input", () => { searchStoreList(teamSearchInput.value) });
+    teamSearchInput.addEventListener("input", () => { searchTeamList(teamSearchInput.value) });
 
     // setup team name InputGroup
     teamNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "team-name");
@@ -274,7 +274,7 @@ function generateTeamRow(team)
  * Filters the list by matching store name or manager name.
  * Regenerates the list with filtered stores
  */
-function searchStoreList(searchValue)
+function searchTeamList(searchValue)
 {
     searchValue = searchValue == null ? "" : searchValue;
     teamList.filter(searchValue);
