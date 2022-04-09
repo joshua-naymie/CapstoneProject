@@ -54,6 +54,21 @@ public class Team implements Serializable {
     public Team(Integer teamId) {
         this.teamId = teamId;
     }
+    
+    public Team(Program programId, short teamSize, int teamSup, Store storeId, String teamName) {
+        this.programId = programId;
+        this.teamSize = teamSize;
+        this.teamSupervisor = teamSup;
+        this.storeId = storeId;
+        this.teamName = teamName;
+    }
+    
+    public Team(Program programId, short teamSize, int teamSup, String teamName) {
+        this.programId = programId;
+        this.teamSize = teamSize;
+        this.teamSupervisor = teamSup;
+        this.teamName = teamName;
+    }
 
     public Integer getTeamId() {
         return teamId;
@@ -145,5 +160,5 @@ public class Team implements Serializable {
     public String toString() {
         return "models.Team[ teamId=" + teamId + " ]";
     }
-
+    
 }

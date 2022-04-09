@@ -5,13 +5,7 @@
 package models;
 
 import java.io.Serializable;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -31,13 +25,13 @@ public class ProgramTraining implements Serializable {
     @EmbeddedId
     protected ProgramTrainingPK programTrainingPK;
     @JoinColumn(name = "program_id", referencedColumnName = "program_id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Program program;
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Role roleId;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private User user;
 
     public ProgramTraining() {

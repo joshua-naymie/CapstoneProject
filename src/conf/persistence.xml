@@ -20,9 +20,12 @@
     <class>models.Organization</class>
     <class>models.Store</class>
     <class>models.CompanyName</class>
+    <class>models.User_1</class>
+    <class>models.Store_1</class>
+    <class>models.Program_1</class>
+    <class>models.CompanyName_1</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <!--      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>-->
     </properties>
   </persistence-unit>
 </persistence>

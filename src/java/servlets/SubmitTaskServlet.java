@@ -28,7 +28,6 @@ import models.PackageType;
 import models.Program;
 import models.Task;
 import services.TaskService;
-import services.UserTaskService;
 
 /**
  * Backend for the Submit Task page
