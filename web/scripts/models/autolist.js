@@ -63,9 +63,7 @@ class AutoList
         removeAllChildren(this.container);
 
         let temp = new DocumentFragment();
-        console.log(`Length: ${this.items.length}`);
         this.items.forEach(item => {
-            console.log(item.conent);
             temp.appendChild(item.lineBreak);
             temp.appendChild(item.content);
         });

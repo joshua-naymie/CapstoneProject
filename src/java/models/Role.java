@@ -6,16 +6,7 @@ package models;
 
 import java.io.Serializable;
 import java.util.List;
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -44,7 +35,7 @@ public class Role implements Serializable {
     private String roleName;
     @Column(name = "role_description")
     private String roleDescription;
-    @OneToMany(mappedBy = "roleId")
+    @OneToMany(mappedBy = "roleId", fetch = FetchType.EAGER)
     private List<ProgramTraining> programTrainingList;
 
     public Role() {

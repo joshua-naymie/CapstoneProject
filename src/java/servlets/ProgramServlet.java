@@ -196,7 +196,7 @@ public class ProgramServlet extends HttpServlet {
                     // obtaining user entered program name
                     request.getParameter("program-name"),
                     // obtaining the user ID
-                    Long.parseLong(request.getParameter("manager-ID")));
+                    Integer.parseInt(request.getParameter("manager-ID")));
 
             // change the role of the manager name typed to the matching program role
             // get user entered user name (match with frontend)  
