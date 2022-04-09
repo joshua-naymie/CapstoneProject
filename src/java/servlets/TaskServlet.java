@@ -120,7 +120,6 @@ public class TaskServlet extends HttpServlet {
         
         request.setAttribute("taskData", returnData);
         
-        log("yes sir");
         getServletContext().getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
     }
 
@@ -261,7 +260,7 @@ public class TaskServlet extends HttpServlet {
             //find if a user is already singed up for a task in that group
             if(oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId){
                 matchedTask = oneTask;
-                //log(matchedTask.getUserId() + matchedTask.getTaskDescription() + "--");
+                log(matchedTask.getUserId() + matchedTask.getTaskDescription() + "--");
                 break;
             }
         }

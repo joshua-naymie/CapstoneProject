@@ -17,7 +17,9 @@ import models.User;
 import services.AccountServices;
 
 /**
- *
+ * Validate the current password entered by the user and let the user
+ * enter a new password and save it.
+ * 
  * @author srvad
  */
 public class ChangePassword extends HttpServlet {
@@ -78,7 +80,7 @@ public class ChangePassword extends HttpServlet {
    
                 }
                 
-                    //JSON object to be returned isValid to check if password is valid
+                    //JSON object to be returned isValid to check if current password is valid
                     StringBuilder programJSON = new StringBuilder();
                     
                     programJSON.append('[');
@@ -148,7 +150,7 @@ public class ChangePassword extends HttpServlet {
         
         if(password != null) as.changePasswordAccountPage(user, password);
         
-        response.sendRedirect("login");
+        response.sendRedirect("tasks");
         
     }
 

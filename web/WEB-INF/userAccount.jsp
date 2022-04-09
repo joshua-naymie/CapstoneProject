@@ -27,8 +27,9 @@
         <title>Password Reset</title>
     </head>
     <body>
+        <%@ include file="navbar.jsp" %>
         <div class="base">
-            <div class="body">
+            <div id="content-section" class="body">
                 <h1> ${fullName} </h1>
                 <h2>Change Password</h2>
 
@@ -36,7 +37,7 @@
                     <input id="action" name="action" type="hidden">
                         
                         <div style="text-align:center">
-                            <label class="main-input__label main-input__label--default">Current Password:</label>
+                            <label class="main-input__label main-input__label--default">Current Password</label>
                             <input class="main-input__input main-input__input--default" type="password" name="cPassword" id= "cPassword" value="" placeholder="" required>
                         </div>
                     
