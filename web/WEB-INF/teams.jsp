@@ -49,6 +49,22 @@
                             <input id="team-ID" name="team-ID" type="hidden">
                             
                             <div id="team-name__input" style="margin: 2px 0 10px 0;"></div>
+                            
+                            <div class="select__input">
+                                <select id="programs_select" name="program">
+                                    <option disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <label class="status__label">Program</label>
+                            </div>
+                            
+                            <div class="select__input">
+                                <select id="supervisors_select" name="supervisor">
+                                    <option disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <label class="status__label">Program</label>
+                            </div>
+                            
+                            <div id="phone__input" style="margin: 2px 0 30px 0;"></div>
                             <div id="company__input" style="margin: 2px 0 50px 0;"></div>
                             <datalist id="company-list">
                             </datalist>
@@ -63,17 +79,7 @@
                             
                             <div id="contact__input" style="margin: 2px 0 10px 0;"></div>
                             
-                            <div class="status-input">
-                                <div id="phone__input" style="margin: 2px 0 30px 0;"></div>
-                                <div id="status__input" >
-                                    <select class="status__select" id="status" name="status">
-                                        <option disabled hidden style='display: none' value=''></option>
-                                        <option value="active">Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>
-                                    <label class="status__label">Status</label>
-                                </div>
-                            </div>
+                            
                             
                             
                             

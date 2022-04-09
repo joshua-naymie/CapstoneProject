@@ -367,39 +367,33 @@
     height: 1.3rem;
 }
 
-.status-input
-{
-    display: grid;
-    grid-template-columns: 1fr 0.25fr;
-    gap: 10px;
-}
-
-/*.status-input div
+.select__input
 {
     display: flex;
     flex-direction: column;
-}*/
+}
 
 status__select
 {
     font-size: 2rem;
 }
 
-.status-input select
+.select__input select
 {
     height: 30px;
+    width: 100%;
     font-family: 'Lucida Sans Unicode', sans-serif;
     font-size: 1rem;
     border-width: 2px;
     border-style: solid;
-    border-radius: 8px;
+    border-radius: 5px;
 }
-.status-input select:hover
+.select__input select:hover
 {
     cursor: pointer;
 }
 
-.status-input select option
+.select__input select option
 {
     height: 30px;
     font-family: 'Lucida Sans Unicode', sans-serif;

@@ -30,7 +30,7 @@ var removeManagerInput;
 var userList;
 var teamList;
 var teamNameInput,
-    companyInput,
+    programInput,
     streetAddressInput,
     provinceInput,
     postalCodeInput,
@@ -62,10 +62,9 @@ const userSearchInputTimer = (searchValue) => {
  * @returns Whether the search value is contained in the team or manager name
  */
 const filterTeam = (team, searchValue) => {
-    if ((team.teamName != null) && (team.teamName.toLowerCase().includes(searchValue))
-    ||((team.managerId != null) && userData[team.managerId].name.toLowerCase().includes(searchValue)))
+    if((team.name != null) && (team.name.toLowerCase().includes(searchValue)))
     {
-        return filterCheckbox.checked ? true : team.isActive;
+        return true;
     }
 
     return false;
@@ -116,7 +115,7 @@ function load()
     inputForm = document.getElementById("addTeamForm");
     inputForm.reset();
     
-    statusInput = document.getElementById("status");
+    statusInput = document.getElementById("programs_select");
     statusInput.addEventListener("change", setStatusSelectColor);
     setStatusSelectColor();
     
@@ -132,20 +131,19 @@ function load()
 
     // setup team name InputGroup
     teamNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "team-name");
-    teamNameInput.setLabelText("Store Name");
+    teamNameInput.setLabelText("Team Name");
     teamNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    teamNameInput.setPlaceHolderText("eg. Kensington Starbucks");
+    teamNameInput.setPlaceHolderText("eg. Hotline");
     teamNameInput.container = document.getElementById("team-name__input");
     configCustomInput(teamNameInput);
     
     // setup company InputGroup
-    companyInput = new InputGroup(CSS_INPUTGROUP_MAIN, "company-name");
-    companyInput.input.setAttribute("list", "company-list");
-    companyInput.setLabelText("Company");
-    companyInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    companyInput.setPlaceHolderText("eg. Starbucks");
-    companyInput.container = document.getElementById("company__input");
-    configCustomInput(companyInput);
+    programInput = new InputGroup(CSS_INPUTGROUP_MAIN, "company-name");
+    programInput.input.type = "select";
+    programInput.setLabelText("Program");
+    programInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
+    programInput.container = document.getElementById("company__input");
+    configCustomInput(programInput);
     
     // setup team street address InputGroup
     streetAddressInput = new InputGroup(CSS_INPUTGROUP_MAIN, "team-address");
@@ -196,12 +194,15 @@ function load()
     // add InputGroups to a collection
     inputs = new InputGroupCollection();
 //    inputs.add(storeNameInput);
-    inputs.add(companyInput);
+    inputs.add(programInput);
     inputs.add(streetAddressInput);
     inputs.add(cityInput);
     inputs.add(provinceInput);
     inputs.add(postalCodeInput);
     inputs.add(phoneInput);
+    
+    setProgramSelect();
+    setSupervisorSelect();
 }
 
 /**
@@ -214,7 +215,7 @@ function configCustomInput(group)
     {
         throw `not an InputGroup - ${group}`;
     }
-    group.container.classList.add("store__custom-input");
+    group.container.classList.add("team__custom-input");
     group.container.appendChild(group.input);
 
     let labelMessageDiv = document.createElement("div");
@@ -331,7 +332,7 @@ function editTeam(store)
     document.getElementById("store-ID").value = store.storeId;
     storeNameInput.setInputText(store.name);
     let company = getCompanyByID(store.companyId);
-    companyInput.setInputText(company.name);
+    programInput.setInputText(company.name);
     streetAddressInput.setInputText(store.streetAddress);
     cityInput.setInputText(store.city);
     provinceInput.setInputText("AB");
@@ -471,4 +472,32 @@ function getProgramByID(id)
     }
     
     return null;
+}
+
+function setProgramSelect()
+{
+    let select = document.getElementById("programs_select");
+    
+    for(let i=0; i<programData.length; i++)
+    {
+        let temp = document.createElement("option");
+        temp.label = programData[i].name;
+        temp.value = programData[i].id;
+        
+        select.appendChild(temp);
+    }
+}
+
+function setSupervisorSelect()
+{
+    let select = document.getElementById("supervisors_select");
+    
+    for(let i=0; i<supervisorData.length; i++)
+    {
+        let temp = document.createElement("option");
+        temp.label = supervisorData[i].name;
+        temp.value = supervisorData[i].id;
+        
+        select.appendChild(temp);
+    }
 }
