@@ -15,31 +15,60 @@ import models.*;
 import services.*;
 
 public class TaskServlet extends HttpServlet {
+    
+   /**
+     * 
+     * 
+     * 
+     * @param request Request object created by the web container 
+     * for each request of the client
+     * @param response HTTP Response sent by a server to the client
+    */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //uncomment later
 //        HttpSession httpSession = request.getSession();
 //        String user_id = httpSession.getAttribute("email") + "";
 //        System.out.println(user_id);
 //
 //        int loggedInUserId = Integer.parseInt(user_id);
-        
+//        
         //delete later
-        int loggedInUserId = 4;
-        
+//        int loggedInUserId = 4;
+
+        HttpSession httpSession = request.getSession();
+        int loggedInUserId = -1;
+        boolean show_edit = false;
+        if (httpSession.getAttribute("email") != null) {
+            loggedInUserId = (int) httpSession.getAttribute("email");
+            System.out.println(loggedInUserId);
+            User loggedInUser = new User(loggedInUserId);
+
+            TaskService taskService = new TaskService();
+            List<Integer> supervisors = null;
+            try {
+                supervisors = taskService.getSupervisors();
+                if (supervisors.contains(loggedInUser.getUserId()) || loggedInUser.getIsAdmin()) {
+                    httpSession.setAttribute("show_edit", true);
+                    show_edit = true;
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+
         AccountServices as = new AccountServices();
         
-        User loggedInUser = new User();
-        try {
-            loggedInUser = as.getByID(loggedInUserId);
-        } catch (Exception ex) {
-            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        User loggedInUser = new User();
+//        try {
+//            loggedInUser = as.getByID(loggedInUserId);
+//        } catch (Exception ex) {
+//            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+//        }
        
-        boolean show_edit = false;
-        if(loggedInUser.getIsAdmin()) show_edit = true;
+//        boolean show_edit = false;
+//        if(loggedInUser.getIsAdmin()) show_edit = true;
         
         TaskService taskService = new TaskService();
         List<Task> taskList = null;
@@ -69,14 +98,12 @@ public class TaskServlet extends HttpServlet {
                 new JSONKey("approval_notes", true),
                 new JSONKey("is_dissaproved", false),
                 new JSONKey("team_id", true),
-                new JSONKey("show_signupT_cancelF", true), //pass boolean for signup or cancel show_signup_cancel
+                new JSONKey("show_signup", true), //pass boolean for signup or cancel show_signup_cancel
                 new JSONKey("can_cancel", true), //boolaen for can cancel can_cancel
                 new JSONKey("show_edit", true),//boolean to show edit button or not show_edit
 		new JSONKey("spots_taken", true),
 		new JSONKey("user_name", true)
-                
-                
-                
+    
         };
 
         JSONBuilder builder = new JSONBuilder(taskKeys);
@@ -90,8 +117,10 @@ public class TaskServlet extends HttpServlet {
             returnData.append(buildTaskJSON(taskList.get(i), builder, loggedInUserId, show_edit));
         }
         returnData.append("];");
-
+        
         request.setAttribute("taskData", returnData);
+        
+        log("yes sir");
         getServletContext().getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
     }
 
@@ -113,21 +142,34 @@ public class TaskServlet extends HttpServlet {
                 task.getApprovalNotes(),
                 task.getIsDissaproved(),
                 task.getTeamId().getTeamId(),
-                signUpOrCancel(task, loggedInUserId),
+                signUpButtonShow(task, loggedInUserId),
                 cancelTaskButtonShow(task, loggedInUserId),
                 show_edit,
 		task.getSpotsTaken(),
 		getUserName(task.getUserId())};
+        
+        //log(signUpButtonShow(task, loggedInUserId) + "");
 
         return builder.buildJSON(taskValues);
     }
 
+   /**
+     * 
+     * Backend for when user tries to Cancel or Sign Up for a task
+     * 
+     * @param request Request object created by the web container 
+     * for each request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters difficulty
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         String action = (String) request.getParameter("action");
     
+        //get the logged in user saved in the session
         HttpSession httpSession = request.getSession();
         
         TaskService ts = new TaskService();
@@ -146,12 +188,14 @@ public class TaskServlet extends HttpServlet {
         //delete later
         int loggedInUserId = 4;
         
+        
+        //get task_id for a specific task in the tasks page (a row is a task)
         Long taskId = -1L;
         
         try{
             taskId = Long.parseLong( (String) request.getParameter("task_id") );
         } catch (Exception ex) {
-            Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         Task task = null;
@@ -159,25 +203,45 @@ public class TaskServlet extends HttpServlet {
         try {
             task = ts.get(taskId);
 
+            //if user clicks singup do the following
             if(action != null && action.equals("SignUp")){
                 signUp(request, response, task, loggedInUserId);
-                
+                //response.sendRedirect("tasks");
+
+            //if user clicks cancel do the following
             }else if(action != null && action.equals("Cancel")){
                 cancel(request, response, task, loggedInUserId);
+                //response.sendRedirect("tasks");
                 
             }
-        
+            
+            //getServletContext().getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
+
         } catch (Exception ex) {
             Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
+        //response.sendRedirect("tasks");
+        //reload the page 
+        response.setHeader("Refresh", "0");
+        doGet(request,response);
+        return;
+  
     }
        
+    /**
+     * Controls whether the Cancel button should be visible for a task for the logged in user or not
+     * 
+     * @param task the task object
+     * @param loggedInUserId id of the logged in user
+     * @return true if user is allowed to see the cancel button for a task else false
+     */
     private boolean cancelTaskButtonShow(Task task, int loggedInUserId){
         
         TaskService ts = new TaskService();
         AccountServices as = new AccountServices();
         
+        //get all tasks with the same group id as the current task
         List <Task> tasks = null;
         
         try {
@@ -189,31 +253,37 @@ public class TaskServlet extends HttpServlet {
         
         Task matchedTask = null;
         
+        //loop through all tasks in a group
         for(Task oneTask : tasks){
+            //log(oneTask.getTaskDescription());
+            if(oneTask.getUserId() != null)
+                //log(oneTask.getUserId().getFirstName() + loggedInUserId + " ");
+            //find if a user is already singed up for a task in that group
             if(oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId){
                 matchedTask = oneTask;
+                //log(matchedTask.getUserId() + matchedTask.getTaskDescription() + "--");
                 break;
             }
         }
-        
+              
+        //if user has singed up for a task in the current group
         if(matchedTask != null){
             task = matchedTask;
+            
             try{
             Date taskStart = task.getStartTime();
             
+            //find the difference between the task start time and the current time
             LocalDateTime taskTime = taskStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             LocalDateTime currTime = LocalDateTime.now();
-
-//            int diffInNano = java.time.Duration.between(dateTime, dateTime2).getNano();
-//            long diffInSeconds = java.time.Duration.between(dateTime, dateTime2).getSeconds();
-//            long diffInMilli = java.time.Duration.between(dateTime, dateTime2).toMillis();
-//            long diffInMinutes = java.time.Duration.between(dateTime, dateTime2).toMinutes();
-            long diffInHours = java.time.Duration.between(taskTime, currTime).toHours();
+            
+            long diffInHours = java.time.Duration.between(currTime, taskTime).toHours();
            
-           //System.out.println("Diff " + diffInHours);
+            //log("Diff " + diffInHours);
            
             int sevenDaystoHours = 168;
 
+            //can only cancel if start time is at least 7 days away
             if(diffInHours < sevenDaystoHours ){
                 return false;
             }
@@ -229,35 +299,24 @@ public class TaskServlet extends HttpServlet {
         return false;
     }
     
-    private boolean signUpOrCancel(Task task, int loggedInUserId){
-        
-//        UserTaskService uts = new UserTaskService();
-//        
-//        List<User> users = null;
-//        
-//        try {
-//            users = uts.getChosenUsers(task.getTaskId());
-//        } catch (Exception ex) {
-//            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        if(users!= null){
-//            for(User user: users){
-//                if(user.getUserId() == loggedInUserId){
-//                    return false;
-//                }
-//                
-//            }
-//        }
-    
+    /**
+     * Controls whether the Sign Up button should be visible for a task for the logged in user or not
+     * 
+     * @param task the task object
+     * @param loggedInUserId id of the logged in user
+     * @return true if user is allowed to see the sign up button for a task else false
+     */
+    private boolean signUpButtonShow(Task task, int loggedInUserId){
                 
         TaskService ts = new TaskService();
         AccountServices as = new AccountServices();
         
+        //get all tasks for a group that the current task belongs to
         List <Task> tasks = null;
         
         try {
            tasks = ts.getAllTasksByGroupId(task.getGroupId());
+           //log(tasks.size() + " ");
             
         } catch (Exception ex) {
             Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -266,37 +325,60 @@ public class TaskServlet extends HttpServlet {
         Task matchedTask = null;
         
         for(Task oneTask : tasks){
+            
+            //if user has already singed up for a task in the current group break
             if(oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId){
                 matchedTask = oneTask;
                 break;
             }
         }
         
+        //check if spots are all filled or not for that task group
         if(task.getMaxUsers() == task.getSpotsTaken()){
             return false;
         }
         
-//        if(matchedTask != null){
-//            log(matchedTask.getTaskDescription());
-//            return false;
-//        }
+        //if user already signed up dont show the sign up button again
+        if(matchedTask != null){
+            //log(matchedTask.getTaskDescription());
+            return false;
+        }
+        
+        //only show sign up button if the task hasn't started yet
+        Date taskStart = task.getStartTime();
+            
+            LocalDateTime taskTime = taskStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            LocalDateTime currTime = LocalDateTime.now();
+
+            long diffInHours = java.time.Duration.between(currTime, taskTime).toHours();
+            
+            //log(diffInHours + " ");
+            
+            if(diffInHours <= 0 ){
+                return false;
+            }
         
         return true;
     }
 
+    /**
+     * Steps taken when cancelling a task
+     * 
+    * @param task a task object
+     * @param loggedInUserId id of logged in user
+     * @param request Request object created by the web container 
+     * for each request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters difficulty
+     * @throws IOException Occurs when an IO operation fails
+     */
     protected void cancel(HttpServletRequest request, HttpServletResponse response, Task task, int loggedInUserId)
             throws ServletException, IOException {
-        
-        //TaskService ts = new TaskService();
-        //Long task_id = Long.parseLong((String) request.getParameter("task_id"));
-        //Task task = ts.get(task_id);
-        
-        //List<UserTask> userTasks = task.getUserTaskList();
-               
-        //for( UserTask userTask: userTasks){
+
         TaskService ts = new TaskService();
         AccountServices as = new AccountServices();
         
+        //get all tasks in the current group
         List <Task> tasks = null;
         
         try {
@@ -307,12 +389,24 @@ public class TaskServlet extends HttpServlet {
         }
         
         for(Task oneTask : tasks){
+            
+            //check if user is signed up for a task in the current group task
             if(oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId){
                 try {
-                    task.setAssigned(Boolean.FALSE);
-                    task.setSpotsTaken( (short) (task.getSpotsTaken() - ( (short) 1 )));
-                    task.setUserId(null);
-                    ts.update(task);
+                    
+                    //once the user cancels a spot should be made free
+                    //and all tasks in the current group must reflect that free spot
+                    for(Task singleTask : tasks){
+                        singleTask.setSpotsTaken( (short) (task.getSpotsTaken() - ( (short) 1 )));
+                        ts.update(singleTask);
+                    }
+                    
+                    //set assigned to false for the task, delete the userid for the task and update it
+                    oneTask.setAssigned(Boolean.FALSE);
+                    //task.setSpotsTaken( (short) (task.getSpotsTaken() - ( (short) 1 )));
+                    oneTask.setUserId(null);
+                    ts.update(oneTask);
+                    
                 } catch (Exception ex) {  
                     Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -320,24 +414,26 @@ public class TaskServlet extends HttpServlet {
             }
         }
 
-        //}
     }
     
+    /**
+     * Steps taken when signing up for a task
+     * 
+     * @param task a task object
+     * @param loggedInUserId id of logged in user
+     * @param request Request object created by the web container 
+     * for each request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters difficulty
+     * @throws IOException Occurs when an IO operation fails
+     */
     protected void signUp(HttpServletRequest request, HttpServletResponse response, Task task, int loggedInUserId)
         throws ServletException, IOException {
-        
-        //TaskService ts = new TaskService();
-        //Long task_id = Long.parseLong((String) request.getParameter("task_id"));
-        //Task task = ts.get(task_id);
-                    //UserTask ut = new UserTask(loggedInUserId, task.getTaskId());
-//
-//        String action = request.getParameter("action");
-//        
-//        if(action.equalsIgnoreCase("SignUp")){
         
         TaskService ts = new TaskService();
         AccountServices as = new AccountServices();
         
+        //get all tasks for the current group
         List <Task> tasks = null;
         
         try {
@@ -350,21 +446,34 @@ public class TaskServlet extends HttpServlet {
         boolean addTask = true;
         
         for(Task oneTask : tasks){
+            
+            //if user has already signed up for a task in the current group dont sign them up again
             if(oneTask.getUserId() != null && oneTask.getUserId().getUserId() == loggedInUserId){
                 addTask = false;
-                log("here");
                 break;
             }
         }
         
+        //if the logged in user isn't signed up do the following
         if(addTask){
+            
              for(Task oneTask : tasks){
+                 
+                 //find a task with a free spot in the current group
                  if(oneTask.getUserId() == null){            
                     try {
+                        
+                        //add 1 to the spots taken for the current task group
+                        for(Task singleTask : tasks){
+                            singleTask.setSpotsTaken( (short) (task.getSpotsTaken() + ( (short) 1 )));
+                            ts.update(singleTask);
+                        }
+                        
+                        //set the logged in user for that task and update to database
                         User user = as.getByID(loggedInUserId);
-                        task.setUserId(user);
-                        task.setSpotsTaken( (short) (task.getSpotsTaken() + ( (short) 1 )));
-                        ts.update(task);
+                        oneTask.setUserId(user);
+                        oneTask.setAssigned(true);
+                        ts.update(oneTask);
 
                     } catch (Exception ex) {
                         Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -375,8 +484,6 @@ public class TaskServlet extends HttpServlet {
              }
 
         }
-
-        //}
          
     }
     
@@ -389,5 +496,5 @@ public class TaskServlet extends HttpServlet {
 	return "";
 	
     }
-    //chozen use agambeers method to cehck, return boolean, either sign up or cancel
+    
 }

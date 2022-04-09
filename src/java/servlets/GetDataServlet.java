@@ -351,6 +351,37 @@ public class GetDataServlet extends HttpServlet {
             response.setContentType("text/html");
             response.getWriter().write(teamJSON.toString());
         }
+
+        // Find a stpre from store name
+        if (op.equals("findStore")) {
+            String storeName = request.getParameter("storeName");
+
+            List<Store> storeList = null;
+            try {
+                storeList = ss.getStoresByName(storeName);
+            } catch (Exception ex) {
+                Logger.getLogger(GetDataServlet.class.getName()).log(Level.WARNING, null, ex);
+            }
+
+            StringBuilder storeJSON = new StringBuilder();
+            storeJSON.append('[');
+            if (storeList != null) {
+                for (Store store : storeList) {
+                    storeJSON.append('{');
+                    storeJSON.append("\"store_name\":" + "\"" + store.getStoreName() + "\",");
+                    storeJSON.append("\"store_id\":" + "\"" + store.getStoreId() + "\"");
+                    storeJSON.append("},");
+                }
+            }
+            if (storeJSON.length() > 2) {
+                storeJSON.setLength(storeJSON.length() - 1);
+            }
+
+            storeJSON.append(']');
+
+            response.setContentType("text/html");
+            response.getWriter().write(storeJSON.toString());
+        }
     }
 
     @Override

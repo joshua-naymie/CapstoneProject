@@ -18,22 +18,22 @@
 window.onload = () => {
   let tbody = document.createElement("tbody");
 
-// Build up the table using task data
+  // Build up the table using task data
   taskDataSet.forEach((taskData) => {
     let tr = document.createElement("tr");
     console.log(taskData.start_time);
 
-// Program Cell
+    // Program Cell
     let td_program = document.createElement("td");
     td_program.innerText = taskData.program_name;
     tr.appendChild(td_program);
 
-// Date Cell
+    // Date Cell
     let td_date = document.createElement("td");
     td_date.innerText = new Date(taskData.start_time).toLocaleDateString();
     tr.appendChild(td_date);
 
-// Start Time Cell
+    // Start Time Cell
     let td_start_time = document.createElement("td");
     td_start_time.innerText = new Date(taskData.start_time).toLocaleTimeString(
       navigator.language,
@@ -44,17 +44,17 @@ window.onload = () => {
     );
     tr.appendChild(td_start_time);
 
-//    let td_end_time = document.createElement("td");
-//    td_end_time.innerText = new Date(taskData.end_time).toLocaleTimeString(
-//      navigator.language,
-//      {
-//        hour: "2-digit",
-//        minute: "2-digit",
-//      }
-//    );
-//    tr.appendChild(td_end_time);
+    let td_end_time = document.createElement("td");
+    td_end_time.innerText = new Date(taskData.end_time).toLocaleTimeString(
+      navigator.language,
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+      }
+    );
+    tr.appendChild(td_end_time);
 
-// Description Cell
+    // Description Cell
     let td_desc = document.createElement("td");
     td_desc.innerText = taskData.task_description;
     tr.appendChild(td_desc);
@@ -102,10 +102,10 @@ function onView(task_id) {
     url: "data",
     data: { task_id: task_id, operation: "singleTaskInfo" },
     success: function (data) {
-//      console.log(data);
+      //      console.log(data);
 
       let obj = JSON.parse(data);
-      
+
       // Populate fields with data received by AJAX call
       $("#description").val(obj.task_description);
       $("#program").append(
@@ -116,8 +116,8 @@ function onView(task_id) {
       $("#start_time").val(
         new Date(obj.start_time).toTimeString().substring(0, 5)
       );
-//      console.log(new Date(obj.start_time).toTimeString().substring(0, 5));
-//      $("#end_time").val(new Date(obj.end_time).toTimeString().substring(0, 5));
+      //      console.log(new Date(obj.start_time).toTimeString().substring(0, 5));
+      //      $("#end_time").val(new Date(obj.end_time).toTimeString().substring(0, 5));
       $("#supervisor").append(
         "<option selected>" + obj.approving_manager + "</option>"
       );
@@ -136,7 +136,7 @@ function onSubmit(task_id) {
   $.ajax({
     type: "GET",
     url: "submitTaskForm",
-    data: { task_id: task_id},
+    data: { task_id: task_id },
     success: function (response) {
       $("body").html(response);
     },

@@ -181,8 +181,8 @@ try {
             List<Store> stores = ss.getAll();
          String storeName = request.getParameter("store-name");
             String streetAddress = request.getParameter("store-address");
-            String postalCode = request.getParameter("store-city");
-            String storeCity = request.getParameter("store-postal-code");
+            String postalCode = request.getParameter("store-postal-code");
+            String storeCity = request.getParameter("store-city");
             String phoneNum = request.getParameter("store-phone");
             String contact = request.getParameter("store-contact");
             String status = request.getParameter("status");
@@ -200,12 +200,13 @@ try {
              
             }
         // creating the store trough store services
-             if (isFound){
+             if (!isFound){
             String userMsg = ss.insert(streetAddress,postalCode,storeCity, storeName, isActive, phoneNum, contact, companyName); 
-            System.out.println(userMsg);
+            System.out.println (userMsg );
+            System.out.println ("store added " + storeName );
            }
                   
-     
+        response.sendRedirect("stores");
 
 }
 catch (Exception e) {
@@ -227,7 +228,7 @@ catch (Exception e) {
 
             // setting store attribute to edit
             request.setAttribute("editStore", editStore);
-            getServletContext().getRequestDispatcher("/WEB-INF/program.jsp").forward(request, response);
+             response.sendRedirect("stores");
         } catch (Exception e) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
         }
