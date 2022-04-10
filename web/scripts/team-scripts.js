@@ -295,6 +295,7 @@ function addTeam()
     currentAction = "add";
     submitButton.value = "Add"; 
     document.getElementById("team-ID").value = -1;
+    document.getElementById("store-ID").value = -1;
     
     setContainerWidth("container--input-size");
     changeHeaderText("Add Team");
@@ -315,6 +316,7 @@ function editTeam(team)
 
     document.getElementById("store-ID").value = team.storeID;
 
+    document.getElementById("team-ID").value = team.id;
     teamNameInput.setInputText(team.name);
     programInput.value = team.programID;
     supervisorInput.value = team.supervisorID;
@@ -353,8 +355,8 @@ function submitForm()
 {
     if(inputs.validateAll())
     {
-        showConfirmationModal(`Are you sure you want to ${currentAction} this store?`, () => {
-            postAction(currentAction, "addStoreForm", "stores")
+        showConfirmationModal(`Are you sure you want to ${currentAction} this team?`, () => {
+            postAction(currentAction, "addTeamForm", "teams")
         });
     }
 }

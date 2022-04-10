@@ -49,7 +49,7 @@
                             <input id="team-ID" name="team-ID" type="hidden">
                             <input id="program-ID" name="program-ID" type="hidden">
                             <input id="store-ID" name="store-ID" type="hidden">
-                            <input id="supervisor-ID" name="supervisor-ID" type="hidden">
+                            <!--<input id="supervisor-ID" name="supervisor-ID" type="hidden">-->
                             
                             <div id="team-name__input" style="margin: 2px 0 10px 0;"></div>
                             
@@ -61,7 +61,7 @@
                             </div>
                             
                             <div class="select__input">
-                                <select id="supervisors_select" name="supervisor">
+                                <select id="supervisors_select" name="supervisor-ID">
                                     <option disabled hidden style='display: none' value=''></option>
                                 </select>
                                 <label class="status__label">Supervisor</label>
