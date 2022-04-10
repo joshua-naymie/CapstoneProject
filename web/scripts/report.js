@@ -1,5 +1,5 @@
 window.onload = () => {
-    $('#cityReport').click(() => onCitySelection());
+    $('#cityReport').click((e) => onCitySelection(e));
     $('#storeReport').click((e) => onStoreSelection(e));
     $('#teamReport').click((e) => onTeamSelection(e));
     $('#individualReport').click((e) => onIndividualSelection(e));
@@ -8,13 +8,14 @@ window.onload = () => {
 }
 
 // Function to return a list of cities
-function onCitySelection() {
+function onCitySelection(e) {
+    e.preventDefault();
     let cityList = ["Calgary", "Edmonton", "Lethbridge", "Airdrie"];
 
     $('#additionalInfo').empty();
     $('#additionalInfo').append("<div class='form-group' id='formGroup'></div>");
     $('#formGroup').append("<label class='form-label'>Choose a city:</label>");
-    $('#formGroup').append("<select id='citySelection' class='form-select'></select>");
+    $('#formGroup').append("<select name='city' id='citySelection' class='form-select'></select>");
 
 
     cityList.forEach((city) => {
@@ -22,9 +23,8 @@ function onCitySelection() {
                 '<option value="' + city + '">' + city + '</option>'
                 )
     })
-    e.prevent
     var actionInput = document.forms['reportForm']['action'];
-    actionInput.setAttribute('');
+    actionInput.value = 'foodProgramCityReport';
 }
 
 //Function to get all stores from AJAX call

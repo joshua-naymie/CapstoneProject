@@ -87,7 +87,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 new JSONKey("description", true),
                 new JSONKey("city", true),
                 new JSONKey("mileage", true),
-                new JSONKey("organizationName", false),
+                new JSONKey("organizationName", true),
                 new JSONKey("foodAmount", false),
                 new JSONKey("hoursWorked", false),
                 new JSONKey("packageType", true),
@@ -107,11 +107,14 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
 
             // creating JSON objects
             if (task != null) {
-                if (task.getProgramId().getProgramId() == 1 && task.getFoodDeliveryData().getFamilyCount() != 0) {
+                if (task.getProgramId().getProgramId() == 1 && task.getFoodDeliveryData().getFamilyCount() != null && task.getFoodDeliveryData().getFamilyCount() > 0) {
+                    System.out.println("community");
                     isCommunity = true;
                     taskReturnData.append(buildFoodJSON(task, communityFoodBuilder, isCommunity));
                 } else if (task.getProgramId().getProgramId() == 1 && task.getFoodDeliveryData().getOrganizationId() != null) {
+                    System.out.println("organization");
                     taskReturnData.append(buildFoodJSON(task, orgFoodBuilder, isCommunity));
+                    System.out.println("taskReturnData" + taskReturnData.toString());
                 } else if (task.getProgramId().getProgramId() == 2) {
                     taskReturnData.append(buildHotlineJSON(task, hotLineBuilder));
                 } else {

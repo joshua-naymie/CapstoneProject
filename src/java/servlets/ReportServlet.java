@@ -5,7 +5,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.FoodDeliveryData;
 import models.Task;
-import models.Team;
 import models.User;
 import models.util.CSVBuilder;
 import services.AccountServices;
@@ -77,8 +75,8 @@ public class ReportServlet extends HttpServlet {
                 case "wholeFoodProgramReport":
                     exportFoodDeliveryTotalWeightPerOrganization(request, response);
                     break;
-                case "TEST":
-                    exportReportPerStore(request, response);
+                case "foodProgramCityReport":
+                    exportReportPerCity(request, response);
                     break;
                 // throw exception if the action is none of the above    
                 default:
@@ -484,7 +482,7 @@ public class ReportServlet extends HttpServlet {
         writer.flush();
     }
 
-    private void exportReportPerStore(HttpServletRequest request, HttpServletResponse response)
+    private void exportReportPerCity(HttpServletRequest request, HttpServletResponse response)
     {
         CSVBuilder reportBuilder = new CSVBuilder();
 
