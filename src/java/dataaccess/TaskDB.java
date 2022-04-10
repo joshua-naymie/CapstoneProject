@@ -5,6 +5,7 @@
 package dataaccess;
 
 import jakarta.persistence.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -271,5 +272,18 @@ public class TaskDB {
         } finally {
             em.close();
         }
+    }
+    
+    public List<Task> getByProgramCityDate(int programId, String city, String startDate, String endDate) throws Exception
+    {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        
+        TypedQuery<Task> query = em.createNamedQuery("Task.findByProgramCityDate", Task.class);
+        query.setParameter("programId", programId);
+        query.setParameter("city", city);
+//        query.setParameter("startDate", new SimpleDateFormat("yyyy-MM-dd").parse(startDate));
+//        query.setParameter("endDate", new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
+        
+        return query.getResultList();
     }
 }

@@ -265,5 +265,13 @@ public class TaskService {
         TaskDB taskDB = new TaskDB();
         taskDB.delete(task);
     }
-
+    
+    public List<Task> getByProgramCityDate(String programId, String city, String startDate, String endDate) throws Exception
+    {
+        TaskDB taskDB = new TaskDB();
+        
+        int prgmId = Integer.parseInt(programId);
+        
+        return taskDB.getByProgramCityDate(prgmId, city, startDate, endDate);
+    }
 }

@@ -51,27 +51,41 @@ public class ReportServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // getting user action from JSP
-        String action = request.getParameter("action");
-        // switch to determine users chosen action
-        try {
-            switch (action) {
-                // add new program
-                case "foodTeamReport":
-                    exportFoodProgramTeamReport(request, response);
-                    break;
-                // save edit changes
-                case "individualReport":
-                    exportIndividualReport(request, response);
-                    break;
-                // throw exception if the action is none of the above    
-                default:
-                    throw new Exception();
-            }
-        } catch (Exception e) {
-            Logger.getLogger(ReportServlet.class.getName()).log(Level.WARNING, null, e);
-            System.err.println("Error Occured carrying out action:" + action);
+        
+        //REMOVE WHEN DONE
+        //------------------------------
+        if(request.getParameter("TEST").equals("TEST"))
+        {
+            exportReportPerStore(request, response);
         }
+        else
+        {
+            // getting user action from JSP
+            String action = request.getParameter("action");
+            // switch to determine users chosen action
+            try {
+                switch (action) {
+                    // add new program
+                    case "foodTeamReport":
+                        exportFoodProgramTeamReport(request, response);
+                        break;
+                    // save edit changes
+                    case "individualReport":
+                        exportIndividualReport(request, response);
+                        break;
+                    // throw exception if the action is none of the above    
+                    default:
+                        throw new Exception();
+                }
+
+
+                //------------------------------
+            } catch (Exception e) {
+                Logger.getLogger(ReportServlet.class.getName()).log(Level.WARNING, null, e);
+                System.err.println("Error Occured carrying out action:" + action);
+            }
+        }
+        
     }
 
     private void exportFoodProgramTeamReport(HttpServletRequest request, HttpServletResponse response) {
@@ -258,5 +272,36 @@ public class ReportServlet extends HttpServlet {
             Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    private void exportReportPerStore(HttpServletRequest request, HttpServletResponse response)
+    {
+        CSVBuilder reportBuilder = new CSVBuilder();
+        
+        String[] headerData = { "Date",
+                                "Store Name",
+                                "Qty",
+                                "Package",
+                                "Families/Code",
+                                "Type"};
+        
+        reportBuilder.addRecord(headerData);
+        
+        TaskService taskServ = new TaskService();
+        try
+        {
+            List<Task> tasks = taskServ.getByProgramCityDate("1", "Calgary", "2020-03-15", "2024-04-18");
+            
+            System.out.println(tasks.size());
+            for(Task t : tasks)
+            {
+                System.out.println("City: " + t.getTaskCity());
+            }
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        
     }
 }
