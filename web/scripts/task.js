@@ -88,6 +88,9 @@ function onCancel(task_id) {
     success: function (response) {
       console.log(response);
     },
+    complete: () => {
+      window.location.reload();
+    },
   });
 }
 
