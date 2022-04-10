@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import models.*;
 import org.eclipse.persistence.sessions.Session;
@@ -143,15 +144,24 @@ public class TaskDB {
         }
     }
 
-    public List<Task> getAllNotApprovedTasksByUserId(int userId) throws Exception {
+    public List<Task> getAllNotApprovedTasksByUser(User user) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        
+        Date date = new Date();  
 
         try {
-            Query q = em.createQuery("SELECT t FROM Task t, User u "
-                    + "WHERE u.userId = :userId "
+//            Query q = em.createQuery("SELECT DISTINCT t FROM Task t, User u "
+//                    + "WHERE t.userId = :user "
+//                    + "AND t.isApproved = FALSE AND t.isSubmitted = FALSE AND t.assigned = TRUE AND t.startTime < :date");
+//
+//            q.setParameter("user", user);
+//            q.setParameter("date", date);
+
+            Query q = em.createQuery("SELECT DISTINCT t FROM Task t, User u "
+                    + "WHERE t.userId = :user "
                     + "AND t.isApproved = FALSE AND t.isSubmitted = FALSE AND t.assigned = TRUE");
 
-            q.setParameter("userId", userId);
+            q.setParameter("user", user);
 
             List<Task> allTasks = q.getResultList();
             return allTasks;

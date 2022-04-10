@@ -163,9 +163,9 @@ public class TaskService {
         return taskDB.getSubmittedToManager(id);
     }
 
-    public List<Task> getAllNotApprovedTasksByUserId(int userId) throws Exception {
+    public List<Task> getAllNotApprovedTasksByUser(User user) throws Exception {
         TaskDB taskDB = new TaskDB();
-        List<Task> tasks = taskDB.getAllNotApprovedTasksByUserId(userId);
+        List<Task> tasks = taskDB.getAllNotApprovedTasksByUser(user);
         return tasks;
     }
 
