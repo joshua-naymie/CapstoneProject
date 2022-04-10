@@ -175,7 +175,7 @@ public class TeamsServlet extends HttpServlet {
             Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, ex);
         }
         
-        
+
         // fill in with the jsp you create 
         getServletContext().getRequestDispatcher("/WEB-INF/teams.jsp").forward(request, response);
     }
@@ -234,7 +234,7 @@ public class TeamsServlet extends HttpServlet {
     /**
      * Creates a program JSON object
      *
-     * @param team The program to populate the JSON with
+     * @param program The program to populate the JSON with
      * @param builder The JSONBuilder to create the JSON with
      * @return A program JSON as a String
      */
@@ -245,7 +245,7 @@ public class TeamsServlet extends HttpServlet {
 
         return builder.buildJSON(data);
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

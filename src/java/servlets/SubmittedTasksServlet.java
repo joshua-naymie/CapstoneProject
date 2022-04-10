@@ -29,6 +29,7 @@ public class SubmittedTasksServlet extends HttpServlet {
         try {
             needApproval = ts.getSubmittedToManager(4);  //get a list of all tasks that need approval
             System.out.println("check needapproval size: " + needApproval.size());
+            System.out.println("task id: " + needApproval.get(0).getProgramId());
             // sending json data
             StringBuilder taskReturnData = new StringBuilder();
             taskReturnData.append("var taskData = [");
@@ -61,6 +62,7 @@ public class SubmittedTasksServlet extends HttpServlet {
                     if (needApproval.get(i).getProgramId().getProgramId() == 1) {
                         taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
                     } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
+                        
                         taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
                     } else {
                         System.out.println("wrong program id");
@@ -118,7 +120,7 @@ public class SubmittedTasksServlet extends HttpServlet {
      * @return A hotline task JSON as a string
      */
     private String buildHotlineJSON(Task task, JSONBuilder hotLineBuilder) {
-
+        
         // retrieving program values into an array
         Object[] hotLineValues = {task.getHotlineData().getTaskHotlineId(),
             task.getHotlineData().getTaskHotlineId(),

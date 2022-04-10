@@ -39,7 +39,55 @@ public class ForgotServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String op = request.getParameter("operation");
 
+        //get the user based on the email provided
+        String username = request.getParameter("fEmail");
+        
+        User user =null;
+        
+        AccountServices as = new AccountServices();
+        
+        try {
+            user = as.get(username);
+        } catch (Exception ex) {
+            Logger.getLogger(ForgotServlet.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        
+        //when ajax call of email is made and the email entered by user is correct
+        //show them the "sending ..." message
+         if (op != null && op.equals("email")) {
+                boolean isValid = false;
+                
+                if(user!=null && user.getIsActive()){
+                    isValid = true;
+   
+                }
+                
+                    //JSON object to be returned isValid to check if current password is valid
+                    StringBuilder programJSON = new StringBuilder();
+                    
+                    programJSON.append('[');
+
+                            programJSON.append('{');
+                            programJSON.append("\"valid\":" + "\"" + isValid + "\",");
+
+                    if (programJSON.length() > 2) {
+                        programJSON.setLength(programJSON.length() - 1);
+                    }
+                    programJSON.append("}");
+                    programJSON.append(']');
+
+                    response.setContentType("text/html");
+                    response.getWriter().write(programJSON.toString());
+                    
+                    log(programJSON.toString());
+                    return; 
+        }
+
+        //redirect to correct pages based on the existence of uuid
         if (request.getParameter("uuid") == null) {
             getServletContext().getRequestDispatcher("/WEB-INF/forgot.jsp").forward(request, response);
         } else {
@@ -47,11 +95,13 @@ public class ForgotServlet extends HttpServlet {
             request.setAttribute("uuid", uuidH);
             getServletContext().getRequestDispatcher("/WEB-INF/resetNewPassword.jsp").forward(request, response);
         }
+        
 
     }
 
     /**
-     * 
+     * Send the email with the link to reset the password and handle the password 
+     * change entered through that link
      * 
      * 
      * @param request Request object created by the web container 
@@ -63,7 +113,7 @@ public class ForgotServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+                  
         //initialization for session, uuid, account service and user
         AccountServices as = new AccountServices();
         String path = getServletContext().getRealPath("/WEB-INF");
@@ -104,13 +154,14 @@ public class ForgotServlet extends HttpServlet {
 
         //if user doesnt exist for the given email, clear uuid and tell user to retry
         if (user == null) {
+            log("NULL");
             request.setAttribute("emailCheck", true);
             session.setAttribute("uuid", null);
             request.setAttribute("userMessage", "Please enter a valid email"); // CODE ADDED BY TARA FOR INPUT VALIDATION - PLEASE REVIEW
             getServletContext().getRequestDispatcher("/WEB-INF/forgot.jsp").forward(request, response);
             return;
         }
-
+        
         //if user is found for that email and is a in active user, tell user to retry
         if (!user.getIsActive()) {
             session.setAttribute("uuid", null);
@@ -118,7 +169,8 @@ public class ForgotServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/WEB-INF/forgot.jsp").forward(request, response);
             return;
         }
-
+        
+        
         //request.setAttribute("emailCheck", true);
         //request.setAttribute("userMessage", "Sending...");
         //getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
