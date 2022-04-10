@@ -75,7 +75,7 @@ public class EditTaskServlet extends HttpServlet {
                     }
 
                     User approvingManager = new User(editTask.getApprovingManager());
-                    List<User> canBeApprovingManagers = null;
+                    List<User> canBeApprovingManagers = new ArrayList<>();
                     TeamServices teamServices = new TeamServices();
                     for (Team team : teamServices.getAll()) {
                         User user = new User(team.getTeamSupervisor());
@@ -110,7 +110,7 @@ public class EditTaskServlet extends HttpServlet {
                             companyName = editTask.getTeamId().getStoreId().getCompanyId().getCompanyName();
                         }
                     }
-                    List<User> assignedUsers = null;
+                    List<User> assignedUsers = new ArrayList<>();
                     List<User> canBeAssignedUsers = taskService.getCanBeAssignedUsersFoodDelivery(editTask.getGroupId());
                     if (editTask.getSpotsTaken() > 0) {
                         for (Task task : taskService.getAllTasksInGroup(editTask.getGroupId())) {
@@ -185,7 +185,7 @@ public class EditTaskServlet extends HttpServlet {
                     if (editTask.getTaskDescription() != null) {
                         taskDescription = editTask.getTaskDescription();
                     }
-                    List<User> canBeApprovingManagers = null;
+                    List<User> canBeApprovingManagers = new ArrayList<>();
 
                     ProgramServices programServices = new ProgramServices();
                     for (Program program : programServices.getAll()) {
@@ -252,44 +252,29 @@ public class EditTaskServlet extends HttpServlet {
             TaskService taskService = new TaskService();
             long taskId = Long.parseLong(request.getParameter("task_id"));
             Task task = taskService.get(taskId);
+            long groupId = task.getGroupId();
 
             String date = request.getParameter("date");
             String startTime = request.getParameter("start_time");
             String endTime = request.getParameter("end_time");
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-            task.setStartTime(simpleDateFormat.parse(date + startTime));
-            task.setEndTime(simpleDateFormat.parse(date + endTime));
-
-            task.setTaskDescription(request.getParameter("task_description"));
-
-            task.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
-
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
-                long groupId = task.getGroupId();
-                task.setTaskCity(request.getParameter("task_city"));
+                Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
 
-            }
-            short maxUsers = Short.parseShort(request.getParameter("max_users"));
-            task.setMaxUsers(maxUsers);
+                int maxUsers = Integer.parseInt(request.getParameter("max_users"));
+                if (maxUsers > task.getMaxUsers()) {
+                    for (Task task1 : taskService.getAllTasksInGroup(groupId)) {
+                        task1.setStartTime(simpleDateFormat.parse(date + startTime));
+                        task1.setEndTime(simpleDateFormat.parse(date + endTime));
 
+                        task1.setTaskDescription(request.getParameter("task_description"));
+                        task1.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
+                        task1.setTeamId(team);
 
-            Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
-            task.setTeamId(team);
-
-            if (request.getParameter("assigned_user_id") != null) {
-                User user = new User(Integer.parseInt(request.getParameter("assigned_user_id")));
-                task.setUserId(user);
-            }
-
-            if (task.getProgramId().getProgramName().equals("Food Delivery")) {
-                task.setApprovingManager(Integer.parseInt(request.getParameter("approving_manager")));
-                if (request.getParameter("spots_taken") != null) {
-                    task.setSpotsTaken(Short.parseShort(request.getParameter("spots_taken")));
+                    }
                 }
             }
-            
-            taskService.update(task);
 
 //            // Insert and update UserTask
 //            UserTaskService userTaskService = new UserTaskService();
