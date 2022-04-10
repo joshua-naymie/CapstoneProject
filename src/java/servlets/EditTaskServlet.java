@@ -208,8 +208,7 @@ public class EditTaskServlet extends HttpServlet {
                             editTask.getAvailable(),
                             taskDescription,
                             editTask.getTeamId().getTeamId(),
-                            editTask.getTeamId().getTeamName(),
-                            editTask.getUserId().getUserId() };
+                            editTask.getTeamId().getTeamName() };
 
                     returnData.append(taskBuilder.buildJSON(taskData));
                     returnData.append(";");
@@ -264,6 +263,14 @@ public class EditTaskServlet extends HttpServlet {
 
                 int maxUsers = Integer.parseInt(request.getParameter("max_users"));
                 if (maxUsers > task.getMaxUsers()) {
+                    String userIdList = request.getParameter("selected_user_id_list");
+                    String[] list_of_ids = userIdList.split("&");
+                    List<User> assignedUsers = new ArrayList<>();
+                    for (String userAndId : list_of_ids) {
+                        String[] thisUserId = userAndId.split("=");
+                        User user = new User(Integer.parseInt(thisUserId[1]));
+                        assignedUsers.add(user);
+                    }
                     for (Task task1 : taskService.getAllTasksInGroup(groupId)) {
                         task1.setStartTime(simpleDateFormat.parse(date + startTime));
                         task1.setEndTime(simpleDateFormat.parse(date + endTime));
@@ -271,9 +278,12 @@ public class EditTaskServlet extends HttpServlet {
                         task1.setTaskDescription(request.getParameter("task_description"));
                         task1.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
                         task1.setTeamId(team);
-
                     }
                 }
+            } else {
+                task.setStartTime(simpleDateFormat.parse(date + startTime));
+                task.setEndTime(simpleDateFormat.parse(date + endTime));
+                task.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
             }
 
 //            // Insert and update UserTask
