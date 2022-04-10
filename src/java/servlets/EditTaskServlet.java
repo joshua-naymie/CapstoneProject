@@ -218,22 +218,6 @@ public class EditTaskServlet extends HttpServlet {
                 Logger.getLogger(TaskServlet.class.getName()).log(Level.WARNING, null, ex);
             }
 
-
-
-//            ProgramServices ps = new ProgramServices();
-//            List<Program> allPrograms = null;
-//            try {
-//                allPrograms = ps.getAll();
-//            } catch (Exception ex) {
-//                Logger.getLogger(EditTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//            //     for(Program p: allPrograms) {
-//            //         System.out.println(p.getProgramName());
-//            //         System.out.println(p.getProgramId());
-//            //     }
-//            request.setAttribute("allPrograms", allPrograms);
-
             System.out.println("ID: " + task_id);
         }
         getServletContext().getRequestDispatcher("/WEB-INF/editTask.jsp").forward(request, response);
@@ -258,57 +242,91 @@ public class EditTaskServlet extends HttpServlet {
             String endTime = request.getParameter("end_time");
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
+            String userIdList = request.getParameter("selected_user_id_list");
+            String[] list_of_ids = userIdList.split("&");
+            List<User> assignedUsers = new ArrayList<>();
+            for (String userAndId : list_of_ids) {
+                String[] thisUserId = userAndId.split("=");
+                User user = new User(Integer.parseInt(thisUserId[1]));
+                assignedUsers.add(user);
+            }
+
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
+                for (Task task1 : taskService.getAllTasksInGroup(groupId)) {
+                    taskService.delete(task1);
+                }
                 Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
 
-                int maxUsers = Integer.parseInt(request.getParameter("max_users"));
-                if (maxUsers > task.getMaxUsers()) {
-                    String userIdList = request.getParameter("selected_user_id_list");
-                    String[] list_of_ids = userIdList.split("&");
-                    List<User> assignedUsers = new ArrayList<>();
-                    for (String userAndId : list_of_ids) {
-                        String[] thisUserId = userAndId.split("=");
-                        User user = new User(Integer.parseInt(thisUserId[1]));
-                        assignedUsers.add(user);
-                    }
-                    for (Task task1 : taskService.getAllTasksInGroup(groupId)) {
-                        task1.setStartTime(simpleDateFormat.parse(date + startTime));
-                        task1.setEndTime(simpleDateFormat.parse(date + endTime));
+                short maxUsers = Short.parseShort(request.getParameter("max_users"));
 
-                        task1.setTaskDescription(request.getParameter("task_description"));
-                        task1.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
-                        task1.setTeamId(team);
+                Task task1 = new Task(
+                        0L,
+                        -1L,
+                        simpleDateFormat.parse(date + startTime),
+                        Boolean.parseBoolean(request.getParameter("available")),
+                        false,
+                        Integer.parseInt(request.getParameter("approving_manager_id")),
+                        Short.parseShort(request.getParameter("spots_taken")),
+                        request.getParameter("task_city")
+                );
+                task1.setProgramId(task.getProgramId());
+                task1.setMaxUsers(maxUsers);
+                task1.setEndTime(simpleDateFormat.parse(date + endTime));
+                task1.setTeamId(team);
+                task1.setAssigned(Boolean.parseBoolean(request.getParameter("assigned")));
+                task1.setTaskDescription(request.getParameter("task_description"));
+                task1.setNotes(task.getNotes());
+                task1.setIsSubmitted(false);
+                task1.setIsDissaproved(false);
+                task1.setUserId(assignedUsers.get(0));
+
+                taskService.insert(task1);
+
+                if (maxUsers > 1) {
+                    for (int i = 1; i < maxUsers; i++) {
+                        Task task2 = new Task(
+                                0L,
+                                task1.getGroupId(),
+                                task1.getStartTime(),
+                                task1.getAvailable(),
+                                false,
+                                task1.getApprovingManager(),
+                                task1.getSpotsTaken(),
+                                task1.getTaskCity()
+                        );
+                        task2.setProgramId(task1.getProgramId());
+                        task2.setMaxUsers(task1.getMaxUsers());
+                        task2.setEndTime(task1.getEndTime());
+                        task2.setTeamId(task1.getTeamId());
+                        task2.setAssigned(task1.getAssigned());
+                        task2.setTaskDescription(task1.getTaskDescription());
+                        task2.setNotes(task1.getNotes());
+                        task2.setIsSubmitted(false);
+                        task2.setIsDissaproved(false);
+                        task2.setUserId(assignedUsers.get(i));
+
+                        taskService.insert(task2);
                     }
                 }
             } else {
                 task.setStartTime(simpleDateFormat.parse(date + startTime));
                 task.setEndTime(simpleDateFormat.parse(date + endTime));
+
                 task.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
+                task.setTaskDescription(request.getParameter("task_description"));
+
+                Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
+                task.setTeamId(team);
+
+                task.setApprovingManager(Integer.parseInt(request.getParameter("approving_manager_id")));
+
+                task.setUserId(assignedUsers.get(0));
+
+                taskService.update(task);
             }
-
-//            // Insert and update UserTask
-//            UserTaskService userTaskService = new UserTaskService();
-//
-//            String userIdList = request.getParameter("selected_user_id_list");
-//            String[] list_of_ids = userIdList.split("&");
-//            List<Integer> listOfAssinedUserIds = null;
-//            for (String userAndId : list_of_ids) {
-//                String[] thisUserId = userAndId.split("=");
-//                listOfAssinedUserIds.add(Integer.parseInt(thisUserId[1]));
-//            }
-//            for (int userId : listOfAssinedUserIds) {
-//                UserTask userTask = new UserTask(userId, taskId);
-//                userTask.setIsAssigned(true);
-//                if (userTaskService.getAll().contains(userTask)) {
-//                    userTaskService.update(userTask);
-//                } else {
-//                    userTaskService.insert(userTask);
-//                }
-//            }
-
-            response.sendRedirect("tasks");
         } catch (Exception ex) {
             Logger.getLogger(TaskServlet.class.getName()).log(Level.WARNING, null, ex);
         }
+        response.sendRedirect("tasks");
     }
 }
