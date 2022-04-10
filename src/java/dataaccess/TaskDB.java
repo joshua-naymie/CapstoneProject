@@ -279,7 +279,7 @@ public class TaskDB {
     public List<Task> getHotlineApprovedByUser(int userId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
-            Query q = em.createQuery("SELECT t FROM Task t WHERE t.programId = :programId AND t.userId = :userId "
+            Query q = em.createQuery("SELECT t FROM Task t WHERE t.programId.programId = :programId AND t.userId.userId = :userId "
                     + "AND t.isApproved = TRUE");
             q.setParameter("programId", 2);
             q.setParameter("userId", userId);

@@ -25,8 +25,6 @@ import models.Task;
 import models.Team;
 import models.User;
 import models.util.CSVBuilder;
-import models.util.JSONBuilder;
-import models.util.JSONKey;
 import services.AccountServices;
 import services.FoodHotlineDataService;
 import services.TaskService;
@@ -41,8 +39,8 @@ public class ReportServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        getServletContext().getRequestDispatcher("/WEB-INF/report.jsp").forward(request, response);
-        getServletContext().getRequestDispatcher("/WEB-INF/reportsTestDeleteAfter.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/report.jsp").forward(request, response);
+//        getServletContext().getRequestDispatcher("/WEB-INF/reportsTestDeleteAfter.jsp").forward(request, response);
 
     }
 
@@ -72,6 +70,12 @@ public class ReportServlet extends HttpServlet {
                     break;
                 case "foodProgramStoreReport":
                     exportFoodProgramStoreReport(request, response);
+                    break;
+                case "individualHotlineReport":
+                    exportIndividualHotline(request, response);
+                    break;
+                case "wholeFoodProgramReport":
+                    exportFoodDeliveryTotalWeightPerOrganization(request, response);
                     break;
                 case "TEST":
                     exportReportPerStore(request, response);
@@ -104,7 +108,7 @@ public class ReportServlet extends HttpServlet {
             String stringStartdate = request.getParameter("startdate");
             // System.out.println("start Date: " + stringStartdate);
             Date startDate = dateFormat.parse(stringStartdate);
-            // System.out.println("start Date: " + startDate);
+            //System.out.println("start Date: " + startDate);
 
             // end date for report
             String stringEnddate = request.getParameter("enddate");
@@ -188,7 +192,8 @@ public class ReportServlet extends HttpServlet {
             response.setHeader("Content-Disposition", "attachment;filename=\"IndividualReport.csv\"");
 
             //total calculations
-            BigDecimal totalHoursWorked = new BigDecimal(0);
+//            BigDecimal totalHoursWorked = new BigDecimal(0);
+            double tempHoursWorked = 0.0;
             short totalTasksCompleted = 0;
             short totalMileage = 0;
 
@@ -235,14 +240,14 @@ public class ReportServlet extends HttpServlet {
                     //check if its food program task
                     BigDecimal hoursWorkedPerTask = new BigDecimal(0);
                     if (checkTask.getProgramId().getProgramId() == 1) {
-                        totalHoursWorked.add(checkTask.getFoodDeliveryData().getFoodHoursWorked());
+                        tempHoursWorked = checkTask.getFoodDeliveryData().getFoodHoursWorked().doubleValue();
                         hoursWorkedPerTask = checkTask.getFoodDeliveryData().getFoodHoursWorked();
                         totalTasksCompleted++;
                         totalMileage += checkTask.getFoodDeliveryData().getMileage();
                     }
                     //check if its hotline task
                     if (checkTask.getProgramId().getProgramId() == 2) {
-                        totalHoursWorked.add(checkTask.getHotlineData().getHotlineHoursWorked());
+                        tempHoursWorked = checkTask.getHotlineData().getHotlineHoursWorked().doubleValue();
                         hoursWorkedPerTask = checkTask.getFoodDeliveryData().getFoodHoursWorked();
                         totalTasksCompleted++;
                     }
@@ -255,7 +260,7 @@ public class ReportServlet extends HttpServlet {
                 }
             }
             Object[] recordData = {"", "", "",
-                totalHoursWorked,
+                tempHoursWorked,
                 totalTasksCompleted,
                 totalMileage};
 
@@ -290,7 +295,7 @@ public class ReportServlet extends HttpServlet {
             String stringStartdate = request.getParameter("startdate");
             // System.out.println("start Date: " + stringStartdate);
             Date startDate = dateFormat.parse(stringStartdate);
-            // System.out.println("start Date: " + startDate);
+            System.out.println("start Date: " + startDate);
 
             // end date for report
             String stringEnddate = request.getParameter("enddate");
@@ -380,41 +385,22 @@ public class ReportServlet extends HttpServlet {
         String stringEnddate = request.getParameter("enddate");
         Date endDate = dateFormat.parse(stringEnddate);
         long hour = 3600 * 1000;
-        try {
-            List<User> activeHotlineUsers = as.getActiveHotline();
-            StringBuilder hotlineUsers = new StringBuilder();
-            hotlineUsers.append("var storeData = [");
-            JSONKey[] userKeys = {new JSONKey("firstName", false),
-                new JSONKey("LastName", false),
-                new JSONKey("userId", true)
-            };
-            JSONBuilder storeBuilder = new JSONBuilder(userKeys);
-            if (!activeHotlineUsers.isEmpty()) {
-                int i;
-                for (i = 0; i < activeHotlineUsers.size() - 1; i++) {
-                    hotlineUsers.append(buildUserJSON(activeHotlineUsers.get(i), storeBuilder));
-                    hotlineUsers.append(',');
-                }
-                hotlineUsers.append(buildUserJSON(activeHotlineUsers.get(i), storeBuilder));
-            }
-            hotlineUsers.append("];");
-            request.setAttribute("hotlineUsers", hotlineUsers.toString());
-            getServletContext().getRequestDispatcher("/WEB-INF/report.jsp").forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        User user = as.getByID(Integer.parseInt(request.getParameter("UserID")));
+
+        User user = as.getByID(Integer.parseInt(request.getParameter("userId")));
+        //System.out.println("User Id: " + user.getUserId());
         //get tasks of the user for hotline 
         TaskService ts = new TaskService();
         List<Task> hotlineTasks = ts.getHotlineApprovedByUser(user.getUserId());
-        long shiftHrs = 0;
-        long totalHrs = 0;
+        //System.out.println("Task size: " + hotlineTasks.size());
+        double shiftHrs = 0;
+        double totalHrs = 0;
         for (Task t : hotlineTasks) {
             LocalDateTime startTime = t.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             LocalDateTime endTime = t.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             if ((t.getStartTime().getTime() >= startDate.getTime()
                     && t.getStartTime().getTime() <= (endDate.getTime() + 23 * hour))) {
-                shiftHrs = java.time.Duration.between(startTime, endTime).toHours();
+                shiftHrs = t.getHotlineData().getHotlineHoursWorked().doubleValue();
+                        //java.time.Duration.between(startTime, endTime).toHours();
                 totalHrs += shiftHrs;
                 String dateOfTask = t.getStartTime() == null
                         ? "No date recorded"
@@ -435,14 +421,6 @@ public class ReportServlet extends HttpServlet {
             writer.flush();
             return;
         }
-    }
-
-    private String buildUserJSON(User user, JSONBuilder builder) {
-        Object[] data = {user.getFirstName(),
-            user.getLastName(),
-            user.getUserId()
-        };
-        return builder.buildJSON(data);
     }
 
     public void exportFoodDeliveryTotalWeightPerOrganization(HttpServletRequest request, HttpServletResponse response) throws Exception {
