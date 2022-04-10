@@ -122,7 +122,7 @@ function load()
 
     var divWeightLabel = document.createElement("Div");
     divWeightLabel.id = "weight-label";
-    divWeightLabel.innerHTML = "Weight (lbs):";
+    divWeightLabel.innerHTML = "Quantity:";
     containerRight.appendChild(divWeightLabel);
 //  weightFoodInput.setLabelText("Weight (lbs):"); // FOOD PROGRAM ONLY
     weightFoodInput.setPlaceHolderText("100");

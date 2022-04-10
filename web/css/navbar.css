@@ -229,6 +229,11 @@ hr {
 }
 /* NEW STUFF END */
 
+.fa {
+color: rgb(23, 69, 144);
+margin-left: 15px;
+}
+
 
 @media (max-width: 900px)
 {
