@@ -296,8 +296,8 @@ public class TaskDB {
         TypedQuery<Task> query = em.createNamedQuery("Task.findByProgramCityDate", Task.class);
         query.setParameter("programId", programId);
         query.setParameter("city", city);
-//        query.setParameter("startDate", new SimpleDateFormat("yyyy-MM-dd").parse(startDate));
-//        query.setParameter("endDate", new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
+        query.setParameter("startDate", new SimpleDateFormat("yyyy-MM-dd").parse(startDate));
+        query.setParameter("endDate", new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
 
         return query.getResultList();
 

@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Task.findByIsDissaproved", query = "SELECT t FROM Task t WHERE t.isDissaproved = :isDissaproved"),
     @NamedQuery(name = "Task.findByAssigned", query = "SELECT t FROM Task t WHERE t.assigned = :assigned"),
     @NamedQuery(name = "Task.findSubmittedToManger", query = "SELECT t FROM Task t WHERE t.isSubmitted = TRUE AND t.approvingManager = :approvingManager"),
-    @NamedQuery(name = "Task.findByProgramCityDate", query = "SELECT t FROM Task t WHERE t.programId.programId = :programId AND t.taskCity = :city AND t.isApproved = FALSE AND t.startTime BETWEEN CAST(:startDate AS DATE) AND CAST(:endDate AS DATE)"),
+    @NamedQuery(name = "Task.findByProgramCityDate", query = "SELECT t FROM Task t WHERE t.programId.programId = :programId AND t.taskCity = :city AND t.isApproved = TRUE AND t.startTime BETWEEN CAST(:startDate AS DATE) AND CAST(:endDate AS DATE)"),
     @NamedQuery(name = "Task.findBySpotsTaken", query = "SELECT t FROM Task t WHERE t.spotsTaken = :spotsTaken")})
 public class Task implements Serializable {
 

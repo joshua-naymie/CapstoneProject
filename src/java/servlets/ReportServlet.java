@@ -506,27 +506,105 @@ public class ReportServlet extends HttpServlet {
         writer.flush();
     }
 
-    private void exportReportPerStore(HttpServletRequest request, HttpServletResponse response) {
+    private void exportReportPerStore(HttpServletRequest request, HttpServletResponse response)
+    {
         CSVBuilder reportBuilder = new CSVBuilder();
 
-        String[] headerData = {"Date",
-            "Store Name",
-            "Qty",
-            "Package",
-            "Families/Code",
-            "Type"};
+        String city = request.getParameter("city"),
+               startDate = request.getParameter("startdate"),
+               endDate = request.getParameter("enddate");
+        
+        String[] titleData = { "Food delivered ", city, startDate + " - " + endDate };
+        reportBuilder.addField("Food delivered");
+        reportBuilder.newRecord();
+        reportBuilder.addField("Calgary");
+        reportBuilder.newRecord();
+        reportBuilder.addField("2022-12-02 - 2022-12-04");
+        reportBuilder.newRecord();
+        
+//        reportBuilder.addRecord(titleData);
+        reportBuilder.newRecord();  
+        
+        String[] headerData = { null,
+                                "Date",
+                                "Store Name",
+                                "Qty",
+                                "Package",
+                                "Families/Code",
+                                "Type" };
 
         reportBuilder.addRecord(headerData);
 
         TaskService taskServ = new TaskService();
-        try {
+        try
+        {
             List<Task> tasks = taskServ.getByProgramCityDate("1", "Calgary", "2020-03-15", "2024-04-18");
-
-            System.out.println(tasks.size());
-            for (Task t : tasks) {
-                System.out.println("City: " + t.getTaskCity());
+            int totalOrgWeightLbs = 0,
+                totalFamWeightLbs = 0;
+            
+//            System.out.println(tasks.size());
+            for (Task t : tasks)
+            {
+                FoodDeliveryData taskData = t.getFoodDeliveryData();
+                if(taskData == null)
+                {
+                    System.out.println("TASK-ID: " + t.getTaskId());
+                }
+                short familyOrgCode;
+                String type;
+                
+                if(taskData.getOrganizationId() != null)
+                {
+                    totalOrgWeightLbs += taskData.getFoodAmount() * taskData.getPackageId().getWeightLb();
+                    familyOrgCode = taskData.getOrganizationId().getOrgCode();
+                    type = "Organization";
+                }
+                else
+                {
+                    totalFamWeightLbs += taskData.getFoodAmount() * taskData.getPackageId().getWeightLb();
+                    familyOrgCode = taskData.getFamilyCount();
+                    type = "Community";
+                }
+                
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy");
+                
+                Object[] taskRecord = { null,
+                                        dateFormat.format(t.getStartTime()),
+                                        taskData.getStoreId().getStoreName(), 
+                                        taskData.getFoodAmount(),
+                                        taskData.getPackageId().getPackageName(),
+                                        familyOrgCode,
+                                        type };
+                
+                reportBuilder.addRecord(taskRecord);             
             }
-        } catch (Exception ex) {
+            
+            reportBuilder.newRecord();
+            reportBuilder.newRecord();
+
+            String[] totaHeader = { null,
+                                    "Total Organization (lbs)",
+                                    "Total Family (lbs)" };
+            
+            reportBuilder.addRecord(totaHeader);
+
+            
+            Object[] totalRecord = { null, 
+                                     totalOrgWeightLbs,
+                                     totalFamWeightLbs };
+            
+            reportBuilder.addRecord(totalRecord);
+            
+            
+            response.setHeader("Content-Type", "text/csv");
+            response.setHeader("Content-Disposition", "attachment;filename=\"FoodDeliveredByCity-Report.csv\"");
+            
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-32"));
+            writer.write(reportBuilder.printFile());
+            writer.flush();
+        }
+        catch(Exception ex)
+        {
             ex.printStackTrace();
         }
 
