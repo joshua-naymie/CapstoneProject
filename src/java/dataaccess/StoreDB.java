@@ -9,6 +9,9 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import servlets.StoreServlet;
 
 /**
  *
@@ -42,13 +45,23 @@ public List<Store> getAll() throws Exception {
         }
     }
 
-
+// public List<Store> getStoresByName(String storeName) throws Exception {
+//        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+//        Query q = em.createQuery("SELECT s FROM Store s WHERE s.storeName = :storeName", Store.class);
+//        q.setParameter("storeName", storeName);
+//        try {
+//            List<Store> foundStore = q.getResultList();
+//            return foundStore;
+//        } finally {
+//            em.close();
+//        }
+//    }
     
     public List<Store> getStoresByName(String storeName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
             Query getFoundStores = em.createNamedQuery("Store.findByStoreName", models.Store.class);
-            List<Store> foundStores = getFoundStores.setParameter("storeName", storeName).getResultList();
+            List<Store> foundStores = getFoundStores.setParameter("storeName", "%" + storeName + "%").getResultList();
             return foundStores;
         } catch (NoResultException e) {
             return null;
@@ -67,14 +80,20 @@ public List<Store> getAll() throws Exception {
         }
     }
 
-    public Store getByStreetAddress(String streetAddress) throws Exception {
+    public Store getByStreetAddress(String streetAddress)  {
       EntityManager em = DBUtil.getEMFactory().createEntityManager();
       try {
-            Store s = em.find(Store.class, streetAddress);
-            return s;
-        } finally {
+          Query getStoreByAddress= em.createNamedQuery("Store.findByStreetAddress", models.Store.class);
+          Store s = (Store)getStoreByAddress.setParameter("streetAddress", streetAddress).getSingleResult();
             em.close();
-        }
+            return s;
+            
+        } catch(NoResultException e) {
+        em.close();
+        return null;
+         
+    }
+         
     }
    
     public void insert(Store store) throws Exception {
@@ -85,6 +104,7 @@ public List<Store> getAll() throws Exception {
             em.persist(store);
             trans.commit();
         } catch (Exception ex) {
+System.out.println("----====" + ex + "====----");
             trans.rollback();
         } finally {
             em.close();

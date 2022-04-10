@@ -12,14 +12,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.Task;
 import models.Team;
 import models.User;
 import models.util.CSVBuilder;
 import services.AccountServices;
+import services.TaskService;
 import services.TeamServices;
 
 /**
@@ -28,11 +32,12 @@ import services.TeamServices;
  */
 public class ReportServlet extends HttpServlet {
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/WEB-INF/report.jsp").forward(request, response);
+//        getServletContext().getRequestDispatcher("/WEB-INF/report.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/reportsTestDeleteAfter.jsp").forward(request, response);
+
     }
 
     /**
@@ -46,30 +51,20 @@ public class ReportServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         // Obtain the action from the JSP
+        // getting user action from JSP
         String action = request.getParameter("action");
-
-        // edit user
-        // change status
-        // create user 
-        // try catch to handle what happens based on the action obtained
-        // dummy names for now match the cases with the frontend
+        // switch to determine users chosen action
         try {
             switch (action) {
-                // creating a new user
-                case "edit":
-                    // request.setAttribute("startView", true);
-                    //edit(request, response);
+                // add new program
+                case "foodTeamReport":
+                    exportFoodProgramTeamReport(request, response);
                     break;
-                    
-                case "export":
-                    //export(request, response);
+                // save edit changes
+                case "individualReport":
+                    exportIndividualReport(request, response);
                     break;
-                    
-                case "fdTeam":
-                    exportTeamCSV(request, response);
-                    break;
-                    
+                // throw exception if the action is none of the above    
                 default:
                     throw new Exception();
             }
@@ -78,64 +73,190 @@ public class ReportServlet extends HttpServlet {
             System.err.println("Error Occured carrying out action:" + action);
         }
     }
-    
-     private void exportTeamCSV(HttpServletRequest request, HttpServletResponse response)
-    {
-        try
-        {
+
+    private void exportFoodProgramTeamReport(HttpServletRequest request, HttpServletResponse response) {
+        try {
             response.setHeader("Content-Type", "text/csv");
-            response.setHeader("Content-Disposition", "attachment;filename=\"teamFoodDeliveryReport.csv\"");
-            
-            // match with frontend team id
-            int teamId = Integer.parseInt(request.getParameter("teamId"));
-            
-            // retrieving team based on team id
-            TeamServices ts = new TeamServices();
-            Team findTeam = ts.get(teamId);
-            
-            
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+            response.setHeader("Content-Disposition", "attachment;filename=\"FoodProgramTeamReport.csv\"");
+
+            //total food weight
+            short totalWeightOfOrgDonations = 0;
+            short totalWeightOfComDonations = 0;
+            // retrieve team id 
+            TeamServices tmService = new TeamServices();
+            int teamID = Integer.parseInt(request.getParameter("teamId"));
+            // System.out.println("TeamId from web: " + teamID);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            // start date for report
+            String stringStartdate = request.getParameter("startdate");
+            // System.out.println("start Date: " + stringStartdate);
+            Date startDate = dateFormat.parse(stringStartdate);
+            // System.out.println("start Date: " + startDate);
+
+            // end date for report
+            String stringEnddate = request.getParameter("enddate");
+            Date endDate = dateFormat.parse(stringEnddate);
+            // get all tasks
+            TaskService ts = new TaskService();
+            List<Task> allTask = ts.getAll();
+
             CSVBuilder builder = new CSVBuilder();
-            
-            String[] tableHeader = { "Email",
-                                     "Last Name",
-                                     "First Name",
-                                     "Phone Number",
-                                     "Street Address",
-                                     "City",
-                                     "Postal Code",
-                                     "Date of Birth" };
-            
+
+            String[] tableHeader = {"Date",
+                "Store Name",
+                "Quantity",
+                "Package",
+                "Family Count",
+                "Organization Name",
+                "Total Weight Organization (Ibs)",
+                "Total Weight Community (Ibs)"};
+
             builder.addRecord(tableHeader);
-            
-            for(User user : users)
-            {
-                String dateOfBirth = user.getDateOfBirth() == null
-                                                            ? null
-                                                            : dateFormat.format(user.getDateOfBirth());
-                
-                Object[] recordData = { user.getEmail(),
-                                        user.getLastName(),
-                                        user.getFirstName(),
-                                        user.getPhoneNumber(),
-                                        user.getHomeAddress(),
-                                        user.getUserCity(),
-                                        user.getPostalCode(),
-                                        dateOfBirth };
-                
-                builder.addRecord(recordData);
+
+            // hour in milliseconds
+            long hour = 3600 * 1000;
+
+            for (Task checkTask : allTask) {
+
+                if (checkTask.getTeamId().getTeamId() == teamID && checkTask.getIsApproved()
+                        && (checkTask.getStartTime().getTime() >= startDate.getTime()
+                        && checkTask.getStartTime().getTime() <= (endDate.getTime() + 23 * hour))) {
+                    //System.out.println("task start date: " + checkTask.getStartTime());
+                    String dateOfTask = checkTask.getStartTime() == null
+                            ? "No date recorded"
+                            : dateFormat.format(checkTask.getStartTime());
+                    short familyCount = 0;
+                    if (checkTask.getFoodDeliveryData().getFamilyCount() != null) {
+                        familyCount = checkTask.getFoodDeliveryData().getFamilyCount();
+                        totalWeightOfComDonations += checkTask.getFoodDeliveryData().getFoodAmount() * (checkTask.getFoodDeliveryData().getPackageId().getWeightLb());
+                    }
+                    String orgName = "None";
+                    if (checkTask.getFoodDeliveryData().getOrganizationId() != null) {
+                        orgName = checkTask.getFoodDeliveryData().getOrganizationId().getOrgName();
+                        totalWeightOfOrgDonations += checkTask.getFoodDeliveryData().getFoodAmount() * (checkTask.getFoodDeliveryData().getPackageId().getWeightLb());
+                    }
+//                    short familyCount = checkTask.getFoodDeliveryData().getFamilyCount() == null
+//                            ? 0
+//                            :checkTask.getFoodDeliveryData().getFamilyCount();
+//                    String orgName = checkTask.getFoodDeliveryData().getOrganizationId().getOrgName() == null
+//                            ? "None"
+//                            : checkTask.getFoodDeliveryData().getOrganizationId().getOrgName();
+                    //System.out.println("famcount: " + familyCount);
+                    //System.out.println("orgName: " + orgName);
+                    Object[] recordData = {dateOfTask,
+                        checkTask.getTeamId().getTeamName(),
+                        checkTask.getFoodDeliveryData().getFoodAmount(),
+                        checkTask.getFoodDeliveryData().getPackageId().getPackageName(),
+                        familyCount,
+                        orgName};
+
+                    builder.addRecord(recordData);
+                }
             }
-            
+            Object[] recordData = {"", "", "", "", "", "",
+                totalWeightOfOrgDonations,
+                totalWeightOfComDonations};
+
+            builder.addRecord(recordData);
+
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-32"));
             writer.write(builder.printFile());
             writer.flush();
-            
+
             return;
-        }
-        catch (Exception ex)
-        {
-            Logger.getLogger(AccountServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    private void exportIndividualReport(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            response.setHeader("Content-Type", "text/csv");
+            response.setHeader("Content-Disposition", "attachment;filename=\"IndividualReport.csv\"");
+
+            //total calculations
+            BigDecimal totalHoursWorked = new BigDecimal(0);
+            short totalTasksCompleted = 0;
+            short totalMileage = 0;
+
+            // retrieve user id
+            int userID = Integer.parseInt(request.getParameter("userId"));
+            // System.out.println("TeamId from web: " + teamID);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            // start date for report
+            String stringStartdate = request.getParameter("startdate");
+            // System.out.println("start Date: " + stringStartdate);
+            Date startDate = dateFormat.parse(stringStartdate);
+            // System.out.println("start Date: " + startDate);
+
+            // end date for report
+            String stringEnddate = request.getParameter("enddate");
+            Date endDate = dateFormat.parse(stringEnddate);
+            // get all tasks
+            TaskService ts = new TaskService();
+            List<Task> allTask = ts.getAll();
+
+            CSVBuilder builder = new CSVBuilder();
+
+            String[] tableHeader = {"Date",
+                "Hours Worked",
+                "Program",
+                "Total Hours Worked",
+                "Total tasks completed",
+                "Total mileage"};
+
+            builder.addRecord(tableHeader);
+
+            // hour in milliseconds
+            long hour = 3600 * 1000;
+
+            for (Task checkTask : allTask) {
+                if (checkTask.getUserId() != null && checkTask.getUserId().getUserId() == userID && checkTask.getIsApproved()
+                        && (checkTask.getStartTime().getTime() >= startDate.getTime()
+                        && checkTask.getStartTime().getTime() <= (endDate.getTime() + 23 * hour))) {
+                    //System.out.println("task start date: " + checkTask.getStartTime());
+                    String dateOfTask = checkTask.getStartTime() == null
+                            ? "No date recorded"
+                            : dateFormat.format(checkTask.getStartTime());
+                    //check if its food program task
+                    BigDecimal hoursWorkedPerTask = new BigDecimal(0);
+                    if (checkTask.getProgramId().getProgramId() == 1) {
+                        totalHoursWorked.add(checkTask.getFoodDeliveryData().getFoodHoursWorked());
+                        hoursWorkedPerTask = checkTask.getFoodDeliveryData().getFoodHoursWorked();
+                        totalTasksCompleted++;
+                        totalMileage += checkTask.getFoodDeliveryData().getMileage();
+                    }
+                    //check if its hotline task
+                    if (checkTask.getProgramId().getProgramId() == 2) {
+                        totalHoursWorked.add(checkTask.getHotlineData().getHotlineHoursWorked());
+                        hoursWorkedPerTask = checkTask.getFoodDeliveryData().getFoodHoursWorked();
+                        totalTasksCompleted++;
+                    }
+
+                    Object[] recordData = {dateOfTask,
+                        hoursWorkedPerTask,
+                        checkTask.getProgramId().getProgramName()};
+
+                    builder.addRecord(recordData);
+                }
+            }
+            Object[] recordData = {"", "", "",
+                totalHoursWorked,
+                totalTasksCompleted,
+                totalMileage};
+
+            builder.addRecord(recordData);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-32"));
+            writer.write(builder.printFile());
+            writer.flush();
+
+            return;
+        } catch (Exception ex) {
+            Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 }

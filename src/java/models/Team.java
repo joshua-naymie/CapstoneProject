@@ -21,7 +21,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Team.findAll", query = "SELECT t FROM Team t"),
     @NamedQuery(name = "Team.findByTeamId", query = "SELECT t FROM Team t WHERE t.teamId = :teamId"),
     @NamedQuery(name = "Team.findByTeamSize", query = "SELECT t FROM Team t WHERE t.teamSize = :teamSize"),
-    @NamedQuery(name = "Team.findByTeamSupervisor", query = "SELECT t FROM Team t WHERE t.teamSupervisor = :teamSupervisor")})
+    @NamedQuery(name = "Team.findByTeamSupervisor", query = "SELECT t FROM Team t WHERE t.teamSupervisor = :teamSupervisor"),
+    @NamedQuery(name = "Team.findByTeamName", query = "SELECT t FROM Team t WHERE t.teamName = :teamName")})
 public class Team implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,6 +35,8 @@ public class Team implements Serializable {
     private Short teamSize;
     @Column(name = "team_supervisor")
     private Integer teamSupervisor;
+    @Column(name = "team_name")
+    private String teamName;
     @JoinColumn(name = "program_id", referencedColumnName = "program_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Program programId;
@@ -50,6 +53,21 @@ public class Team implements Serializable {
 
     public Team(Integer teamId) {
         this.teamId = teamId;
+    }
+    
+    public Team(Program programId, short teamSize, int teamSup, Store storeId, String teamName) {
+        this.programId = programId;
+        this.teamSize = teamSize;
+        this.teamSupervisor = teamSup;
+        this.storeId = storeId;
+        this.teamName = teamName;
+    }
+    
+    public Team(Program programId, short teamSize, int teamSup, String teamName) {
+        this.programId = programId;
+        this.teamSize = teamSize;
+        this.teamSupervisor = teamSup;
+        this.teamName = teamName;
     }
 
     public Integer getTeamId() {
@@ -74,6 +92,14 @@ public class Team implements Serializable {
 
     public void setTeamSupervisor(Integer teamSupervisor) {
         this.teamSupervisor = teamSupervisor;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
     public Program getProgramId() {

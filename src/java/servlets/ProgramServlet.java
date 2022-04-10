@@ -173,7 +173,7 @@ public class ProgramServlet extends HttpServlet {
                     throw new Exception();
             }
         } catch (Exception e) {
-            Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, e);
+            Logger.getLogger(ProgramServlet.class.getName()).log(Level.WARNING, null, e);
             System.err.println("Error Occured carrying out action:" + action);
         }
     }
@@ -196,7 +196,7 @@ public class ProgramServlet extends HttpServlet {
                     // obtaining user entered program name
                     request.getParameter("program-name"),
                     // obtaining the user ID
-                    Long.parseLong(request.getParameter("manager-ID")));
+                    Integer.parseInt(request.getParameter("manager-ID")));
 
             // change the role of the manager name typed to the matching program role
             // get user entered user name (match with frontend)  
@@ -255,7 +255,7 @@ public class ProgramServlet extends HttpServlet {
 //            }
             response.sendRedirect("programs");
         } catch (Exception e) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
+            Logger.getLogger(ProgramServlet.class.getName()).log(Level.WARNING, null, e);
         }
 
     }
@@ -272,7 +272,7 @@ public class ProgramServlet extends HttpServlet {
             request.setAttribute("editProgram", editProgram);
             getServletContext().getRequestDispatcher("/WEB-INF/program.jsp").forward(request, response);
         } catch (Exception e) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
+            Logger.getLogger(ProgramServlet.class.getName()).log(Level.WARNING, null, e);
         }
     }
 
@@ -316,8 +316,9 @@ public class ProgramServlet extends HttpServlet {
                     // obtaining the user to become manager of this program
                     updateRole);
             response.sendRedirect("programs");
+            //doGet(request, response);
         } catch (Exception e) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
+            Logger.getLogger(ProgramServlet.class.getName()).log(Level.WARNING, null, e);
         }
     }
 

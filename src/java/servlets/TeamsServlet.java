@@ -5,22 +5,13 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import models.Store;
-import models.Team;
-import models.User;
-import models.util.JSONBuilder;
-import models.util.JSONKey;
-import services.AccountServices;
-import services.StoreServices;
-import services.TeamServices;
+import java.util.logging.*;
+import models.*;
+import models.util.*;
+import services.*;
 
 /**
  *
@@ -43,28 +34,30 @@ public class TeamsServlet extends HttpServlet {
         
         // ==============================================================================
         // sending up all supervisor users to the front end
-        try {
+        try
+        {
             // get all supervisor users
             supervisorUsers = as.getAllActiveSupervisorsOrManagers("Supervisor");
-        } catch (Exception ex) {
+        }
+        catch(Exception ex)
+        {
             Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, ex);
         }
-        request.setAttribute("supervisorUsers", supervisorUsers);
+        request.setAttribute("supervisorData", supervisorUsers);
 
         // sending Json data of all supervisor user info to the front end
         StringBuilder supervisorData = new StringBuilder();
-        supervisorData.append("var data = [");
+        supervisorData.append("var supervisorData = [");
 
         // Create keys
-        JSONKey[] userKeys = {new JSONKey("userID", false),
-            new JSONKey("firstName", true),
-            new JSONKey("lastName", true)};
+        JSONKey[] userKeys = { new JSONKey("id", false),
+                               new JSONKey("name", true) };
 
         // Create builder with above keys
         JSONBuilder builder = new JSONBuilder(userKeys);
 
         // Create user JSON objects
-        if (supervisorUsers.size() > 0) {
+        if(supervisorUsers.size() > 0) {
             int i;
             for (i = 0; i < supervisorUsers.size() - 1; i++) {
                 supervisorData.append(buildUserJSON(supervisorUsers.get(i), builder));
@@ -84,16 +77,15 @@ public class TeamsServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, ex);
         }
-        request.setAttribute("allStores", allStores);
 
         // sending Json data of all stores info to the front end
-        StringBuilder allStoresData = new StringBuilder();
-        allStoresData.append("var data = [");
+        StringBuilder storeData = new StringBuilder();
+        storeData.append("var storeData = [");
 
         // Create keys
-        JSONKey[] storeKeys = {new JSONKey("storeID", false),
-            new JSONKey("storeName", true),
-            new JSONKey("storeAddress", true)};
+        JSONKey[] storeKeys = { new JSONKey("id", false),
+                                new JSONKey("name", true),
+                                new JSONKey("address", true) };
 
         // Create builder with above keys
         JSONBuilder storeBuilder = new JSONBuilder(storeKeys);
@@ -102,14 +94,14 @@ public class TeamsServlet extends HttpServlet {
         if (allStores.size() > 0) {
             int i;
             for (i = 0; i < allStores.size() - 1; i++) {
-                allStoresData.append(buildStoreJSON(allStores.get(i), storeBuilder));
-                allStoresData.append(',');
+                storeData.append(buildStoreJSON(allStores.get(i), storeBuilder));
+                storeData.append(',');
             }
-            allStoresData.append(buildStoreJSON(allStores.get(i), storeBuilder));
+            storeData.append(buildStoreJSON(allStores.get(i), storeBuilder));
         }
-        allStoresData.append("];");
+        storeData.append("];");
 
-        request.setAttribute("allStoresData", allStoresData);
+        request.setAttribute("storeData", storeData);
         
         // ==============================================================================
         // sending up a list of all teams
@@ -119,16 +111,18 @@ public class TeamsServlet extends HttpServlet {
         } catch (Exception ex) {
             Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, ex);
         }
-        request.setAttribute("allTeams", allTeams);
 
         // sending Json data of all stores info to the front end
-        StringBuilder allTeamsData = new StringBuilder();
-        allTeamsData.append("var data = [");
+        StringBuilder teamData = new StringBuilder();
+        teamData.append("var teamData = [");
 
         // Create keys
-        JSONKey[] teamKeys = {new JSONKey("teamID", false),
-            new JSONKey("teamName", true),
-            new JSONKey("teamSupervisor", true)};
+        JSONKey[] teamKeys = { new JSONKey("id", false),
+                               new JSONKey("name", true),
+                               new JSONKey("supervisorID", false),
+                               new JSONKey("maxSize", false),
+                               new JSONKey("programID", false),
+                               new JSONKey("storeID", false) };
 
         // Create builder with above keys
         JSONBuilder teamBuilder = new JSONBuilder(teamKeys);
@@ -137,17 +131,53 @@ public class TeamsServlet extends HttpServlet {
         if (allTeams.size() > 0) {
             int i;
             for (i = 0; i < allTeams.size() - 1; i++) {
-                allTeamsData.append(buildTeamJSON(allTeams.get(i), teamBuilder));
-                allTeamsData.append(',');
+                teamData.append(buildTeamJSON(allTeams.get(i), teamBuilder));
+                teamData.append(',');
             }
-            allTeamsData.append(buildTeamJSON(allTeams.get(i), teamBuilder));
+            teamData.append(buildTeamJSON(allTeams.get(i), teamBuilder));
         }
-        allTeamsData.append("];");
+        teamData.append("];");
 
-        request.setAttribute("allTeamsData", allTeamsData);
+        request.setAttribute("teamData", teamData);
         
+        // ==============================================================================
+        
+        StringBuilder programData = new StringBuilder();
+        programData.append("var programData = [");
+        
+        JSONKey[] programKeys = { new JSONKey("id", false),
+                                  new JSONKey("name", true) };
+        
+        JSONBuilder programBuilder = new JSONBuilder(programKeys);
+        try
+        {
+            ProgramServices programService = new ProgramServices();
+            
+            List<Program> programs = programService.getAllActive();
+            
+            if(!programs.isEmpty())
+            {
+                int i;
+                for(i=0; i<programs.size()-1; i++)
+                {
+                    programData.append(buildProgramJSON(programs.get(i), programBuilder));
+                    programData.append(',');
+                }
+                programData.append(buildProgramJSON(programs.get(i), programBuilder));
+            }
+            
+            programData.append("];");
+            
+            request.setAttribute("programData", programData);
+        }
+        catch(Exception ex)
+        {
+            Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, ex);
+        }
+        
+
         // fill in with the jsp you create 
-        //getServletContext().getRequestDispatcher("/WEB-INF/userlist.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/WEB-INF/teams.jsp").forward(request, response);
     }
 
     /**
@@ -158,11 +188,10 @@ public class TeamsServlet extends HttpServlet {
      * @return A User JSON as a String
      */
     private String buildUserJSON(User user, JSONBuilder builder) {
-        Object[] userValues = {user.getUserId(),
-            user.getFirstName(),
-            user.getLastName()};
+        Object[] data = { user.getUserId(),
+                          user.getFirstName() + " " + user.getLastName() };
 
-        return builder.buildJSON(userValues);
+        return builder.buildJSON(data);
     }
     
     /**
@@ -173,11 +202,11 @@ public class TeamsServlet extends HttpServlet {
      * @return A store JSON as a String
      */
     private String buildStoreJSON(Store store, JSONBuilder builder) {
-        Object[] userValues = {store.getStoreId(),
-            store.getStoreName(),
-            store.getStreetAddress()};
+        Object[] data = { store.getStoreId(),
+                          store.getStoreName(),
+                          store.getStreetAddress() };
 
-        return builder.buildJSON(userValues);
+        return builder.buildJSON(data);
     }
     
     /**
@@ -187,31 +216,107 @@ public class TeamsServlet extends HttpServlet {
      * @param builder The JSONBuilder to create the JSON with
      * @return A team JSON as a String
      */
-    private String buildTeamJSON(Team team, JSONBuilder builder) {
-        
-        // retrieving supervisor name
-        AccountServices as = new AccountServices();
-        int supervisorID = team.getTeamSupervisor();
-        User supervisorUser = null;
-        try{
-            supervisorUser = as.getByID(supervisorID);
-        }catch (Exception ex) {
-            Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, ex);
-        }
-        
-        Object[] userValues = {team.getTeamId(),
-            "team name", // replace after data base change
-            supervisorUser.getFirstName() + " " + supervisorUser.getLastName()};
+    private String buildTeamJSON(Team team, JSONBuilder builder)
+    {
+        int supervisorID = team.getTeamSupervisor() == null ? -1 : team.getTeamSupervisor();
 
-        return builder.buildJSON(userValues);
+        Object[] data = { team.getTeamId(),
+                          team.getTeamName(),
+                          team.getTeamSupervisor(),
+                          team.getTeamSize(),
+                          team.getProgramId().getProgramId(),
+                          supervisorID };
+
+
+        return builder.buildJSON(data);
     }
+    
+    /**
+     * Creates a program JSON object
+     *
+     * @param program The program to populate the JSON with
+     * @param builder The JSONBuilder to create the JSON with
+     * @return A program JSON as a String
+     */
+    private String buildProgramJSON(Program program, JSONBuilder builder)
+    {
+        Object[] data = { program.getProgramId(),
+                          program.getProgramName() };
 
+        return builder.buildJSON(data);
+    }
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        // getting user action from JSP
+        String action = request.getParameter("action");
+        // switch to determine users chosen action
+        try {
+            switch (action) {
+                // add new program
+                case "add":
+                    add(request, response);
+                    break;
+                // save edit changes
+                case "update":
+                    save(request, response);
+                    break;
+                // throw exception if the action is none of the above    
+                default:
+                    throw new Exception();
+            }
+        } catch (Exception e) {
+            Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, e);
+            System.err.println("Error Occured carrying out action:" + action);
+        }
     }
 
-    
+    private void add(HttpServletRequest request, HttpServletResponse response) {
+        // team service
+        TeamServices tmService = new TeamServices();
+       
+        // getting user entered values and insert new team
+        try {
+            // creating the yteam through team services
+            String userMsg = tmService.insert(Short.parseShort(request.getParameter("programId")),
+                    // team size
+                    Short.parseShort(request.getParameter("teamSize")),
+                    // supervisor Id
+                    Integer.parseInt(request.getParameter("teamSupervisor")),
+                    // store id (if theres no store selected send -1?)
+                    Integer.parseInt(request.getParameter("storeId")),
+                    //teamName
+                    request.getParameter("teamName"));
 
+            response.sendRedirect("teams");
+        } catch (Exception e) {
+            Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, e);
+        }
+    }
+
+    private void save(HttpServletRequest request, HttpServletResponse response) {
+        // team service
+        TeamServices tmService = new TeamServices();
+       
+        // getting the edited values and updating the team
+        try {
+            // updating the team
+            String userMsg = tmService.update(Integer.parseInt(request.getParameter("teamId")),
+                    // program Id
+                    Short.parseShort(request.getParameter("programId")),
+                    // team size
+                    Short.parseShort(request.getParameter("teamSize")),
+                    // supervisor Id
+                    Integer.parseInt(request.getParameter("teamSupervisor")),
+                    // store id (if theres no store selected send -1?)
+                    Integer.parseInt(request.getParameter("storeId")),
+                    //teamName
+                    request.getParameter("teamName"));
+
+            response.sendRedirect("teams");
+        } catch (Exception e) {
+            Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, e);
+        }
+    }
 }

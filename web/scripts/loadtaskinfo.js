@@ -47,116 +47,125 @@ function load()
             familyCountInput = new InputGroup(CSS_INPUTGROUP_MAIN, "family_count"),
             approvalNotesFromDB = new InputGroup(CSS_INPUTGROUP_MAIN, "approval_notes_db");
 
-    taskIDFromDB.setLabelText("Task ID:");
-    taskIDFromDB.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    taskIDFromDB.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
-    taskIDFromDB.setPlaceHolderText("n");
+    //taskIDFromDB.setLabelText("Task ID:");
+    var divTaskID = document.createElement("Div");
+    divTaskID.id = "task-id-label";
+    divTaskID.innerHTML = "Task ID:";
+    containerLeft.appendChild(divTaskID);
+    taskIDFromDB.setPlaceHolderText("Placeholder Text");
     containerLeft.appendChild(taskIDFromDB.container);
     document.getElementById("task_id_db").setAttribute("readonly", true);
+    document.getElementById("task_id_db").style.display = "none";
+    document.getElementById("task-id-label").style.display = "none";
 
-    programIDFromDB.setLabelText("Program ID:");
-    programIDFromDB.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    programIDFromDB.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
-    programIDFromDB.setPlaceHolderText("n");
+    var divProgramID = document.createElement("Div");
+    divProgramID.id = "program-id-label";
+    divProgramID.innerHTML = "Program ID:";
+    containerRight.appendChild(divProgramID);
+    //programIDFromDB.setLabelText("Program ID:");
+    programIDFromDB.setPlaceHolderText("Placeholder Text");
     containerRight.appendChild(programIDFromDB.container);
     document.getElementById("program_id_db").setAttribute("readonly", true);
+    document.getElementById("program_id_db").style.display = "none";
+    document.getElementById("program-id-label").style.display = "none";
 
-    teamIDFromDB.setLabelText("Team ID:");
-    teamIDFromDB.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    teamIDFromDB.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
-    teamIDFromDB.setPlaceHolderText("n");
-    containerLeft.appendChild(teamIDFromDB.container);
-    document.getElementById("team_id_db").setAttribute("readonly", true);
-
-    userIDFromDB.setLabelText("User ID:");
-    userIDFromDB.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    userIDFromDB.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
-    userIDFromDB.setPlaceHolderText("n");
-    containerRight.appendChild(userIDFromDB.container);
-    document.getElementById("user_id_db").setAttribute("readonly", true);
+//    teamIDFromDB.setLabelText("Team ID:");
+//    teamIDFromDB.setPlaceHolderText("n");
+//    containerLeft.appendChild(teamIDFromDB.container);
+//    document.getElementById("team_id_db").setAttribute("readonly", true);
+//
+//    userIDFromDB.setLabelText("User ID:");
+//    userIDFromDB.setPlaceHolderText("n");
+//    containerRight.appendChild(userIDFromDB.container);
+//    document.getElementById("user_id_db").setAttribute("readonly", true);
 
     firstNameInput.setLabelText("First Name:");
-    firstNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    firstNameInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     firstNameInput.setPlaceHolderText("John");
     containerLeft.appendChild(firstNameInput.container);
     document.getElementById("user_firstname").setAttribute("readonly", true);
 
     lastNameInput.setLabelText("Last Name:");
-    lastNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    lastNameInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     lastNameInput.setPlaceHolderText("Smith");
     containerRight.appendChild(lastNameInput.container);
     document.getElementById("user_lastname").setAttribute("readonly", true);
 
     programNameFromDB.setLabelText("Program Name:");
-    programNameFromDB.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    programNameFromDB.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     programNameFromDB.setPlaceHolderText("Hotline");
     containerLeft.appendChild(programNameFromDB.container);
     document.getElementById("program_name_db").setAttribute("readonly", true);
 
     taskCityInput.setLabelText("City:");
-    taskCityInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     taskCityInput.setPlaceHolderText("Calgary");
     containerRight.appendChild(taskCityInput.container);
     document.getElementById("user_city").setAttribute("readonly", true);
 
     startTimeInput.setLabelText("Start Time:");
     startTimeInput.input.type = "datetime-local";
-    startTimeInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    startTimeInput.addValidator(REGEX_EMAIL, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
     containerLeft.appendChild(startTimeInput.container);
     document.getElementById("start_time").setAttribute("readonly", true);
 
     endTimeInput.setLabelText("End Time:");
     endTimeInput.input.type = "datetime-local";
-    endTimeInput.input.value = new Date().toISOString().substring(0, 10);
-    endTimeInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
+    //endTimeInput.input.value = new Date().toISOString().substring(0, 10);
+    endTimeInput.input.value = JSON.stringify(new Date().toISOString());
     containerRight.appendChild(endTimeInput.container);
     document.getElementById("end_time").setAttribute("readonly", true);
 
-    mileageInput.setLabelText("Mileage:"); // FOOD PROGRAM ONLY
-    mileageInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    mileageInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
+    var divMileage = document.createElement("Div");
+    divMileage.id = "mileage-label";
+    divMileage.innerHTML = "Mileage:";
+    containerLeft.appendChild(divMileage);
+    //mileageInput.setLabelText("Mileage:"); // FOOD PROGRAM ONLY
     mileageInput.setPlaceHolderText("100");
     containerLeft.appendChild(mileageInput.container);
     document.getElementById("food_mileage").setAttribute("readonly", true);
 
-    packageIDInput.setLabelText("Package ID:"); // FOOD PROGRAM ONLY
-    packageIDInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    packageIDInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
-    packageIDInput.setPlaceHolderText("123");
-    containerRight.appendChild(packageIDInput.container);
-    document.getElementById("food_package_id").setAttribute("readonly", true);
-
-    packageNameInput.setLabelText("Package Name:"); // FOOD PROGRAM ONLY
-    packageNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    packageNameInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
-    packageNameInput.setPlaceHolderText("Food");
-    containerLeft.appendChild(packageNameInput.container);
-    document.getElementById("food_package_name").setAttribute("readonly", true);
-
-    weightFoodInput.setLabelText("Weight (lbs):"); // FOOD PROGRAM ONLY
-    weightFoodInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    weightFoodInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
+    var divWeightLabel = document.createElement("Div");
+    divWeightLabel.id = "weight-label";
+    divWeightLabel.innerHTML = "Weight (lbs):";
+    containerRight.appendChild(divWeightLabel);
+//  weightFoodInput.setLabelText("Weight (lbs):"); // FOOD PROGRAM ONLY
     weightFoodInput.setPlaceHolderText("100");
     containerRight.appendChild(weightFoodInput.container);
     document.getElementById("food_weight").setAttribute("readonly", true);
 
-    orgNameInput.setLabelText("Organization Name:"); // FOOD PROGRAM ONLY
-    orgNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    orgNameInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
-    orgNameInput.setPlaceHolderText("ECSSEN");
-    containerLeft.appendChild(orgNameInput.container);
-    document.getElementById("org_name").setAttribute("readonly", true);
-
-    familyCountInput.setLabelText("Family Count:"); // FOOD PROGRAM ONLY
-    familyCountInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-    familyCountInput.addValidator(REGEX_LETTERS, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
+    var divFamilyLabel = document.createElement("Div");
+    divFamilyLabel.id = "family-label";
+    divFamilyLabel.innerHTML = "Family Count:";
+    containerRight.appendChild(divFamilyLabel);
+    // familyCountInput.setLabelText("Family Count:"); // FOOD PROGRAM ONLY
     familyCountInput.setPlaceHolderText("10");
     containerRight.appendChild(familyCountInput.container);
     document.getElementById("family_count").setAttribute("readonly", true);
+
+    var divPackageID = document.createElement("Div");
+    divPackageID.id = "package-id-label";
+    divPackageID.innerHTML = "Package ID:";
+    containerRight.appendChild(divPackageID);
+    // packageIDInput.setLabelText("Package ID:"); // FOOD PROGRAM ONLY
+    packageIDInput.setPlaceHolderText("123");
+    containerRight.appendChild(packageIDInput.container);
+    document.getElementById("food_package_id").setAttribute("readonly", true);
+    document.getElementById("food_package_id").style.display = "none";
+    document.getElementById("package-id-label").style.display = "none";
+
+    var divPackageName = document.createElement("Div");
+    divPackageName.id = "package-name-label";
+    divPackageName.innerHTML = "Package Name:";
+    containerLeft.appendChild(divPackageName);
+    // packageNameInput.setLabelText("Package Name:"); // FOOD PROGRAM ONLY
+    packageNameInput.setPlaceHolderText("Food");
+    containerLeft.appendChild(packageNameInput.container);
+    document.getElementById("food_package_name").setAttribute("readonly", true);
+
+    var divOrganizationName = document.createElement("Div");
+    divOrganizationName.id = "organization-name-label";
+    divOrganizationName.innerHTML = "Organization Name:";
+    containerLeft.appendChild(divOrganizationName);
+    // orgNameInput.setLabelText("Organization Name:"); // FOOD PROGRAM ONLY
+    orgNameInput.setPlaceHolderText("ECSSEN");
+    containerLeft.appendChild(orgNameInput.container);
+    document.getElementById("org_name").setAttribute("readonly", true);
 
     approvalNotesFromDB.setLabelText("Comments:");
     approvalNotesFromDB = document.createElement("TEXTAREA");
@@ -185,13 +194,13 @@ function load()
     cancelButton.innerHTML = "Cancel";
     cancelButton.type = "reset";
     cancelButton.className = "btn";
-    cancelButton.id = "Cancel";
+    cancelButton.id = "cancel-button";
 
     // Add "Submit" and "Cancel" button to the DOM
     containerLeft.appendChild(disapproveButton);
     containerRight.appendChild(cancelButton);
     containerRight.appendChild(approveButton);
-    
+
     //--------------
 //
     inputCollection = new InputGroupCollection();
@@ -216,11 +225,8 @@ function load()
     if (typeof taskData !== "undefined")
     {
         var that = taskData.programID;
-        //document.getElementById("header").innerText = "Edit User";
         populateFields();
         checkTask(that);
-        //submitButton.name = "action";
-        //submitButton.value = "Save";
     }
 }
 
@@ -235,16 +241,16 @@ function populateFields()
     programIDFromDB.setInputText(taskData.programID);
     teamIDFromDB.setInputText(taskData.teamID);
     userIDFromDB.setInputText(taskData.userID);
-    firstNameInput.setInputText(taskData.fullName);
-    lastNameInput.setInputText(taskData.fullName);
+    firstNameInput.setInputText(taskData.firstName);
+    lastNameInput.setInputText(taskData.lastName);
     programNameFromDB.setInputText(taskData.programName); // script.JSON name
     taskCityInput.setInputText(taskData.city);
     startTimeInput.setInputText(taskData.startTime);
     endTimeInput.setInputText(taskData.endTime);
-    //mileageInput.setInputText(taskData.xxxxx);
-   //packageIDInput.setInputText(taskData.xxxxx);
-    //packageNameInput.setInputText(taskData.xxxxx);
-    //weightFoodInput.setInputText(taskData.xxxxx);
+    mileageInput.setInputText(taskData.mileage);
+    //packageIDInput.setInputText(taskData.xxxxx);
+    packageNameInput.setInputText(taskData.packageType);
+    weightFoodInput.setInputText(taskData.foodAmount);
     //orgNameInput.setInputText(taskData.xxxxx);
     familyCountInput.setInputText(taskData.familyCount);
 }
@@ -252,30 +258,37 @@ function populateFields()
 
 function checkTask(that) // how do I create an onChange that passes in the value to that? onchange="checkTask(this);
 {
-      if (that == 1) { // if program_Id == 1 show food inputs
+    if (that == 1) { // if program_Id == 1 show food inputs
         if (taskData.familyCount === false) { // task falls under an organization so display org name but not family count;
             document.getElementById("food_mileage").style.display = "block";
-            document.getElementById("food_package_id").style.display = "block";
+            //   document.getElementById("food_package_id").style.display = "block";
             document.getElementById("food_package_name").style.display = "block";
             document.getElementById("food_weight").style.display = "block";
             document.getElementById("org_name").style.display = "block";
             document.getElementById("family_count").style.display = "none";
         } else { // task falls under a community so display family count but not org name;
             document.getElementById("food_mileage").style.display = "block";
-            document.getElementById("food_package_id").style.display = "block";
+            //  document.getElementById("food_package_id").style.display = "block";
             document.getElementById("food_package_name").style.display = "block";
             document.getElementById("food_weight").style.display = "block";
             document.getElementById("org_name").style.display = "none";
             document.getElementById("family_count").style.display = "block";
+            document.getElementById("organization-name-label").style.display = "none";
         }
     } else if (that == 2) { // if program_Id == 2 show hotline but hide food inputs
         console.log("programID:" + that);
         document.getElementById("food_mileage").style.display = "none";
-        document.getElementById("food_package_id").style.display = "none";
+        //   document.getElementById("food_package_id").style.display = "none";
         document.getElementById("food_package_name").style.display = "none";
         document.getElementById("food_weight").style.display = "none";
         document.getElementById("org_name").style.display = "none";
         document.getElementById("family_count").style.display = "none";
+        document.getElementById("mileage-label").style.display = "none";
+        document.getElementById("package-name-label").style.display = "none";
+        document.getElementById("weight-label").style.display = "none";
+        document.getElementById("family-label").style.display = "none";
+        document.getElementById("organization-name-label").style.display = "none";
+
     } else {
         console.log("problem in checktask function");
     }

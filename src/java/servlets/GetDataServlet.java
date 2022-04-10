@@ -186,9 +186,11 @@ public class GetDataServlet extends HttpServlet {
 
             String task_id = request.getParameter("task_id");
             Long taskId = Long.parseLong(task_id);
+	    User approvingManager = null;
 
             try {
                 task = ts.get(taskId);
+		approvingManager = as.getByID(task.getApprovingManager());
 
             } catch (Exception ex) {
                 Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -204,6 +206,7 @@ public class GetDataServlet extends HttpServlet {
                 String startTime = simpleDateFormat.format(startDate);
 //				Date endDate = task.getEndTime();
 //				String endTime = simpleDateFormat.format(endDate);
+		String approvingManagerString = approvingManager.getFirstName() + " " + approvingManager.getLastName();
 
                 taskJSON.append('{');
                 taskJSON.append("\"task_id\":" + "\"" + task.getTaskId() + "\",");
@@ -212,7 +215,7 @@ public class GetDataServlet extends HttpServlet {
                 taskJSON.append("\"task_city\":" + "\"" + task.getTaskCity() + "\",");
                 taskJSON.append("\"start_time\":" + "\"" + task.getStartTime() + "\",");
                 taskJSON.append("\"end_time\":" + "\"" + task.getEndTime() + "\",");
-                taskJSON.append("\"approving_manager\":" + "\"" + task.getApprovingManager() + "\",");
+                taskJSON.append("\"approving_manager\":" + "\"" + approvingManagerString + "\",");
                 taskJSON.append("\"spots_taken\":" + "\"" + task.getSpotsTaken() + "\",");
                 taskJSON.append("\"max_users\":" + "\"" + task.getMaxUsers() + "\"");
                 taskJSON.append("},");
@@ -350,6 +353,37 @@ public class GetDataServlet extends HttpServlet {
 
             response.setContentType("text/html");
             response.getWriter().write(teamJSON.toString());
+        }
+
+        // Find a stpre from store name
+        if (op.equals("findStore")) {
+            String storeName = request.getParameter("storeName");
+
+            List<Store> storeList = null;
+            try {
+                storeList = ss.getStoresByName(storeName);
+            } catch (Exception ex) {
+                Logger.getLogger(GetDataServlet.class.getName()).log(Level.WARNING, null, ex);
+            }
+
+            StringBuilder storeJSON = new StringBuilder();
+            storeJSON.append('[');
+            if (storeList != null) {
+                for (Store store : storeList) {
+                    storeJSON.append('{');
+                    storeJSON.append("\"store_name\":" + "\"" + store.getStoreName() + "\",");
+                    storeJSON.append("\"store_id\":" + "\"" + store.getStoreId() + "\"");
+                    storeJSON.append("},");
+                }
+            }
+            if (storeJSON.length() > 2) {
+                storeJSON.setLength(storeJSON.length() - 1);
+            }
+
+            storeJSON.append(']');
+
+            response.setContentType("text/html");
+            response.getWriter().write(storeJSON.toString());
         }
     }
 

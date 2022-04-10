@@ -4,11 +4,13 @@
  */
 package services;
 
-import dataaccess.TaskDB;
+import dataaccess.*;
 import java.time.*;
 import java.time.format.*;
-import java.util.List;
-import models.Task;
+import java.util.*;
+import models.*;
+
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  *
@@ -167,6 +169,83 @@ public class TaskService {
         return tasks;
     }
 
+    public List<Integer> getSupervisors() throws Exception {
+        TeamDB teamDB = new TeamDB();
+        List<Team> teamList = teamDB.getAll();
+        List<Integer> supervisors = new ArrayList<>();
+        for (Team team : teamList) {
+            supervisors.add(team.getTeamSupervisor());
+        }
+        return supervisors;
+    }
+
+    public List<User> getCanBeAssignedUsersFoodDelivery(long groupId) throws Exception {
+        TaskDB taskDB = new TaskDB();
+        Task task = taskDB.get(groupId);
+        Team team = task.getTeamId();
+
+        UserDB userDB = new UserDB();
+        List<User> allUsers = userDB.getAll();
+        List<User> canBeAssignedUsers = new ArrayList<>();
+
+        for (User user : allUsers) {
+            if (user.getTeamId().equals(team)) {
+                canBeAssignedUsers.add(user);
+            }
+        }
+        for (User user : allUsers) {
+            if (user.getProgramList().contains(team.getProgramId()) && !canBeAssignedUsers.contains(user)) {
+                canBeAssignedUsers.add(user);
+            }
+        }
+        return canBeAssignedUsers;
+    }
+
+    public List<User> getCanBeApprovingManagersHotline(long taskId) throws Exception {
+        List<User> canBeApprovingManager = new ArrayList<>();
+        RoleDB roleDB = new RoleDB();
+        Role role = roleDB.getByRoleName("Coordinator");
+
+        ProgramTrainingDB programTrainingDB = new ProgramTrainingDB();
+        List<ProgramTraining> programTrainingList = programTrainingDB.getAll();
+
+
+        for (ProgramTraining programTraining : programTrainingList) {
+            if (programTraining.getRoleId().getRoleId() == role.getRoleId()) {
+                canBeApprovingManager.add(programTraining.getUser());
+            }
+        }
+
+        return canBeApprovingManager;
+    }
+
+    public List<User> getCanBeAssignedUsersHotline(long taskId) throws Exception {
+        TaskDB taskDB = new TaskDB();
+        Task task = taskDB.get(taskId);
+        Team team = task.getTeamId();
+
+        UserDB userDB = new UserDB();
+        List<User> allUsers = userDB.getAll();
+        List<User> canBeAssignedUsers = new ArrayList<>();
+        for (User user : allUsers) {
+            if (user.getTeamId().equals(team)) {
+                canBeAssignedUsers.add(user);
+            }
+        }
+        return canBeAssignedUsers;
+    }
+
+    public List<Task> getAllTasksInGroup(long groupId) throws Exception {
+        TaskDB taskDB = new TaskDB();
+        List<Task> sameGroupTasks = new ArrayList<>();
+        for (Task task : taskDB.getAll()) {
+            if (task.getGroupId() == groupId) {
+                sameGroupTasks.add(task);
+            }
+        }
+        return sameGroupTasks;
+    }
+
 //    public Long getNextTaskId() throws Exception{
 //        TaskDB taskDB = new TaskDB();
 //        Long taskId = taskDB.getNextTaskId();
@@ -181,4 +260,10 @@ public class TaskService {
         TaskDB taskDB = new TaskDB();
         taskDB.update(task);
     }
+
+    public void delete(Task task) throws Exception {
+        TaskDB taskDB = new TaskDB();
+        taskDB.delete(task);
+    }
+
 }

@@ -13,9 +13,11 @@
         <script type="text/javascript" src="scripts/models/autolist.js"></script>
         <script type="text/javascript" src="scripts/models/functions.js"></script>
         <script>${teamData}</script>
-        <script>${companyData}</script>
+        <script>${storeData}</script>
+        <script>${supervisorData}</script>
+        <script>${programData}</script>
 
-        <link rel="stylesheet" href="css/team-styles.css">
+        <link rel="stylesheet" href="css/teams-styles.css">
         <title>ECSSEN Teams</title>
     </head>
     <body class="body">
@@ -36,45 +38,39 @@
                             <input id="team-filter" type="checkbox">
                         </div>
                         <div class="list-panel__top-buttons">
-                            <input id="search-input" type="search" class="search-teams__input" placeholder="Search by Program, Manager">
+                            <input id="search-input" type="search" class="search-teams__input" placeholder="Search by Program">
                             <input id="notempty" type="button" class="add-team__button" onclick="addTeam()" value="New Team">
                         </div>
-                        <div id="list-base" class="team-list__base"></div>
+                        <div id="team-list" class="team-list__base"></div>
                     </div>
                     <div class="input-panel" id="input-area">
                         <form id="addTeamForm">
                             <input id="action" name="action" type="hidden">
                             <input id="team-ID" name="team-ID" type="hidden">
+                            <input id="program-ID" name="program-ID" type="hidden">
+                            <input id="store-ID" name="store-ID" type="hidden">
+                            <input id="supervisor-ID" name="supervisor-ID" type="hidden">
                             
                             <div id="team-name__input" style="margin: 2px 0 10px 0;"></div>
-                            <div id="company__input" style="margin: 2px 0 50px 0;"></div>
-                            <datalist id="company-list">
-                            </datalist>
                             
-                            <div id="street-address__input" style="margin: 2px 0 10px 0;"></div>
-                            
-                            <div class="address-inputs">
-                                <div id="city__input"></div>
-                                <div id="province__input"></div>
-                                <div id="postal-code__input"></div>
+                            <div class="select__input">
+                                <select id="programs_select" name="program">
+                                    <option disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <label class="status__label">Program</label>
                             </div>
                             
-                            <div id="contact__input" style="margin: 2px 0 10px 0;"></div>
-                            
-                            <div class="status-input">
-                                <div id="phone__input" style="margin: 2px 0 30px 0;"></div>
-                                <div id="status__input" >
-                                    <select class="status__select" id="status" name="status">
-                                        <option disabled hidden style='display: none' value=''></option>
-                                        <option value="active">Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>
-                                    <label class="status__label">Status</label>
-                                </div>
+                            <div class="select__input">
+                                <select id="supervisors_select" name="supervisor">
+                                    <option disabled hidden style='display: none' value=''></option>
+                                </select>
+                                <label class="status__label">Supervisor</label>
                             </div>
                             
+                            <div id="max-size__input" style="margin: 2px 0 30px 0;"></div>
                             
-                            
+                            <input id="store-search" class="store-search" placeholder="Search by Name, Address ">
+                            <div id="store-list" class="team-list__base"></div>
                             
                             <div class="input-action-buttons">
                                 <input id="cancel__button" class="cancel__button" type="button" value="Cancel">

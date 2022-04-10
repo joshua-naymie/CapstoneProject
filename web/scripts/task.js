@@ -7,10 +7,30 @@ window.onload = () => {
 function onEdit(task_id) {
   $.ajax({
     type: "GET",
-    url: "/editTask",
+    url: "editTask",
     data: { task_id: task_id },
     success: function (response) {
       $("body").html(response);
+    },
+    complete: function () {
+      console.log(editTask);
+      let task_desc = document.getElementById("task_description");
+      task_desc.setAttribute("value", editTask.task_description);
+
+      let task_program = document.getElementById("task_program");
+      task_program.setAttribute("value", editTask.program_name);
+
+      let task_city = document.getElementById("task_city");
+      task_city.setAttribute("value", editTask.task_city);
+
+      let task_date = document.getElementById("task_date");
+      task_date.setAttribute("value", editTask.date);
+
+      let task_start_time = document.getElementById("task_start_time");
+      task_start_time.setAttribute("value", editTask.start_time);
+
+      let task_end_time = document.getElementById("task_end_time");
+      task_end_time.setAttribute("value", editTask.end_time);
     },
   });
 }
@@ -51,8 +71,11 @@ function onSignup(task_id) {
     type: "POST",
     url: "tasks",
     data: { task_id: task_id, action: "SignUp" },
-    success: function (data) {
-      console.log(data);
+    // success: function (data) {
+    //   console.log(data);
+    // },
+    complete: () => {
+      window.location.reload();
     },
   });
 }
@@ -128,7 +151,7 @@ function buildAccordionBody(id, collapase, tasksInWeek) {
     { colName: "Start Time" },
     { colName: "End Time" },
     { colName: "Description" },
-    { colName: "Spots Available" },
+    { colName: "Spots Taken" },
     { colName: "Operation", colspan: 3 },
   ];
 
@@ -328,6 +351,7 @@ function buildAccordionTask(tasks) {
 }
 
 function buildTableRow({
+  task_id,
   group_id,
   program_name,
   start_time,
@@ -336,6 +360,8 @@ function buildTableRow({
   spots_taken,
   max_users,
   show_edit,
+  show_signup,
+  can_cancel,
 }) {
   let tr = document.createElement("tr");
   tr.className = "text-center";
@@ -351,6 +377,7 @@ function buildTableRow({
   tr.appendChild(td_start_time);
 
   let td_end_time = buildTableCell(end_time, false, true);
+  console.log(td_end_time);
   tr.appendChild(td_end_time);
 
   let td_desc = buildTableCell(task_description);
@@ -360,37 +387,45 @@ function buildTableRow({
   tr.appendChild(td_spot);
 
   let td_view_button = document.createElement("td");
-  td_view_button.appendChild(createButton("View", onView, "info"));
+  let view_button = createButton("View", "info");
+  view_button.onclick = (event) => {
+    onView(task_id);
+  };
+  td_view_button.appendChild(view_button);
+
   tr.appendChild(td_view_button);
-
-  let td_signup_button = document.createElement("td");
-  td_signup_button.appendChild(createButton("SignUp", onSignup, "primary"));
-  tr.appendChild(td_signup_button);
-
-  let td_cancel_button = document.createElement("td");
-  td_cancel_button.appendChild(createButton("Cancel", onCancel, "danger"));
 
   if (show_edit) {
     let td_edit_button = document.createElement("td");
-    td_edit_button.appendChild(createButton("Edit", onEdit, "secondary"));
+    let edit_button = createButton("Edit", "secondary");
+    edit_button.onclick = () => {
+      onEdit(task_id);
+    };
+    td_edit_button.appendChild(edit_button);
     tr.appendChild(td_edit_button);
   }
 
-  //     let showSignUpButton = JSON.parse(taskData.show_signupT_cancelF);
-  //     if (showSignUpButton) {
-  //       let td_signup_button = document.createElement("td");
-  //       td_signup_button.appendChild(accordionSignupButton);
-  //       tr.appendChild(td_signup_button);
-  //     }
+  let showSignUpButton = JSON.parse(show_signup);
+  if (showSignUpButton) {
+    let td_signup_button = document.createElement("td");
+    signup_button = createButton("SignUp", "primary");
+    signup_button.onclick = () => {
+      onSignup(task_id);
+    };
+    td_signup_button.appendChild(signup_button);
+    tr.appendChild(td_signup_button);
+  }
 
-  //     let showCancelButton =
-  //       !JSON.parse(taskData.show_signupT_cancelF) &&
-  //       JSON.parse(taskData.can_cancel);
-  //     if (showCancelButton) {
-  //       let td_cancel_button = document.createElement("td");
-  //       td_cancel_button.appendChild(accordionCancelButton);
-  //       tr.appendChild(td_signup_button);
-  //     }
+  let showCancelButton = JSON.parse(can_cancel);
+  if (showCancelButton) {
+    let td_cancel_button = document.createElement("td");
+    cancel_button = createButton("Cancel", "danger");
+    cancel_button.onclick = () => {
+      onCancel(task_id);
+    };
+    td_cancel_button.appendChild(cancel_button);
+    tr.appendChild(td_cancel_button);
+  }
 
   return tr;
 }
@@ -424,8 +459,8 @@ function buildNestedTableRow({
   let td_desc = buildTableCell(task_description);
   tr.appendChild(td_desc);
 
-  let td_spot = buildTableCell(`${spots_taken}/${max_users}`);
-  tr.appendChild(td_spot);
+  // let td_spot = buildTableCell(`${spots_taken}/${max_users}`);
+  // tr.appendChild(td_spot);
 
   let td_username = buildTableCell(user_name);
   tr.appendChild(td_username);
@@ -443,7 +478,7 @@ function buildTableCell(text, isDate = false, isTime = false) {
       minute: "2-digit",
     });
   } else if (isDate) {
-    td.innerText = new Date(text).toLocaleDateString();
+    td.innerText = text ? new Date(text).toLocaleDateString() : "";
   } else {
     td.innerText = text;
   }
@@ -451,17 +486,15 @@ function buildTableCell(text, isDate = false, isTime = false) {
   return td;
 }
 
-function createButton(buttonText, onClick, buttonType) {
+function createButton(buttonText, buttonType) {
   let button = document.createElement("button");
   button.className = "btn btn-" + buttonType;
   button.setAttribute("type", "button");
-  // button.setAttribute("task_id", taskData.task_id);
-  button.setAttribute("data-bs-toggle", "modal");
-  button.setAttribute("data-bs-target", "#taskModal");
+  if (buttonText === "View") {
+    button.setAttribute("data-bs-toggle", "modal");
+    button.setAttribute("data-bs-target", "#taskModal");
+  }
   button.innerText = buttonText;
-  button.addEventListener("click", () => {
-    onClick();
-  });
 
   return button;
 }

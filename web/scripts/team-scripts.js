@@ -19,6 +19,7 @@ var listArea;
 var inputArea
 
 var teamSearchInput;
+var storeSearchInput;
 var filterCheckbox;
 
 var inputForm;
@@ -27,10 +28,11 @@ var actionInput;
 
 var inputs;
 var removeManagerInput;
-var userList;
+var storeList;
 var teamList;
 var teamNameInput,
-    companyInput,
+    programInput,
+    supervisorInput,
     streetAddressInput,
     provinceInput,
     postalCodeInput,
@@ -62,25 +64,7 @@ const userSearchInputTimer = (searchValue) => {
  * @returns Whether the search value is contained in the team or manager name
  */
 const filterTeam = (team, searchValue) => {
-    if (team.name.toLowerCase().includes(searchValue)
-    ||((team.managerId != null) && userData[team.managerId].name.toLowerCase().includes(searchValue)))
-    {
-        return filterCheckbox.checked ? true : team.isActive;
-    }
-
-    return false;
-}
-
-/**
- * Filters a user based on given search value.
- * Checks user's name and email, case-insensitive.
- * @param {type} user The user to filter
- * @param {string} searchValue The value to find in the user's name or email
- * @returns Whether the search value is contained in the team or manager name
- */
-const filterUser = (user, searchValue) => {
-    if(user.name.toLowerCase().includes(searchValue.toLowerCase())
-    || user.email.toLowerCase().includes(searchValue.toLowerCase()))
+    if((team.name != null) && (team.name.toLowerCase().includes(searchValue)))
     {
         return true;
     }
@@ -89,19 +73,61 @@ const filterUser = (user, searchValue) => {
 }
 
 /**
+ * Filters a store based on given search value.
+ * Checks store and manager name, case-insensitive.
+ * @param {type} store The store to filter
+ * @param {string} searchValue The value to find in the store or manager name
+ * @returns Whether the search value is contained in the store or manager name
+ */
+const filterStore = (store, searchValue) => {
+    if (store.name.toLowerCase().includes(searchValue)
+    || (store.address.toLowerCase().includes(searchValue)))
+    {
+        return true;
+    }
+    return false;
+}
+
+const maxTeamSizeValidation = (size) => {
+    if(size < 1
+    || size > 300)
+    {
+        return false;
+    }
+    
+    return true;
+}
+
+const programChanged = () =>
+{
+    setProgramId(programInput.value);
+}
+
+/**
  * Run when DOM loads
  */
 function load()
 {
+    programInput = document.getElementById("programs_select");
+    programInput.addEventListener("click", programChanged);
+    
+    supervisorInput = document.getElementById("supervisors_select");
+    
     // setup 'Show Inactive' checkbox
     filterCheckbox = document.getElementById("team-filter");
     filterCheckbox.checked = false;
-    filterCheckbox.addEventListener("change", () => { searchStoreList(teamSearchInput.value); });
+    filterCheckbox.addEventListener("change", () => { searchTeamList(teamSearchInput.value); });
 
     teamList = new AutoList("flex");
-    teamList.container = document.getElementById("list-base");
+    teamList.container = document.getElementById("team-list");
     teamList.setFilterMethod(filterTeam);
-    teamList.setSortMethod(compareStore);
+    teamList.setSortMethod(compareTeam);
+    generateTeamList();
+    
+    storeList = new AutoList("flex");
+    storeList.container = document.getElementById("store-list");
+    storeList.setFilterMethod(filterStore);
+    storeList.setSortMethod(compareStore);
     generateStoreList();
     
     // setup input area
@@ -113,10 +139,10 @@ function load()
     listArea.classList.add("visible");
     
     // setup input form
-    inputForm = document.getElementById("addStoreForm");
+    inputForm = document.getElementById("addTeamForm");
     inputForm.reset();
     
-    statusInput = document.getElementById("status");
+    statusInput = document.getElementById("programs_select");
     statusInput.addEventListener("change", setStatusSelectColor);
     setStatusSelectColor();
     
@@ -128,92 +154,41 @@ function load()
     // setup team search input
     teamSearchInput = document.getElementById("search-input");
     teamSearchInput.value = "";
-    teamSearchInput.addEventListener("input", () => { searchStoreList(teamSearchInput.value) });
+    teamSearchInput.addEventListener("input", () => { teamList.filter(teamSearchInput.value) });
+
+    storeSearchInput = document.getElementById("store-search");
+    storeSearchInput.value = "";
+    storeSearchInput.addEventListener("input", () => { storeList.filter(storeSearchInput.value); });
 
     // setup team name InputGroup
     teamNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "team-name");
-    teamNameInput.setLabelText("Store Name");
+    teamNameInput.setLabelText("Team Name");
     teamNameInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    teamNameInput.setPlaceHolderText("eg. Kensington Starbucks");
+    teamNameInput.setPlaceHolderText("eg. Hotline");
     teamNameInput.container = document.getElementById("team-name__input");
     configCustomInput(teamNameInput);
     
-    let companyList = document.getElementById("company-list");
-    
-    for(let i=0; i<companyData.length; i++)
-    {
-        let temp = document.createElement("option");
-        temp.value = companyData[i].name;
-        
-        companyList.appendChild(temp);
-    }
-    
-    // setup company InputGroup
-    companyInput = new InputGroup(CSS_INPUTGROUP_MAIN, "company-name");
-    companyInput.input.setAttribute("list", "company-list");
-    companyInput.setLabelText("Company");
-    companyInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    companyInput.setPlaceHolderText("eg. Starbucks");
-    companyInput.container = document.getElementById("company__input");
-    configCustomInput(companyInput);
-    
-    // setup team street address InputGroup
-    streetAddressInput = new InputGroup(CSS_INPUTGROUP_MAIN, "team-address");
-    streetAddressInput.setLabelText("Street Address");
-    streetAddressInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    streetAddressInput.setPlaceHolderText("eg. 1234 Main St.");
-    streetAddressInput.container = document.getElementById("street-address__input");
-    configCustomInput(streetAddressInput);
-
-    // setup team city InputGroup
-    cityInput = new InputGroup(CSS_INPUTGROUP_MAIN, "team-city");
-    cityInput.setLabelText("City");
-    cityInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
-    cityInput.setPlaceHolderText("eg. Calgary");
-    cityInput.container = document.getElementById("city__input");
-    configCustomInput(cityInput);
-
-    // setup store province InputGroup
-    provinceInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-province");
-    provinceInput.input.disabled = true;
-    provinceInput.setLabelText("Prov.");
-    provinceInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*");
-    provinceInput.setPlaceHolderText("eg. AB");
-    provinceInput.container = document.getElementById("province__input");
-    configCustomInput(provinceInput);
-
-    // setup store postal code InputGroup
-    postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-postal-code");
-    postalCodeInput.setLabelText("Postal");
-    postalCodeInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*");
-    postalCodeInput.setPlaceHolderText("A1A 1A1");
-    postalCodeInput.container = document.getElementById("postal-code__input");
-    configCustomInput(postalCodeInput);
-    
-    contactInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-contact");
-    contactInput.setLabelText("Contact Name");
-    contactInput.setPlaceHolderText("John Smith");
-    contactInput.container = document.getElementById("contact__input");
-    configCustomInput(contactInput);
-    
-    phoneInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-phone");
-    phoneInput.setLabelText("Phone Number");
-    phoneInput.addValidator(REGEX_PHONE_OPTIONAL, INPUTGROUP_STATE_WARNING, "*invalid");
-    phoneInput.setPlaceHolderText("555-555-5555");
-    phoneInput.container = document.getElementById("phone__input");
-    configCustomInput(phoneInput);
+    maxSizeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "max-size");
+    maxSizeInput.input.type = "number";
+    maxSizeInput.setInputText(30);
+    maxSizeInput.input.max = 300;
+    maxSizeInput.input.min = 1;
+    maxSizeInput.setLabelText("Max Size");
+    maxSizeInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
+    maxSizeInput.addValidator(maxTeamSizeValidation, INPUTGROUP_STATE_WARNING, "*invalid");
+    maxSizeInput.setPlaceHolderText("eg. 20");
+    maxSizeInput.container = document.getElementById("max-size__input");
+    configCustomInput(maxSizeInput);
     
     // add InputGroups to a collection
     inputs = new InputGroupCollection();
-    inputs.add(storeNameInput);
-    inputs.add(companyInput);
-    inputs.add(streetAddressInput);
-    inputs.add(cityInput);
-    inputs.add(provinceInput);
-    inputs.add(postalCodeInput);
-    inputs.add(phoneInput);
-
- 
+    inputs.add(teamNameInput);
+    inputs.add(maxSizeInput);
+    
+    setProgramSelect();
+    setSupervisorSelect();
+    
+    setProgramId(1);
 }
 
 /**
@@ -226,7 +201,7 @@ function configCustomInput(group)
     {
         throw `not an InputGroup - ${group}`;
     }
-    group.container.classList.add("store__custom-input");
+    group.container.classList.add("team__custom-input");
     group.container.appendChild(group.input);
 
     let labelMessageDiv = document.createElement("div");
@@ -241,18 +216,18 @@ function configCustomInput(group)
  * Generates the list of stores displayed to the user.
  * Creates store cards and inserts line breaks between them.
  */
-function generateStoreList()
+function generateTeamList()
 {
-    removeAllChildren(document.getElementById("list-base"));
+    removeAllChildren(teamList);
 
-    // let keys = Object.keys(storeData);
-    for(let i=0; i<storeData.length; i++)
+    console.log(teamData.length);
+    for(let i=0; i<teamData.length; i++)
     {
-        let store = storeData[i];
-        storeList.addItem(generateStoreRow(store), store);
+        let team = teamData[i];
+        teamList.addItem(generateTeamRow(team), team);
     }
 
-    storeList.generateList();
+    teamList.generateList();
 }
 
 /**
@@ -260,45 +235,25 @@ function generateStoreList()
  * @param {store} store  The store whose info will populate the row
  * @returns {Element}  A div representing a row in a store list.
  */
-function generateStoreRow(store)
+function generateTeamRow(team)
 {
     // item card
     let item = document.createElement("div");
     item.classList.add("list-item");
-    item.addEventListener("click", () => { editStore(store); });
+    item.addEventListener("click", () => { editTeam(team); });
 
-    let address = document.createElement("div");
-    address.classList.add("store-list__row-left");
-    
-    let streetAddress = document.createElement("p");
-    streetAddress.classList.add("store-list__large-field");
-    streetAddress.innerText = store.streetAddress;
-    
-    let restOfAddrees = document.createElement("p");
-    restOfAddrees.classList.add("---REPLACE---");
-    restOfAddrees.innerText = `${store.city}, AB ${store.postalCode}`;
-    
-    address.appendChild(streetAddress);
-    address.appendChild(restOfAddrees);
-    
-    let leftSide = document.createElement("div");
-    leftSide.classList.add("store-list__row-right");
-    
     let name = document.createElement("p");
-    name.classList.add("store-list__large-field");
-    name.innerText = store.name;
+    name.innerText = team.name;
+    name.classList.add("---===REPLACE===---");
     
-    let phone = document.createElement("p");
-    phone.classList.add("---REPLACE---");
-    phone.innerText = store.phoneNum;
+    let program = document.createElement("p");
+    program.innerText = getProgramByID(team.programID).name;
+    name.classList.add("---===REPLACE===---");
     
-    leftSide.appendChild(name);
-    leftSide.appendChild(phone);
-    
-    
-    item.appendChild(address);
-    item.appendChild(leftSide);
+    item.appendChild(name);
+    item.appendChild(program);
 
+    console.log(`Item: ${item}`);
     return item;
 }
 
@@ -306,10 +261,10 @@ function generateStoreRow(store)
  * Filters the list by matching store name or manager name.
  * Regenerates the list with filtered stores
  */
-function searchStoreList(searchValue)
+function searchTeamList(searchValue)
 {
     searchValue = searchValue == null ? "" : searchValue;
-    storeList.filter(searchValue);
+    teamList.filter(searchValue);
 }
 
 /**
@@ -325,7 +280,7 @@ function cancelPressed()
     changeHeaderText("Stores");
     fadeOutIn(inputArea, listArea);
     setTimeout(() => {
-        document.getElementById("addStoreForm").reset();
+        document.getElementById("addTeamForm").reset();
         inputs.resetInputs();
     }, 200);
 }
@@ -335,16 +290,14 @@ function cancelPressed()
  * Sets the currentAction and the submit button text.
  * Fades ui to input panel.
  */
-function addStore()
+function addTeam()
 {
     currentAction = "add";
-    submitButton.value = "Add";
-    document.getElementById("store-ID").value = -1;
-    provinceInput.setInputText("AB");
-    setStatusSelectColor();
+    submitButton.value = "Add"; 
+    document.getElementById("team-ID").value = -1;
     
     setContainerWidth("container--input-size");
-    changeHeaderText("Add Store");
+    changeHeaderText("Add Team");
     fadeOutIn(listArea, inputArea);
 }
 
@@ -355,29 +308,40 @@ function addStore()
  * @param {type} store
  * @returns {undefined}
  */
-function editStore(store)
+function editTeam(team)
 {
     currentAction = "update";
     submitButton.value = "Update";
 
-    document.getElementById("store-ID").value = store.storeId;
-    storeNameInput.setInputText(store.name);
-    let company = getCompanyByID(store.companyId);
-    companyInput.setInputText(company.name);
-    streetAddressInput.setInputText(store.streetAddress);
-    cityInput.setInputText(store.city);
-    provinceInput.setInputText("AB");
-    postalCodeInput.setInputText(store.postalCode);
-    contactInput.setInputText(store.contactName);
-    phoneInput.setInputText(store.phoneNum);
-    statusInput.value = store.isActive ? "active" : "inactive";
-    setStatusSelectColor();
+    document.getElementById("store-ID").value = team.storeID;
 
-    document.getElementById("store-ID").value = store.storeId;
+    teamNameInput.setInputText(team.name);
+    programInput.value = team.programID;
+    supervisorInput.value = team.supervisorID;
+    maxSizeInput.setInputText(team.maxSize);
+    
+//    let company = getCompanyByID(store.companyId);
+//    programInput.setInputText(company.name);
+//    maxSizeInput.setInputText(store.phoneNum);
+//
+//    document.getElementById("store-ID").value = store.storeId;
     
     setContainerWidth("container--input-size");
-    changeHeaderText("Edit Store");
+    changeHeaderText("Edit Team");
     fadeOutIn(listArea, inputArea);
+}
+
+function getStoreNameById(id)
+{
+    for(let i=0; i<storeData.length; i++)
+    {
+        if(storeData[i].id = id)
+        {
+            return storeData[i].name;
+        }
+    }
+    
+    return null;
 }
 
 
@@ -411,6 +375,29 @@ function fadeOutIn(outElement, inElement)
         setTimeout(() => {inElement.classList.add("visible");}, 50);
         
     }, 100)
+}
+
+/**
+ * Sorting algorithm for store objects.
+ * Sorts by store name.
+ * @param {type} store1   the first store to compare
+ * @param {type} store2   the second store to compare
+ * @returns {Number}
+ */
+function compareTeam(team1, team2)
+{
+    if(team1.object.name > team2.object.name)
+    {
+        return 1;
+    }
+    else if(team1.object.name < team2.object.name)
+    {
+        return -1;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 /**
@@ -473,7 +460,7 @@ function setStatusSelectColor()
 
 function changeHeaderText(text)
 {
-    let header = document.getElementById("store-header");
+    let header = document.getElementById("team-header");
     header.classList.add("header--hidden");
     
     setTimeout(() => { header.innerText = text; header.classList.remove("header--hidden") }, 150);
@@ -490,4 +477,88 @@ function getCompanyByID(id)
     }
     
     return null;
+}
+
+function getProgramByID(id)
+{
+    for(let i=0; i<programData.length; i++)
+    {
+        if(programData[i].id === id)
+        {
+            return programData[i];
+        }
+    }
+    
+    return null;
+}
+
+function setProgramSelect()
+{
+    let select = document.getElementById("programs_select");
+    
+    for(let i=0; i<programData.length; i++)
+    {
+        let temp = document.createElement("option");
+        temp.label = programData[i].name;
+        temp.value = programData[i].id;
+        
+        select.appendChild(temp);
+    }
+}
+
+function setSupervisorSelect()
+{
+    let select = document.getElementById("supervisors_select");
+    
+    for(let i=0; i<supervisorData.length; i++)
+    {
+        let temp = document.createElement("option");
+        temp.label = supervisorData[i].name;
+        temp.value = supervisorData[i].id;
+        
+        select.appendChild(temp);
+    }
+}
+
+function generateStoreList()
+{
+    for(let i=0; i<storeData.length; i++)
+    {
+        storeList.addItem(generateStoreRow(storeData[i]), storeData[i]);
+    }
+    
+    storeList.generateList();
+}
+
+function generateStoreRow(store)
+{
+    let item = document.createElement("div");
+    item.classList.add("list-item");
+    item.addEventListener("click", () => { setTeamStore(store); });
+    
+    let address = document.createElement("p");
+    address.classList.add("store-list__large-field");
+    address.innerText = store.address;  
+    
+    let name = document.createElement("p");
+    name.classList.add("store-list__large-field");
+    name.innerText = store.name;
+        
+    item.appendChild(address);
+    item.appendChild(name);
+
+    return item;
+}
+
+function setTeamStore(store)
+{
+    document.getElementById("store-ID").value = store.id;
+    teamNameInput.setInputText(store.name);
+}
+
+function setProgramId(id)
+{
+    document.getElementById("program-ID").value = id;
+    
+    teamNameInput.input.disabled = id == 1;
 }
