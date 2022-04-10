@@ -59,13 +59,13 @@ INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, 
 -- TEAM
 -- -----------------------------------------------------
 INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`)
-    VALUES (2, 30, 1, 12345, 'Hotline');
+    VALUES (2, 30, 3, 12345, 'Hotline');
 INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`) 
-    VALUES (1, 30, 1, 12345, 'Airdrie Safeway');
+    VALUES (1, 30, 4, 12345, 'Airdrie Safeway');
 INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`) 
-    VALUES (1, 30, 1, 12345, 'Kensingston COBS');
+    VALUES (1, 30, 3, 12345, 'Kensingston COBS');
 INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`) 
-    VALUES (1, 25, 1, 123, 'Kensingston Starbucks');
+    VALUES (1, 25, 4, 123, 'Kensingston Starbucks');
 -- -----------------------------------------------------
 -- USER
 -- -----------------------------------------------------
@@ -87,13 +87,24 @@ INSERT INTO `user` (`user_id`, `email`, `is_admin`, `team_id`,`user_city`,`first
             '123 pizza st s.w.', 'A1A1A1', curdate(), 'OloAEOkY3BGzc6wTRedRuL8c1JzkHq3UeCneTaEiIgo=', '94ec65f4df9c528f9e438bf4747366d58111e0eb36c782d20e9ec2c7494e0641');
 INSERT INTO `user` (`user_id`, `email`, `is_admin`, `team_id`,`user_city`,`first_name`,`last_name`,`is_active`
                     ,`date_Of_birth`,`phone_number`,`home_address`,`postal_code`,`registration_date`, `password_salt`, `password_hash` )
-  VALUES (5, 'rjk@gmail.com', True, 1, 'Calgary', 'Jake', 'Blake', TRUE, curdate(), '403-828-8888', 
+  VALUES (5, 'coordinatorJake@gmail.com', True, 1, 'Calgary', 'Jake', 'Blake', TRUE, curdate(), '403-828-8888', 
             '12 pizza st s.w.', 'A1A2A1', curdate(), 'OloAEOkY3BGzc6wTRedRuL8c1JzkHq3UeCneTaEiIgo=', '94ec65f4df9c528f9e438bf4747366d58111e0eb36c782d20e9ec2c7494e0641');
+INSERT INTO `user` (`user_id`, `email`, `is_admin`, `team_id`,`user_city`,`first_name`,`last_name`,`is_active`
+                    ,`date_Of_birth`,`phone_number`,`home_address`,`postal_code`,`registration_date`, `password_salt`, `password_hash` )
+  VALUES (6, 'volunteerJason@gmail.com', True, 1, 'Calgary', 'Jason', 'Smith', TRUE, curdate(), '403-828-8888', 
+            '12 pizzak st s.w.', 'A1A2A1', curdate(), 'OloAEOkY3BGzc6wTRedRuL8c1JzkHq3UeCneTaEiIgo=', '94ec65f4df9c528f9e438bf4747366d58111e0eb36c782d20e9ec2c7494e0641');
+INSERT INTO `user` (`user_id`, `email`, `is_admin`, `team_id`,`user_city`,`first_name`,`last_name`,`is_active`
+                    ,`date_Of_birth`,`phone_number`,`home_address`,`postal_code`,`registration_date`, `password_salt`, `password_hash` )
+  VALUES (7, 'managerEmma@gmail.com', True, 1, 'Calgary', 'Emma', 'Connor', TRUE, curdate(), '403-888-8888', 
+            '123 pizza st nw', 'A1J1A1', curdate(), 'OloAEOkY3BGzc6wTRedRuL8c1JzkHq3UeCneTaEiIgo=', '94ec65f4df9c528f9e438bf4747366d58111e0eb36c782d20e9ec2c7494e0641');
 
 UPDATE `program` SET `user_id` = 1 WHERE `program_id` = 1;
 UPDATE `program` SET `user_id` = 2 WHERE `program_id` = 2;
 UPDATE `program` SET `user_id` = 3 WHERE `program_id` = 3;
 UPDATE `program` SET `user_id` = 5 WHERE `program_id` = 2;
+UPDATE `program` SET `user_id` = 6 WHERE `program_id` = 2;
+UPDATE `program` SET `user_id` = 6 WHERE `program_id` = 1;
+UPDATE `program` SET `user_id` = 7 WHERE `program_id` = 1;
 
 -- -----------------------------------------------------
 -- PROGRAM TRAINING
@@ -106,6 +117,12 @@ INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`)
      VALUES (3,5,2);
 INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
      VALUES (5,4,2);
+INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
+     VALUES (6,2,2);
+INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
+     VALUES (6,2,1);
+INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
+     VALUES (6,3,1);
 
 -- -----------------------------------------------------
 -- PACKAGE TYPE
@@ -179,19 +196,32 @@ INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users
                     `approving_manager`,`task_description`, `is_submitted`, `is_dissaproved`,`assigned`)
      VALUES (11, 0, 2, 1, 2, "2022-04-18 16:30:00", FALSE, FALSE, 
             '3', 'Call at 10 people', FALSE, FALSE, FALSE);
-
-
+-- -----------------------------------------------------
+-- TASK for testing 
+-- -----------------------------------------------------
+INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+                    `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`,`user_id`, `assigned`)
+     VALUES (12, 2, 1, 4, 2, "2022-04-25 12:30:00", "2022-04-25 15:30:00", FALSE, TRUE, 
+            '3', 'Pickup 5 boxes ', 'Calgary', FALSE, FALSE, 1, TRUE);
+INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+                    `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`,`user_id`, `assigned`)
+     VALUES (12, 2, 1, 4, 2, "2022-04-25 12:30:00", "2022-04-25 15:30:00", FALSE, TRUE, 
+            '3', 'Pickup 5 boxes ', 'Calgary', FALSE, FALSE, 5, TRUE);
+INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+                    `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`,`user_id`, `assigned`)
+     VALUES (13, 1, 1, 4, 1, "2022-04-30 12:30:00", "2022-4-30 15:30:00", FALSE, TRUE, 
+            '3', 'Pickup 5 boxes ', 'Calgary', FALSE, FALSE, 4, TRUE);
 -- -----------------------------------------------------
 -- HOTLINE DATA
 -- -----------------------------------------------------
-INSERT INTO `ecssendb`.hotline_data VALUES (7, 1);
-INSERT INTO `ecssendb`.hotline_data VALUES (8, 5);
+INSERT INTO `ecssendb`.hotline_data VALUES (1, 1);
+INSERT INTO `ecssendb`.hotline_data VALUES (4, 5);
 -- -----------------------------------------------------
 -- FOOD DELIVERY DATA
 -- -----------------------------------------------------
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`,`family_count`)
-     VALUES (1, 123, 30, 4.5, 1, 12, 3);
+     VALUES (4, 123, 30, 4.5, 1, 12, 3);
 INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
                                   `food_amount`, `organization_id`)
      VALUES (3, 12345, 20, 3, 1, 6, 1);
@@ -199,7 +229,16 @@ INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_
                                   `food_amount`, `organization_id`, `family_count`)
      VALUES (2, 123, 20, 3, 1, 6, 1, 1);
 
-
+-- testing reports
+INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
+                                  `food_amount`, `family_count`)
+     VALUES (9, 12345, 50, 3, 1, 5, 1);
+INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
+                                  `food_amount`, `organization_id`)
+     VALUES (10, 12345, 40, 2, 2, 4, 1);
+INSERT INTO `food_delivery_data` (`task_fd_id`,`store_id`,`mileage`,`food_hours_worked`,`package_id`,
+                                  `food_amount`, `organization_id`)
+     VALUES (11, 123, 30, 2, 1, 3, 1);
 -- -----------------------------------------------------
 -- ORGANIZATION
 -- -----------------------------------------------------

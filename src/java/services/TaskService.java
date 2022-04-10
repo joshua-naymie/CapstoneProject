@@ -7,7 +7,7 @@ package services;
 import dataaccess.*;
 import java.time.*;
 import java.time.format.*;
-import java.util.List;
+import java.util.*;
 import models.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -163,16 +163,16 @@ public class TaskService {
         return taskDB.getSubmittedToManager(id);
     }
 
-    public List<Task> getAllNotApprovedTasksByUserId(int userId) throws Exception {
+    public List<Task> getAllNotApprovedTasksByUser(User user) throws Exception {
         TaskDB taskDB = new TaskDB();
-        List<Task> tasks = taskDB.getAllNotApprovedTasksByUserId(userId);
+        List<Task> tasks = taskDB.getAllNotApprovedTasksByUser(user);
         return tasks;
     }
 
     public List<Integer> getSupervisors() throws Exception {
         TeamDB teamDB = new TeamDB();
         List<Team> teamList = teamDB.getAll();
-        List<Integer> supervisors = null;
+        List<Integer> supervisors = new ArrayList<>();
         for (Team team : teamList) {
             supervisors.add(team.getTeamSupervisor());
         }
@@ -186,7 +186,7 @@ public class TaskService {
 
         UserDB userDB = new UserDB();
         List<User> allUsers = userDB.getAll();
-        List<User> canBeAssignedUsers = null;
+        List<User> canBeAssignedUsers = new ArrayList<>();
 
         for (User user : allUsers) {
             if (user.getTeamId().equals(team)) {
@@ -202,7 +202,7 @@ public class TaskService {
     }
 
     public List<User> getCanBeApprovingManagersHotline(long taskId) throws Exception {
-        List<User> canBeApprovingManager = null;
+        List<User> canBeApprovingManager = new ArrayList<>();
         RoleDB roleDB = new RoleDB();
         Role role = roleDB.getByRoleName("Coordinator");
 
@@ -226,7 +226,7 @@ public class TaskService {
 
         UserDB userDB = new UserDB();
         List<User> allUsers = userDB.getAll();
-        List<User> canBeAssignedUsers = null;
+        List<User> canBeAssignedUsers = new ArrayList<>();
         for (User user : allUsers) {
             if (user.getTeamId().equals(team)) {
                 canBeAssignedUsers.add(user);
@@ -237,7 +237,7 @@ public class TaskService {
 
     public List<Task> getAllTasksInGroup(long groupId) throws Exception {
         TaskDB taskDB = new TaskDB();
-        List<Task> sameGroupTasks = null;
+        List<Task> sameGroupTasks = new ArrayList<>();
         for (Task task : taskDB.getAll()) {
             if (task.getGroupId() == groupId) {
                 sameGroupTasks.add(task);

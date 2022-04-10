@@ -373,18 +373,14 @@
     flex-direction: column;
 }
 
-status__select
-{
-    font-size: 2rem;
-}
-
 .select__input select
 {
+    border-color: gray;
     height: 30px;
     width: 100%;
     font-family: 'Lucida Sans Unicode', sans-serif;
     font-size: 1rem;
-    border-width: 2px;
+    border-width: 1px;
     border-style: solid;
     border-radius: 5px;
 }
@@ -452,7 +448,7 @@ status__select
     transition: opacity 0.1s;
 }
 
-.user-search
+.store-search
 {
     border-radius: 20px;
     font-size: 1rem;
@@ -463,7 +459,7 @@ status__select
     margin: 10px 0 10px 10%;
 }
 
-.user-list
+.store-list
 {
     display: flex;
     flex-direction: column;
@@ -477,20 +473,20 @@ status__select
     background-color: white
 }
 
-.user-list hr
+.store-list hr
 {
     width: 90%;
     color: gray;
     margin: 2px;
 }
 
-.user-list p
+.store-list p
 {
     font-family: sans-serif;
     
 }
 
-.user-item
+.store-item
 {
     width: 100%;
     display: flex;
@@ -498,19 +494,19 @@ status__select
     padding: 10px;
 }
 
-.user-item:hover
+.store-item:hover
 {
     background-color: rgb(255, 244, 223);
 }
 
-.user-name
+.store-name
 {
     font-size: 1rem;
     margin: 0;
     padding: 0;
 }
 
-.user-email
+.store-address
 {
     font-size: 0.8rem;
     color: gray;

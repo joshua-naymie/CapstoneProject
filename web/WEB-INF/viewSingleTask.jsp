@@ -83,7 +83,7 @@
                         </div>  
 
                         <div class="form-group">
-                            <label for="spotsAdd" class="form-label">Spots: </label>
+                            <label for="spotsAdd" class="form-label">Total Spots: </label>
                             <input type="number" id="spots" name="spotsAdd" min="1" max="10" value="1" class="form-control">
                         </div>
     </fieldset>

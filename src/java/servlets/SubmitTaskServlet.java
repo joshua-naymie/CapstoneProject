@@ -27,6 +27,8 @@ import models.util.JSONKey;
 import models.PackageType;
 import models.Program;
 import models.Task;
+import models.User;
+import services.AccountServices;
 import services.TaskService;
 
 /**
@@ -52,18 +54,24 @@ public class SubmitTaskServlet extends HttpServlet {
     // get the loggined in user from the sesstion
     HttpSession httpSession = request.getSession();
     
+    AccountServices as = new AccountServices();
+    
     int loggedInUserId = -1;
     
-//    try{
-//        loggedInUserId = (int) httpSession.getAttribute("email");
-//        System.out.println(loggedInUserId);
-//        
-//    }catch (Exception ex){
-//        Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-//    }
+    User user = null;
+    
+    try{
+        loggedInUserId = (int) httpSession.getAttribute("email");
+        System.out.println(loggedInUserId);
+        
+        user = as.getByID(loggedInUserId);
+        
+    }catch (Exception ex){
+        Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+    }
       
     //delete later
-    loggedInUserId = 4;
+    //loggedInUserId = 4;
         
     
     //get all tasks that have not been approved for that user
@@ -72,7 +80,11 @@ public class SubmitTaskServlet extends HttpServlet {
     List<Task> taskList = null;
     
         try {
-            taskList = ts.getAllNotApprovedTasksByUserId(loggedInUserId);
+            taskList = ts.getAllNotApprovedTasksByUser(user);
+            
+            for (Task task: taskList){
+                log(task.getTaskDescription() + task.getUserId());
+            }
         } catch (Exception ex) {
             Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -92,7 +104,7 @@ public class SubmitTaskServlet extends HttpServlet {
 
         JSONBuilder builder = new JSONBuilder(keys);
 
-        if (taskList.size() > 0) {
+        if (taskList!=null && taskList.size() > 0) {
             int i = 0;
             for (i = 0; i < taskList.size() - 1; i++) {
                 returnData.append(buildTaskJSON(taskList.get(i), builder));

@@ -82,7 +82,7 @@
            <div class="form-group col-md-4">
                 <label for="mileage" class="form-label">Mileage </label>
                 <div class="input-group">
-                    <input class="form-control" type="number" name="mileage" min="1" max="20" value="1" aria-describedby="km" required>
+                    <input class="form-control" type="number" name="mileage" min="1" max="50" value="1" aria-describedby="km" required>
                     <span class="input-group-text" id="km">km</span>
                 </div>
            </div>
