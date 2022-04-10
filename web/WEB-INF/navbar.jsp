@@ -25,7 +25,7 @@
         </div>
         <a class="navbartxtandimg" href="reports"><img src="content/images/analytics.png"><span>Reports</span></a>
 <!--        <a class="navbartxtandimg" href="#"><img src="content/images/001-heart.png"><span>Donations</span></a>-->
-        <a class="navbartxtandimg" href="users"><img src="content/images/queue.png"><span>Users</span></a>
+        <a class="navbartxtandimg" href="users"><img src="content/images/search-people.png"><span>Users</span></a>
         <a class="navbartxtandimg" href="programs"><img src="content/images/indexing-pages.png"><span>Programs</span></a>
         <a class="navbartxtandimg" href="teams"><img src="content/images/connect-people.png"><span>Teams</span></a>
         <a class="navbartxtandimg" href="stores"><img src="content/images/go-to-store.png"><span>Stores</span></a>
