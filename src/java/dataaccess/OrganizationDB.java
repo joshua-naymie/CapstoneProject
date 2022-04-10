@@ -27,11 +27,11 @@ public class OrganizationDB {
         }
     }
 
-    public Organization get(short roleId) throws Exception {
+    public Organization get(Integer orgId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         
         try{
-            Organization o = em.find(Organization.class, roleId);
+            Organization o = em.find(Organization.class, orgId);
             return o;
         }
         finally {

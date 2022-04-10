@@ -5,9 +5,11 @@
 package dataaccess;
 
 import jakarta.persistence.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import models.*;
 import org.eclipse.persistence.sessions.Session;
@@ -145,15 +147,24 @@ public class TaskDB {
         }
     }
 
-    public List<Task> getAllNotApprovedTasksByUserId(int userId) throws Exception {
+    public List<Task> getAllNotApprovedTasksByUser(User user) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
 
+        Date date = new Date();
+
         try {
-            Query q = em.createQuery("SELECT t FROM Task t, User u "
-                    + "WHERE u.userId = :userId "
+//            Query q = em.createQuery("SELECT DISTINCT t FROM Task t, User u "
+//                    + "WHERE t.userId = :user "
+//                    + "AND t.isApproved = FALSE AND t.isSubmitted = FALSE AND t.assigned = TRUE AND t.startTime < :date");
+//
+//            q.setParameter("user", user);
+//            q.setParameter("date", date);
+
+            Query q = em.createQuery("SELECT DISTINCT t FROM Task t, User u "
+                    + "WHERE t.userId = :user "
                     + "AND t.isApproved = FALSE AND t.isSubmitted = FALSE AND t.assigned = TRUE");
 
-            q.setParameter("userId", userId);
+            q.setParameter("user", user);
 
             List<Task> allTasks = q.getResultList();
             return allTasks;
@@ -277,5 +288,18 @@ public class TaskDB {
         } finally {
             em.close();
         }
+    }
+
+    public List<Task> getByProgramCityDate(int programId, String city, String startDate, String endDate) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+
+        TypedQuery<Task> query = em.createNamedQuery("Task.findByProgramCityDate", Task.class);
+        query.setParameter("programId", programId);
+        query.setParameter("city", city);
+//        query.setParameter("startDate", new SimpleDateFormat("yyyy-MM-dd").parse(startDate));
+//        query.setParameter("endDate", new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
+
+        return query.getResultList();
+
     }
 }

@@ -22,9 +22,9 @@ public class OrganizationService {
 
     }
 
-    public Organization get(short roleId) throws Exception {
+    public Organization get(Integer orgId) throws Exception {
         OrganizationDB organizationDB = new OrganizationDB();
-        Organization p = organizationDB.get(roleId);
+        Organization p = organizationDB.get(orgId);
         return p;
 
     }

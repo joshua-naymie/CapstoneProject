@@ -27,5 +27,9 @@
             </div>
             <p>${userMessage}</p>
         </form>
+        <form method="POST">
+            <input name="TEST" type="hidden" value="TEST">
+            <button>Submit</button>
+        </form>
     </body>
 </html>

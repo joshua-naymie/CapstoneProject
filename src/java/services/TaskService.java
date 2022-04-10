@@ -165,9 +165,9 @@ public class TaskService {
         return taskDB.getSubmittedToManager(id);
     }
 
-    public List<Task> getAllNotApprovedTasksByUserId(int userId) throws Exception {
+    public List<Task> getAllNotApprovedTasksByUser(User user) throws Exception {
         TaskDB taskDB = new TaskDB();
-        List<Task> tasks = taskDB.getAllNotApprovedTasksByUserId(userId);
+        List<Task> tasks = taskDB.getAllNotApprovedTasksByUser(user);
         return tasks;
     }
 
@@ -271,6 +271,14 @@ public class TaskService {
         TaskDB taskDB = new TaskDB();
         List<models.Task> tasks = taskDB.getHotlineApprovedByUser(userId);
         return tasks;
+    }
+
+    public List<Task> getByProgramCityDate(String programId, String city, String startDate, String endDate) throws Exception {
+        TaskDB taskDB = new TaskDB();
+
+        int prgmId = Integer.parseInt(programId);
+
+        return taskDB.getByProgramCityDate(prgmId, city, startDate, endDate);
     }
 
 }

@@ -87,13 +87,24 @@ INSERT INTO `user` (`user_id`, `email`, `is_admin`, `team_id`,`user_city`,`first
             '123 pizza st s.w.', 'A1A1A1', curdate(), 'OloAEOkY3BGzc6wTRedRuL8c1JzkHq3UeCneTaEiIgo=', '94ec65f4df9c528f9e438bf4747366d58111e0eb36c782d20e9ec2c7494e0641');
 INSERT INTO `user` (`user_id`, `email`, `is_admin`, `team_id`,`user_city`,`first_name`,`last_name`,`is_active`
                     ,`date_Of_birth`,`phone_number`,`home_address`,`postal_code`,`registration_date`, `password_salt`, `password_hash` )
-  VALUES (5, 'rjk@gmail.com', True, 1, 'Calgary', 'Jake', 'Blake', TRUE, curdate(), '403-828-8888', 
+  VALUES (5, 'coordinatorJake@gmail.com', True, 1, 'Calgary', 'Jake', 'Blake', TRUE, curdate(), '403-828-8888', 
             '12 pizza st s.w.', 'A1A2A1', curdate(), 'OloAEOkY3BGzc6wTRedRuL8c1JzkHq3UeCneTaEiIgo=', '94ec65f4df9c528f9e438bf4747366d58111e0eb36c782d20e9ec2c7494e0641');
+INSERT INTO `user` (`user_id`, `email`, `is_admin`, `team_id`,`user_city`,`first_name`,`last_name`,`is_active`
+                    ,`date_Of_birth`,`phone_number`,`home_address`,`postal_code`,`registration_date`, `password_salt`, `password_hash` )
+  VALUES (6, 'volunteerJason@gmail.com', True, 1, 'Calgary', 'Jason', 'Smith', TRUE, curdate(), '403-828-8888', 
+            '12 pizzak st s.w.', 'A1A2A1', curdate(), 'OloAEOkY3BGzc6wTRedRuL8c1JzkHq3UeCneTaEiIgo=', '94ec65f4df9c528f9e438bf4747366d58111e0eb36c782d20e9ec2c7494e0641');
+INSERT INTO `user` (`user_id`, `email`, `is_admin`, `team_id`,`user_city`,`first_name`,`last_name`,`is_active`
+                    ,`date_Of_birth`,`phone_number`,`home_address`,`postal_code`,`registration_date`, `password_salt`, `password_hash` )
+  VALUES (7, 'managerEmma@gmail.com', True, 1, 'Calgary', 'Emma', 'Connor', TRUE, curdate(), '403-888-8888', 
+            '123 pizza st nw', 'A1J1A1', curdate(), 'OloAEOkY3BGzc6wTRedRuL8c1JzkHq3UeCneTaEiIgo=', '94ec65f4df9c528f9e438bf4747366d58111e0eb36c782d20e9ec2c7494e0641');
 
 UPDATE `program` SET `user_id` = 1 WHERE `program_id` = 1;
 UPDATE `program` SET `user_id` = 2 WHERE `program_id` = 2;
 UPDATE `program` SET `user_id` = 3 WHERE `program_id` = 3;
 UPDATE `program` SET `user_id` = 5 WHERE `program_id` = 2;
+UPDATE `program` SET `user_id` = 6 WHERE `program_id` = 2;
+UPDATE `program` SET `user_id` = 6 WHERE `program_id` = 1;
+UPDATE `program` SET `user_id` = 7 WHERE `program_id` = 1;
 
 -- -----------------------------------------------------
 -- PROGRAM TRAINING
@@ -106,6 +117,12 @@ INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`)
      VALUES (3,5,2);
 INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
      VALUES (5,4,2);
+INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
+     VALUES (6,2,2);
+INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
+     VALUES (6,2,1);
+INSERT INTO `program_training` (`user_id`,`role_id`,`program_id`) 
+     VALUES (6,3,1);
 
 -- -----------------------------------------------------
 -- PACKAGE TYPE

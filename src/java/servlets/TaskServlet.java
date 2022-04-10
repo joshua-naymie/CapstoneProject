@@ -175,17 +175,18 @@ public class TaskServlet extends HttpServlet {
         TaskService ts = new TaskService();
 
         //uncomment later
-//        int loggedInUserId = -1;
-//
-//        try{
-//            loggedInUserId = (int) httpSession.getAttribute("email");
-//            System.out.println(loggedInUserId);
-//
-//        }catch (Exception ex){
-//            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        int loggedInUserId = -1;
+
+        try{
+            loggedInUserId = (int) httpSession.getAttribute("email");
+            System.out.println(loggedInUserId);
+
+        }catch (Exception ex){
+            Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         //delete later
-        int loggedInUserId = 4;
+        //int loggedInUserId = 4;
 
         //get task_id for a specific task in the tasks page (a row is a task)
         Long taskId = -1L;

@@ -72,7 +72,10 @@ public class ReportServlet extends HttpServlet {
                     break;
                 case "foodProgramStoreReport":
                     exportFoodProgramStoreReport(request, response);
-                    break;            
+                    break;
+                case "TEST":
+                    exportReportPerStore(request, response);
+                    break;
                 // throw exception if the action is none of the above    
                 default:
                     throw new Exception();
@@ -501,6 +504,32 @@ public class ReportServlet extends HttpServlet {
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-32"));
         writer.write(builder.printFile());
         writer.flush();
+    }
+
+    private void exportReportPerStore(HttpServletRequest request, HttpServletResponse response) {
+        CSVBuilder reportBuilder = new CSVBuilder();
+
+        String[] headerData = {"Date",
+            "Store Name",
+            "Qty",
+            "Package",
+            "Families/Code",
+            "Type"};
+
+        reportBuilder.addRecord(headerData);
+
+        TaskService taskServ = new TaskService();
+        try {
+            List<Task> tasks = taskServ.getByProgramCityDate("1", "Calgary", "2020-03-15", "2024-04-18");
+
+            System.out.println(tasks.size());
+            for (Task t : tasks) {
+                System.out.println("City: " + t.getTaskCity());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
 
 }
