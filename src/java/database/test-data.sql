@@ -59,13 +59,13 @@ INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, 
 -- TEAM
 -- -----------------------------------------------------
 INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`)
-    VALUES (2, 30, 1, 12345, 'Hotline');
+    VALUES (2, 30, 3, 12345, 'Hotline');
 INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`) 
-    VALUES (1, 30, 1, 12345, 'Airdrie Safeway');
+    VALUES (1, 30, 4, 12345, 'Airdrie Safeway');
 INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`) 
-    VALUES (1, 30, 1, 12345, 'Kensingston COBS');
+    VALUES (1, 30, 3, 12345, 'Kensingston COBS');
 INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`) 
-    VALUES (1, 25, 1, 123, 'Kensingston Starbucks');
+    VALUES (1, 25, 4, 123, 'Kensingston Starbucks');
 -- -----------------------------------------------------
 -- USER
 -- -----------------------------------------------------
