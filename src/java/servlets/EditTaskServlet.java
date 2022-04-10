@@ -324,10 +324,9 @@ public class EditTaskServlet extends HttpServlet {
 
                 taskService.update(task);
             }
-
-            response.sendRedirect("tasks");
         } catch (Exception ex) {
             Logger.getLogger(TaskServlet.class.getName()).log(Level.WARNING, null, ex);
         }
+        response.sendRedirect("tasks");
     }
 }
