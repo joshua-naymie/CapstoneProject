@@ -51,8 +51,7 @@ public class TeamsServlet extends HttpServlet {
 
         // Create keys
         JSONKey[] userKeys = { new JSONKey("id", false),
-                               new JSONKey("firstName", true),
-                               new JSONKey("lastName", true) };
+                               new JSONKey("name", true) };
 
         // Create builder with above keys
         JSONBuilder builder = new JSONBuilder(userKeys);
@@ -176,7 +175,7 @@ public class TeamsServlet extends HttpServlet {
             Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, ex);
         }
         
-        
+
         // fill in with the jsp you create 
         getServletContext().getRequestDispatcher("/WEB-INF/teams.jsp").forward(request, response);
     }
@@ -190,8 +189,7 @@ public class TeamsServlet extends HttpServlet {
      */
     private String buildUserJSON(User user, JSONBuilder builder) {
         Object[] data = { user.getUserId(),
-                          user.getFirstName(),
-                          user.getLastName() };
+                          user.getFirstName() + " " + user.getLastName() };
 
         return builder.buildJSON(data);
     }
@@ -222,7 +220,6 @@ public class TeamsServlet extends HttpServlet {
     {
         int supervisorID = team.getTeamSupervisor() == null ? -1 : team.getTeamSupervisor();
 
-        System.out.println("NAME: " + team.getTeamName());
         Object[] data = { team.getTeamId(),
                           team.getTeamName(),
                           team.getTeamSupervisor(),
@@ -237,7 +234,7 @@ public class TeamsServlet extends HttpServlet {
     /**
      * Creates a program JSON object
      *
-     * @param team The program to populate the JSON with
+     * @param program The program to populate the JSON with
      * @param builder The JSONBuilder to create the JSON with
      * @return A program JSON as a String
      */
@@ -248,7 +245,7 @@ public class TeamsServlet extends HttpServlet {
 
         return builder.buildJSON(data);
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

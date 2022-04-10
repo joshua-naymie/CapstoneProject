@@ -71,8 +71,11 @@ function onSignup(task_id) {
     type: "POST",
     url: "tasks",
     data: { task_id: task_id, action: "SignUp" },
-    success: function (data) {
-      console.log(data);
+    // success: function (data) {
+    //   console.log(data);
+    // },
+    complete: () => {
+      window.location.reload();
     },
   });
 }
@@ -148,7 +151,7 @@ function buildAccordionBody(id, collapase, tasksInWeek) {
     { colName: "Start Time" },
     { colName: "End Time" },
     { colName: "Description" },
-    { colName: "Spots Available" },
+    { colName: "Spots Taken" },
     { colName: "Operation", colspan: 3 },
   ];
 
@@ -374,6 +377,7 @@ function buildTableRow({
   tr.appendChild(td_start_time);
 
   let td_end_time = buildTableCell(end_time, false, true);
+  console.log(td_end_time);
   tr.appendChild(td_end_time);
 
   let td_desc = buildTableCell(task_description);
@@ -474,7 +478,7 @@ function buildTableCell(text, isDate = false, isTime = false) {
       minute: "2-digit",
     });
   } else if (isDate) {
-    td.innerText = new Date(text).toLocaleDateString();
+    td.innerText = text ? new Date(text).toLocaleDateString() : "";
   } else {
     td.innerText = text;
   }

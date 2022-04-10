@@ -186,9 +186,11 @@ public class GetDataServlet extends HttpServlet {
 
             String task_id = request.getParameter("task_id");
             Long taskId = Long.parseLong(task_id);
+	    User approvingManager = null;
 
             try {
                 task = ts.get(taskId);
+		approvingManager = as.getByID(task.getApprovingManager());
 
             } catch (Exception ex) {
                 Logger.getLogger(AddTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -204,6 +206,7 @@ public class GetDataServlet extends HttpServlet {
                 String startTime = simpleDateFormat.format(startDate);
 //				Date endDate = task.getEndTime();
 //				String endTime = simpleDateFormat.format(endDate);
+		String approvingManagerString = approvingManager.getFirstName() + " " + approvingManager.getLastName();
 
                 taskJSON.append('{');
                 taskJSON.append("\"task_id\":" + "\"" + task.getTaskId() + "\",");
@@ -212,7 +215,7 @@ public class GetDataServlet extends HttpServlet {
                 taskJSON.append("\"task_city\":" + "\"" + task.getTaskCity() + "\",");
                 taskJSON.append("\"start_time\":" + "\"" + task.getStartTime() + "\",");
                 taskJSON.append("\"end_time\":" + "\"" + task.getEndTime() + "\",");
-                taskJSON.append("\"approving_manager\":" + "\"" + task.getApprovingManager() + "\",");
+                taskJSON.append("\"approving_manager\":" + "\"" + approvingManagerString + "\",");
                 taskJSON.append("\"spots_taken\":" + "\"" + task.getSpotsTaken() + "\",");
                 taskJSON.append("\"max_users\":" + "\"" + task.getMaxUsers() + "\"");
                 taskJSON.append("},");
