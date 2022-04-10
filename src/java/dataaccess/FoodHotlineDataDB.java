@@ -6,6 +6,7 @@ package dataaccess;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import java.util.List;
 import models.FoodDeliveryData;
 import models.HotlineData;
 
@@ -14,7 +15,7 @@ import models.HotlineData;
  * @author srvad
  */
 public class FoodHotlineDataDB {
-    
+
     public void insertHotlineData(HotlineData hd) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -28,7 +29,7 @@ public class FoodHotlineDataDB {
             em.close();
         }
     }
-    
+
     public void insertFoodDeliveryData(FoodDeliveryData fd) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -42,5 +43,14 @@ public class FoodHotlineDataDB {
             em.close();
         }
     }
-        
+
+    public List<FoodDeliveryData> getAllFoodDeliveryData() throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {
+            List<FoodDeliveryData> allFoodData = em.createNamedQuery("FoodDeliveryData.findAll", models.FoodDeliveryData.class).getResultList();
+            return allFoodData;
+        } finally {
+            em.close();
+        }
+    }
 }
