@@ -100,12 +100,12 @@ function load()
     document.getElementById("user_city").setAttribute("readonly", true);
 
     startTimeInput.setLabelText("Start Time:");
-    startTimeInput.input.type = "datetime-local";
+    //startTimeInput.input.type = "datetime-local";
     containerLeft.appendChild(startTimeInput.container);
     document.getElementById("start_time").setAttribute("readonly", true);
 
     endTimeInput.setLabelText("End Time:");
-    endTimeInput.input.type = "datetime-local";
+   // endTimeInput.input.type = "datetime-local";
     //endTimeInput.input.value = new Date().toISOString().substring(0, 10);
     endTimeInput.input.value = JSON.stringify(new Date().toISOString());
     containerRight.appendChild(endTimeInput.container);
@@ -122,7 +122,7 @@ function load()
 
     var divWeightLabel = document.createElement("Div");
     divWeightLabel.id = "weight-label";
-    divWeightLabel.innerHTML = "Weight (lbs):";
+    divWeightLabel.innerHTML = "Quantity:";
     containerRight.appendChild(divWeightLabel);
 //  weightFoodInput.setLabelText("Weight (lbs):"); // FOOD PROGRAM ONLY
     weightFoodInput.setPlaceHolderText("100");
