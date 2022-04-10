@@ -5,6 +5,7 @@
 package dataaccess;
 
 import jakarta.persistence.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,9 +19,10 @@ import org.eclipse.persistence.sessions.Session;
  * @author srvad
  */
 public class TaskDB {
-    
+
     /**
      * disapprove the task and set appropriate boolean attributes
+     *
      * @param taskId the task to be disapproved
      */
     public void disapproveTask(long taskId) {
@@ -42,9 +44,10 @@ public class TaskDB {
             em.close();
         }
     }
-    
+
     /**
      * approve the task and set appropriate boolean attributes
+     *
      * @param taskId the task to be approved
      */
     public void approveTask(long taskId) {
@@ -146,8 +149,8 @@ public class TaskDB {
 
     public List<Task> getAllNotApprovedTasksByUser(User user) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
-        
-        Date date = new Date();  
+
+        Date date = new Date();
 
         try {
 //            Query q = em.createQuery("SELECT DISTINCT t FROM Task t, User u "
@@ -271,5 +274,32 @@ public class TaskDB {
         } finally {
             em.close();
         }
+    }
+
+    public List<Task> getHotlineApprovedByUser(int userId) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        try {
+            Query q = em.createQuery("SELECT t FROM Task t WHERE t.programId = :programId AND t.userId = :userId "
+                    + "AND t.isApproved = TRUE");
+            q.setParameter("programId", 2);
+            q.setParameter("userId", userId);
+            List<Task> allTasks = q.getResultList();
+            return allTasks;
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Task> getByProgramCityDate(int programId, String city, String startDate, String endDate) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+
+        TypedQuery<Task> query = em.createNamedQuery("Task.findByProgramCityDate", Task.class);
+        query.setParameter("programId", programId);
+        query.setParameter("city", city);
+//        query.setParameter("startDate", new SimpleDateFormat("yyyy-MM-dd").parse(startDate));
+//        query.setParameter("endDate", new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
+
+        return query.getResultList();
+
     }
 }

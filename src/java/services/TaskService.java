@@ -20,6 +20,7 @@ public class TaskService {
 
     /**
      * disapprove task and change boolean attributes in db
+     *
      * @param taskId the task to be disapproved
      */
     public void disapproveTask(long taskId) {
@@ -29,6 +30,7 @@ public class TaskService {
 
     /**
      * approve a task and change boolean attributes in db
+     *
      * @param taskId the task to be approved
      */
     public void approveTask(long taskId) {
@@ -209,7 +211,6 @@ public class TaskService {
         ProgramTrainingDB programTrainingDB = new ProgramTrainingDB();
         List<ProgramTraining> programTrainingList = programTrainingDB.getAll();
 
-
         for (ProgramTraining programTraining : programTrainingList) {
             if (programTraining.getRoleId().getRoleId() == role.getRoleId()) {
                 canBeApprovingManager.add(programTraining.getUser());
@@ -264,6 +265,20 @@ public class TaskService {
     public void delete(Task task) throws Exception {
         TaskDB taskDB = new TaskDB();
         taskDB.delete(task);
+    }
+
+    public List<models.Task> getHotlineApprovedByUser(int userId) throws Exception {
+        TaskDB taskDB = new TaskDB();
+        List<models.Task> tasks = taskDB.getHotlineApprovedByUser(userId);
+        return tasks;
+    }
+
+    public List<Task> getByProgramCityDate(String programId, String city, String startDate, String endDate) throws Exception {
+        TaskDB taskDB = new TaskDB();
+
+        int prgmId = Integer.parseInt(programId);
+
+        return taskDB.getByProgramCityDate(prgmId, city, startDate, endDate);
     }
 
 }

@@ -285,4 +285,32 @@ public class UserDB {
         }
     }
 
+    //get all active users for hotline program 
+    public List<User> getActiveHotline() throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        List<User> allActiveHotlineUsers = new ArrayList<>();
+        List<ProgramTraining> allUsers = null;
+        try {
+            Query q = em.createQuery("SELECT p FROM ProgramTraining p WHERE p.programId = :programId", ProgramTraining.class);
+            q.setParameter("programId", 2);
+            allUsers = q.getResultList();
+        } finally {
+        }
+        for (ProgramTraining u : allUsers) {
+            try {
+                Query q;
+                q = em.createQuery("SELECT u FROM User u WHERE  u.isActive =:isActive AND u.userId=:userId ORDER BY u.lastName, u.firstName", User.class);
+                q.setParameter("isActive", true);
+                q.setParameter("userId", u.getUser().getUserId());
+                User ur = (User) q.getSingleResult();
+                if (ur != null) {
+                    allActiveHotlineUsers.add(ur);
+                }
+            } finally {
+            }
+        }
+        em.close();
+        return allActiveHotlineUsers;
+    }
+
 }

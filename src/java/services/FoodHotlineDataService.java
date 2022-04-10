@@ -5,6 +5,7 @@
 package services;
 
 import dataaccess.FoodHotlineDataDB;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.FoodDeliveryData;
@@ -31,5 +32,11 @@ public class FoodHotlineDataService {
         } catch (Exception ex) {
             Logger.getLogger(AccountServices.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public List<FoodDeliveryData> getAllFoodDeliveryData() throws Exception {
+        FoodHotlineDataDB fDB = new FoodHotlineDataDB();
+        List<FoodDeliveryData> fdd = fDB.getAllFoodDeliveryData();
+        return fdd;
     }
 }
