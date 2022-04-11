@@ -100,12 +100,12 @@ function load()
     document.getElementById("user_city").setAttribute("readonly", true);
 
     startTimeInput.setLabelText("Start Time:");
-    startTimeInput.input.type = "datetime-local";
+    //startTimeInput.input.type = "datetime-local";
     containerLeft.appendChild(startTimeInput.container);
     document.getElementById("start_time").setAttribute("readonly", true);
 
     endTimeInput.setLabelText("End Time:");
-    endTimeInput.input.type = "datetime-local";
+   // endTimeInput.input.type = "datetime-local";
     //endTimeInput.input.value = new Date().toISOString().substring(0, 10);
     endTimeInput.input.value = JSON.stringify(new Date().toISOString());
     containerRight.appendChild(endTimeInput.container);
@@ -122,7 +122,7 @@ function load()
 
     var divWeightLabel = document.createElement("Div");
     divWeightLabel.id = "weight-label";
-    divWeightLabel.innerHTML = "Weight (lbs):";
+    divWeightLabel.innerHTML = "Quantity:";
     containerRight.appendChild(divWeightLabel);
 //  weightFoodInput.setLabelText("Weight (lbs):"); // FOOD PROGRAM ONLY
     weightFoodInput.setPlaceHolderText("100");
@@ -251,7 +251,7 @@ function populateFields()
     //packageIDInput.setInputText(taskData.xxxxx);
     packageNameInput.setInputText(taskData.packageType);
     weightFoodInput.setInputText(taskData.foodAmount);
-    //orgNameInput.setInputText(taskData.xxxxx);
+    orgNameInput.setInputText(taskData.organizationName);
     familyCountInput.setInputText(taskData.familyCount);
 }
 
@@ -259,13 +259,14 @@ function populateFields()
 function checkTask(that) // how do I create an onChange that passes in the value to that? onchange="checkTask(this);
 {
     if (that == 1) { // if program_Id == 1 show food inputs
-        if (taskData.familyCount === false) { // task falls under an organization so display org name but not family count;
+        if (!taskData.familyCount) { // task falls under an organization so display org name but not family count;
             document.getElementById("food_mileage").style.display = "block";
             //   document.getElementById("food_package_id").style.display = "block";
             document.getElementById("food_package_name").style.display = "block";
             document.getElementById("food_weight").style.display = "block";
             document.getElementById("org_name").style.display = "block";
             document.getElementById("family_count").style.display = "none";
+            document.getElementById("family-label").style.display = "none";
         } else { // task falls under a community so display family count but not org name;
             document.getElementById("food_mileage").style.display = "block";
             //  document.getElementById("food_package_id").style.display = "block";

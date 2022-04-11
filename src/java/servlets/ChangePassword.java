@@ -69,7 +69,7 @@ public class ChangePassword extends HttpServlet {
         if (op != null && op.equals("password")) {
                     
             String password = request.getParameter("cPassword");
-
+            
             if(password!=null){
                 User user = as.login(userName, password);
                 

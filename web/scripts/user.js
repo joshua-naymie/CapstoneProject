@@ -67,7 +67,7 @@ function load()
     containerRight.appendChild(phoneInput.container);
 
     birthdayInput.setLabelText("Birthday:");
-    birthdayInput.input.type = "date";
+    //birthdayInput.input.type = "date";
     birthdayInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
     birthdayInput.addValidator(REGEX_EMAIL, INPUTGROUP_STATE_WARNING, MESSAGE_INVALID);
 //    birthdayInput.setEnterFunction(phoneInput);
@@ -90,13 +90,13 @@ function load()
 //    postalCodeInput.setEnterFunction(phoneInput);
     containerRight.appendChild(postalCodeInput.container);
     
-    passwordInput.setLabelText("Password:");
-    passwordInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
-//    cityInput.setEnterFunction(phoneInput);
-    containerLeft.appendChild(passwordInput.container);
+//    passwordInput.setLabelText("Password:");
+//    passwordInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);
+////    cityInput.setEnterFunction(phoneInput);
+//    containerLeft.appendChild(passwordInput.container);
     
     signupDateInput.setLabelText("Signup Date:");
-    signupDateInput.input.type = "date";
+   // signupDateInput.input.type = "date";
     signupDateInput.input.value = new Date().toISOString().substring(0,10);
 //    signupDateInput.input.disabled = "true";
     signupDateInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, MESSAGE_REQUIRED);

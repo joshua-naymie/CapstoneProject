@@ -1,20 +1,21 @@
 window.onload = () => {
-    $('#cityReport').click(() => onCitySelection());
-    $('#storeReport').click(() => onStoreSelection());
-    $('#teamReport').click(() => onTeamSelection());
-    $('#individualReport').click(() => onIndividualSelection());
-    $('#programReport').click(() => $('#additionalInfo').empty());
-    $('#hotlineReport').click(() => $('#additionalInfo').empty());
+    $('#cityReport').click((e) => onCitySelection(e));
+    $('#storeReport').click((e) => onStoreSelection(e));
+    $('#teamReport').click((e) => onTeamSelection(e));
+    $('#individualReport').click((e) => onIndividualSelection(e));
+    $('#programReport').click((e) => onWholeFoodProgramSelection(e));
+    $('#hotlineReport').click((e) => onIndividualHotlineSelection(e));
 }
 
 // Function to return a list of cities
-function onCitySelection() {
+function onCitySelection(e) {
+    e.preventDefault();
     let cityList = ["Calgary", "Edmonton", "Lethbridge", "Airdrie"];
 
     $('#additionalInfo').empty();
     $('#additionalInfo').append("<div class='form-group' id='formGroup'></div>");
     $('#formGroup').append("<label class='form-label'>Choose a city:</label>");
-    $('#formGroup').append("<select id='citySelection' class='form-select'></select>");
+    $('#formGroup').append("<select name='city' id='citySelection' class='form-select'></select>");
 
 
     cityList.forEach((city) => {
@@ -22,38 +23,69 @@ function onCitySelection() {
                 '<option value="' + city + '">' + city + '</option>'
                 )
     })
+    var actionInput = document.forms['reportForm']['action'];
+    actionInput.value = 'foodProgramCityReport';
 }
 
 //Function to get all stores from AJAX call
-function onStoreSelection() {
+function onStoreSelection(e) {
+    e.preventDefault();
     $('#additionalInfo').empty();
     $('#additionalInfo').append('<div class="input-group flex-nowrap" id="inputGroup"></div>');
     $('#inputGroup').append('<span class="input-group-text" id="addon-wrapping">@</span>');
     $('#inputGroup').append('<input type="text" class="form-control" placeholder="Store" aria-label="Username" aria-describedby="addon-wrapping" id="nameInput">');
     $('#nameInput').on("input", () => searchStore());
+    var actionInput = document.forms['reportForm']['action'];
+    actionInput.value = 'foodProgramStoreReport';
 }
 
-function onTeamSelection() {
+function onWholeFoodProgramSelection(e) {
+    e.preventDefault();
+    $('#additionalInfo').append('<div class="input-group flex-nowrap" id="inputGroup"></div>');
+    $('#inputGroup').append('<span class="input-group-text" id="addon-wrapping">@</span>');
+    $('#inputGroup').append('<input type="text" class="form-control" placeholder="Food Program" aria-label="Username" aria-describedby="addon-wrapping" id="nameInput" readonly>');
+    var actionInput = document.forms['reportForm']['action'];
+    actionInput.value = 'wholeFoodProgramReport';
+}
+
+function onTeamSelection(e) {
+    e.preventDefault();
     $('#additionalInfo').empty();
     $('#additionalInfo').append('<div class="input-group flex-nowrap" id="inputGroup"></div>');
     $('#inputGroup').append('<span class="input-group-text" id="addon-wrapping">@</span>');
     $('#inputGroup').append('<input type="text" class="form-control" placeholder="Team" aria-label="Username" aria-describedby="addon-wrapping" id="nameInput">');
     $('#nameInput').on("input", () => searchTeam());
+    var actionInput = document.forms['reportForm']['action'];
+    actionInput.value = 'foodTeamReport';
 }
 
-function onIndividualSelection() {
+function onIndividualSelection(e) {
+    e.preventDefault();
     $('#additionalInfo').empty();
     $('#additionalInfo').append('<div class="input-group flex-nowrap" id="inputGroup"></div>');
     $('#inputGroup').append('<span class="input-group-text" id="addon-wrapping">@</span>');
     $('#inputGroup').append('<input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping" id="nameInput">');
     $('#nameInput').on("input", () => searchUser());
+    var actionInput = document.forms['reportForm']['action'];
+    actionInput.value = 'individualReport';
+}
+
+function onIndividualHotlineSelection(e) {
+    e.preventDefault();
+    $('#additionalInfo').empty();
+    $('#additionalInfo').append('<div class="input-group flex-nowrap" id="inputGroup"></div>');
+    $('#inputGroup').append('<span class="input-group-text" id="addon-wrapping">@</span>');
+    $('#inputGroup').append('<input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping" id="nameInput">');
+    $('#nameInput').on("input", () => searchUser());
+    var actionInput = document.forms['reportForm']['action'];
+    actionInput.value = 'individualHotlineReport';
 }
 
 function searchUser() {
     $('#additionalInfo').append("<div class='form-group mt-3' id='formGroup'></div>");
     $('#formGroup').empty();
     $('#formGroup').append("<label class='form-label'>Select a user:</label>");
-    $('#formGroup').append("<select id='individualSelection' class='form-select'></select>");
+    $('#formGroup').append("<select name='userId' id='individualSelection' class='form-select'></select>");
 
     let name = $('#nameInput').val();
     console.log(name);
@@ -79,7 +111,7 @@ function searchTeam() {
     $('#additionalInfo').append("<div class='form-group mt-3' id='formGroup'></div>");
     $('#formGroup').empty();
     $('#formGroup').append("<label class='form-label'>Select a team:</label>");
-    $('#formGroup').append("<select id='individualSelection' class='form-select'></select>");
+    $('#formGroup').append("<select name='teamId' id='individualSelection' class='form-select'></select>");
 
     let teamName = $('#nameInput').val();
     console.log(teamName);
@@ -105,7 +137,7 @@ function searchStore() {
     $('#additionalInfo').append("<div class='form-group mt-3' id='formGroup'></div>");
     $('#formGroup').empty();
     $('#formGroup').append("<label class='form-label'>Select a store:</label>");
-    $('#formGroup').append("<select id='individualSelection' class='form-select'></select>");
+    $('#formGroup').append("<select name='storeId' id='individualSelection' class='form-select'></select>");
 
     let storeName = $('#nameInput').val();
     console.log(storeName);

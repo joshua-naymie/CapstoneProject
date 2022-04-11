@@ -159,7 +159,8 @@ public class SubmitTaskFormServlet extends HttpServlet {
             Task editTask = null;
 
             try {
-                editTask = ts.get(submitTaskId);
+                editTask = ts.get(submitTaskId);        
+                //log(editTask.getTaskDescription() + editTask.getIsSubmitted());
             } catch (Exception ex) {
                 Logger.getLogger(SubmitTaskServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -204,7 +205,7 @@ public class SubmitTaskFormServlet extends HttpServlet {
                 fd.setMileage(mileage);
                 fd.setFoodHoursWorked(totalHours);
                 fd.setFoodAmount(fooodAmount);
-                
+                      
                 //if family is selected in "delivered to" field do the following
                 if(family !=""){
                     familyCount = Short.valueOf(family);
@@ -212,10 +213,11 @@ public class SubmitTaskFormServlet extends HttpServlet {
 
                 }
 
+                OrganizationService os = new OrganizationService();
                 //id organization is selected do the following
                 if(org != ""){
                     organizationId = Integer.valueOf(org);
-                    Organization ot = new Organization(organizationId);
+                    Organization ot = os.get(organizationId);
                     fd.setOrganizationId(ot);
                 }
 
@@ -240,6 +242,7 @@ public class SubmitTaskFormServlet extends HttpServlet {
                 
                 //once the user submits, this field becomes true
                 editTask.setIsSubmitted(Boolean.TRUE);
+                editTask.setAvailable(false);
                 ts.update(editTask);
 
             } catch (Exception ex) {

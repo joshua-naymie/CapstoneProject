@@ -28,6 +28,7 @@ function load()
     let submitButton = document.createElement("a");
     submitButton.classList.add("submit-button");
     submitButton.innerText = "Submit";
+    submitButton.setAttribute('id', 'submit');
     submitButton.addEventListener("click", email);
 
     inputArea.appendChild(submitButton);
@@ -36,7 +37,22 @@ function load()
 function email()
 {
     if (forgotInputs.validateAll())
-    {
+    {          
+        let pid = $('#fEmail').val();
+        $.ajax({
+             type: "GET",
+             url: "forgot",
+             data: {"fEmail": pid, "operation": "email"},
+             success:
+                 function (data) {
+                     let obj = $.parseJSON(data);
+                     $.each(obj, function (key, value) {
+                         if(value.valid === "true"){
+                             $('#messageUser').html("Sending ...");
+                         }
+                     })
+                 }
+         });
         postAction("forgot", "forgot-form", "forgot");
     }
 }

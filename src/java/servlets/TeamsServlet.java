@@ -175,7 +175,7 @@ public class TeamsServlet extends HttpServlet {
             Logger.getLogger(TeamsServlet.class.getName()).log(Level.WARNING, null, ex);
         }
         
-        
+
         // fill in with the jsp you create 
         getServletContext().getRequestDispatcher("/WEB-INF/teams.jsp").forward(request, response);
     }
@@ -234,7 +234,7 @@ public class TeamsServlet extends HttpServlet {
     /**
      * Creates a program JSON object
      *
-     * @param team The program to populate the JSON with
+     * @param program The program to populate the JSON with
      * @param builder The JSONBuilder to create the JSON with
      * @return A program JSON as a String
      */
@@ -245,7 +245,7 @@ public class TeamsServlet extends HttpServlet {
 
         return builder.buildJSON(data);
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -275,19 +275,19 @@ public class TeamsServlet extends HttpServlet {
     private void add(HttpServletRequest request, HttpServletResponse response) {
         // team service
         TeamServices tmService = new TeamServices();
-       
+        System.out.println("STORE-ID: " + request.getParameter("store-ID"));
         // getting user entered values and insert new team
         try {
             // creating the yteam through team services
-            String userMsg = tmService.insert(Short.parseShort(request.getParameter("programId")),
+            String userMsg = tmService.insert(Short.parseShort(request.getParameter("program-ID")),
                     // team size
-                    Short.parseShort(request.getParameter("teamSize")),
+                    Short.parseShort(request.getParameter("max-size")),
                     // supervisor Id
-                    Integer.parseInt(request.getParameter("teamSupervisor")),
+                    Integer.parseInt(request.getParameter("supervisor-ID")),
                     // store id (if theres no store selected send -1?)
-                    Integer.parseInt(request.getParameter("storeId")),
-                    //teamName
-                    request.getParameter("teamName"));
+                    Integer.parseInt(request.getParameter("store-ID")),
+                    //team-name
+                    request.getParameter("team-name"));
 
             response.sendRedirect("teams");
         } catch (Exception e) {
@@ -302,17 +302,17 @@ public class TeamsServlet extends HttpServlet {
         // getting the edited values and updating the team
         try {
             // updating the team
-            String userMsg = tmService.update(Integer.parseInt(request.getParameter("teamId")),
+            String userMsg = tmService.update(Integer.parseInt(request.getParameter("team-ID")),
                     // program Id
-                    Short.parseShort(request.getParameter("programId")),
+                    Short.parseShort(request.getParameter("program-ID")),
                     // team size
-                    Short.parseShort(request.getParameter("teamSize")),
+                    Short.parseShort(request.getParameter("max-size")),
                     // supervisor Id
-                    Integer.parseInt(request.getParameter("teamSupervisor")),
+                    Integer.parseInt(request.getParameter("supervisor-ID")),
                     // store id (if theres no store selected send -1?)
-                    Integer.parseInt(request.getParameter("storeId")),
-                    //teamName
-                    request.getParameter("teamName"));
+                    Integer.parseInt(request.getParameter("store-ID")),
+                    //team-name
+                    request.getParameter("team-name"));
 
             response.sendRedirect("teams");
         } catch (Exception e) {
