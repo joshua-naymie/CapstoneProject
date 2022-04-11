@@ -50,6 +50,7 @@
                         <li><hr class="dropdown-divider"></li>
                         <li><h6 class="dropdown-header">Hotline</h6></li>
                         <li><button class="dropdown-item" id="hotlineReport">Individual Hours Worked</button></li>
+                        <li><button class="dropdown-item" id="wholeHotlineReport">Whole Program</button></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><h6 class="dropdown-header">Individual</h6></li>
                         <li><button class="dropdown-item" id="individualReport">Task Completed and Hours Volunteered</button></li>

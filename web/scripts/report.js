@@ -5,6 +5,7 @@ window.onload = () => {
     $('#individualReport').click((e) => onIndividualSelection(e));
     $('#programReport').click((e) => onWholeFoodProgramSelection(e));
     $('#hotlineReport').click((e) => onIndividualHotlineSelection(e));
+    $('#wholeHotlineReport').click((e) => onWholeHotlineSelection(e));
 }
 
 // Function to return a list of cities
@@ -46,6 +47,15 @@ function onWholeFoodProgramSelection(e) {
     $('#inputGroup').append('<input type="text" class="form-control" placeholder="Food Program" aria-label="Username" aria-describedby="addon-wrapping" id="nameInput" readonly>');
     var actionInput = document.forms['reportForm']['action'];
     actionInput.value = 'wholeFoodProgramReport';
+}
+
+function onWholeHotlineSelection(e) {
+    e.preventDefault();
+    $('#additionalInfo').append('<div class="input-group flex-nowrap" id="inputGroup"></div>');
+    $('#inputGroup').append('<span class="input-group-text" id="addon-wrapping">@</span>');
+    $('#inputGroup').append('<input type="text" class="form-control" placeholder="Hotline Program" aria-label="Username" aria-describedby="addon-wrapping" id="nameInput" readonly>');
+    var actionInput = document.forms['reportForm']['action'];
+    actionInput.value = 'wholeHotlineProgramReport';
 }
 
 function onTeamSelection(e) {
