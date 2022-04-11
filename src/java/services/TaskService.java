@@ -183,23 +183,18 @@ public class TaskService {
 
     public List<User> getCanBeAssignedUsersFoodDelivery(long groupId) throws Exception {
         TaskDB taskDB = new TaskDB();
-        Task task = taskDB.get(groupId);
+        Task task = new Task(groupId);
+
         List<User> canBeAssignedUsers = new ArrayList<>();
-        if (task.getTeamId() != null) {
-            Team team = task.getTeamId();
-            UserDB userDB = new UserDB();
-            List<User> allUsers = userDB.getAll();
+        RoleDB roleDB = new RoleDB();
+        Role role = roleDB.getByRoleName("Volunteer");
 
+        ProgramTrainingDB programTrainingDB = new ProgramTrainingDB();
+        List<ProgramTraining> programTrainingList = programTrainingDB.getAll();
 
-            for (User user : allUsers) {
-                if (user.getTeamId().equals(team)) {
-                    canBeAssignedUsers.add(user);
-                }
-            }
-            for (User user : allUsers) {
-                if (user.getProgramList().contains(team.getProgramId()) && !canBeAssignedUsers.contains(user)) {
-                    canBeAssignedUsers.add(user);
-                }
+        for (ProgramTraining programTraining : programTrainingList) {
+            if (programTraining.getRoleId() == role && programTraining.getProgram().equals(task.getProgramId())) {
+                canBeAssignedUsers.add(programTraining.getUser());
             }
         }
         return canBeAssignedUsers;
