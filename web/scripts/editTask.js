@@ -27,4 +27,7 @@ task_start_time.setAttribute("value", editTask.start_time);
 
 let task_end_time = document.getElementById("task_end_time");
 task_end_time.setAttribute("value", editTask.end_time);
+
+let task_available = document.getElementById("task_available");
+task_available.checked = editTask.available;
 // };

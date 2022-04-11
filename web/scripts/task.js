@@ -88,6 +88,9 @@ function onCancel(task_id) {
     success: function (response) {
       console.log(response);
     },
+    complete: () => {
+      window.location.reload();
+    },
   });
 }
 
@@ -377,7 +380,6 @@ function buildTableRow({
   tr.appendChild(td_start_time);
 
   let td_end_time = buildTableCell(end_time, false, true);
-  console.log(td_end_time);
   tr.appendChild(td_end_time);
 
   let td_desc = buildTableCell(task_description);
