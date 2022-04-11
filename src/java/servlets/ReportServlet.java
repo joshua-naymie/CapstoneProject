@@ -78,6 +78,9 @@ public class ReportServlet extends HttpServlet {
                 case "foodProgramCityReport":
                     exportReportPerCity(request, response);
                     break;
+                case "wholeHotlineProgramReport":
+                    exportHotlineProgramReport(request, response);
+                    break;
                 // throw exception if the action is none of the above    
                 default:
                     throw new Exception();
@@ -582,6 +585,69 @@ public class ReportServlet extends HttpServlet {
         catch(Exception ex)
         {
             ex.printStackTrace();
+        }
+    }
+    
+    private void exportHotlineProgramReport(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            response.setHeader("Content-Type", "text/csv");
+            response.setHeader("Content-Disposition", "attachment;filename=\"HotlineProgramReport.csv\"");
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            
+            SimpleDateFormat dateFormatWithTime = new SimpleDateFormat("yyyy-MM-dd 'T' hh:mm:ss");
+            // start date for report
+            String stringStartdate = request.getParameter("startdate");
+            // System.out.println("start Date: " + stringStartdate);
+            Date startDate = dateFormat.parse(stringStartdate);
+            //System.out.println("start Date: " + startDate);
+
+            // end date for report
+            String stringEnddate = request.getParameter("enddate");
+            Date endDate = dateFormat.parse(stringEnddate);
+            // get all tasks
+            TaskService ts = new TaskService();
+            List<Task> allTask = ts.getAll();
+
+            CSVBuilder builder = new CSVBuilder();
+            
+            String[] programHeader = {"Program Name"};
+            builder.addRecord(programHeader);
+            builder.addField("Hotline Program");
+            builder.newRecord();
+            builder.newRecord();
+            
+            String[] tableHeader = {"Date / Start Time",
+                "Task comepleted by"};
+
+            builder.addRecord(tableHeader);
+
+            // hour in milliseconds
+            long hour = 3600 * 1000;
+
+            for (Task checkTask : allTask) {
+
+                if (checkTask.getProgramId() != null &&  checkTask.getProgramId().getProgramId() == 2 && checkTask.getIsApproved()
+                        && (checkTask.getStartTime().getTime() >= startDate.getTime()
+                        && checkTask.getStartTime().getTime() <= (endDate.getTime() + 23 * hour))) {
+                    //System.out.println("task start date: " + checkTask.getStartTime());
+                    String dateOfTask = checkTask.getStartTime() == null
+                            ? "No date recorded"
+                            : dateFormatWithTime.format(checkTask.getStartTime());
+                    Object[] recordData = {dateOfTask,
+                        checkTask.getUserId().getLastName() + ", " + checkTask.getUserId().getFirstName()};
+
+                    builder.addRecord(recordData);
+                }
+            }
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-32"));
+            writer.write(builder.printFile());
+            writer.flush();
+
+            return;
+        } catch (Exception ex) {
+            Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
