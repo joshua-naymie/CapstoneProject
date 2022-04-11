@@ -107,7 +107,7 @@
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
         <servlet-name>AddTaskServlet</servlet-name>
-    </filter-mapping>-->
+    </filter-mapping>
     <servlet>
         <servlet-name>AccountServlet</servlet-name>
         <servlet-class>servlets.AccountServlet</servlet-class>
