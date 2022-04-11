@@ -22,9 +22,10 @@ public class NoVolunteerFilter implements Filter {
 
         if (httpSession.getAttribute("email") != null) {
             int user_id = (int) httpSession.getAttribute("email");
+            User user = new User(user_id);
             try {
-                AccountServices as = new AccountServices();
-                if (!as.admin(user_id)) {
+                AccountServices accountServices = new AccountServices();
+                if (accountServices.getVolunteers().contains(user)) {
                     HttpServletResponse httpServletResponse = (HttpServletResponse) response;
                     httpServletResponse.sendRedirect("tasks");
                     return;
