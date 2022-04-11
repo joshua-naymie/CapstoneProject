@@ -132,7 +132,7 @@
 
                                 <div class="form-group col-md-4 mb-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="isAvailable">
+                                        <input class="form-check-input" type="checkbox" value="" id="task_available">
                                         <label class="form-check-label" for="isAvailable">
                                             Is Available 
                                         </label>
@@ -153,10 +153,8 @@
 
                 $company.change(
                     function () {
-                        $('#storeAdd').find('option').remove();
-                        $('#storeAdd').append(
-                                            '<option value="">Choose here'+ '</option>'
-                                        );
+                        $('#programAdd').find('option').remove();
+                        $('#storeAdd').append( '<option value="">Choose here'+ '</option>');
                         let cid = $('#companyAdd').val();
                         $.ajax({
                             type: "GET",
