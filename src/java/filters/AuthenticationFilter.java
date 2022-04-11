@@ -17,9 +17,8 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest httpServletRequest = (HttpServletRequest)request;
         HttpSession session = httpServletRequest.getSession();
-        String user_id = (String) session.getAttribute("email");
 
-        if (user_id == null) {
+        if (session.getAttribute("email") == null) {
             HttpServletResponse httpServletResponse = (HttpServletResponse)response;
             httpServletResponse.sendRedirect("login");
             return;
