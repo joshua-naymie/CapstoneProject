@@ -156,7 +156,7 @@ function load()
         populateFields();
         submitButton.name = "action";
         submitButton.value = "Save";
-    }
+    }  
 }
 
 function validateUserInfo()
