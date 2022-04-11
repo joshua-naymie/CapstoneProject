@@ -584,4 +584,100 @@ public class ReportServlet extends HttpServlet {
             ex.printStackTrace();
         }
     }
+    
+    private void exportHotlineProgramReport(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            response.setHeader("Content-Type", "text/csv");
+            response.setHeader("Content-Disposition", "attachment;filename=\"HotlineProgramReport.csv\"");
+
+            //total food weight
+            short totalWeightOfOrgDonations = 0;
+            short totalWeightOfComDonations = 0;
+            // retrieve team id 
+            TeamServices tmService = new TeamServices();
+            int teamID = Integer.parseInt(request.getParameter("teamId"));
+            // System.out.println("TeamId from web: " + teamID);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            // start date for report
+            String stringStartdate = request.getParameter("startdate");
+            // System.out.println("start Date: " + stringStartdate);
+            Date startDate = dateFormat.parse(stringStartdate);
+            //System.out.println("start Date: " + startDate);
+
+            // end date for report
+            String stringEnddate = request.getParameter("enddate");
+            Date endDate = dateFormat.parse(stringEnddate);
+            // get all tasks
+            TaskService ts = new TaskService();
+            List<Task> allTask = ts.getAll();
+
+            CSVBuilder builder = new CSVBuilder();
+
+            String[] tableHeader = {"Date",
+                "Store Name",
+                "Quantity",
+                "Package",
+                "Family Count",
+                "Organization Name",
+                "Total Weight Organization (Ibs)",
+                "Total Weight Community (Ibs)"};
+
+            builder.addRecord(tableHeader);
+
+            // hour in milliseconds
+            long hour = 3600 * 1000;
+
+            for (Task checkTask : allTask) {
+
+                if (checkTask.getTeamId().getTeamId() == teamID && checkTask.getIsApproved()
+                        && (checkTask.getStartTime().getTime() >= startDate.getTime()
+                        && checkTask.getStartTime().getTime() <= (endDate.getTime() + 23 * hour))) {
+                    //System.out.println("task start date: " + checkTask.getStartTime());
+                    String dateOfTask = checkTask.getStartTime() == null
+                            ? "No date recorded"
+                            : dateFormat.format(checkTask.getStartTime());
+                    short familyCount = 0;
+                    if (checkTask.getFoodDeliveryData().getFamilyCount() != null) {
+                        familyCount = checkTask.getFoodDeliveryData().getFamilyCount();
+                        totalWeightOfComDonations += checkTask.getFoodDeliveryData().getFoodAmount() * (checkTask.getFoodDeliveryData().getPackageId().getWeightLb());
+                    }
+                    String orgName = "None";
+                    if (checkTask.getFoodDeliveryData().getOrganizationId() != null) {
+                        orgName = checkTask.getFoodDeliveryData().getOrganizationId().getOrgName();
+                        totalWeightOfOrgDonations += checkTask.getFoodDeliveryData().getFoodAmount() * (checkTask.getFoodDeliveryData().getPackageId().getWeightLb());
+                    }
+//                    short familyCount = checkTask.getFoodDeliveryData().getFamilyCount() == null
+//                            ? 0
+//                            :checkTask.getFoodDeliveryData().getFamilyCount();
+//                    String orgName = checkTask.getFoodDeliveryData().getOrganizationId().getOrgName() == null
+//                            ? "None"
+//                            : checkTask.getFoodDeliveryData().getOrganizationId().getOrgName();
+                    //System.out.println("famcount: " + familyCount);
+                    //System.out.println("orgName: " + orgName);
+                    Object[] recordData = {dateOfTask,
+                        checkTask.getTeamId().getTeamName(),
+                        checkTask.getFoodDeliveryData().getFoodAmount(),
+                        checkTask.getFoodDeliveryData().getPackageId().getPackageName(),
+                        familyCount,
+                        orgName};
+
+                    builder.addRecord(recordData);
+                }
+            }
+            Object[] recordData = {"", "", "", "", "", "",
+                totalWeightOfOrgDonations,
+                totalWeightOfComDonations};
+
+            builder.addRecord(recordData);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-32"));
+            writer.write(builder.printFile());
+            writer.flush();
+
+            return;
+        } catch (Exception ex) {
+            Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

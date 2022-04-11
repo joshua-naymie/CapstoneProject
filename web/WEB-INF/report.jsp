@@ -44,9 +44,9 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li><h6 class="dropdown-header">Food Delivery</h6></li>
                         <li><button class="dropdown-item" id="programReport">Whole Program</button></li>
-                        <li><button class="dropdown-item" id="cityReport">City</button></li>
-                        <li><button class="dropdown-item" id="teamReport">Team</button></li>
-                        <li><button class="dropdown-item" id="storeReport">Store</button></li>
+                        <li><button class="dropdown-item" id="cityReport">Per City</button></li>
+                        <li><button class="dropdown-item" id="teamReport">Per Team</button></li>
+                        <li><button class="dropdown-item" id="storeReport">Per Store</button></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><h6 class="dropdown-header">Hotline</h6></li>
                         <li><button class="dropdown-item" id="hotlineReport">Individual Hours Worked</button></li>
