@@ -192,7 +192,7 @@ public class TaskServlet extends HttpServlet {
         Long taskId = -1L;
 
         try {
-            taskId = Long.parseLong((String) request.getParameter("task_id"));
+            taskId = Long.parseLong(request.getParameter("task_id"));
         } catch (Exception ex) {
             Logger.getLogger(TaskServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -184,7 +184,10 @@ public class TaskService {
     public List<User> getCanBeAssignedUsersFoodDelivery(long groupId) throws Exception {
         TaskDB taskDB = new TaskDB();
         Task task = taskDB.get(groupId);
-        Team team = task.getTeamId();
+        Team team = new Team();
+        if (task.getTeamId() != null) {
+            team = task.getTeamId();
+        }
 
         UserDB userDB = new UserDB();
         List<User> allUsers = userDB.getAll();
