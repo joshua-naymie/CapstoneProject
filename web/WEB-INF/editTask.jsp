@@ -88,12 +88,12 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="spotsAdd" class="form-label">Max Users: </label>
-                                    <input type="number" id="spotsAdd" name="spotsAdd" min="1" max="10" value="1" class="form-control">
+                                    <input type="number" id="task_max_users" name="spotsAdd" min="1" max="10" value="1" class="form-control">
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label for="spotsAdd" class="form-label">Spots Taken: </label>
-                                    <input type="number" id="spotsAdd" name="spotsAdd" min="1" max="10" value="1" class="form-control" disabled>
+                                    <input type="number" id="task_spots_taken" name="spotsAdd" min="1" max="10" value="1" class="form-control" disabled>
                                 </div>
                             </div>
 
@@ -101,14 +101,15 @@
                                 <div class="form-group col-md-6">
                                     <label class="form-label" for="chosen_users">Signed Up Volunteers</label>
                                     <ul class="list-group">
-                                        <c:if test="${empty chosenUser || chosenUsers.size() == 0}">
+                                        <c:if test="${empty assigned_users || assigned_users.size() == 0}">
                                             <li class="list-group-item">
                                                 There are no volunteers signed up yet
                                             </li>
                                         </c:if>
-                                        <c:forEach items="${chosenUsers}" var="chosenUser">
+                                        <c:forEach items="${assigned_users}" var="assigned_user">
                                             <li class="list-group-item">
-                                                <input class="form-check-input me-1" type="checkbox" value="${chosenUser.getFirstName} ${choseUser.getLastName}">
+                                                <input class="form-check-input me-1" type="checkbox">
+                                                <label class="form-label">${assigned_user.firstName} ${assigned_user.lastName}</label>
                                             </li>
                                         </c:forEach>
                                     </ul>
@@ -117,14 +118,15 @@
                                 <div class="form-group col-md-6">
                                     <label class="form-label" for="available_volunteers">Other Available Volunteers</label>
                                     <ul class="list-group">
-                                        <c:if test="${empty canbeAssignedUsers || canbeAssignedUsers.size() == 0}">
+                                        <c:if test="${empty can_be_assigned_users || can_be_assigned_users.size() == 0}">
                                             <li class="list-group-item">
                                                 There are no volunteers can be assigned 
                                             </li>
                                         </c:if>
-                                        <c:forEach items="${canbeAssignedUser}" var="canbeAssignedUsers">
+                                        <c:forEach items="${can_be_assigned_users}" var="can_be_assigned_user">
                                             <li class="list-group-item">
-                                                <input class="form-check-input me-1" type="checkbox" value="${canbeAssignedUser.getFirstName} ${canbeAssignedUser.getLastName}">
+                                                <input class="form-check-input me-1" type="checkbox" >
+                                                <label class="form-label">${can_be_assigned_user.firstName} ${can_be_assigned_user.lastName}</label>
                                             </li>
                                         </c:forEach>
                                     </ul>

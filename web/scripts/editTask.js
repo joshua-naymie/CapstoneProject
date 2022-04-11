@@ -14,7 +14,8 @@ let task_desc = document.getElementById("task_description");
 task_desc.setAttribute("value", editTask.task_description);
 
 let task_program = document.getElementById("task_program");
-task_program.setAttribute("value", editTask.program_name);
+// task_program.setAttribute("value", editTask.program_name);
+$("#task_program").append("<option>" + editTask.program_name + "</option>");
 
 let task_city = document.getElementById("task_city");
 task_city.setAttribute("value", editTask.task_city);
@@ -30,4 +31,11 @@ task_end_time.setAttribute("value", editTask.end_time);
 
 let task_available = document.getElementById("task_available");
 task_available.checked = editTask.available;
+
+let task_max_users = document.getElementById("task_max_users");
+task_max_users.setAttribute("value", editTask.max_users);
+console.log(editTask.max_users);
+
+let task_spots_taken = document.getElementById("task_spots_taken");
+task_max_users.setAttribute("value", editTask.spots_taken);
 // };
