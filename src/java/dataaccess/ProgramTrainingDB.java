@@ -15,4 +15,18 @@ public class ProgramTrainingDB {
             em.close();
         }
     }
+    
+    public ProgramTraining getProgramTraining(int userId, short programId) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        Query q = em.createQuery("SELECT p FROM ProgramTraining p WHERE p.programTrainingPK.userId = :userId AND p.programTrainingPK.programId = :programId", ProgramTraining.class);
+        q.setParameter("userId", userId);
+        q.setParameter("programId", programId);
+        try {
+            ProgramTraining foundUser = (ProgramTraining) q.getSingleResult();
+            return foundUser;
+        } finally {
+            em.close();
+        }
+    }
+    
 }

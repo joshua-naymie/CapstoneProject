@@ -133,9 +133,13 @@ public class AccountServices {
         }
         String passwordSalt = getSalt();
         String passwordHash = getHash(password, passwordSalt);
-        User user = new User(0, email, isAdmin, firstName, lastName, isActive, registrationDate, passwordSalt, passwordHash);
-
-        user.setTeamId(new Team(teamId));
+        User user = new User(userId, email, isAdmin, firstName, lastName, isActive, registrationDate, passwordSalt, passwordHash);
+        
+        // setting users team
+        TeamServices ts = new TeamServices();
+        Team usersTeam = ts.get(teamId);
+        
+        user.setTeamId(usersTeam);
         user.setUserCity(userCity);
         user.setDateOfBirth(dateOfBirth);
         user.setPhoneNumber(phoneNumber);
@@ -149,15 +153,19 @@ public class AccountServices {
     //agambeer
     // update for editing users
     // account status change
-    public String update(String email, boolean isAdmin, String userCity, String firstName, String lastName, boolean isActive, String password, Date dateOfBirth, String phoneNumber, String homeAddress, String postalCode, Date registrationDate, int teamId) throws Exception {
+    public String update(int userId, String email, boolean isAdmin, String userCity, String firstName, String lastName, boolean isActive, String password, Date dateOfBirth, String phoneNumber, String homeAddress, String postalCode, Date registrationDate, int teamId) throws Exception {
         UserDB userDB = new UserDB();
         User user = userDB.get(email);
         if (user == null) {
             return "User does not exist!";
         }
-
+        
+        // setting users team
+        TeamServices ts = new TeamServices();
+        Team usersTeam = ts.get(teamId);
+        
         user.setIsAdmin(isAdmin);
-        user.setTeamId(new Team(teamId));
+        user.setTeamId(usersTeam);
         user.setUserCity(userCity);
         user.setFirstName(firstName);
         user.setLastName(lastName);

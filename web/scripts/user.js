@@ -134,7 +134,7 @@ function load() {
     containerRight.appendChild(phoneInput.container);
 
     birthdayInput.setLabelText("Birthday:");
-    // birthdayInput.input.type = "date";
+    birthdayInput.input.type = "date";
     birthdayInput.addValidator(
             REGEX_NOT_EMPTY,
             INPUTGROUP_STATE_ERROR,
@@ -179,6 +179,7 @@ function load() {
             MESSAGE_INVALID
             );
     //    postalCodeInput.setEnterFunction(phoneInput);
+    postalCodeInput.setPlaceHolderText("A0A0A0");
     containerRight.appendChild(postalCodeInput.container);
 
     //    passwordInput.setLabelText("Password:");
@@ -216,10 +217,11 @@ function load() {
     $('#role').append('<option value="4">Coordinator</option>');
     $('#role').append('<option value="5">Supervisor</option>');
 
-    adminInput.setLabelText("Admin:");
-    adminInput.input.type = "checkbox";
+    // 
+//    adminInput.setLabelText("Admin:");
+//    adminInput.input.type = "checkbox";
     //    postalCodeInput.setEnterFunction(phoneInput);
-    containerLeft.appendChild(adminInput.container);
+//    containerLeft.appendChild(adminInput.container);
 
     activeInput.setLabelText("Active:");
     activeInput.input.type = "checkbox";
@@ -242,9 +244,11 @@ function load() {
 
     let cancelButton = document.createElement("button");
     cancelButton.innerHTML = "Cancel";
-    cancelButton.type = "reset";
+    cancelButton.type = "submit";
     cancelButton.className = "btn";
     cancelButton.id = "cancel-button";
+    cancelButton.name = "action";
+    cancelButton.value = "Cancel";
 
     // Add "Submit" and "Cancel" button to the DOM
     containerLeft.appendChild(cancelButton);
@@ -291,8 +295,12 @@ function populateFields() {
 
     adminInput.input.checked = editUser.isAdmin;
     activeInput.input.checked = editUser.isActive;
+    
+    document.getElementById('role').selectedIndex = editUser.roleId - 1;
 
-    teamInput.input.checked = editUser.teamInput;
+//    teamInput.input.checked = editUser.teamInput;
+    teamInput.setInputText(editUser.teamInput);
+    searchTeam();
     // roleInput.input.checked = editUser.roleInput;
 }
 
