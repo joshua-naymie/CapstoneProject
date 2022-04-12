@@ -75,6 +75,7 @@ function onWholeFoodProgramSelection(e) {
 
 function onWholeHotlineSelection(e) {
   e.preventDefault();
+  $("#additionalInfo").empty();
   $("#additionalInfo").append(
     '<div class="input-group flex-nowrap" id="inputGroup"></div>'
   );
