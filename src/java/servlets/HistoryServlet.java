@@ -39,10 +39,9 @@ public class HistoryServlet extends HttpServlet
         TaskService taskService = new TaskService();
         try
         {
-            String id = request.getParameter("id");
+            int id = (int)request.getSession().getAttribute("email");
             
-            id = (id == null || id.isBlank()) ? "1" : id;
-            List<Task> tasks = taskService.getHistory(Long.parseLong(id));
+            List<Task> tasks = taskService.getHistory(id);
             StringBuilder historyVar = new StringBuilder();
             
             historyVar.append("var historyData = [");
@@ -53,7 +52,8 @@ public class HistoryServlet extends HttpServlet
                                         new JSONKey("startTime", true),
                                         new JSONKey("endTime", true),
                                         new JSONKey("status", true),
-                                        new JSONKey("city", true)
+                                        new JSONKey("city", true),
+                                        new JSONKey("hours", false)
                                     };
             
             JSONBuilder historyBuilder = new JSONBuilder(historyKeys);
@@ -91,7 +91,10 @@ public class HistoryServlet extends HttpServlet
                             jsonDateFormat.format(task.getStartTime()),
                             jsonDateFormat.format(task.getEndTime()),
                             getTaskStatus(task),
-                            task.getTaskCity()
+                            task.getTaskCity(),
+                            task.getProgramId().getProgramId() == 1
+                                                                ? task.getFoodDeliveryData().getFoodHoursWorked().doubleValue()
+                                                                : task.getHotlineData().getHotlineHoursWorked().doubleValue()
                           };
         
         return builder.buildJSON(values);

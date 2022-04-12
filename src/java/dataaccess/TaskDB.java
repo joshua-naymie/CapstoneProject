@@ -98,16 +98,16 @@ public class TaskDB {
      * @param userId The ID of the User
      * @return A list of tasks belonging to the User
      */
-    public List<Task> getHistoryByUserId(long userId, LocalDateTime startDate, LocalDateTime endDate,
+    public List<Task> getHistoryByUserId(int userId, LocalDateTime startDate, LocalDateTime endDate,
             Short[] programs) throws Exception {
         StringBuilder queryBuilder = new StringBuilder();
         startDate = startDate == null ? LocalDateTime.now() : startDate;
 
-        queryBuilder.append("SELECT t FROM Task t, UserTask ut");
-        queryBuilder.append(" WHERE t.taskId = ut.userTaskPK.taskId");
-        queryBuilder.append(" AND ut.userTaskPK.userId = :userId ");
-        queryBuilder.append(" AND t.startTime <= ");
-        queryBuilder.append(startDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
+        queryBuilder.append("SELECT t FROM Task t");
+        queryBuilder.append(" WHERE t.userId.userId = :userId ");
+        queryBuilder.append(" AND t.isApproved = TRUE");
+//        queryBuilder.append(" AND t.startTime <= ");
+//        queryBuilder.append(startDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd")));
 
         if (endDate != null) {
             queryBuilder.append(" AND t.endTime >= ");

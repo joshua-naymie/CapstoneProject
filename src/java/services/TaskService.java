@@ -64,7 +64,7 @@ public class TaskService {
      * @return The list of Tasks that falls within the specified filters
      * @throws Exception
      */
-    public List<Task> getHistory(long id) throws Exception {
+    public List<Task> getHistory(int id) throws Exception {
         TaskDB taskDB = new TaskDB();
         return taskDB.getHistoryByUserId(id, null, null, null);
     }
@@ -81,7 +81,7 @@ public class TaskService {
      * @return The list of Tasks that falls within the specified filters
      * @throws Exception
      */
-    public List<Task> getHistoryByDates(long id, String startDate, String endDate) throws Exception {
+    public List<Task> getHistoryByDates(int id, String startDate, String endDate) throws Exception {
         TaskDB taskDB = new TaskDB();
         return taskDB.getHistoryByUserId(id,
                 parseDateTime(startDate),
@@ -103,7 +103,7 @@ public class TaskService {
      * @return The list of Tasks that falls within the specified filters
      * @throws Exception
      */
-    public List<Task> getHistoryByDatesPrograms(long id, String startDate, String endDate, String programs) throws Exception {
+    public List<Task> getHistoryByDatesPrograms(int id, String startDate, String endDate, String programs) throws Exception {
         TaskDB taskDB = new TaskDB();
         return taskDB.getHistoryByUserId(id,
                 parseDateTime(startDate),
@@ -183,24 +183,18 @@ public class TaskService {
 
     public List<User> getCanBeAssignedUsersFoodDelivery(long groupId) throws Exception {
         TaskDB taskDB = new TaskDB();
-        Task task = taskDB.get(groupId);
-        Team team = new Team();
-        if (task.getTeamId() != null) {
-            team = task.getTeamId();
-        }
+        Task task = new Task(groupId);
 
-        UserDB userDB = new UserDB();
-        List<User> allUsers = userDB.getAll();
         List<User> canBeAssignedUsers = new ArrayList<>();
+        RoleDB roleDB = new RoleDB();
+        Role role = roleDB.getByRoleName("Volunteer");
 
-        for (User user : allUsers) {
-            if (user.getTeamId().equals(team)) {
-                canBeAssignedUsers.add(user);
-            }
-        }
-        for (User user : allUsers) {
-            if (user.getProgramList().contains(team.getProgramId()) && !canBeAssignedUsers.contains(user)) {
-                canBeAssignedUsers.add(user);
+        ProgramTrainingDB programTrainingDB = new ProgramTrainingDB();
+        List<ProgramTraining> programTrainingList = programTrainingDB.getAll();
+
+        for (ProgramTraining programTraining : programTrainingList) {
+            if (programTraining.getRoleId() == role && programTraining.getProgram().equals(task.getProgramId())) {
+                canBeAssignedUsers.add(programTraining.getUser());
             }
         }
         return canBeAssignedUsers;

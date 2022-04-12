@@ -94,15 +94,15 @@
 .table-cell-header
 {
     
-    background-color: var(--secondary-color);
-    color: var(--header-color);
+    background-color: #FBCC58;
+    color: #15499d;
     justify-content: center;
     align-items: center;
     border-width: 1px 0 1px 1px;
     width: 100%;
     display: flex;
     border-style: solid;
-    border-color: black;
+    border-color: gray;
     text-align: center;
     min-height: 0;
     min-width: 0;
@@ -121,7 +121,7 @@
 .table-row-header
 {
     display: grid;
-    grid-template-columns: .75fr .5fr .3fr .3fr;
+    grid-template-columns: .75fr .5fr .3fr .3fr 0.2fr;
     width: 100%;
     position: sticky;
     top: 0;
@@ -130,7 +130,7 @@
 .table-row
 {
     display: grid;
-    grid-template-columns: .75fr .5fr .3fr .3fr;
+    grid-template-columns: .75fr .5fr .3fr .3fr 0.2fr;
     width: 100%;
 }
 
@@ -152,6 +152,7 @@
     border-style: solid;
     border-color: black;*/
     /* margin-left: 33%; */
+    border-color: gray;
     min-height: 0;
     min-width: 0;
     

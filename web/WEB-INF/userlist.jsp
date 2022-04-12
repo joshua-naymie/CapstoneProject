@@ -12,7 +12,7 @@
         <link rel="icon" type="image/svg+xml" href="content/images/favicon-svg.svg">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Users</title>
-        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/users-styles.css">
         <script src="https://kit.fontawesome.com/7eb48072cc.js" crossorigin="anonymous"></script>
         <script type="text/javascript" src="scripts/userlist.js"></script>
         <script type="text/javascript" src="scripts/models/autotable.js"></script>
@@ -30,7 +30,6 @@
             <div id="content-section" class="body">
                 <div id="controls" class="table-controls">
                     <div>
-                        <a class="add-user__button" onclick="exportPressed();">Export All</a>
                         <a class="add-user__button" onclick="exportCSVPressed();">Export CSV</a>
                     </div>
                     <div style="display: flex; justify-content: center; align-items: center;">

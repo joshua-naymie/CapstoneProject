@@ -494,18 +494,17 @@ public class ReportServlet extends HttpServlet {
                endDate = request.getParameter("enddate");
         
         String[] titleData = { "Food delivered ", city, startDate + " - " + endDate };
-        reportBuilder.addField("Food delivered");
-        reportBuilder.newRecord();
-        reportBuilder.addField("Calgary");
-        reportBuilder.newRecord();
-        reportBuilder.addField("2022-12-02 - 2022-12-04");
-        reportBuilder.newRecord();
+//        reportBuilder.addField("Food delivered");
+//        reportBuilder.newRecord();
+//        reportBuilder.addField("Calgary");
+//        reportBuilder.newRecord();
+//        reportBuilder.addField("2022-12-02 - 2022-12-04");
+//        reportBuilder.newRecord();
         
-//        reportBuilder.addRecord(titleData);
+        reportBuilder.addRecord(titleData);
         reportBuilder.newRecord();  
         
-        String[] headerData = { null,
-                                "Date",
+        String[] headerData = { "Date",
                                 "Store Name",
                                 "Qty",
                                 "Package",
@@ -517,7 +516,7 @@ public class ReportServlet extends HttpServlet {
         TaskService taskServ = new TaskService();
         try
         {
-            List<Task> tasks = taskServ.getByProgramCityDate("1", "Calgary", "2020-03-15", "2024-04-18");
+            List<Task> tasks = taskServ.getByProgramCityDate("1", city, startDate, endDate);
             int totalOrgWeightLbs = 0,
                 totalFamWeightLbs = 0;
             
@@ -525,10 +524,6 @@ public class ReportServlet extends HttpServlet {
             for (Task t : tasks)
             {
                 FoodDeliveryData taskData = t.getFoodDeliveryData();
-                if(taskData == null)
-                {
-                    System.out.println("TASK-ID: " + t.getTaskId());
-                }
                 short familyOrgCode;
                 String type;
                 
@@ -547,8 +542,7 @@ public class ReportServlet extends HttpServlet {
                 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy");
                 
-                Object[] taskRecord = { null,
-                                        dateFormat.format(t.getStartTime()),
+                Object[] taskRecord = { dateFormat.format(t.getStartTime()),
                                         taskData.getStoreId().getStoreName(), 
                                         taskData.getFoodAmount(),
                                         taskData.getPackageId().getPackageName(),
@@ -561,15 +555,13 @@ public class ReportServlet extends HttpServlet {
             reportBuilder.newRecord();
             reportBuilder.newRecord();
 
-            String[] totaHeader = { null,
-                                    "Total Organization (lbs)",
+            String[] totaHeader = { "Total Organization (lbs)",
                                     "Total Family (lbs)" };
             
             reportBuilder.addRecord(totaHeader);
 
             
-            Object[] totalRecord = { null, 
-                                     totalOrgWeightLbs,
+            Object[] totalRecord = { totalOrgWeightLbs,
                                      totalFamWeightLbs };
             
             reportBuilder.addRecord(totalRecord);
