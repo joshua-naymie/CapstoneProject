@@ -277,7 +277,7 @@ function cancelPressed()
     currentAction = "none";
     
     setContainerWidth("container--list-size");
-    changeHeaderText("Stores");
+    changeHeaderText("Teams");
     fadeOutIn(inputArea, listArea);
     setTimeout(() => {
         document.getElementById("addTeamForm").reset();
