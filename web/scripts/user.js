@@ -99,7 +99,7 @@ function load() {
   containerRight.appendChild(phoneInput.container);
 
   birthdayInput.setLabelText("Birthday:");
-  //birthdayInput.input.type = "date";
+  birthdayInput.input.type = "date";
   birthdayInput.addValidator(
     REGEX_NOT_EMPTY,
     INPUTGROUP_STATE_ERROR,
@@ -152,9 +152,9 @@ function load() {
   //    containerLeft.appendChild(passwordInput.container);
 
   signupDateInput.setLabelText("Signup Date:");
-  // signupDateInput.input.type = "date";
+   signupDateInput.input.type = "date";
   signupDateInput.input.value = new Date().toISOString().substring(0, 10);
-  //    signupDateInput.input.disabled = "true";
+      signupDateInput.input.disabled = "true";
   signupDateInput.addValidator(
     REGEX_NOT_EMPTY,
     INPUTGROUP_STATE_ERROR,

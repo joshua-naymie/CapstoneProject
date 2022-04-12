@@ -66,6 +66,10 @@ public class UserServlet extends HttpServlet {
             
             returnData.append("var editUser = ");
             
+           SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+           String DOB = dateFormat.format(editUser.getDateOfBirth());
+           String regDate = dateFormat.format(editUser.getRegistrationDate());
+            
             Object[] userData = { editUser.getEmail(),
                                   editUser.getFirstName(),
                                   editUser.getLastName(),
@@ -74,9 +78,9 @@ public class UserServlet extends HttpServlet {
                                   editUser.getIsAdmin(),
                                   editUser.getUserCity(),
                                   editUser.getIsActive(),
-                                  editUser.getDateOfBirth(),
+                                  DOB,
                                   editUser.getPostalCode(),
-                                  editUser.getRegistrationDate(),
+                                  regDate,
                                   editUser.getTeamId() };
             
             returnData.append(userBuilder.buildJSON(userData));
