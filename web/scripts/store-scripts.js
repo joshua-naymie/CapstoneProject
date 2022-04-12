@@ -186,8 +186,9 @@ function load()
     // setup store postal code InputGroup
     postalCodeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "store-postal-code");
     postalCodeInput.setLabelText("Postal");
-    postalCodeInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*");
-    postalCodeInput.setPlaceHolderText("A1A 1A1");
+    postalCodeInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
+    postalCodeInput.addValidator(REGEX_POSTAL_CODE, INPUTGROUP_STATE_WARNING, "*invalid");
+    postalCodeInput.setPlaceHolderText("A1A1A1");
     postalCodeInput.container = document.getElementById("postal-code__input");
     configCustomInput(postalCodeInput);
     

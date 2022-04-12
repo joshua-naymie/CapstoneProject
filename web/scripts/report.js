@@ -35,13 +35,14 @@ function onStoreSelection(e) {
     $('#additionalInfo').append('<div class="input-group flex-nowrap" id="inputGroup"></div>');
     $('#inputGroup').append('<span class="input-group-text" id="addon-wrapping">@</span>');
     $('#inputGroup').append('<input type="text" class="form-control" placeholder="Store" aria-label="Username" aria-describedby="addon-wrapping" id="nameInput">');
-    $('#nameInput').on("input", () => searchStore());
+    $('#nameInput').on("input", (e) => searchStore(e));
     var actionInput = document.forms['reportForm']['action'];
     actionInput.value = 'foodProgramStoreReport';
 }
 
 function onWholeFoodProgramSelection(e) {
     e.preventDefault();
+    $('#additionalInfo').empty();
     $('#additionalInfo').append('<div class="input-group flex-nowrap" id="inputGroup"></div>');
     $('#inputGroup').append('<span class="input-group-text" id="addon-wrapping">@</span>');
     $('#inputGroup').append('<input type="text" class="form-control" placeholder="Food Program" aria-label="Username" aria-describedby="addon-wrapping" id="nameInput" readonly>');
@@ -143,7 +144,8 @@ function searchTeam() {
 
 }
 
-function searchStore() {
+function searchStore(e) {
+    e.preventDefault();
     $('#additionalInfo').append("<div class='form-group mt-3' id='formGroup'></div>");
     $('#formGroup').empty();
     $('#formGroup').append("<label class='form-label'>Select a store:</label>");
