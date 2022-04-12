@@ -29,7 +29,7 @@ function load() {
     (userID = new InputGroup(CSS_INPUTGROUP_MAIN, "id")),
             (firstNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_firstname")),
             (lastNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_lastname")),
-            (emailInput = new InputGroup(CSS_INPUTGROUP_MAIN, "username")),
+            (emailInput = new InputGroup(CSS_INPUTGROUP_MAIN, "userEmail")),
             (phoneInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_phone")),
             (birthdayInput = new InputGroup(CSS_INPUTGROUP_MAIN, "birthday")),
             (streetInput = new InputGroup(CSS_INPUTGROUP_MAIN, "street")),

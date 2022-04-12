@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.ProgramTraining;
 import models.util.JSONBuilder;
 import models.util.JSONKey;
 import models.User;
@@ -67,8 +68,11 @@ public class UserServlet extends HttpServlet {
             
             returnData.append("var editUser = ");
             
-            Object[] userData = { editUser.getUserId(),
-                                  editUser.getEmail(),
+           SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+           String DOB = dateFormat.format(editUser.getDateOfBirth());
+           String regDate = dateFormat.format(editUser.getRegistrationDate());
+            
+            Object[] userData = { editUser.getEmail(),
                                   editUser.getFirstName(),
                                   editUser.getLastName(),
                                   editUser.getPhoneNumber(),
@@ -76,10 +80,10 @@ public class UserServlet extends HttpServlet {
                                   editUser.getIsAdmin(),
                                   editUser.getUserCity(),
                                   editUser.getIsActive(),
-                                  editUser.getDateOfBirth(),
+                                  DOB,
                                   editUser.getPostalCode(),
-                                  editUser.getRegistrationDate(),
-                                  editUser.getTeamId()};
+                                  regDate,
+                                  editUser.getTeamId() };
             
             returnData.append(userBuilder.buildJSON(userData));
             returnData.append(";");
@@ -201,7 +205,15 @@ public class UserServlet extends HttpServlet {
             //Date registrationDate = new SimpleDateFormat("yyyy-MM-dd").parse("2022-02-06");
             // inserting the new user
             // need to match the parameter names with the front end
-            String userMsg = accService.insert(request.getParameter("username"),
+            // user id: id
+            // email : userEmail
+            // selection for team: line 292 add name for select, reads it in on line 189
+            // role drop down: roleID
+            String userMsg = accService.insert(
+                    // user ID
+                    Integer.parseInt(request.getParameter("id")),
+                    // user email
+                    request.getParameter("userEmail"),
                     //is admin
                     false,
                     request.getParameter("user_city"),
@@ -217,7 +229,10 @@ public class UserServlet extends HttpServlet {
                     request.getParameter("user_postalcode"),
                     // registration date
                     registrationDate,
-                    1);
+                    // team 
+                    Integer.parseInt(request.getParameter("teamId")));
+            
+            ProgramTraining pt = new ProgramTraining();
             // test print statements to be deleted
             //System.out.println(request.getParameter("username") + request.getParameter("user_firstname"));
 
@@ -293,6 +308,7 @@ public class UserServlet extends HttpServlet {
                     request.getParameter("user_postalcode"),
                     // registration date
                     registrationDate,
+                    // team
                     1);
 
             //request.setAttribute("users", accService.getAll());

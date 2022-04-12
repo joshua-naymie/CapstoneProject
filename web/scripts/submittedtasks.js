@@ -23,7 +23,7 @@ function load()
     let teamCol = new DataColumn("Team", "teamName", CSS_TABLE_CELL);
     let userCol = new DataColumn("Volunteers", "userList", CSS_TABLE_CELL);
     let storeCol = new DataColumn("Store", "storeName", CSS_TABLE_CELL);
-    let viewCol = new CustomColumn("View", CSS_TABLE_CELL, generateViewContent)
+    let viewCol = new CustomColumn("Approve", CSS_TABLE_CELL, generateViewContent)
     
 
     // Create and generate table with declared columns
