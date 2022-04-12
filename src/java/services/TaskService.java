@@ -272,10 +272,16 @@ public class TaskService {
 
     public List<Task> getByProgramCityDate(String programId, String city, String startDate, String endDate) throws Exception {
         TaskDB taskDB = new TaskDB();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         int prgmId = Integer.parseInt(programId);
-
-        return taskDB.getByProgramCityDate(prgmId, city, startDate, endDate);
+        LocalDate start = LocalDate.parse(startDate);
+        start.plusDays(-1);
+        
+        LocalDate end = LocalDate.parse(endDate);
+        end = end.plusDays(1);
+        
+        return taskDB.getByProgramCityDate(prgmId, city, start.toString(), end.toString());
     }
 
 }

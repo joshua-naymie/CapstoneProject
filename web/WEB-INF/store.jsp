@@ -57,7 +57,6 @@
                             
                             <div class="address-inputs">
                                 <div id="city__input"></div>
-                                <div id="province__input"></div>
                                 <div id="postal-code__input"></div>
                             </div>
                             

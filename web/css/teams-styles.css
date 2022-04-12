@@ -188,6 +188,28 @@
     margin: 4px auto 4px auto;
 }
 
+.store-list__base
+{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid gray;
+    border-radius: 6px;
+    padding: 4px 0 4px 0;
+    height: 200px;
+    width: 100%;
+    overflow-y: auto;
+    background-color: white;
+    
+    transition: max-height 0.2s;
+}
+
+.store-list__base hr
+{
+    width: 92%;
+    color: gray;
+    margin: 4px auto 4px auto;
+}
+
 .list-item
 {
     display: flex;
