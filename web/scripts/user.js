@@ -40,7 +40,8 @@ function load() {
             (adminInput = new InputGroup(CSS_INPUTGROUP_MAIN, "admin")),
             (activeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "active")),
             (teamInput = new InputGroup(CSS_INPUTGROUP_MAIN, "team"));
-    (roleInput = new InputGroup(CSS_INPUTGROUP_MAIN, "team"));
+//    (roleInput = new InputGroup(CSS_INPUTGROUP_MAIN, "role"));
+            roleInput = document.createElement("select");
 
     userID.setLabelText("User ID:");
     userID.addValidator(
@@ -204,12 +205,22 @@ function load() {
     $("#team").on("input", () => searchTeam());
 
     // role input
-    roleInput.setLabelText("Role:");
-    containerLeft.appendChild(roleInput.container);
-    let moreInfo = document.createElement("div");
-    moreInfo.id = "moreInfo";
-    containerLeft.appendChild(moreInfo);
-    $("#role").on("input", () => onRoleSelection());
+//    roleInput.setLabelText("Role:");
+   // roleInput.input.type = "select";
+   var roleDiv = document.createElement("Div");
+    roleDiv.id = "role-label";
+    roleDiv.innerHTML = "Role:";
+    containerLeft.appendChild(roleDiv);
+   roleInput.id = "role";
+    containerLeft.appendChild(roleInput);
+    $('#role').append('<option value="1">Admin</option>');
+    $('#role').append('<option value="2">Volunteer</option>');
+    $('#role').append('<option value="3">Manager</option>');
+    $('#role').append('<option value="4">Coordinator</option>');
+    $('#role').append('<option value="5">Supervisor</option>');
+
+   // containerLeft.appendChild(moreInfo);
+//    $("#role").on("input", () => onRoleSelection());
 
     //    containerRight.appendChild(checkboxDiv);
 
@@ -275,7 +286,7 @@ function populateFields() {
     activeInput.input.checked = editUser.isActive;
 
     teamInput.input.checked = editUser.teamInput;
-    roleInput.input.checked = editUser.roleInput;
+   // roleInput.input.checked = editUser.roleInput;
 }
 
 function searchTeam() {
@@ -305,30 +316,30 @@ function searchTeam() {
     });
 }
 
-function onRoleSelection() {
-
-    $('#moreInfo').empty();
-    $('#moreInfo').append("<div class='form-group' id='formGroup'></div>");
-    $('#formGroup').append("<label class='form-label'>Role:</label>");
-    $('#formGroup').append("<select name='role' id='roleSelection' class='form-select'></select>");
-
-    let roleName = $("#role").val();
-    console.log(roleName);
-    $.ajax({
-        type: "get",
-        url: "data",
-        data: {operation: "findRole", roleName: roleName},
-        success: function (data) {
-            let obj = JSON.parse(data);
-
-            obj.forEach((role) => {
-                console.log(role);
-                $("#individualSelection").append(
-                        '<option value="' + role.role_id + '">' + role.role_name + "</option>"
-                        );
-            });
-        },
-    });
-//    var actionInput = document.forms['reportForm']['action'];
-//    actionInput.value = 'foodProgramCityReport';
-}
+//function onRoleSelection() {
+//
+//    $('#moreInfo').empty();
+//    $('#moreInfo').append("<div class='form-group' id='formGroup'></div>");
+//    $('#formGroup').append("<label class='form-label'>Role:</label>");
+//    $('#formGroup').append("<select name='role' id='roleSelection' class='form-select'></select>");
+//
+//    let roleName = $("#role").val();
+//    console.log(roleName);
+//    $.ajax({
+//        type: "get",
+//        url: "data",
+//        data: {operation: "findRole", roleName: roleName},
+//        success: function (data) {
+//            let obj = JSON.parse(data);
+//
+//            obj.forEach((role) => {
+//                console.log(role);
+//                $("#individualSelection").append(
+//                        '<option value="' + role.role_id + '">' + role.role_name + "</option>"
+//                        );
+//            });
+//        },
+//    });
+////    var actionInput = document.forms['reportForm']['action'];
+////    actionInput.value = 'foodProgramCityReport';
+//}
