@@ -42,9 +42,37 @@
 	color: var(--header-color);
 }
 
-.role-label {
+#role-label {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: black;
+}
+
+.form-label {
+    margin-bottom: 0.5rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: black;
+}
+
+select#role {
+    margin-bottom: 78px;
+        display: flex;
+    flex-direction: column;
+    width: 300px;
+    border-color: black;
+    transition: border-color 0.3s;
+    line-height: 1.8em;
+    border-radius: 3px;
+}
+
+#additionalInfo {
+    margin-bottom: 30px;
+            display: flex;
+    flex-direction: column;
+    width: 300px;
+    border-color: black;
+    transition: border-color 0.3s;
+    line-height: 1.8em;
+    border-radius: 3px;
 }
 
 #submit-button
