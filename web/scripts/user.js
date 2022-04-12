@@ -41,7 +41,8 @@ function load() {
             (activeInput = new InputGroup(CSS_INPUTGROUP_MAIN, "active")),
             (teamInput = new InputGroup(CSS_INPUTGROUP_MAIN, "team"));
 //    (roleInput = new InputGroup(CSS_INPUTGROUP_MAIN, "role"));
-            roleInput = document.createElement("select");
+    roleInput = document.createElement("select");
+    roleInput.name= "roleID";
 
     userID.setLabelText("User ID:");
     userID.addValidator(
@@ -185,16 +186,6 @@ function load() {
     ////    cityInput.setEnterFunction(phoneInput);
     //    containerLeft.appendChild(passwordInput.container);
 
-    adminInput.setLabelText("Admin:");
-    adminInput.input.type = "checkbox";
-    //    postalCodeInput.setEnterFunction(phoneInput);
-    containerRight.appendChild(adminInput.container);
-
-    activeInput.setLabelText("Active:");
-    activeInput.input.type = "checkbox";
-    //    postalCodeInput.setEnterFunction(phoneInput);
-    containerRight.appendChild(activeInput.container);
-
     // team input
     teamInput.setLabelText("Team:");
     teamInput.input.type = "text";
@@ -206,20 +197,36 @@ function load() {
 
     // role input
 //    roleInput.setLabelText("Role:");
-   // roleInput.input.type = "select";
-   var roleDiv = document.createElement("Div");
+    // roleInput.input.type = "select";
+    
+    // roleID --> name of dropdown
+    var roleDiv = document.createElement("Div");
     roleDiv.id = "role-label";
     roleDiv.innerHTML = "Role:";
-    containerLeft.appendChild(roleDiv);
-   roleInput.id = "role";
-    containerLeft.appendChild(roleInput);
+    containerRight.appendChild(roleDiv);
+    //let roleDivBox = document.createElement("div");
+   // roleDivBox.id = "roleID";
+    roleInput.id = "role";
+    containerRight.appendChild(roleInput);
+    //containerRight.appendChild(roleDivBox);
+    //$('<div>hello</div>').appendTo('#role');
     $('#role').append('<option value="1">Admin</option>');
     $('#role').append('<option value="2">Volunteer</option>');
     $('#role').append('<option value="3">Manager</option>');
     $('#role').append('<option value="4">Coordinator</option>');
     $('#role').append('<option value="5">Supervisor</option>');
 
-   // containerLeft.appendChild(moreInfo);
+    adminInput.setLabelText("Admin:");
+    adminInput.input.type = "checkbox";
+    //    postalCodeInput.setEnterFunction(phoneInput);
+    containerLeft.appendChild(adminInput.container);
+
+    activeInput.setLabelText("Active:");
+    activeInput.input.type = "checkbox";
+    //    postalCodeInput.setEnterFunction(phoneInput);
+    containerRight.appendChild(activeInput.container);
+
+    // containerLeft.appendChild(moreInfo);
 //    $("#role").on("input", () => onRoleSelection());
 
     //    containerRight.appendChild(checkboxDiv);
@@ -286,7 +293,7 @@ function populateFields() {
     activeInput.input.checked = editUser.isActive;
 
     teamInput.input.checked = editUser.teamInput;
-   // roleInput.input.checked = editUser.roleInput;
+    // roleInput.input.checked = editUser.roleInput;
 }
 
 function searchTeam() {
