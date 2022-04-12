@@ -64,7 +64,7 @@ public class TaskService {
      * @return The list of Tasks that falls within the specified filters
      * @throws Exception
      */
-    public List<Task> getHistory(long id) throws Exception {
+    public List<Task> getHistory(int id) throws Exception {
         TaskDB taskDB = new TaskDB();
         return taskDB.getHistoryByUserId(id, null, null, null);
     }
@@ -81,7 +81,7 @@ public class TaskService {
      * @return The list of Tasks that falls within the specified filters
      * @throws Exception
      */
-    public List<Task> getHistoryByDates(long id, String startDate, String endDate) throws Exception {
+    public List<Task> getHistoryByDates(int id, String startDate, String endDate) throws Exception {
         TaskDB taskDB = new TaskDB();
         return taskDB.getHistoryByUserId(id,
                 parseDateTime(startDate),
@@ -103,7 +103,7 @@ public class TaskService {
      * @return The list of Tasks that falls within the specified filters
      * @throws Exception
      */
-    public List<Task> getHistoryByDatesPrograms(long id, String startDate, String endDate, String programs) throws Exception {
+    public List<Task> getHistoryByDatesPrograms(int id, String startDate, String endDate, String programs) throws Exception {
         TaskDB taskDB = new TaskDB();
         return taskDB.getHistoryByUserId(id,
                 parseDateTime(startDate),

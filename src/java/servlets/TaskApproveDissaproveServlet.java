@@ -107,7 +107,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
 
             // creating JSON objects
             if (task != null) {
-                if (task.getProgramId().getProgramId() == 1 && task.getFoodDeliveryData().getFamilyCount() != 0) {
+                if (task.getProgramId().getProgramId() == 1 && task.getFoodDeliveryData().getFamilyCount() != null && task.getFoodDeliveryData().getFamilyCount() != 0) {
                     isCommunity = true;
                     taskReturnData.append(buildFoodJSON(task, communityFoodBuilder, isCommunity));
                 } else if (task.getProgramId().getProgramId() == 1 && task.getFoodDeliveryData().getOrganizationId() != null) {

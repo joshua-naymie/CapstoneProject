@@ -24,13 +24,7 @@
         <%@ include file="navbar.jsp" %>
         <div id="main" class="body">
             <h1>History</h1>
-            <div>
-                <div>
-                    <input type="date">
-                    <label>start</label>
-                </div>
-                
-            </div>
+            <p>Total Hours Worked: <span id="total-hours"></span></p>
         </div>
     </body>
 </html>
