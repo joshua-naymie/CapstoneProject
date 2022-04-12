@@ -36,6 +36,7 @@
                         <p class="h1 text-center">Edit Task</p>
                         <form action="" method="post" class="mt-3">
 
+                            <input type="hidden" name="task_id" />
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label class="form-label">Description:</label>
