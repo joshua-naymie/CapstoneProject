@@ -124,6 +124,7 @@ public class EditTaskServlet extends HttpServlet {
                     }
 
 for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
+
                     request.setAttribute("approving_manager", approvingManager);
                     request.setAttribute("can_be_approving_managers", canBeApprovingManagers);
                     request.setAttribute("assigned_users", assignedUsers);
