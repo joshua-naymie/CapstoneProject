@@ -192,9 +192,11 @@ function load()
 
     let cancelButton = document.createElement("button"); // after clicking this, send the user back to the previous page (tasks list)
     cancelButton.innerHTML = "Cancel";
-    cancelButton.type = "reset";
+    cancelButton.type = "submit";
     cancelButton.className = "btn";
     cancelButton.id = "cancel-button";
+    cancelButton.name = "action";
+    cancelButton.value = "Cancel";
 
     // Add "Submit" and "Cancel" button to the DOM
     containerLeft.appendChild(disapproveButton);
