@@ -55,7 +55,7 @@
 }
 
 select#role {
-    margin-bottom: 78px;
+    margin-bottom: 64px;
     display: flex;
     flex-direction: column;
     width: 300px;
