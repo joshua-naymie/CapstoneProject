@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <!--    <filter>
+    <!-- <filter>
         <filter-name>AdminFilter</filter-name>
         <filter-class>filters.AdminFilter</filter-class>
     </filter>
@@ -8,6 +8,22 @@
         <filter-name>AuthenticationFilter</filter-name>
         <filter-class>filters.AuthenticationFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>NoVolunteerFilter</filter-name>
+        <filter-class>filters.NoVolunteerFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>NoVolunteerFilter</filter-name>
+        <servlet-name>TaskApproveDissaproveServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>NoVolunteerFilter</filter-name>
+        <servlet-name>EditTaskServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>NoVolunteerFilter</filter-name>
+        <servlet-name>AddTaskServlet</servlet-name>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <servlet-name>TeamsServlet</servlet-name>
@@ -23,10 +39,6 @@
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <servlet-name>LoadTaskInfo</servlet-name>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>AuthenticationFilter</filter-name>
-        <servlet-name>TeamServlet</servlet-name>
     </filter-mapping>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
@@ -70,15 +82,7 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
-        <servlet-name>ProgramTestServlet</servlet-name>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>AuthenticationFilter</filter-name>
         <servlet-name>ProgramServlet</servlet-name>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>AuthenticationFilter</filter-name>
-        <servlet-name>LoginServlet</servlet-name>
     </filter-mapping>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
@@ -137,10 +141,6 @@
         <servlet-class>servlets.ProgramServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ProgramTestServlet</servlet-name>
-        <servlet-class>servlets.ProgramTestServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ForgotServlet</servlet-name>
         <servlet-class>servlets.ForgotServlet</servlet-class>
     </servlet>
@@ -183,10 +183,6 @@
     <servlet>
         <servlet-name>StoreServlet</servlet-name>
         <servlet-class>servlets.StoreServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>TeamServlet</servlet-name>
-        <servlet-class>servlets.TeamServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoadTaskInfo</servlet-name>

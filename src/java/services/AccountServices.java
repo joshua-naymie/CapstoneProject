@@ -4,6 +4,7 @@
  */
 package services;
 
+import dataaccess.ProgramTrainingDB;
 import dataaccess.UserDB;
 
 import java.security.MessageDigest;
@@ -284,5 +285,16 @@ public class AccountServices {
         UserDB userDB = new UserDB();
         List<User> users = userDB.getActiveHotline();
         return users;
+    }
+
+    public List<User> getVolunteers() throws Exception {
+        ProgramTrainingDB programTrainingDB = new ProgramTrainingDB();
+        List<User> volunteerList = new ArrayList<>();
+        for (ProgramTraining programTraining : programTrainingDB.getAll()) {
+            if (programTraining.getRoleId().getRoleName().equals("Volunteer")) {
+                volunteerList.add(programTraining.getUser());
+            }
+        }
+        return volunteerList;
     }
 }
