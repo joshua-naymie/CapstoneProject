@@ -215,6 +215,7 @@ public class UserServlet extends HttpServlet {
                     request.getParameter("user_postalcode"),
                     // registration date
                     registrationDate,
+                    // team 
                     1);
             // test print statements to be deleted
             //System.out.println(request.getParameter("username") + request.getParameter("user_firstname"));
@@ -291,6 +292,7 @@ public class UserServlet extends HttpServlet {
                     request.getParameter("user_postalcode"),
                     // registration date
                     registrationDate,
+                    // team
                     1);
 
             //request.setAttribute("users", accService.getAll());
