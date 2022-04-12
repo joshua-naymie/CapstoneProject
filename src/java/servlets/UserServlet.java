@@ -47,7 +47,8 @@ public class UserServlet extends HttpServlet {
                 Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, ex);
             }
             
-            JSONKey[] userKeys = { new JSONKey("id", true),
+            JSONKey[] userKeys = { new JSONKey("id", false),
+                                new JSONKey("email", true),
                                    new JSONKey("firstName", true),
                                    new JSONKey("lastName", true),
                                    new JSONKey("phoneNum", true),
@@ -58,7 +59,7 @@ public class UserServlet extends HttpServlet {
                                    new JSONKey("DOB", true),
                                    new JSONKey("postalCode", true),
                                    new JSONKey("regDate", true),
-                                   new JSONKey("teamId", true) };
+                                   new JSONKey("teamId", true)};
             
             JSONBuilder userBuilder = new JSONBuilder(userKeys);
             // make the user object into json data
@@ -66,7 +67,8 @@ public class UserServlet extends HttpServlet {
             
             returnData.append("var editUser = ");
             
-            Object[] userData = { editUser.getEmail(),
+            Object[] userData = { editUser.getUserId(),
+                                  editUser.getEmail(),
                                   editUser.getFirstName(),
                                   editUser.getLastName(),
                                   editUser.getPhoneNumber(),
@@ -77,7 +79,7 @@ public class UserServlet extends HttpServlet {
                                   editUser.getDateOfBirth(),
                                   editUser.getPostalCode(),
                                   editUser.getRegistrationDate(),
-                                  editUser.getTeamId() };
+                                  editUser.getTeamId()};
             
             returnData.append(userBuilder.buildJSON(userData));
             returnData.append(";");
