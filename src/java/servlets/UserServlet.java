@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.ProgramTraining;
 import models.util.JSONBuilder;
 import models.util.JSONKey;
 import models.User;
@@ -47,7 +48,8 @@ public class UserServlet extends HttpServlet {
                 Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, ex);
             }
             
-            JSONKey[] userKeys = { new JSONKey("id", true),
+            JSONKey[] userKeys = { new JSONKey("id", false),
+                                new JSONKey("email", true),
                                    new JSONKey("firstName", true),
                                    new JSONKey("lastName", true),
                                    new JSONKey("phoneNum", true),
@@ -58,7 +60,7 @@ public class UserServlet extends HttpServlet {
                                    new JSONKey("DOB", true),
                                    new JSONKey("postalCode", true),
                                    new JSONKey("regDate", true),
-                                   new JSONKey("teamId", true) };
+                                   new JSONKey("teamId", true)};
             
             JSONBuilder userBuilder = new JSONBuilder(userKeys);
             // make the user object into json data
@@ -203,7 +205,15 @@ public class UserServlet extends HttpServlet {
             //Date registrationDate = new SimpleDateFormat("yyyy-MM-dd").parse("2022-02-06");
             // inserting the new user
             // need to match the parameter names with the front end
-            String userMsg = accService.insert(request.getParameter("username"),
+            // user id: id
+            // email : userEmail
+            // selection for team: line 292 add name for select, reads it in on line 189
+            // role drop down: roleID
+            String userMsg = accService.insert(
+                    // user ID
+                    Integer.parseInt(request.getParameter("id")),
+                    // user email
+                    request.getParameter("userEmail"),
                     //is admin
                     false,
                     request.getParameter("user_city"),
@@ -220,7 +230,9 @@ public class UserServlet extends HttpServlet {
                     // registration date
                     registrationDate,
                     // team 
-                    1);
+                    Integer.parseInt(request.getParameter("teamId")));
+            
+            ProgramTraining pt = new ProgramTraining();
             // test print statements to be deleted
             //System.out.println(request.getParameter("username") + request.getParameter("user_firstname"));
 
