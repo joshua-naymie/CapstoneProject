@@ -567,7 +567,7 @@ remove-manager--hidden:hover
 .address-inputs
 {
     display: grid;
-    grid-template-columns: 1.8fr 0.5fr 1fr;
+    grid-template-columns: 1fr 0.45fr;
     gap: 10px;
     margin-bottom: 50px;
 }

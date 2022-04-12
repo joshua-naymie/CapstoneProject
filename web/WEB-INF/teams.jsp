@@ -70,7 +70,7 @@
                             <div id="max-size__input" style="margin: 2px 0 30px 0;"></div>
                             
                             <input id="store-search" class="store-search" placeholder="Search by Name, Address ">
-                            <div id="store-list" class="team-list__base"></div>
+                            <div id="store-list" class="store-list__base"></div>
                             
                             <div class="input-action-buttons">
                                 <input id="cancel__button" class="cancel__button" type="button" value="Cancel">
