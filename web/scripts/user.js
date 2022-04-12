@@ -262,7 +262,7 @@ function populateFields() {
     userID.setInputText(editUser.id);
     firstNameInput.setInputText(editUser.firstName);
     lastNameInput.setInputText(editUser.lastName);
-    emailInput.setInputText(editUser.id);
+    emailInput.setInputText(editUser.email);
     phoneInput.setInputText(editUser.phoneNum);
     birthdayInput.setInputText(editUser.DOB);
     streetInput.setInputText(editUser.address);
@@ -308,9 +308,9 @@ function searchTeam() {
 function onRoleSelection() {
 
     $('#moreInfo').empty();
-   // $('#moreInfo').append("<div class='form-group' id='formGroup'></div>");
+    $('#moreInfo').append("<div class='form-group' id='formGroup'></div>");
     $('#formGroup').append("<label class='form-label'>Role:</label>");
-    //$('#formGroup').append("<select name='role' id='roleSelection' class='form-select'></select>");
+    $('#formGroup').append("<select name='role' id='roleSelection' class='form-select'></select>");
 
     let roleName = $("#role").val();
     console.log(roleName);
