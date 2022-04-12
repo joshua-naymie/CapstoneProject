@@ -28,23 +28,24 @@
 
 .input-column input
 {
-	padding-left: 5px;
+    padding-left: 5px;
 }
 
-.main .container .input-column .btn 
+.main .container .input-column .btn
 {
-	padding: 0.8em 0.3em;
-	font-size: 1.1em;
-	font-weight: bold;
-	border: none;
-	background-color: var(--accent-two-color);
-	cursor: pointer;
-	color: var(--header-color);
+    padding: 0.8em 0.3em;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: none;
+    background-color: var(--accent-two-color);
+    cursor: pointer;
+    color: var(--header-color);
 }
 
 #role-label {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: black;
+    margin-bottom: 4px;
 }
 
 .form-label {
@@ -55,18 +56,23 @@
 
 select#role {
     margin-bottom: 78px;
-        display: flex;
+    display: flex;
     flex-direction: column;
     width: 300px;
     border-color: black;
     transition: border-color 0.3s;
+    width: 100%;
+    box-sizing: border-box;
+    border-style: solid;
     line-height: 1.8em;
     border-radius: 3px;
+    padding: 5px 0;
+    background-color: white;
 }
 
 #additionalInfo {
     margin-bottom: 30px;
-            display: flex;
+    display: flex;
     flex-direction: column;
     width: 300px;
     border-color: black;
@@ -77,20 +83,20 @@ select#role {
 
 #submit-button
 {
-	background-color: var(--primary-color);
+    background-color: var(--primary-color);
 }
 
 #submit-button:hover
 {
-	background-color: var(--secondary-color);
+    background-color: var(--secondary-color);
 }
 
 #cancel-button
 {
-	background-color: var(--accent-one-color);
+    background-color: var(--accent-one-color);
 }
 
 #cancel-button:hover
 {
-	background-color: var(--secondary-color);
+    background-color: var(--secondary-color);
 }
