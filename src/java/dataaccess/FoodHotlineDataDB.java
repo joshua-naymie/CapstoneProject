@@ -11,11 +11,17 @@ import models.FoodDeliveryData;
 import models.HotlineData;
 
 /**
- *
+ *Data access class, implements CRUD operations on HotlineData and 
+ * FoodDeliveryDate tables in database
  * @author srvad
  */
 public class FoodHotlineDataDB {
 
+    /**
+     * method to persist new HotlineData object with database 
+     * @param hd - new HotlineData object
+     * @throws Exception 
+     */
     public void insertHotlineData(HotlineData hd) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -30,6 +36,11 @@ public class FoodHotlineDataDB {
         }
     }
 
+/**
+ * method to persist new FoodDeliveryData object into FoodDeliveryData table
+ * @param fd - new FoodDeliveryData object
+ * @throws Exception 
+ */
     public void insertFoodDeliveryData(FoodDeliveryData fd) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -43,7 +54,11 @@ public class FoodHotlineDataDB {
             em.close();
         }
     }
-
+/**
+ * method to get a list of all objects currently in FoodDeliveryData table 
+ * @return List of FoodDeliveryData objects
+ * @throws Exception 
+ */
     public List<FoodDeliveryData> getAllFoodDeliveryData() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
