@@ -62,7 +62,7 @@ public class SubmittedTasksServlet extends HttpServlet {
             // Create task JSON objects
             if (needApproval.size() > 0) {
                 int i;
-                for (i = 0; i < needApproval.size() - 1; i++) {
+                for (i = 0; i < needApproval.size(); i++) {
                     if (needApproval.get(i).getProgramId().getProgramId() == 1) {
                         taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
                     } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
@@ -71,14 +71,16 @@ public class SubmittedTasksServlet extends HttpServlet {
                     } else {
                         System.out.println("wrong program id");
                     }
-                    taskReturnData.append(',');
-                }             
-                if (needApproval.get(i).getProgramId().getProgramId() == 1) {
-                    taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
-                } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
-                    taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
+                    
+                    if(i != needApproval.size() -1 )taskReturnData.append(',');
                 }
+//                if (needApproval.get(i).getProgramId().getProgramId() == 1) {
+//                    taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
+//                } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
+//                    taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
+//                }
             }
+            
             taskReturnData.append("];");
 
             // setting user data attribute for the front end to use
