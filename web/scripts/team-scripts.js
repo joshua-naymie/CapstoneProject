@@ -137,8 +137,6 @@ function load()
     inputForm.reset();
     
     statusInput = document.getElementById("programs_select");
-    statusInput.addEventListener("change", setStatusSelectColor);
-    setStatusSelectColor();
     
     // setup form buttons
     submitButton = document.getElementById("ok__button");
@@ -370,7 +368,7 @@ function fadeOutIn(outElement, inElement)
         inElement.style.display = "block";
         setTimeout(() => {inElement.classList.add("visible");}, 50);
         
-    }, 100)
+    }, 100);
 }
 
 /**
@@ -430,28 +428,6 @@ function setContainerWidth(widthClass)
     container.classList.remove(currentWidthClass);
     currentWidthClass = widthClass;
     container.classList.add(currentWidthClass);
-}
-
-/**
- * Sets the border color of the store status select element depending on the status
- */
-function setStatusSelectColor()
-{
-    switch(statusInput.value)
-    {
-        case "active":
-            // green for active
-            statusInput.style.borderColor = "#00a200";
-            break;
-            
-        case "inactive":
-            // red for inactive
-            statusInput.style.borderColor = "#f20000";
-            break;
-        
-        default:
-            statusInput.style.borderColor = "black";
-    }
 }
 
 /**
@@ -555,15 +531,16 @@ function generateStoreRow(store)
     item.addEventListener("click", () => { setTeamStore(store); });
     
     let address = document.createElement("p");
-    address.classList.add("store-list__large-field");
+    address.classList.add("store-address");
     address.innerText = store.address;  
     
     let name = document.createElement("p");
-    name.classList.add("store-list__large-field");
+    name.classList.add("store-name");
     name.innerText = store.name;
-        
-    item.appendChild(address);
+    
     item.appendChild(name);
+    item.appendChild(address);
+    
 
     return item;
 }

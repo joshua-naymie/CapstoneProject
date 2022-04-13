@@ -82,6 +82,7 @@
     background-color: var(--accent-two-color);
     text-decoration: none;
     font-family: sans-serif;
+    white-space: nowrap;
 }
 
 .add-user__button:hover

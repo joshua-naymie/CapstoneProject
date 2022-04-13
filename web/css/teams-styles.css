@@ -160,7 +160,7 @@
     width: 375px;
     max-height: 600px;
     opacity: 0;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .team-list__base
@@ -170,8 +170,8 @@
     border: 1px solid gray;
     border-radius: 6px;
     padding: 4px 0 4px 0;
-    height: calc(100vh - 18.2rem);
-    max-height: calc(100vh - 18.2rem);
+    height: calc(100vh - 16.2rem);
+    max-height: calc(100vh - 16.2rem);
     min-height: 157px;
     width: 100%;
     overflow-y: auto;
@@ -213,6 +213,7 @@
 {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 8px 2% 8px 2%;
     width: 100%;
     border-style: solid;
@@ -238,6 +239,17 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     overflow: hidden;
     white-space: nowrap;
+}
+
+.store-name
+{
+    font-size: 1.2em;
+}
+
+.store-address
+{
+    font-size: 0.8;
+    color: gray;
 }
 
 .team-name
@@ -400,6 +412,7 @@
 {
     display: flex;
     flex-direction: column;
+    margin-bottom: 10px;
 }
 
 .select__input select

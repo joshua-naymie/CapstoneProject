@@ -60,7 +60,7 @@
                                 <label class="status__label">Supervisor</label>
                             </div>
                             
-                            <div id="max-size__input" style="margin: 2px 0 30px 0;"></div>
+                            <div id="max-size__input" style="margin: 2px 0 26px 0;"></div>
                             
                             <input id="store-search" class="store-search" placeholder="Search by Name, Address ">
                             <div id="store-list" class="store-list__base"></div>
