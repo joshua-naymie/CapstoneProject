@@ -29,14 +29,7 @@
             <div style="margin: 40px 0 40px 0;">
                 <div id="container" class="container container--list-size">          
                     <h1 id="team-header" class="header">Teams</h1>
-                    <!--<h3 id="input-panel__header" class="panel-header">Add</h3>-->
                     <div class="list-panel" id="list-area">
-
-    <!--                    <h3 class="panel-header">Programs</h3>-->
-                        <div class="list-panel__filter">
-                            <label style="color: gray;">Show Inactive</label>
-                            <input id="team-filter" type="checkbox">
-                        </div>
                         <div class="list-panel__top-buttons">
                             <input id="search-input" type="search" class="search-teams__input" placeholder="Search by Program">
                             <input id="notempty" type="button" class="add-team__button" onclick="addTeam()" value="New Team">

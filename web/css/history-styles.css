@@ -112,7 +112,6 @@
 .table-cell-header p
 {
     margin: .5rem 0 .5rem 0;
-    text-decoration: underline;
     font-weight: bold;
     color: var(--header);
     overflow: hidden;

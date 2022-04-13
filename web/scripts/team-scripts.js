@@ -20,7 +20,6 @@ var inputArea
 
 var teamSearchInput;
 var storeSearchInput;
-var filterCheckbox;
 
 var inputForm;
 var submitButton;
@@ -113,11 +112,6 @@ function load()
     
     supervisorInput = document.getElementById("supervisors_select");
     
-    // setup 'Show Inactive' checkbox
-    filterCheckbox = document.getElementById("team-filter");
-    filterCheckbox.checked = false;
-    filterCheckbox.addEventListener("change", () => { searchTeamList(teamSearchInput.value); });
-
     teamList = new AutoList("flex");
     teamList.container = document.getElementById("team-list");
     teamList.setFilterMethod(filterTeam);
@@ -244,11 +238,11 @@ function generateTeamRow(team)
 
     let name = document.createElement("p");
     name.innerText = team.name;
-    name.classList.add("---===REPLACE===---");
+    name.classList.add("team-name");
     
     let program = document.createElement("p");
     program.innerText = getProgramByID(team.programID).name;
-    name.classList.add("---===REPLACE===---");
+    program.classList.add("program-name");
     
     item.appendChild(name);
     item.appendChild(program);
@@ -460,6 +454,10 @@ function setStatusSelectColor()
     }
 }
 
+/**
+ * Changes the text of the header
+ * @param {type} text The text to set the header
+ */
 function changeHeaderText(text)
 {
     let header = document.getElementById("team-header");
@@ -468,6 +466,11 @@ function changeHeaderText(text)
     setTimeout(() => { header.innerText = text; header.classList.remove("header--hidden") }, 150);
 }
 
+/**
+ * Gets a company from companyData that matches a given id
+ * @param {number} id The id to match
+ * @returns The company that matches the given id. Returns null if no match found
+ */
 function getCompanyByID(id)
 {
     for(let i=0; i<companyData.length; i++)
@@ -481,6 +484,11 @@ function getCompanyByID(id)
     return null;
 }
 
+/**
+ * Gets a program from programData that matches a given id
+ * @param {number} id The id to match
+ * @returns The program that matches the given id. Returns null if no match found
+ */
 function getProgramByID(id)
 {
     for(let i=0; i<programData.length; i++)
@@ -494,6 +502,10 @@ function getProgramByID(id)
     return null;
 }
 
+/**
+ * 
+ * @returns {undefined}
+ */
 function setProgramSelect()
 {
     let select = document.getElementById("programs_select");
@@ -508,6 +520,10 @@ function setProgramSelect()
     }
 }
 
+/**
+ * Sets the current option for the supervisor select.
+ * @returns {undefined}
+ */
 function setSupervisorSelect()
 {
     let select = document.getElementById("supervisors_select");

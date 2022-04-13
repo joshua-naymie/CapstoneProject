@@ -151,7 +151,7 @@ function load()
     // setup company InputGroup
     companyInput = new InputGroup(CSS_INPUTGROUP_MAIN, "company-name");
     companyInput.input.setAttribute("list", "company-list");
-    companyInput.input.setAttribute("autocomplete", "false");
+    companyInput.input.setAttribute("autocomplete", "off");
     companyInput.setLabelText("Company");
     companyInput.addValidator(REGEX_NOT_EMPTY, INPUTGROUP_STATE_ERROR, "*required");
     companyInput.setPlaceHolderText("eg. Starbucks");
@@ -273,11 +273,11 @@ function generateStoreRow(store)
     address.classList.add("store-list__row-left");
     
     let streetAddress = document.createElement("p");
-    streetAddress.classList.add("store-list__large-field");
+    streetAddress.classList.add("top-address");
     streetAddress.innerText = store.streetAddress;
     
     let restOfAddrees = document.createElement("p");
-    restOfAddrees.classList.add("---REPLACE---");
+    restOfAddrees.classList.add("phone-address");
     restOfAddrees.innerText = `${store.city}, AB ${store.postalCode}`;
     
     address.appendChild(streetAddress);
@@ -287,11 +287,11 @@ function generateStoreRow(store)
     leftSide.classList.add("store-list__row-right");
     
     let name = document.createElement("p");
-    name.classList.add("store-list__large-field");
+    name.classList.add("store-name");
     name.innerText = store.name;
     
     let phone = document.createElement("p");
-    phone.classList.add("---REPLACE---");
+    phone.classList.add("phone-address");
     phone.innerText = store.phoneNum;
     
     leftSide.appendChild(name);
