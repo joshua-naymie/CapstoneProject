@@ -18,7 +18,7 @@ import models.HotlineData;
 public class FoodHotlineDataDB {
 
     /**
-     * method to persist new HotlineData object with database 
+     * method to update HotlineData object with database 
      * @param hd - new HotlineData object
      * @throws Exception 
      */
@@ -28,6 +28,25 @@ public class FoodHotlineDataDB {
         try {
             trans.begin();
             em.persist(hd);
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
+        } finally {
+            em.close();
+        }
+    }
+    
+        /**
+     * method to update HotlineData object with database 
+     * @param hd - new HotlineData object
+     * @throws Exception 
+     */
+    public void updateHotlineData(HotlineData hd) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            em.merge(hd);
             trans.commit();
         } catch (Exception ex) {
             trans.rollback();
@@ -54,6 +73,27 @@ public class FoodHotlineDataDB {
             em.close();
         }
     }
+    
+    /**
+ * method to persist new FoodDeliveryData object into FoodDeliveryData table
+ * @param fd - new FoodDeliveryData object
+ * @throws Exception 
+ */
+    public void updateFoodDeliveryData(FoodDeliveryData fd) throws Exception {
+        EntityManager em = DBUtil.getEMFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        try {
+            trans.begin();
+            em.merge(fd);
+            trans.commit();
+        } catch (Exception ex) {
+            trans.rollback();
+        } finally {
+            em.close();
+        }
+    }
+    
+
 /**
  * method to get a list of all objects currently in FoodDeliveryData table 
  * @return List of FoodDeliveryData objects
