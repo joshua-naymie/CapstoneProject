@@ -25,9 +25,13 @@ public class SubmittedTasksServlet extends HttpServlet {
         // getting all tasks that need approving
         TaskService ts = new TaskService();
         List<Task> needApproval = null;
-
+        HttpSession httpSession = request.getSession();
+        int loggedInUserId = -1;
         try {
-            needApproval = ts.getSubmittedToManager(4);  //get a list of all tasks that need approval
+            loggedInUserId = (int) httpSession.getAttribute("email");
+            System.out.println(loggedInUserId);
+
+            needApproval = ts.getSubmittedToManager(loggedInUserId);  //get a list of all tasks that need approval
             System.out.println("check needapproval size: " + needApproval.size());
 //            System.out.println("task id: " + needApproval.get(0).getProgramId());
             // sending json data
@@ -47,7 +51,7 @@ public class SubmittedTasksServlet extends HttpServlet {
                 new JSONKey("programName", true),
                 new JSONKey("startTime", true),
                 new JSONKey("userList", true),
-                new JSONKey("storeName", true)};
+                new JSONKey("teamName", true)};
 
             // builder for hotline
             JSONBuilder hotLineBuilder = new JSONBuilder(hotlineKeys);

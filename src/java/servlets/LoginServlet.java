@@ -75,7 +75,7 @@ public class LoginServlet extends HttpServlet
             response.sendRedirect("users");
         }
         else {
-            response.sendRedirect("add");
+            response.sendRedirect("tasks");
         }
         
     }

@@ -18,12 +18,12 @@ function load()
     let dateCol = new DataColumn("Date", "startTime", CSS_TABLE_CELL);
     let teamCol = new DataColumn("Team", "teamName", CSS_TABLE_CELL);
     let userCol = new DataColumn("Volunteer", "userList", CSS_TABLE_CELL);
-    let storeCol = new DataColumn("Store", "storeName", CSS_TABLE_CELL);
-    let viewCol = new CustomColumn("View", "table-cell__view", generateViewContent)
+//    let storeCol = new DataColumn("Store", "storeName", CSS_TABLE_CELL);
+    let viewCol = new CustomColumn("Approve", "table-cell__view", generateViewContent)
     
 
     // Create and generate table with declared columns
-    table = new AutoTable("table", taskData, [programCol, dateCol, teamCol, userCol, storeCol, viewCol]);
+    table = new AutoTable("table", taskData, [programCol, dateCol, teamCol, userCol, viewCol]);
     table.generateTable();
     
     document.getElementById("main").appendChild(table.container);

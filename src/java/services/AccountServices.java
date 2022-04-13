@@ -132,7 +132,7 @@ public class AccountServices {
             return "User with " + email + " already exists!";
         }
         String passwordSalt = getSalt();
-        String passwordHash = getHash(password, passwordSalt);
+        String passwordHash = getHash("password", passwordSalt);
         User user = new User(userId, email, isAdmin, firstName, lastName, isActive, registrationDate, passwordSalt, passwordHash);
         
         // setting users team
