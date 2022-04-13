@@ -72,7 +72,7 @@ public class SubmittedTasksServlet extends HttpServlet {
                         System.out.println("wrong program id");
                     }
                     taskReturnData.append(',');
-                }
+                }             
                 if (needApproval.get(i).getProgramId().getProgramId() == 1) {
                     taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
                 } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
