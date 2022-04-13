@@ -15,6 +15,9 @@ const generateViewCell = (task) => {
 function load()
 {
     setTotalHours();
+    
+    main = document.getElementById("table-container");
+    
     let programCol = new DataColumn("Program", "program", CSS_TABLE_CELL);
     let dateCol = new DataColumn("Date", "startTime", CSS_TABLE_CELL);
     let stateCol = new DataColumn("Status", "status", CSS_TABLE_CELL);
@@ -26,7 +29,12 @@ function load()
     table = new AutoTable("table", historyData, [programCol, dateCol, stateCol, cityCol, hoursCol]);
     table.generateTable();
     
-    document.getElementById("main").appendChild(table.container);
+    main.appendChild(table.container);
+    
+    if(historyData.length == 0)
+    {
+        document.getElementById("no-task-message").style.display = "block";
+    }
 }
 
 function setTotalHours()

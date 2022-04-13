@@ -14,6 +14,8 @@ const generateViewContent = (task) => {
 
 function load()
 {
+    main = document.getElementById("table-container");
+    
     let programCol = new DataColumn("Program", "programName", CSS_TABLE_CELL);
     let dateCol = new DataColumn("Date", "startTime", CSS_TABLE_CELL);
     let teamCol = new DataColumn("Team", "teamName", CSS_TABLE_CELL);
@@ -26,5 +28,10 @@ function load()
     table = new AutoTable("table", taskData, [programCol, dateCol, teamCol, userCol, viewCol]);
     table.generateTable();
     
-    document.getElementById("main").appendChild(table.container);
+    main.appendChild(table.container);
+    
+    if(taskData.length == 0)
+    {
+        document.getElementById("no-task-message").style.display = "block";
+    }
 }

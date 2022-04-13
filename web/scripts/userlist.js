@@ -56,6 +56,11 @@ function load()
     setListHeight();
     
     document.getElementById("content-section").appendChild(document.createElement("div"));
+    
+    if(data.length == 0)
+    {
+        document.getElementById("no-user-message").style.display = "block";
+    }
 }
 
 function editPressed(email)
