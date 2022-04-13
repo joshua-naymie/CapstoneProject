@@ -99,7 +99,7 @@
 .table-row-header
 {
     display: grid;
-    grid-template-columns: 1fr .6fr .5fr 1fr .75fr 0.3fr;
+    grid-template-columns: 1fr .6fr .75fr 1fr .5fr;
     width: 100%;
     position: sticky;
     top: 0;
@@ -108,7 +108,7 @@
 .table-row
 {
     display: grid;
-    grid-template-columns: 1fr .6fr .5fr 1fr .75fr 0.3fr;
+    grid-template-columns: 1fr .6fr .75fr 1fr .5fr;
     width: 100%;
 }
 
