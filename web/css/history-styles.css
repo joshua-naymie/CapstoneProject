@@ -20,6 +20,15 @@
     margin-top: 50px;
 }
 
+.header
+{
+    text-align: center;
+    font-family: sans-serif;
+    color: rgb(23, 69, 144);
+    margin-bottom: 00px;
+    margin-top: 20px;
+}
+
 .table-container
 {
     display: flex;

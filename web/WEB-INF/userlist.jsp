@@ -28,6 +28,7 @@
         <div class="base">
             <%@ include file="navbar.jsp" %>
             <div id="content-section" class="body">
+                <h1 class="header">Users</h1>
                 <div id="controls" class="table-controls">
                     <div>
                         <a class="add-user__button" onclick="exportCSVPressed();">Export CSV</a>

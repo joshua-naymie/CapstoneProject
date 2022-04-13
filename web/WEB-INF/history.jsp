@@ -23,7 +23,7 @@
     <body class="base">
         <%@ include file="navbar.jsp" %>
         <div id="main" class="body">
-            <h1>History</h1>
+            <h1 class="header">History</h1>
             <p>Total Hours Worked: <span id="total-hours"></span></p>
         </div>
     </body>
