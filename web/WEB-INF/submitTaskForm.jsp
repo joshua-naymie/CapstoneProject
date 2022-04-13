@@ -26,7 +26,7 @@
         <form action="submitTaskForm" method="post" class="mt-3">                             
                 
         <div class="form-floating mb-3">
-            <textarea name="submissionInfo" class="form-control" id="submissionInfo" placeholder="Old Submission Info" style="height: 150px;" disabled></textarea>
+            <textarea name="submissionInfo" class="form-control" id="submissionInfo" placeholder="Old Submission Info" style="height: 150px;" disabled>${submissionInfo}</textarea>
             <label for="notes">Old Submission Info</label>
         </div>
         

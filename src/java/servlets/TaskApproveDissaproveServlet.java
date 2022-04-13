@@ -33,6 +33,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             throws ServletException, IOException {
         // retrieve task information based on URL parameter
         String taskId = request.getParameter("id");
+        System.out.println("Id: " + taskId);
         Task task = null;
         try {
             // uncomment after frontend connection
@@ -154,7 +155,9 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         short packageWeight = task.getFoodDeliveryData().getPackageId().getWeightLb();
 
 //        if (task.getFoodDeliveryData().getFoodHoursWorked() != null) 
-            // retrieving program values into an array
+        // retrieving program values into an array
+        if (isCommunity) {
+
             Object[] comFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
                 task.getProgramId().getProgramId(),
                 task.getProgramId().getProgramName(),
@@ -170,7 +173,8 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 task.getFoodDeliveryData().getFoodHoursWorked().doubleValue(),
                 packageType,
                 task.getFoodDeliveryData().getStoreId().getStoreName()};
-
+            return communityFoodBuilder.buildJSON(comFoodTaskValues);
+        } else {
             Object[] orgFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
                 task.getProgramId().getProgramId(),
                 task.getProgramId().getProgramName(),
@@ -186,10 +190,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 task.getFoodDeliveryData().getFoodHoursWorked().doubleValue(),
                 packageType,
                 task.getFoodDeliveryData().getStoreId().getStoreName()};
-        
-        if (isCommunity) {
-            return communityFoodBuilder.buildJSON(comFoodTaskValues);
-        } else {
+
             return communityFoodBuilder.buildJSON(orgFoodTaskValues);
         }
     }

@@ -66,7 +66,7 @@ public class SubmittedTasksServlet extends HttpServlet {
                     if (needApproval.get(i).getProgramId().getProgramId() == 1) {
                         taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
                     } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
-                        
+
                         taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
                     } else {
                         System.out.println("wrong program id");
@@ -106,14 +106,18 @@ public class SubmittedTasksServlet extends HttpServlet {
         fullUserName.append(task.getUserId().getLastName() + " ");
 
         // retrieving program values into an array
-        Object[] foodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
-            task.getFoodDeliveryData().getTaskFdId(),
-            task.getProgramId().getProgramName(),
-            jsonDateFormat.format(task.getStartTime()),
-            fullUserName,
-            task.getFoodDeliveryData().getStoreId().getStoreName()};
-
-        return foodBuilder.buildJSON(foodTaskValues);
+        if (task.getFoodDeliveryData() != null) {
+            Object[] foodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
+                task.getFoodDeliveryData().getTaskFdId(),
+                task.getProgramId().getProgramName(),
+                jsonDateFormat.format(task.getStartTime()),
+                fullUserName,
+                task.getFoodDeliveryData().getStoreId().getStoreName()};
+            return foodBuilder.buildJSON(foodTaskValues);
+        }else{
+            return null;
+        }
+        
     }
 
     /**
@@ -124,7 +128,7 @@ public class SubmittedTasksServlet extends HttpServlet {
      * @return A hotline task JSON as a string
      */
     private String buildHotlineJSON(Task task, JSONBuilder hotLineBuilder) {
-        
+
         // retrieving program values into an array
         Object[] hotLineValues = {task.getHotlineData().getTaskHotlineId(),
             task.getHotlineData().getTaskHotlineId(),
