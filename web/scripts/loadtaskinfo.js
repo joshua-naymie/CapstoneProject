@@ -176,9 +176,11 @@ function load()
     orgNameInput.setPlaceHolderText("ECSSEN");
     containerLeft.appendChild(orgNameInput.container);
     document.getElementById("org_name").setAttribute("readonly", true);
-
+    
+    var textArea = document.createElement("TEXTAREA");
+    textArea.name = "approvalText";
     approvalNotesFromDB.setLabelText("Comments:");
-    approvalNotesFromDB = document.createElement("TEXTAREA");
+    approvalNotesFromDB = textArea;
     var comments = document.createTextNode("Additional Notes");
     approvalNotesFromDB.appendChild(comments);
     containerLeft.appendChild(approvalNotesFromDB);

@@ -25,7 +25,7 @@ public class TaskDB {
      *
      * @param taskId the task to be disapproved
      */
-    public void disapproveTask(long taskId) {
+    public void disapproveTask(long taskId, String approvalNotes ) {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         Query getTask = em.createNamedQuery("Task.findByTaskId", Task.class);
@@ -35,6 +35,7 @@ public class TaskDB {
             disapprovedTask.setIsApproved(false);
             disapprovedTask.setIsDissaproved(true);
             disapprovedTask.setIsSubmitted(false);
+            disapprovedTask.setApprovalNotes(approvalNotes);
             trans.begin();
             em.merge(disapprovedTask);
             trans.commit();
@@ -50,7 +51,7 @@ public class TaskDB {
      *
      * @param taskId the task to be approved
      */
-    public void approveTask(long taskId) {
+    public void approveTask(long taskId, String approvalNotes) {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         Query getTask = em.createNamedQuery("Task.findByTaskId", Task.class);
@@ -60,6 +61,7 @@ public class TaskDB {
             approvedTask.setIsApproved(true);
             approvedTask.setIsDissaproved(false);
             approvedTask.setIsSubmitted(false);
+            approvedTask.setApprovalNotes(approvalNotes);
             trans.begin();
             em.merge(approvedTask);
             trans.commit();
