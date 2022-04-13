@@ -9,10 +9,16 @@ import java.util.List;
 import models.PackageType;
 
 /**
- *
+ * data access class used to retrieve PackageType objects from PackageType table
  * @author srvad
  */
 public class PackageTypeDB {
+    
+  /**
+   * method to retrieve all PackageType objects that are currently in database
+   * @return List of all PackageType objects 
+   * @throws Exception 
+   */
         public List<PackageType> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         
@@ -23,7 +29,12 @@ public class PackageTypeDB {
             em.close();
         }
     }
-
+/**
+ * method to get an object from PackageType table using role id 
+ * @param roleId 
+ * @return PackageType object that matches role id 
+ * @throws Exception 
+ */
     public PackageType get(short roleId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         
