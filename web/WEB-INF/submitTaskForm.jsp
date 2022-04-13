@@ -19,15 +19,15 @@
     </head>
     <body>
 		<%@ include file="navbar.jsp" %>
-                 <input type="hidden" id="task_id" value="${task_id}">
+        <input type="hidden" id="task_id" value="${task_id}">
         <div class="container">
 			<p class="h1 text-center header"> Task: ${description} </p>
         
         <form action="submitTaskForm" method="post" class="mt-3">   
         
-        <div class="row mb-3">
-            <label for="totalHours">Hours Worked: </label>
-            <input type="number" id="totalHours" name="totalHours" step="0.25" min="0.25" max="5" value="2" required>
+        <div class="mb-3 form-group">
+            <label for="totalHours" class="form-label">Hours Worked: </label>
+            <input type="number" id="totalHours" name="totalHours" step="0.25" min="0.25" max="5" value="2" class="form-control" required>
         </div>
         
         <div class="form-floating mb-3">
@@ -56,13 +56,13 @@
                 </select>
             </div>
 
-            <div class="row" id="family_count" style='display:none;' >            
+            <div class="form-group" id="family_count" style='display:none;' >            
                 <label for="family_count" id= "fam" class="form-label">Family Count</label>
                 <input type="number" name="family_count" min="1" max="20" value="" class="form-control">  
             </div>
             
 
-            <div class="row mb-3">
+            <div class="row mt-3">
             <div class="form-group col-md-4">
                 <label for="package_id" class="form-label">Package Type </label>
                 <select name="package_id" class="form-select" required>
