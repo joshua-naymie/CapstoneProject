@@ -311,6 +311,7 @@ function editTeam(team)
     document.getElementById("team-ID").value = team.id;
     teamNameInput.setInputText(team.name);
     programInput.value = team.programID;
+    programChanged();
     supervisorInput.value = team.supervisorID;
     maxSizeInput.setInputText(team.maxSize);
     

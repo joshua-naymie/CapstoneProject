@@ -29,7 +29,7 @@ public class SubmittedTasksServlet extends HttpServlet {
         try {
             needApproval = ts.getSubmittedToManager(4);  //get a list of all tasks that need approval
             System.out.println("check needapproval size: " + needApproval.size());
-            System.out.println("task id: " + needApproval.get(0).getProgramId());
+//            System.out.println("task id: " + needApproval.get(0).getProgramId());
             // sending json data
             StringBuilder taskReturnData = new StringBuilder();
             taskReturnData.append("var taskData = [");

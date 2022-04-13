@@ -37,7 +37,7 @@
                         </div>
                         <div class="list-panel__top-buttons">
                             <input id="search-input" type="search" class="search-stores__input" placeholder="Search by Program, Manager">
-                            <input id="notempty" type="button" class="add-store__button" onclick="addStore()" value="New Store">
+                            <input id="notempty" type="button" class="default__button" onclick="addStore()" value="New Store">
                         </div>
                         <div id="list-base" class="store-list__base">
 
@@ -78,8 +78,8 @@
                             
                             
                             <div class="input-action-buttons">
-                                <input id="cancel__button" class="cancel__button" type="button" value="Cancel">
-                                <input id="ok__button" class="ok__buton" type="button" value="Add">
+                                <input id="cancel__button" class="cancel__button default__button" type="button" value="Cancel">
+                                <input id="ok__button" class="add__button default__button" type="button" value="Add">
                             </div>
                         </form>
                       </div>

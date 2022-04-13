@@ -23,7 +23,7 @@
     <body class="base">
         <%@ include file="navbar.jsp" %>
         <div id="main" class="body">
-            <h1>Submitted Tasks</h1>
+            <h1 class="header">Submitted Tasks</h1>
         </div>
     </body>
 </html>

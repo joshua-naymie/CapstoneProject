@@ -24,7 +24,7 @@
         <%@ include file="navbar.jsp" %>
         <div id="main" class="body">
             <h1 class="header">History</h1>
-            <p>Total Hours Worked: <span id="total-hours"></span></p>
+            <p>Total Hours Worked: <span id="total-hours" style="font-weight: bold;"></span></p>
         </div>
     </body>
 </html>

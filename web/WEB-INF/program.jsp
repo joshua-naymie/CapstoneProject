@@ -14,7 +14,7 @@
         <script type="text/javascript" src="scripts/models/functions.js"></script>
         <script>${programData}</script>
         <script>${userData}</script>
-        <link rel="stylesheet" href="css/program.css">
+        <link rel="stylesheet" href="css/program-styles.css">
         <title>ECSSEN Programs</title>
     </head>
     <body class="body">
@@ -36,7 +36,7 @@
                         </div>
                         <div class="list-panel__top-buttons">
                             <input id="search-input" type="search" class="search-programs__input" placeholder="Search by Program, Manager">
-                            <input id="notempty" type="button" class="add-program__button" onclick="addProgram()" value="New Program">
+                            <input id="notempty" type="button" class="default__button" onclick="addProgram()" value="New Program" style="min-width: 118px;">
                         </div>
                         <div id="list-base" class="program-list__base">
 
@@ -68,8 +68,8 @@
                             <div id="user-list" class="user-list"></div>
                             
                             <div class="input-action-buttons">
-                                <input id="cancel__button" class="cancel__button" type="button" value="Cancel">
-                                <input id="ok__button" class="ok__buton" type="button" value="Add">
+                                <input id="cancel__button" class="cancel__button default__button" type="button" value="Cancel">
+                                <input id="ok__button" class="add__button default__button" type="button" value="Add">
                             </div>
                         </form>
                       </div>
