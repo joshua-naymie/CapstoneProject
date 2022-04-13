@@ -48,7 +48,6 @@ public class UserServlet extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, ex);
             }
-
             JSONKey[] userKeys = {new JSONKey("id", false),
                 new JSONKey("email", true),
                 new JSONKey("firstName", true),
@@ -63,12 +62,12 @@ public class UserServlet extends HttpServlet {
                 new JSONKey("regDate", true),
                 new JSONKey("teamInput", true),
                 new JSONKey("roleId", false)};
-
+            
             // obtaining roleId
             System.out.println("user id + program Id: " + editUser.getUserId() + ", " + editUser.getTeamId().getProgramId().getProgramId());
             ProgramServices ps = new ProgramServices();
             ProgramTraining checkRole = new ProgramTraining();
-            if (editUser.getUserId() != null && editUser.getTeamId().getProgramId().getProgramId() != null) {
+            if (editUser.getUserId() != null && editUser.getTeamId() != null && !editUser.getIsAdmin()) {
                 try {
                     checkRole = ps.getUserRoleIdFromProgramTraining(editUser.getUserId(), editUser.getTeamId().getProgramId().getProgramId());
                 } catch (Exception ex) {
@@ -86,7 +85,9 @@ public class UserServlet extends HttpServlet {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String DOB = dateFormat.format(editUser.getDateOfBirth());
             String regDate = dateFormat.format(editUser.getRegistrationDate());
-
+            
+            int roleId = checkRole.getRoleId() == null ?  1 : checkRole.getRoleId().getRoleId();
+            
             Object[] userData = {editUser.getUserId(),
                 editUser.getEmail(),
                 editUser.getFirstName(),
@@ -100,7 +101,7 @@ public class UserServlet extends HttpServlet {
                 editUser.getPostalCode(),
                 regDate,
                 editUser.getTeamId().getTeamName(),
-                checkRole.getRoleId().getRoleId()};
+                roleId};
 
             returnData.append(userBuilder.buildJSON(userData));
             returnData.append(";");
