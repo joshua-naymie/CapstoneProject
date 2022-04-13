@@ -1,3 +1,8 @@
+*
+{
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
 .body
 {
     display: flex;
@@ -20,7 +25,6 @@
 .header
 {
     text-align: center;
-    font-family: sans-serif;
     color: rgb(23, 69, 144);
     margin-bottom: 10px;
     margin-top: 0;
@@ -38,7 +42,6 @@
 
 .main h3
 {
-    font-family: sans-serif;
     margin: 0 0 10px 0;
 }
 
@@ -48,7 +51,7 @@
     flex-direction: column;
     align-items: center;
     background: rgb(248,248,248);
-    border: 1px solid #cecece;
+    border: 2px solid #a6a6a6;
     border-radius: 15px;
     box-shadow: 0px 0px 2px #cecece;
     min-width: 370px;
@@ -129,30 +132,44 @@
 {
     width: 100%;
     height: 30px;
-    padding-left: 10px;
+    padding-left: 14px;
     border-radius: 20px;
-    border: 1px solid black;
+    border: 1px solid #606060;
     font-size: 1rem;
 }
 
-.add-program__button
+.default__button
 {
+    
+    background-color: #0d6efd;
+    color: white;
     width: 25%;
     min-width: 110px;
     max-width: 175px;
     height: 30px;
-    border: 1px solid black;
+    border: 2px solid #0d6efd;
     border-radius: 4px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     
     transition: background-color 0.1s;
 }
 
-.add-program__button:hover
+.default__button:hover
 {
+    color: white;
     cursor: pointer;
-    background-color: #9FCA6A;
+    background-color: #0b5ed7;
+    border: 2px solid #0b5ed7;
     
+    transition: background-color 0.1s;
+}
+
+.default__button:active
+{
+    color: white;
+    background-color: #0a57ca;
+    border: 2px solid #0a57ca;
+    cursor: pointer;
     transition: background-color 0.1s;
 }
 
@@ -201,7 +218,7 @@
 
 .list-item:hover
 {
-    background-color: rgb(248, 248, 248);
+    background-color: #e7f1ff;
     transition: background-color 0.1s;
     cursor: pointer;
     border-width: 1px 0 1px 0;
@@ -216,7 +233,6 @@
     margin: 0;
     padding: 0;
     display: flex;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     overflow: hidden;
     white-space: nowrap;
 }
@@ -230,6 +246,7 @@
 .manager-name
 {
     font-size: 1rem;
+    color: gray;
 }
 
 .manager-area
@@ -263,7 +280,6 @@
 .main-input__label
 {
     margin: 0 0 0 10px;
-    font-family: 'Lucida Sans Unicode', sans-serif;
     font-size: 0.9rem;
 }
 
@@ -271,7 +287,6 @@
 {
     color: black;
     transition: color 0.3s;
-    font-family: 'Lucida Sans Unicode', sans-serif;
 }
 
 .main-input__label--warning
@@ -390,7 +405,6 @@ status__select
 .status-input select
 {
     height: 30px;
-    font-family: 'Lucida Sans Unicode', sans-serif;
     font-size: 1rem;
     border-width: 2px;
     border-style: solid;
@@ -403,8 +417,7 @@ status__select
 
 .status-input select option
 {
-    height: 30px;
-    font-family: 'Lucida Sans Unicode', sans-serif;
+    height: 28px;
     font-size: 1rem;
 }
 
@@ -412,7 +425,6 @@ status__select
 {
     margin-left: 6px;
     font-size: 0.9rem;
-    font-family: 'Lucida Sans Unicode', sans-serif;
 }
 
 .input-action-buttons
@@ -422,34 +434,33 @@ status__select
     margin-top: 30px;
 }
 
-.input-action-buttons input
+.add__button
 {
-    width: 35%;
-    height: 30px;
-    border: 1px solid black;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-.input-action-buttons input:hover
-{
-    cursor: pointer;
+    width: 40%;
 }
 
 .cancel__button
 {
+    width: 40%;
+    border: 2px solid #6c757d;
+    background-color: #6c757d;
+    color: white;
     transition: background-color 0.2s;
 }
 
 .cancel__button:hover
 {
-    background-color: rgb(255, 124, 124);
+    border: 2px solid #5c636a;
+    background-color: #5c636a;
+    color: white;
     transition: background-color 0.2s;
 }
 
-.ok__buton:hover
+.cancel__button:hover
 {
-    background-color: #9FCA6A;
+    border: 2px solid #565e64;
+    background-color: #565e64;
+    color: white;
     transition: background-color 0.2s;
 }
 
@@ -464,8 +475,8 @@ status__select
 {
     border-radius: 20px;
     font-size: 1rem;
-    border: 1px solid black;
-    padding-left: 10px;
+    border: 1px solid #606060;
+    padding-left: 14px;
     width: 80%;
     height: 30px;
     margin: 10px 0 10px 10%;
@@ -478,7 +489,7 @@ status__select
     align-items: center;
     height: 240px;
     overflow: auto;
-    border: 1px solid black;
+    border: 1px solid gray;
     border-radius: 8px;
     padding: 4px 0 4px 0;
     cursor: pointer;
@@ -492,23 +503,33 @@ status__select
     margin: 2px;
 }
 
-.user-list p
+/*.user-list p
 {
-    font-family: sans-serif;
-    
-}
+    font-family: sans-serif; 
+}*/
 
 .user-item
 {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    border-style: solid;
+    border-color: #fff0;
+    border-width: 1px 0 1px 0;
     padding: 10px;
+    
+    transition: border-color 0.1s, background-color 0.1s;
 }
 
 .user-item:hover
 {
-    background-color: rgb(255, 244, 223);
+    background-color: #e7f1ff;
+    cursor: pointer;
+    border-color: #b0b0b0;
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    
+    transition: border-color 0.1s, background-color 0.1s;
 }
 
 .user-name
@@ -530,7 +551,7 @@ status__select
 
 .remove-manager
 {
-    height: 18px;
+    height: 19px;
     border-width: 0;
     border-radius: 5px;
     background-color: #fff0;
@@ -543,10 +564,12 @@ status__select
 
 .remove-manager:hover
 {
-    background-color: rgb(255, 124, 124);
+    background-color: #0b5ed7;
+    color: white;
     cursor: pointer;
     
-    transition: background-color 0.1s;
+    transition: background-color 0.1s, color 0.1s;
+    
 }
 
 .remove-manager--hidden

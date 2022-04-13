@@ -29,17 +29,10 @@
             <div style="margin: 40px 0 40px 0;">
                 <div id="container" class="container container--list-size">          
                     <h1 id="team-header" class="header">Teams</h1>
-                    <!--<h3 id="input-panel__header" class="panel-header">Add</h3>-->
                     <div class="list-panel" id="list-area">
-
-    <!--                    <h3 class="panel-header">Programs</h3>-->
-                        <div class="list-panel__filter">
-                            <label style="color: gray;">Show Inactive</label>
-                            <input id="team-filter" type="checkbox">
-                        </div>
                         <div class="list-panel__top-buttons">
                             <input id="search-input" type="search" class="search-teams__input" placeholder="Search by Program">
-                            <input id="notempty" type="button" class="add-team__button" onclick="addTeam()" value="New Team">
+                            <input id="notempty" type="button" class="default__button" onclick="addTeam()" value="New Team">
                         </div>
                         <div id="team-list" class="team-list__base"></div>
                     </div>
@@ -67,14 +60,14 @@
                                 <label class="status__label">Supervisor</label>
                             </div>
                             
-                            <div id="max-size__input" style="margin: 2px 0 30px 0;"></div>
+                            <div id="max-size__input" style="margin: 2px 0 26px 0;"></div>
                             
                             <input id="store-search" class="store-search" placeholder="Search by Name, Address ">
                             <div id="store-list" class="store-list__base"></div>
                             
                             <div class="input-action-buttons">
-                                <input id="cancel__button" class="cancel__button" type="button" value="Cancel">
-                                <input id="ok__button" class="ok__buton" type="button" value="Add">
+                                <input id="cancel__button" class="cancel__button default__button" type="button" value="Cancel">
+                                <input id="ok__button" class="add__button default__button" type="button" value="Add">
                             </div>
                         </form>
                       </div>

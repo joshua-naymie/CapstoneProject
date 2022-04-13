@@ -14,11 +14,16 @@ import java.util.logging.Logger;
 import servlets.StoreServlet;
 
 /**
- *
+ *class to perform CRUD operations on Store table
  * @author 840979
  */
 public class StoreDB {
     
+    /**
+     * method to get all existing stores in Store table 
+     * @return List of Store objects 
+     * @throws Exception 
+     */
 public List<Store> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {         
@@ -30,6 +35,11 @@ public List<Store> getAll() throws Exception {
         }
     }
 
+/**
+ * method to get list of stores from Store table using company Id 
+ * @param companyId company id
+ * @return list of Store object that match company id
+ */
     public List<Store> getAllByCompany (short companyId){
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         Query q = em.createQuery ("SELECT s FROM Store S WHERE s.companyId = :company", Store.class);
@@ -45,18 +55,12 @@ public List<Store> getAll() throws Exception {
         }
     }
 
-// public List<Store> getStoresByName(String storeName) throws Exception {
-//        EntityManager em = DBUtil.getEMFactory().createEntityManager();
-//        Query q = em.createQuery("SELECT s FROM Store s WHERE s.storeName = :storeName", Store.class);
-//        q.setParameter("storeName", storeName);
-//        try {
-//            List<Store> foundStore = q.getResultList();
-//            return foundStore;
-//        } finally {
-//            em.close();
-//        }
-//    }
-    
+/**
+ * method to retrieve all stores that match store name specified 
+ * @param storeName store name
+ * @return List of Store objects that match store name
+ * @throws Exception 
+ */
     public List<Store> getStoresByName(String storeName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -69,7 +73,12 @@ public List<Store> getAll() throws Exception {
             em.close();
         }
     }
-
+/**
+ * method to retrieve a Store object using store id (primary key) from Store table
+ * @param storeId store id
+ * @return Store object that matches store id 
+ * @throws Exception 
+ */
     public Store get(int storeId) throws Exception {
       EntityManager em = DBUtil.getEMFactory().createEntityManager();
       try {
@@ -79,7 +88,11 @@ public List<Store> getAll() throws Exception {
             em.close();
         }
     }
-
+/**
+ * method to get a Store object from Store table using street address
+ * @param streetAddress street address 
+ * @return Store object that matches field StreetAddress 
+ */
     public Store getByStreetAddress(String streetAddress)  {
       EntityManager em = DBUtil.getEMFactory().createEntityManager();
       try {
@@ -95,7 +108,11 @@ public List<Store> getAll() throws Exception {
     }
          
     }
-   
+   /**
+    * persist new Store object into Store table 
+    * @param store Store object to be inserted
+    * @throws Exception 
+    */
     public void insert(Store store) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -104,13 +121,17 @@ public List<Store> getAll() throws Exception {
             em.persist(store);
             trans.commit();
         } catch (Exception ex) {
-System.out.println("----====" + ex + "====----");
+
             trans.rollback();
         } finally {
             em.close();
         }
     }
-
+/**
+ * method to update existing Store object in store table
+ * @param store Store object to be updated
+ * @throws Exception 
+ */
      public void update(Store store) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();

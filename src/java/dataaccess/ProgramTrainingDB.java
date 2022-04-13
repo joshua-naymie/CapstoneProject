@@ -4,8 +4,16 @@ import jakarta.persistence.*;
 import java.util.List;
 import models.*;
 
+/**
+ * class for retrieving ProgramTraining objects from ProgramTraining table 
+ * @author 840979
+ */
 public class ProgramTrainingDB {
-
+/**
+ * method to get all existing ProgramTraining records from ProgramTraining table 
+ * @return List of ProgramTraining objects 
+ * @throws Exception 
+ */
     public List<ProgramTraining> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -15,7 +23,13 @@ public class ProgramTrainingDB {
             em.close();
         }
     }
-    
+    /**
+     * method to retrieve ProgramTraining object using user id and program id
+     * @param userId user id 
+     * @param programId program id 
+     * @return ProgramTraining object that matches both user id and program id
+     * @throws Exception 
+     */
     public ProgramTraining getProgramTraining(int userId, short programId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         Query q = em.createQuery("SELECT p FROM ProgramTraining p WHERE p.programTrainingPK.userId = :userId AND p.programTrainingPK.programId = :programId", ProgramTraining.class);

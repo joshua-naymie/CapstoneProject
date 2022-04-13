@@ -18,8 +18,8 @@
         <div id="modal-window" class="modal-window">
             <p id="modal-message">You forgot to set the modal message!</p>
             <div class="modal-buttons">
-                <input id="no-button" type="button" value="No">
-                <input id="yes-button" type="button" value="Yes">
+                <input id="no-button" class="cancel__button default__button" type="button" value="No">
+                <input id="yes-button" class="default__button" type="button" value="Yes">
             </div>
         </div>
     </div>

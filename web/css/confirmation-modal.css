@@ -1,7 +1,13 @@
+*
+{
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
 .modal-background
 {
     display: none;
-    background-color: #757575;
+    
+    backdrop-filter: blur(5px);
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -10,19 +16,34 @@
     z-index: 1;
 }
 
+@supports (backdrop-filter: blur())
+{
+    .modal-background--visible
+    {
+        background-color: #ffffff00;
+        opacity: 1;
+    }
+}
+
+@supports not (backdrop-filter: blur())
+{
+    .modal-background--visible
+    {
+        background-color: #e8e8e8;
+        opacity: 0.8;
+    }
+}
+
 .modal-background--invisible
 {
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.1s cubic-bezier(1, 0, 1, 1);
     /*transition: backdrop-filter 0.33s;*/
 }
 
 .modal-background--visible
 {
-    opacity: 0.8;
-    transition: opacity 0.2s;
-/*    backdrop-filter: blur(3px);
-    transition: backdrop-filter 0.33s;*/
+    transition: opacity 0.1s cubic-bezier(0, 0, 0, 1);
 }
 
 .modal-container
@@ -33,9 +54,9 @@
     /*align-items: center;*/
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     padding-top: 200px;
-    padding-left: 230px;
+    padding-left: 15%;
 }
 
 .modal-window
@@ -49,24 +70,23 @@
     background-color: white;
     padding: 25px;
     border-radius: 8px;
-    border: 4px solid #FFB141;
+    border: 3px solid #0d6efd;
     
     max-width: 400px;
     min-width: 300px;
     
-    zoom: 50%;
-    transition: zoom 2s;
+    transform: scale(0.9);
+    transition: transform 0.1s cubic-bezier(1, 0, 1, 1);
 }
 
-.modal-test
+.modal-zoom
 {
-    zoom: 150%;
-    transition: zoom 2s;
+    transform: scale(1);
+    transition: transform 0.1s cubic-bezier(0, 0, 0, 1);
 }
 
 .modal-window p
 {
-    font-family: sans-serif;
     font-size: 1.1rem;
 }
 
@@ -74,14 +94,14 @@
 {
     opacity: 0;
     
-    transition: opacity 0.2s;
+    transition: opacity 0.1s cubic-bezier(1, 0, 1, 1);
 }
 
 .modal-container--visible
 {
     opacity: 1;
     
-    transition: opacity 0.2s;
+    transition: opacity 0.1s cubic-bezier(0, 0, 0, 1);
 }
 
 .modal-buttons

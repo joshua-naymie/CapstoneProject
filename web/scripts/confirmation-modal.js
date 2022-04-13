@@ -39,12 +39,13 @@ function setVisibleCss()
 
     modalWindow.classList.remove("modal-container--invisible");
     modalWindow.classList.add("modal-container--visible");
-    document.getElementById("modal-window").classList.add("modal-test");
+    document.getElementById("modal-window").classList.add("modal-zoom");
 }
 
 
 function hideConfirmationModal()
 {
+    document.getElementById("modal-window").classList.remove("modal-zoom");
     setInvisibleCss();
     
     setTimeout(() => { 

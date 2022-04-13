@@ -28,16 +28,17 @@
         <div class="base">
             <%@ include file="navbar.jsp" %>
             <div id="content-section" class="body">
+                <h1 class="header">Users</h1>
                 <div id="controls" class="table-controls">
                     <div>
-                        <a class="add-user__button" onclick="exportCSVPressed();">Export CSV</a>
+                        <a class="default__button user-table__button" onclick="exportCSVPressed();">Export CSV</a>
                     </div>
                     <div style="display: flex; justify-content: center; align-items: center;">
                         <input id="searchbar" type="text" placeholder="Name" />
                     </div>
 
                     <div style="display: flex; justify-content: flex-end">
-                        <a class="add-user__button" href="/ECSSENPro/add">Add User</a>
+                        <a class="default__button user-table__button" href="/ECSSENPro/add">Add User</a>
                     </div>
                     
                     <form action="" method="post">

@@ -1,13 +1,9 @@
 @import "colorscheme.css";
 
-/*:root
+*
 {
-    --primary: #FAAE30;
-    --secondary: #E6C169;
-    --accent1: #9FCA6A;
-    --accent2: #F2F2F7;
-    --header: #174690;
-}*/
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
 
 .base
 {
@@ -20,7 +16,6 @@
 
 .body
 {
-    /*font-family: sans-serif;*/
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,9 +23,16 @@
     height: 100%;
 }
 
+.header
+{
+    text-align: center;
+    color: rgb(23, 69, 144);
+    margin-bottom: 00px;
+    margin-top: 20px;
+}
+
 .table-container
 {
-    font-family: sans-serif;
     display: flex;
     justify-content: center;
     /*align-items: center;*/
@@ -53,33 +55,54 @@
 .table-controls div input
 {
     width: 80%;
-    height: 1.1rem;
-    /*font-size: 1.1rem;*/
-    height: 110%;
-    font-family: sans-serif;
+    font-size: 1rem;
+    height: 30px;
+    border-radius: 20px;
+    border: 1px solid #606060;
+    padding-left: 14px;
 }
 
-.add-user__button
+.default__button
 {
-    border-radius: 6px;
-    border: 1px solid black;
-    color: black;
-    margin-right: 10px;
-    padding: 3px 10px 3px 10px;
-    min-width: 79px;
-    background-color: var(--accent-two-color);
     text-decoration: none;
-    font-family: sans-serif;
+    background-color: #0d6efd;
+    color: white;
+    width: 25%;
+    min-width: 110px;
+    max-width: 175px;
+    height: 30px;
+    border: 2px solid #0d6efd;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    
+    transition: background-color 0.1s;
 }
 
-.add-user__button:hover
+.default__button:hover
 {
-    background-color: var(--accent-one-color);
+    color: white;
+    cursor: pointer;
+    background-color: #0b5ed7;  /*#212592;*/
+    border: 2px solid #0b5ed7;
+    
+    transition: background-color 0.1s;
 }
 
-.add-user__button:active
+.default__button:active
 {
-    background-color: var(--secondary-color);
+    color: white;
+    background-color: #0a57ca;
+    border: 2px solid #0a57ca;
+    cursor: pointer;
+    transition: background-color 0.1s;
+}
+
+.user-table__button
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
 }
 
 .table
@@ -108,15 +131,15 @@
 .table-cell-header
 {
     
-    background-color: #FBCC58;
-    color: #15499d;
+    background-color: #6c757d;
+    color: white;
     justify-content: center;
     align-items: center;
     border-width: 1px 0 1px 1px;
     width: 100%;
     display: flex;
     border-style: solid;
-    border-color: gray;
+    border-color: black;
     text-align: center;
     min-height: 0;
     min-width: 0;
@@ -126,9 +149,7 @@
 .table-cell-header p
 {
     margin: .5rem 0 .5rem 0;
-    text-decoration: underline;
-    font-weight: bold;
-    color: var(--header);
+    font-size: 1.1rem;
     overflow: hidden;
 }
 
@@ -150,7 +171,7 @@
 
 .table-row:hover
 {
-    background-color: #f7fcfc;
+    background-color: #e7f1ff;
 }
 
 .table-cell
@@ -160,8 +181,8 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid black;
-    border-left: 1px solid black;
+    border-bottom: 1px solid gray;
+    border-left: 1px solid gray;
 /*    border-width: 0 0 1px 1px;
     border-style: solid;*/
     border-color: gray;
@@ -200,8 +221,8 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid black;
-    border-left: 1px solid black;
+    border-bottom: 1px solid gray;
+    border-left: 1px solid gray;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -221,18 +242,26 @@
 
 .table-cell__edit a:hover
 {
-    background-color: var(--accent-one-color);
+    background-color: #0b5ed7;
+    color: white;
+    cursor: pointer;
+}
+
+.table-cell__edit a:active
+{
+    background-color: #0a57ca;
+    color: white;
     cursor: pointer;
 }
 
 .last-column
 {
-    border-right: 1px solid black;
+    border-right: 1px solid gray;
 }
 
 .table-cell__last-row
 {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid gray;
 }
 
 .display__none
@@ -260,7 +289,6 @@
 .main-input__label
 {
     margin: 0 0 0 10px;
-    font-family: fancyfont;
 }
 
 .main-input__label--default
