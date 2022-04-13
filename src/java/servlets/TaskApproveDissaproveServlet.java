@@ -75,8 +75,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 new JSONKey("foodAmount", false),
                 new JSONKey("hoursWorked", false),
                 new JSONKey("packageType", true),
-                new JSONKey("teamName", true),
-                new JSONKey("hoursWorked", false)};
+                new JSONKey("teamName", true)};
 
             // creating keys for food delivery for organization
             JSONKey[] orgFoodTaskKeys = {new JSONKey("taskID", false),
@@ -93,8 +92,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 new JSONKey("foodAmount", false),
                 new JSONKey("hoursWorked", false),
                 new JSONKey("packageType", true),
-                new JSONKey("teamName", true),
-                new JSONKey("hoursWorked", false)};
+                new JSONKey("teamName", true)};
 
             // builder for hotline
             JSONBuilder hotLineBuilder = new JSONBuilder(hotlineTaskKeys);
@@ -169,10 +167,9 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 task.getFoodDeliveryData().getMileage(),
                 task.getFoodDeliveryData().getFamilyCount(),
                 task.getFoodDeliveryData().getFoodAmount(),
-                task.getFoodDeliveryData().getFoodHoursWorked(),
+                task.getFoodDeliveryData().getFoodHoursWorked().doubleValue(),
                 packageType,
-                task.getFoodDeliveryData().getStoreId().getStoreName(),
-                task.getFoodDeliveryData().getFoodHoursWorked().doubleValue()};
+                task.getFoodDeliveryData().getStoreId().getStoreName()};
 
             Object[] orgFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
                 task.getProgramId().getProgramId(),
@@ -186,10 +183,9 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 task.getFoodDeliveryData().getMileage(),
                 task.getFoodDeliveryData().getOrganizationId().getOrgName(),
                 task.getFoodDeliveryData().getFoodAmount(),
-                task.getFoodDeliveryData().getFoodHoursWorked(),
+                task.getFoodDeliveryData().getFoodHoursWorked().doubleValue(),
                 packageType,
-                task.getFoodDeliveryData().getStoreId().getStoreName(),
-                task.getFoodDeliveryData().getFoodHoursWorked().doubleValue()};
+                task.getFoodDeliveryData().getStoreId().getStoreName()};
         
         if (isCommunity) {
             return communityFoodBuilder.buildJSON(comFoodTaskValues);

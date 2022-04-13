@@ -23,6 +23,7 @@ var taskIDFromDB,
         orgNameInput, // display for food - is org only
         familyCountInput, // display for food - is community only
         approvalNotesFromDB;
+        hoursWorkedInput;
 
 function load()
 {
@@ -45,7 +46,8 @@ function load()
             weightFoodInput = new InputGroup(CSS_INPUTGROUP_MAIN, "food_weight"),
             orgNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "org_name"),
             familyCountInput = new InputGroup(CSS_INPUTGROUP_MAIN, "family_count"),
-            approvalNotesFromDB = new InputGroup(CSS_INPUTGROUP_MAIN, "approval_notes_db");
+            approvalNotesFromDB = new InputGroup(CSS_INPUTGROUP_MAIN, "approval_notes_db"),
+            hoursWorkedInput = new InputGroup(CSS_INPUTGROUP_MAIN, "hours_worked");
 
     //taskIDFromDB.setLabelText("Task ID:");
     var divTaskID = document.createElement("Div");
@@ -83,7 +85,7 @@ function load()
     firstNameInput.setPlaceHolderText("John");
     containerLeft.appendChild(firstNameInput.container);
     document.getElementById("user_firstname").setAttribute("readonly", true);
-
+    
     lastNameInput.setLabelText("Last Name:");
     lastNameInput.setPlaceHolderText("Smith");
     containerRight.appendChild(lastNameInput.container);
@@ -128,6 +130,14 @@ function load()
     weightFoodInput.setPlaceHolderText("100");
     containerRight.appendChild(weightFoodInput.container);
     document.getElementById("food_weight").setAttribute("readonly", true);
+    
+    var divHoursWorkedLabel = document.createElement("Div");
+    divHoursWorkedLabel.id = "hoursWorked-label";
+    divHoursWorkedLabel.innerHTML = "Hours Worked:";
+    containerRight.appendChild(divHoursWorkedLabel);
+//  weightFoodInput.setLabelText("Weight (lbs):"); // FOOD PROGRAM ONLY
+    containerRight.appendChild(hoursWorkedInput.container);
+    document.getElementById("hours_worked").setAttribute("readonly", true);
 
     var divFamilyLabel = document.createElement("Div");
     divFamilyLabel.id = "family-label";
@@ -223,6 +233,7 @@ function load()
     inputCollection.add(weightFoodInput);
     inputCollection.add(orgNameInput);
     inputCollection.add(familyCountInput);
+    inputCollection.add(hoursWorkedInput);
 
     if (typeof taskData !== "undefined")
     {
@@ -255,6 +266,7 @@ function populateFields()
     weightFoodInput.setInputText(taskData.foodAmount);
     orgNameInput.setInputText(taskData.organizationName);
     familyCountInput.setInputText(taskData.familyCount);
+    hoursWorkedInput.setInputText(taskData.hoursWorked);
 }
 
 
