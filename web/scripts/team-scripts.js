@@ -557,4 +557,9 @@ function setProgramId(id)
     document.getElementById("program-ID").value = id;
     
     teamNameInput.input.disabled = id == 1;
+    
+    if(id != 1)
+    {
+        document.getElementById("store-ID").value = -1;
+    }
 }
