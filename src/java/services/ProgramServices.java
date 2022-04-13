@@ -5,10 +5,14 @@
 package services;
 
 import dataaccess.ProgramDB;
+import dataaccess.ProgramTrainingDB;
 import dataaccess.UserDB;
 import java.util.List;
 import models.Program;
 import models.ProgramTraining;
+import models.ProgramTrainingPK;
+import models.Role;
+import models.Team;
 import models.User;
 
 /**
@@ -16,6 +20,81 @@ import models.User;
  * @author 840979
  */
 public class ProgramServices {
+    
+    public ProgramTraining getUserRoleIdFromProgramTraining(int userId, short programId) throws Exception {
+        ProgramTrainingDB ptDB = new ProgramTrainingDB();
+        ProgramTraining userRole = ptDB.getProgramTraining(userId, programId);
+        return userRole;
+    }
+    
+    public void insertProgramTrainingUserCreation(int teamId, short roleId, int userId) throws Exception{
+        ProgramTraining newUser = new ProgramTraining();
+        ProgramTrainingPK newUserPK = new ProgramTrainingPK();
+        
+        if (teamId != 0 && roleId != 0 && userId != 0){
+            
+            // program for program training object
+            TeamServices ts = new TeamServices();
+            Team foundTeam = ts.get(teamId);
+            ProgramServices ps = new ProgramServices();
+            Program foundProgram = ps.get(foundTeam.getProgramId().getProgramId());
+            
+            // role object
+            RoleService rs = new RoleService();
+            Role newRole = rs.get(roleId);
+            
+            // the newly created user
+            AccountServices as = new AccountServices();
+            User foundUser = as.getByID(userId);
+            
+            newUser.setProgram(foundProgram);
+            newUser.setRoleId(newRole);
+            newUser.setUser(foundUser);
+            
+            // setting program training pk object
+            newUserPK.setProgramId(foundProgram.getProgramId());
+            newUserPK.setUserId(userId);
+            newUser.setProgramTrainingPK(newUserPK);
+        }
+        ProgramDB progDB = new ProgramDB();
+        progDB.insertProgramTraining(newUser);
+    }
+    
+    public void updateProgramTrainingUserCreation(int teamId, short roleId, int userId) throws Exception{
+        ProgramTraining oldUser = new ProgramTraining();
+        ProgramTrainingPK newUserPK = new ProgramTrainingPK();
+        
+        if (teamId != 0 && roleId != 0 && userId != 0){
+            
+            // program to find program Id
+            TeamServices ts = new TeamServices();
+            Team foundTeam = ts.get(teamId);
+            ProgramServices ps = new ProgramServices();
+            Program foundProgram = ps.get(foundTeam.getProgramId().getProgramId());
+            
+            // finding existing programTraining object
+            oldUser = getUserRoleIdFromProgramTraining(userId, foundProgram.getProgramId());
+            
+            // new set role
+            RoleService rs = new RoleService();
+            Role newRole = rs.get(roleId);
+            
+            // current user
+            AccountServices as = new AccountServices();
+            User foundUser = as.getByID(userId);
+            
+            oldUser.setProgram(foundProgram);
+            oldUser.setRoleId(newRole);
+            oldUser.setUser(foundUser);
+            
+            // setting program training pk object
+            newUserPK.setProgramId(foundProgram.getProgramId());
+            newUserPK.setUserId(userId);
+            oldUser.setProgramTrainingPK(newUserPK);
+        }
+        ProgramDB progDB = new ProgramDB();
+        progDB.updateProgramTraining(oldUser);
+    }
     
     public void insertProgramTraining(ProgramTraining programTraining) throws Exception{
         ProgramDB progDB = new ProgramDB();
@@ -88,4 +167,5 @@ public class ProgramServices {
         ProgramDB programDB = new ProgramDB();
         return programDB.getAllActive();
     }
+
 }

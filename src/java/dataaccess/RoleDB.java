@@ -14,11 +14,16 @@ import models.Role;
 
 
 /**
- *
+ *class for CRUD operations on Role table 
  * @author 840979
  */
 public class RoleDB {
 
+    /**
+     * method to retrieve all existing records (objects) in Role table 
+     * @return List of Role objects
+     * @throws Exception 
+     */
 public List<models.Role> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {         
@@ -29,7 +34,12 @@ public List<models.Role> getAll() throws Exception {
             em.close();
         }
     }
-
+/**
+ * method to get Role object using role id(primary key) 
+ * @param roleId role id 
+ * @return Role object that matches the role id 
+ * @throws Exception 
+ */
     public Role get(short roleId) throws Exception {
       EntityManager em = DBUtil.getEMFactory().createEntityManager();
     try{
@@ -41,7 +51,12 @@ public List<models.Role> getAll() throws Exception {
     em.close();
 }
     }
-
+/**
+ * method to get Role object from Role table using role name 
+ * @param roleName string role name
+ * @return Role object that matches role name
+ * @throws Exception 
+ */
      public Role getByRoleName(String roleName) throws Exception {
       EntityManager em = DBUtil.getEMFactory().createEntityManager();
       try {
@@ -59,7 +74,11 @@ public List<models.Role> getAll() throws Exception {
         }
     }
     
-
+/**
+ * method to persist new Role object into Role table 
+ * @param role new role object to be inserted 
+ * @throws Exception 
+ */
 public void insert(Role role) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -73,7 +92,11 @@ public void insert(Role role) throws Exception {
             em.close();
         }
     }
-
+/**
+ *  method to update an existing Role object in Role table 
+ * @param role Role object to be updated 
+ * @throws Exception 
+ */
 public void update(Role role) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();

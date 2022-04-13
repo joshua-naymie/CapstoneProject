@@ -63,7 +63,7 @@ function load()
     newPassInput.input.addEventListener("keyup", keyUpFunction, true);
 //    confirmPassInput.input.addEventListener("click", bothFieldsNeedToMatch, true);
     confirmPassInput.addValidator(() => {console.log(confirmPassInput.input.value); return confirmPassInput.input.value === newPassInput.input.value;}, INPUTGROUP_STATE_WARNING, PASSWORDS_DONT_MATCH);
-//     // Y U no work
+
 }
 
 function focusFunction() {

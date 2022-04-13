@@ -340,7 +340,7 @@ public class GetDataServlet extends HttpServlet {
             if (teamList != null) {
                 for (Team lookForTeam : teamList) {
                     teamJSON.append('{');
-                    teamJSON.append("\"team_name\":" + "\"" + lookForTeam.getStoreId().getStoreName() + "\",");
+                    teamJSON.append("\"team_name\":" + "\"" + lookForTeam.getTeamName() + "\",");
                     teamJSON.append("\"team_id\":" + "\"" + lookForTeam.getTeamId() + "\"");
                     teamJSON.append("},");
                 }

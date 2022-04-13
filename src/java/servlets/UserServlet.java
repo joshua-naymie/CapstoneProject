@@ -14,10 +14,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.ProgramTraining;
 import models.util.JSONBuilder;
 import models.util.JSONKey;
 import models.User;
 import services.AccountServices;
+import services.ProgramServices;
 
 /**
  *
@@ -46,65 +48,67 @@ public class UserServlet extends HttpServlet {
             } catch (Exception ex) {
                 Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, ex);
             }
+            JSONKey[] userKeys = {new JSONKey("id", false),
+                new JSONKey("email", true),
+                new JSONKey("firstName", true),
+                new JSONKey("lastName", true),
+                new JSONKey("phoneNum", true),
+                new JSONKey("address", true),
+                new JSONKey("isAdmin", false),
+                new JSONKey("city", true),
+                new JSONKey("isActive", false),
+                new JSONKey("DOB", true),
+                new JSONKey("postalCode", true),
+                new JSONKey("regDate", true),
+                new JSONKey("teamInput", true),
+                new JSONKey("roleId", false)};
             
-            JSONKey[] userKeys = { new JSONKey("id", false),
-                                new JSONKey("email", true),
-                                   new JSONKey("firstName", true),
-                                   new JSONKey("lastName", true),
-                                   new JSONKey("phoneNum", true),
-                                   new JSONKey("address", true),
-                                   new JSONKey("isAdmin", false),
-                                   new JSONKey("city", true),
-                                   new JSONKey("isActive", false),
-                                   new JSONKey("DOB", true),
-                                   new JSONKey("postalCode", true),
-                                   new JSONKey("regDate", true),
-                                   new JSONKey("teamId", true)};
-            
+            // obtaining roleId
+            System.out.println("user id + program Id: " + editUser.getUserId() + ", " + editUser.getTeamId().getProgramId().getProgramId());
+            ProgramServices ps = new ProgramServices();
+            ProgramTraining checkRole = new ProgramTraining();
+            if (editUser.getUserId() != null && editUser.getTeamId() != null && !editUser.getIsAdmin()) {
+                try {
+                    checkRole = ps.getUserRoleIdFromProgramTraining(editUser.getUserId(), editUser.getTeamId().getProgramId().getProgramId());
+                } catch (Exception ex) {
+                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+//           System.out.println ("rolId: " + checkRole.getRoleId().getRoleId());
+
             JSONBuilder userBuilder = new JSONBuilder(userKeys);
             // make the user object into json data
             StringBuilder returnData = new StringBuilder();
-            
+
             returnData.append("var editUser = ");
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String DOB = dateFormat.format(editUser.getDateOfBirth());
+            String regDate = dateFormat.format(editUser.getRegistrationDate());
             
-            Object[] userData = { editUser.getUserId(),
-                                  editUser.getEmail(),
-                                  editUser.getFirstName(),
-                                  editUser.getLastName(),
-                                  editUser.getPhoneNumber(),
-                                  editUser.getHomeAddress(),
-                                  editUser.getIsAdmin(),
-                                  editUser.getUserCity(),
-                                  editUser.getIsActive(),
-                                  editUser.getDateOfBirth(),
-                                  editUser.getPostalCode(),
-                                  editUser.getRegistrationDate(),
-                                  editUser.getTeamId()};
+            int roleId = checkRole.getRoleId() == null ?  1 : checkRole.getRoleId().getRoleId();
             
+            Object[] userData = {editUser.getUserId(),
+                editUser.getEmail(),
+                editUser.getFirstName(),
+                editUser.getLastName(),
+                editUser.getPhoneNumber(),
+                editUser.getHomeAddress(),
+                editUser.getIsAdmin(),
+                editUser.getUserCity(),
+                editUser.getIsActive(),
+                DOB,
+                editUser.getPostalCode(),
+                regDate,
+                editUser.getTeamId().getTeamName(),
+                roleId};
+
             returnData.append(userBuilder.buildJSON(userData));
             returnData.append(";");
-//            String OUTPUT_FORMAT = "var editUser = {\"id\":%s, \"firstName\":%s, \"lastName\":%s, \"phoneNum\":%s, \"address\":%s,"
-//                    + "\"isAdmin\":%b,\"city\":%s,\"isActive\":%b, \"DOB\":%s, \"address\":%s, \"postalCode\":%s,"
-//                    + "\"regDate\":%s, \"teamId\":%s}";
 
-            
-            // turning DOB and registration date into strings
-//            String DOB = dateToString(editUser.getDateOfBirth());
-//            String regDate = dateToString(editUser.getRegistrationDate());
-//            // converting team Id to string
-//            //String teamId = editUser.getTeamId().toString();
-//            
-//            // appending json data to be returned into a string builder
-//            returnData.append(String.format(OUTPUT_FORMAT, checkNull(editUser.getUserId()), checkNull(editUser.getFirstName()),
-//                    checkNull(editUser.getLastName()), checkNull(editUser.getPhoneNumber()), checkNull(editUser.getHomeAddress()),
-//                    editUser.getIsAdmin(), checkNull(editUser.getUserCity()), editUser.getIsActive(), DOB, checkNull(editUser.getHomeAddress()),
-//                    checkNull(editUser.getPostalCode()), regDate, "2"));
-            
-            
-            
             request.setAttribute("userData", returnData);
         }
-        System.out.println("ID: " + id);
+//        System.out.println("edit user ID: " + id);
 //        User test = (User) request.getAttribute("editUser");
 //        System.out.println(test.getFirstName());
         getServletContext().getRequestDispatcher("/WEB-INF/user.jsp").forward(request, response);
@@ -118,13 +122,13 @@ public class UserServlet extends HttpServlet {
         }
         return "\"" + check + "\"";
     }
-    
+
     // convert a date object to string
     // adds quotes to the dates
     private String dateToString(Date date) {
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        
+
         return "\"" + simpleDateFormat.format(date) + "\"";
     }
 
@@ -146,7 +150,6 @@ public class UserServlet extends HttpServlet {
         // change status
         // create user 
         // try catch to handle what happens based on the action obtained
-        // dummy names for now match the cases with the frontend
         try {
             switch (action) {
                 // creating a new user
@@ -155,21 +158,13 @@ public class UserServlet extends HttpServlet {
                     add(request, response);
                     break;
 
-                // editing a current user
-                case "Edit":
-                    // request.setAttribute("editview", true);
-                    edit(request, response);
-                    break;
-
                 // saving account status change
                 case "Save":
                     save(request, response);
                     break;
 
                 case "Cancel":
-//                    request.setAttribute("editview", false);
-//                    request.setAttribute("editAdminView", false);
-                    response.sendRedirect("Account");
+                    response.sendRedirect("users");
                     break;
                 default:
                     System.out.println("no action picked");
@@ -185,6 +180,7 @@ public class UserServlet extends HttpServlet {
 
     private void add(HttpServletRequest request, HttpServletResponse response) {
         AccountServices accService = new AccountServices();
+        ProgramServices proService = new ProgramServices();
 
         try {
             // converting Strings to Date variables for DOB / registration date
@@ -193,22 +189,35 @@ public class UserServlet extends HttpServlet {
 
             String regDate = request.getParameter("signupdate");
             Date registrationDate = new SimpleDateFormat("yyyy-MM-dd").parse(regDate);
-            // parsing team id from string to int
-//            String sTeamId = request.getParameter("user_teamId");
-//            int teamId = Integer.parseInt(sTeamId);
 
-            //dummy date to be deleted
+            //dummy date to test with
             //Date registrationDate = new SimpleDateFormat("yyyy-MM-dd").parse("2022-02-06");
+            // Getting Admin
+            short roleSelection = Short.parseShort(request.getParameter("roleID"));
+            boolean isAdmin = false;
+            boolean isActive = request.getParameter("active") != null ? true : false;
+
+            if (roleSelection == 1) {
+                isAdmin = true;
+            }
+
+            System.out.println("active status: " + isActive);
+            System.out.println("postal code: " + request.getParameter("user_postalcode"));
+
             // inserting the new user
-            // need to match the parameter names with the front end
-            String userMsg = accService.insert(request.getParameter("username"),
+            // role drop down: roleID
+            String userMsg = accService.insert(
+                    // user ID
+                    Integer.parseInt(request.getParameter("id")),
+                    // user email
+                    request.getParameter("userEmail"),
                     //is admin
-                    false,
+                    isAdmin,
                     request.getParameter("user_city"),
                     request.getParameter("user_firstname"),
                     request.getParameter("user_lastname"),
                     // is active
-                    true,
+                    isActive,
                     request.getParameter("user_password"),
                     // DOB
                     dateOfBirth,
@@ -217,51 +226,25 @@ public class UserServlet extends HttpServlet {
                     request.getParameter("user_postalcode"),
                     // registration date
                     registrationDate,
-                    1);
-            // test print statements to be deleted
-            //System.out.println(request.getParameter("username") + request.getParameter("user_firstname"));
+                    // team 
+                    Integer.parseInt(request.getParameter("teamId")));
 
+            // add user to program training table if they are not an admin
+            if (!isAdmin) {
+                proService.insertProgramTrainingUserCreation(Integer.parseInt(request.getParameter("teamId")),
+                        roleSelection,
+                        Integer.parseInt(request.getParameter("id")));
+            }
+            // test print statements 
+            //System.out.println(request.getParameter("username") + request.getParameter("user_firstname"));
             request.setAttribute("users", accService.getAll());
             request.setAttribute("userMessage", userMsg);
-            
+
             // Redirect back to the account page
             response.sendRedirect("users");
-            
+
         } catch (Exception e) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, e);
-        }
-
-    }
-
-    private void edit(HttpServletRequest request, HttpServletResponse response) {
-        String endURL = request.getServletPath();
-        if (endURL.equals("add")) {
-        }
-        try {
-            AccountServices accService = new AccountServices();
-            // use the account services to retrieve the account info for editing
-            User editUser = accService.get(request.getParameter("username"));
-
-            try {
-                request.setAttribute("users", accService.getAll());
-            } catch (Exception e) {
-                e.printStackTrace();
-                Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, e);
-                System.err.println("Error Occured retrieving user data");
-                throw new Exception();
-            }
-
-            request.setAttribute("editUser", editUser);
-            // request.setAttribute("userName", editUser.getUserId());
-
-            try {
-                getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
-            } catch (Exception ex) {
-                Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, ex);
-                throw new Exception();
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(UserServlet.class.getName()).log(Level.WARNING, null, ex);
         }
 
     }
@@ -269,6 +252,15 @@ public class UserServlet extends HttpServlet {
     private void save(HttpServletRequest request, HttpServletResponse response) {
         try {
             AccountServices accService = new AccountServices();
+            ProgramServices proService = new ProgramServices();
+
+            // Getting Admin
+            short roleSelection = Short.parseShort(request.getParameter("roleID"));
+            boolean isAdmin = false;
+            boolean isActive = request.getParameter("active") != null ? true : false;
+            if (roleSelection == 1) {
+                isAdmin = true;
+            }
             //parsing dates
             String dobDate = request.getParameter("birthday");
             Date dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").parse(dobDate);
@@ -277,14 +269,18 @@ public class UserServlet extends HttpServlet {
             Date registrationDate = new SimpleDateFormat("yyyy-MM-dd").parse(regDate);
             // insert parameters into account services to save user
             // change parameters to match front end
-            String userMsg = accService.update(request.getParameter("username"),
+            String userMsg = accService.update(
+                    // user ID
+                    Integer.parseInt(request.getParameter("id")),
+                    // user email
+                    request.getParameter("userEmail"),
                     //is admin
-                    false,
+                    isAdmin,
                     request.getParameter("user_city"),
                     request.getParameter("user_firstname"),
                     request.getParameter("user_lastname"),
                     // is active
-                    true,
+                    isActive,
                     request.getParameter("user_password"),
                     // DOB
                     dateOfBirth,
@@ -293,13 +289,20 @@ public class UserServlet extends HttpServlet {
                     request.getParameter("user_postalcode"),
                     // registration date
                     registrationDate,
-                    1);
+                    // team
+                    Integer.parseInt(request.getParameter("teamId")));
+
+            if (!isAdmin) {
+                proService.updateProgramTrainingUserCreation(Integer.parseInt(request.getParameter("teamId")),
+                        roleSelection,
+                        Integer.parseInt(request.getParameter("id")));
+            }
 
             //request.setAttribute("users", accService.getAll());
             //getServletContext().getRequestDispatcher("/WEB-INF/UserTest.jsp").forward(request, response);
             request.setAttribute("users", accService.getAll());
             request.setAttribute("userMessage", userMsg);
-            
+
             // Redirect back to the account page
             response.sendRedirect("users");
         } catch (Exception e) {

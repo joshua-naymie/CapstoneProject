@@ -57,7 +57,8 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 new JSONKey("endTime", true),
                 new JSONKey("description", true),
                 new JSONKey("city", true),
-                new JSONKey("teamName", true)};
+                new JSONKey("teamName", true),
+                new JSONKey("hoursWorked", false)};
 
             // creating keys for food delivery for community
             JSONKey[] communityFoodTaskKeys = {new JSONKey("taskID", false),
@@ -74,7 +75,8 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 new JSONKey("foodAmount", false),
                 new JSONKey("hoursWorked", false),
                 new JSONKey("packageType", true),
-                new JSONKey("teamName", true)};
+                new JSONKey("teamName", true),
+                new JSONKey("hoursWorked", false)};
 
             // creating keys for food delivery for organization
             JSONKey[] orgFoodTaskKeys = {new JSONKey("taskID", false),
@@ -91,7 +93,8 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 new JSONKey("foodAmount", false),
                 new JSONKey("hoursWorked", false),
                 new JSONKey("packageType", true),
-                new JSONKey("teamName", true)};
+                new JSONKey("teamName", true),
+                new JSONKey("hoursWorked", false)};
 
             // builder for hotline
             JSONBuilder hotLineBuilder = new JSONBuilder(hotlineTaskKeys);
@@ -108,13 +111,13 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             // creating JSON objects
             if (task != null) {
                 if (task.getProgramId().getProgramId() == 1 && task.getFoodDeliveryData().getFamilyCount() != null && task.getFoodDeliveryData().getFamilyCount() > 0) {
-                    System.out.println("community");
+//                    System.out.println("community");
                     isCommunity = true;
                     taskReturnData.append(buildFoodJSON(task, communityFoodBuilder, isCommunity));
                 } else if (task.getProgramId().getProgramId() == 1 && task.getFoodDeliveryData().getOrganizationId() != null) {
-                    System.out.println("organization");
+//                    System.out.println("organization");
                     taskReturnData.append(buildFoodJSON(task, orgFoodBuilder, isCommunity));
-                    System.out.println("taskReturnData" + taskReturnData.toString());
+//                    System.out.println("taskReturnData" + taskReturnData.toString());
                 } else if (task.getProgramId().getProgramId() == 2) {
                     taskReturnData.append(buildHotlineJSON(task, hotLineBuilder));
                 } else {
@@ -146,46 +149,48 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         // calculating hours worked
 //        long hoursWorkedInMilliSeconds = task.getStartTime().getTime() - task.getEndTime().getTime();
 //        long hoursWorked = (hoursWorkedInMilliSeconds / (1000 * 60)) % 60;
-
         // getting package type
         String packageType = task.getFoodDeliveryData().getPackageId().getPackageName();
 
         // getting package weight
         short packageWeight = task.getFoodDeliveryData().getPackageId().getWeightLb();
 
-        // retrieving program values into an array
-        Object[] comFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
-            task.getProgramId().getProgramId(),
-            task.getProgramId().getProgramName(),
-            task.getUserId().getFirstName(),
-            task.getUserId().getLastName(),
-            jsonDateFormat.format(task.getStartTime()),
-            jsonDateFormat.format(task.getEndTime()),
-            task.getTaskDescription(),
-            task.getTaskCity(),
-            task.getFoodDeliveryData().getMileage(),
-            task.getFoodDeliveryData().getFamilyCount(),
-            task.getFoodDeliveryData().getFoodAmount(),
-            task.getFoodDeliveryData().getFoodHoursWorked(),
-            packageType,
-            task.getFoodDeliveryData().getStoreId().getStoreName()};
+//        if (task.getFoodDeliveryData().getFoodHoursWorked() != null) 
+            // retrieving program values into an array
+            Object[] comFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
+                task.getProgramId().getProgramId(),
+                task.getProgramId().getProgramName(),
+                task.getUserId().getFirstName(),
+                task.getUserId().getLastName(),
+                jsonDateFormat.format(task.getStartTime()),
+                jsonDateFormat.format(task.getEndTime()),
+                task.getTaskDescription(),
+                task.getTaskCity(),
+                task.getFoodDeliveryData().getMileage(),
+                task.getFoodDeliveryData().getFamilyCount(),
+                task.getFoodDeliveryData().getFoodAmount(),
+                task.getFoodDeliveryData().getFoodHoursWorked(),
+                packageType,
+                task.getFoodDeliveryData().getStoreId().getStoreName(),
+                task.getFoodDeliveryData().getFoodHoursWorked().doubleValue()};
 
-        Object[] orgFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
-            task.getProgramId().getProgramId(),
-            task.getProgramId().getProgramName(),
-            task.getUserId().getFirstName(),
-            task.getUserId().getLastName(),
-            jsonDateFormat.format(task.getStartTime()),
-            jsonDateFormat.format(task.getEndTime()),
-            task.getTaskDescription(),
-            task.getTaskCity(),
-            task.getFoodDeliveryData().getMileage(),
-            task.getFoodDeliveryData().getOrganizationId().getOrgName(),
-            task.getFoodDeliveryData().getFoodAmount(),
-            task.getFoodDeliveryData().getFoodHoursWorked(),
-            packageType,
-            task.getFoodDeliveryData().getStoreId().getStoreName()};
-
+            Object[] orgFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
+                task.getProgramId().getProgramId(),
+                task.getProgramId().getProgramName(),
+                task.getUserId().getFirstName(),
+                task.getUserId().getLastName(),
+                jsonDateFormat.format(task.getStartTime()),
+                jsonDateFormat.format(task.getEndTime()),
+                task.getTaskDescription(),
+                task.getTaskCity(),
+                task.getFoodDeliveryData().getMileage(),
+                task.getFoodDeliveryData().getOrganizationId().getOrgName(),
+                task.getFoodDeliveryData().getFoodAmount(),
+                task.getFoodDeliveryData().getFoodHoursWorked(),
+                packageType,
+                task.getFoodDeliveryData().getStoreId().getStoreName(),
+                task.getFoodDeliveryData().getFoodHoursWorked().doubleValue()};
+        
         if (isCommunity) {
             return communityFoodBuilder.buildJSON(comFoodTaskValues);
         } else {
@@ -212,7 +217,8 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             jsonDateFormat.format(task.getEndTime()),
             task.getTaskDescription(),
             task.getTaskCity(),
-            "HotLine"};
+            "HotLine",
+            task.getHotlineData().getHotlineHoursWorked().doubleValue()};
 
         return hotLineBuilder.buildJSON(hotLineValues);
     }
@@ -257,13 +263,14 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         try {
             // Get the task based on task id
             TaskService ts = new TaskService();
-            
+
             // get task Id to update approval
             String taskId = request.getParameter("id");
-            
+            System.out.println("Task id: " + taskId);
+
             //call on db to set this task to approved
             ts.approveTask(Long.parseLong(taskId));
-            
+
             response.sendRedirect("approve");
         } catch (Exception ex) {
             Logger.getLogger(TaskApproveDissaproveServlet.class.getName()).log(Level.WARNING, null, ex);
@@ -274,13 +281,13 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         try {
             // Get the task based on task id
             TaskService ts = new TaskService();
-            
+
             // get task Id to update approval
             String taskId = request.getParameter("id");
-            
+
             //call on db to set this task to approved
             ts.disapproveTask(Long.parseLong(taskId));
-            
+
             response.sendRedirect("approve");
         } catch (Exception ex) {
             Logger.getLogger(TaskApproveDissaproveServlet.class.getName()).log(Level.WARNING, null, ex);

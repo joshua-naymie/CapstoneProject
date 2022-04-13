@@ -10,10 +10,16 @@ import java.util.List;
 import models.Organization;
 
 /**
- *
+ *Class used to retrieve objects(records) from Organization table
  * @author srvad
  */
 public class OrganizationDB {
+    
+/**
+ * method to retrieve a list of all records/objects from Organization table
+ * @return List of Organization objects currently in database 
+ * @throws Exception 
+ */
     public List<Organization> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         
@@ -26,7 +32,12 @@ public class OrganizationDB {
             em.close();
         }
     }
-
+/**
+ * method to retrieve Organization object from Organization table using id
+ * @param orgId - organization id (primary key)
+ * @return Organization object matching passed id 
+ * @throws Exception 
+ */
     public Organization get(Integer orgId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         

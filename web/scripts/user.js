@@ -29,7 +29,7 @@ function load() {
     (userID = new InputGroup(CSS_INPUTGROUP_MAIN, "id")),
             (firstNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_firstname")),
             (lastNameInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_lastname")),
-            (emailInput = new InputGroup(CSS_INPUTGROUP_MAIN, "username")),
+            (emailInput = new InputGroup(CSS_INPUTGROUP_MAIN, "userEmail")),
             (phoneInput = new InputGroup(CSS_INPUTGROUP_MAIN, "user_phone")),
             (birthdayInput = new InputGroup(CSS_INPUTGROUP_MAIN, "birthday")),
             (streetInput = new InputGroup(CSS_INPUTGROUP_MAIN, "street")),
@@ -132,9 +132,19 @@ function load() {
     //    phoneInput.setEnterFunction(phoneInput);
     phoneInput.setPlaceHolderText("555-555-5555");
     containerRight.appendChild(phoneInput.container);
+    
+    streetInput.setLabelText("Street:");
+    streetInput.addValidator(
+            REGEX_NOT_EMPTY,
+            INPUTGROUP_STATE_ERROR,
+            MESSAGE_REQUIRED
+            );
+    //    streetInput.setEnterFunction(phoneInput);
+    streetInput.setPlaceHolderText("112 Edgedale Dr. NW");
+    containerLeft.appendChild(streetInput.container);
 
     birthdayInput.setLabelText("Birthday:");
-    // birthdayInput.input.type = "date";
+    birthdayInput.input.type = "date";
     birthdayInput.addValidator(
             REGEX_NOT_EMPTY,
             INPUTGROUP_STATE_ERROR,
@@ -146,17 +156,7 @@ function load() {
             MESSAGE_INVALID
             );
     //    birthdayInput.setEnterFunction(phoneInput);
-    containerLeft.appendChild(birthdayInput.container);
-
-    streetInput.setLabelText("Street:");
-    streetInput.addValidator(
-            REGEX_NOT_EMPTY,
-            INPUTGROUP_STATE_ERROR,
-            MESSAGE_REQUIRED
-            );
-    //    streetInput.setEnterFunction(phoneInput);
-    streetInput.setPlaceHolderText("112 Edgedale Dr. NW");
-    containerRight.appendChild(streetInput.container);
+    containerRight.appendChild(birthdayInput.container);
 
     cityInput.setLabelText("City:");
     cityInput.addValidator(
@@ -165,6 +165,7 @@ function load() {
             MESSAGE_REQUIRED
             );
     //    cityInput.setEnterFunction(phoneInput);
+    cityInput.setPlaceHolderText("Calgary");
     containerLeft.appendChild(cityInput.container);
 
     postalCodeInput.setLabelText("Postal Code:");
@@ -178,7 +179,9 @@ function load() {
             INPUTGROUP_STATE_WARNING,
             MESSAGE_INVALID
             );
+    postalCodeInput.setPlaceHolderText("A9A 9A9");
     //    postalCodeInput.setEnterFunction(phoneInput);
+    postalCodeInput.setPlaceHolderText("A0A0A0");
     containerRight.appendChild(postalCodeInput.container);
 
     //    passwordInput.setLabelText("Password:");
@@ -216,10 +219,11 @@ function load() {
     $('#role').append('<option value="4">Coordinator</option>');
     $('#role').append('<option value="5">Supervisor</option>');
 
-    adminInput.setLabelText("Admin:");
-    adminInput.input.type = "checkbox";
+    // 
+//    adminInput.setLabelText("Admin:");
+//    adminInput.input.type = "checkbox";
     //    postalCodeInput.setEnterFunction(phoneInput);
-    containerLeft.appendChild(adminInput.container);
+//    containerLeft.appendChild(adminInput.container);
 
     activeInput.setLabelText("Active:");
     activeInput.input.type = "checkbox";
@@ -242,9 +246,11 @@ function load() {
 
     let cancelButton = document.createElement("button");
     cancelButton.innerHTML = "Cancel";
-    cancelButton.type = "reset";
+    cancelButton.type = "submit";
     cancelButton.className = "btn";
     cancelButton.id = "cancel-button";
+    cancelButton.name = "action";
+    cancelButton.value = "Cancel";
 
     // Add "Submit" and "Cancel" button to the DOM
     containerLeft.appendChild(cancelButton);
@@ -291,8 +297,12 @@ function populateFields() {
 
     adminInput.input.checked = editUser.isAdmin;
     activeInput.input.checked = editUser.isActive;
+    
+    document.getElementById('role').selectedIndex = editUser.roleId - 1;
 
-    teamInput.input.checked = editUser.teamInput;
+//    teamInput.input.checked = editUser.teamInput;
+    teamInput.setInputText(editUser.teamInput);
+    searchTeam();
     // roleInput.input.checked = editUser.roleInput;
 }
 
