@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -153,6 +155,18 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
 
         // getting package weight
         short packageWeight = task.getFoodDeliveryData().getPackageId().getWeightLb();
+        
+        Date taskStart = task.getStartTime();
+
+        //find the difference between the task start time and the current time
+        LocalDateTime taskTime = taskStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        
+        taskTime.plusHours(task.getFoodDeliveryData().getFoodHoursWorked().longValue());
+        
+        log(taskTime + "");
+        
+        //Date endDate = task.getStartTime().getTime() + task.getFoodDeliveryData().getFoodHoursWorked().doubleValue() ;
+        Date out = Date.from(taskTime.atZone(ZoneId.systemDefault()).toInstant());
 
 //        if (task.getFoodDeliveryData().getFoodHoursWorked() != null) 
         // retrieving program values into an array
@@ -164,7 +178,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 task.getUserId().getFirstName(),
                 task.getUserId().getLastName(),
                 jsonDateFormat.format(task.getStartTime()),
-                jsonDateFormat.format(task.getEndTime()),
+                jsonDateFormat.format(out),
                 task.getTaskDescription(),
                 task.getTaskCity(),
                 task.getFoodDeliveryData().getMileage(),
@@ -181,7 +195,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 task.getUserId().getFirstName(),
                 task.getUserId().getLastName(),
                 jsonDateFormat.format(task.getStartTime()),
-                jsonDateFormat.format(task.getEndTime()),
+                jsonDateFormat.format(out),
                 task.getTaskDescription(),
                 task.getTaskCity(),
                 task.getFoodDeliveryData().getMileage(),
@@ -284,7 +298,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
 
             //call on db to set this task to approved
             ts.disapproveTask(Long.parseLong(taskId));
-
+            
             response.sendRedirect("approve");
         } catch (Exception ex) {
             Logger.getLogger(TaskApproveDissaproveServlet.class.getName()).log(Level.WARNING, null, ex);

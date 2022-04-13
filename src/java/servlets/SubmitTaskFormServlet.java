@@ -226,9 +226,19 @@ public class SubmitTaskFormServlet extends HttpServlet {
 
                     Short familyCount = -1;
                     Integer organizationId = -1;
-
-                    //create food delivery data for a task and assign values
-                    FoodDeliveryData fd = new FoodDeliveryData(submitTaskId);
+                    
+                    
+                    FoodDeliveryData fd = null;
+                    
+                    //if data doestn exist make a new one else update current
+                    if (editTask.getFoodDeliveryData() == null) {
+                        fd = new FoodDeliveryData(submitTaskId);
+                    } else {
+                        fd = editTask.getFoodDeliveryData();
+                        fd.setOrganizationId(null);
+                        fd.setFamilyCount(null);
+                    }
+    
                     fd.setTaskFdId(submitTaskId);
                     fd.setMileage(mileage);
                     fd.setFoodHoursWorked(totalHours);
@@ -255,20 +265,28 @@ public class SubmitTaskFormServlet extends HttpServlet {
 
                     fd.setStoreId(editTask.getTeamId().getStoreId());
 
-                    if (editTask.getFoodDeliveryData() != null) {
+                    if (editTask.getFoodDeliveryData() == null) {
                         fds.insertFoodDeliveryData(fd);
                     } else {
+                        //log(fd.getFoodHoursWorked() + " " + fd.getTaskFdId() + "");
                         fds.updateFoodDeliveryData(fd);
                     }
 
                 } else {
+                    
+                    HotlineData hd = null;
 
-                    //else create a hotline data and insert it into the database
-                    HotlineData hd = new HotlineData(submitTaskId);
+                    //if data doestn exist make a new one else update current
+                    if (editTask.getHotlineData() == null) {
+                        hd = new HotlineData(submitTaskId);
+                    } else {
+                        hd = editTask.getHotlineData();
+                    }
+
                     hd.setTaskHotlineId(submitTaskId);
                     hd.setHotlineHoursWorked(totalHours);
 
-                    if (editTask.getHotlineData() != null) {
+                    if (editTask.getHotlineData() == null) {
                         fds.insertHotlineData(hd);
                     } else {
                         fds.updateHotlineData(hd);
@@ -281,6 +299,7 @@ public class SubmitTaskFormServlet extends HttpServlet {
                     //once the user submits, this field becomes true
                     editTask.setIsSubmitted(Boolean.TRUE);
                     editTask.setAvailable(false);
+                    editTask.setIsDissaproved(Boolean.FALSE);
                     ts.update(editTask);
 
                 } catch (Exception ex) {
