@@ -23,9 +23,9 @@ public class TaskService {
      *
      * @param taskId the task to be disapproved
      */
-    public void disapproveTask(long taskId) {
+    public void disapproveTask(long taskId, String approvalNotes) {
         TaskDB taskDB = new TaskDB();
-        taskDB.disapproveTask(taskId);
+        taskDB.disapproveTask(taskId, approvalNotes);
     }
 
     /**
@@ -33,9 +33,9 @@ public class TaskService {
      *
      * @param taskId the task to be approved
      */
-    public void approveTask(long taskId) {
+    public void approveTask(long taskId, String approvalNotes) {
         TaskDB taskDB = new TaskDB();
-        taskDB.approveTask(taskId);
+        taskDB.approveTask(taskId, approvalNotes);
     }
 
     public List<Task> getAll() throws Exception {

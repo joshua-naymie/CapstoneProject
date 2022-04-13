@@ -35,7 +35,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             throws ServletException, IOException {
         // retrieve task information based on URL parameter
         String taskId = request.getParameter("id");
-        System.out.println("Id: " + taskId);
+//        System.out.println("Id: " + taskId);
         Task task = null;
         try {
             // uncomment after frontend connection
@@ -278,9 +278,12 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             // get task Id to update approval
             String taskId = request.getParameter("id");
             System.out.println("Task id: " + taskId);
-
+            
+            // get approval notes to update
+            String approvalNotes = request.getParameter("approvalText");
+            
             //call on db to set this task to approved
-            ts.approveTask(Long.parseLong(taskId));
+            ts.approveTask(Long.parseLong(taskId), approvalNotes);
 
             response.sendRedirect("approve");
         } catch (Exception ex) {
@@ -295,9 +298,13 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
 
             // get task Id to update approval
             String taskId = request.getParameter("id");
-
+            
+            // get approval notes to update
+            String approvalNotes = request.getParameter("approvalText");
+//          System.out.println("approval notes: " + approvalNotes);
+            
             //call on db to set this task to approved
-            ts.disapproveTask(Long.parseLong(taskId));
+            ts.disapproveTask(Long.parseLong(taskId), approvalNotes);
             
             response.sendRedirect("approve");
         } catch (Exception ex) {
