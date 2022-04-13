@@ -15,13 +15,17 @@ import models.ProgramTraining;
 import models.Role;
 
 /**
- *
+ *class to perform some of the CRUD operations on User table
  * @author DWEI
  */
 public class UserDB {
-
-    // get and return a user with matching PK ID
-    // get for getting a specific user
+/**
+ * method to get and return a user with matching PK ID
+ * @param ID
+ * @return User object that matches user id
+ * @throws Exception 
+ */
+   
     public User getByID(int ID) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -36,8 +40,14 @@ public class UserDB {
             em.close();
         }
     }
-
-    // get user by full name
+/**
+ * method to get user by full name
+ * @param firstName first name
+ * @param lastName last name
+ * @return User object that matches both parameters 
+ * @throws Exception 
+ */
+ 
     public User getUserByFullName(String firstName, String lastName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         Query q = em.createQuery("SELECT u FROM User u WHERE u.firstName LIKE :firstName AND u.lastName LIKE :lastName", User.class);
@@ -50,7 +60,13 @@ public class UserDB {
             em.close();
         }
     }
-
+/**
+ * get all users that match full name from User table
+ * @param firstName -first name
+ * @param lastName - last name 
+ * @return List of User object that match given parameters 
+ * @throws Exception 
+ */
     public List<User> getUsersByFullName(String firstName, String lastName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         Query q = em.createQuery("SELECT u FROM User u WHERE u.firstName LIKE :firstName OR u.lastName LIKE :lastName", User.class);
@@ -63,8 +79,12 @@ public class UserDB {
             em.close();
         }
     }
+/**
+ * method to retrieve all records from User table where field isActive set to "true" 
+ * @return List of User objects that have isActive = true 
+ * @throws Exception 
+ */
 
-    // getAll active users only
     public List<User> getAllActive() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -76,8 +96,13 @@ public class UserDB {
             em.close();
         }
     }
-
-    // getAll active supervisors or managers base on role name
+/**
+ * method to retrieve active supervisors or managers based on role name
+ * @param roleName role name 
+ * @return List of User that match the given role name
+ * @throws Exception 
+ */
+    
     public List<User> getAllActiveSupervisorsOrManagers(String roleName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
 
@@ -116,7 +141,13 @@ public class UserDB {
         em.close();
         return allSupervisors;
     }
-
+/**
+ * method to retrieve all records from User table where role field is "Supervisor"
+ * and isActive field set to "true" filtered by program id
+ * @param programId program id
+ * @return List of User objects that match the above parameters 
+ * @throws Exception 
+ */
     // getAll active supervisors only
     public List<User> getAllActiveSupervisorsByProgram(Short programId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
@@ -157,7 +188,12 @@ public class UserDB {
         em.close();
         return allSupervisors;
     }
-
+/**
+ * retrieve User records that have field isActive set to "true" and role field is 
+ * "Coordinator"
+ * @return List of User objects that match the above 
+ * @throws Exception 
+ */
     public List<User> getAllActiveHotlineCoordinators() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
 
@@ -198,8 +234,11 @@ public class UserDB {
         return allCoordinators;
     }
 
-    // irina
-    // getAll for getting all users
+  /**
+   * retrieve all records from User table 
+   * @return List of User objects 
+   * @throws Exception 
+   */
     public List<User> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -212,8 +251,12 @@ public class UserDB {
         }
     }
 
-    //irina
-    // get for getting a specific user
+   /**
+    * method to retrieve User record matching given email address 
+    * @param email user's email 
+    * @return User object matching the given email 
+    * @throws Exception 
+    */
     public User get(String email) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -228,7 +271,12 @@ public class UserDB {
             em.close();
         }
     }
-
+/**
+ * method to retrieve User records by last name
+ * @param lastName last name
+ * @return List of User objects that match last name 
+ * @throws Exception 
+ */
     public List<User> getUserByLastName(String lastName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         Query q = em.createQuery("SELECT u FROM User u WHERE u.lastName LIKE :keyword ORDER BY u.lastName, u.firstName", User.class);
@@ -241,8 +289,11 @@ public class UserDB {
         }
     }
 
-    //agambeer
-    // Insert for creating users
+    /**
+     * method to persist new User object into User table 
+     * @param user new user to be inserted 
+     * @throws Exception 
+     */
     public void insert(User user) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -257,8 +308,11 @@ public class UserDB {
         }
     }
 
-    //agambeer
-    // update for editing users
+/**
+ * method to update existing User object in User table 
+ * @param user - User object to be updated 
+ * @throws Exception 
+ */
     public void update(User user) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -273,6 +327,12 @@ public class UserDB {
         }
     }
 
+    /**
+     * retrieve User record from User table by Uuid
+     * @param uuid 
+     * @return User object matching Uuid 
+     * @throws Exception 
+     */
     public User getByUUID(String uuid) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
 
@@ -285,7 +345,12 @@ public class UserDB {
         }
     }
 
-    //get all active users for hotline program 
+  /**
+   * method to retrieve records from ProgramTraining table where program is Hotline Program(2) 
+   * then retrieve User records have isActive set to "true" 
+   * @return List of User objects that match the above 
+   * @throws Exception 
+   */
     public List<User> getActiveHotline() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         List<User> allActiveHotlineUsers = new ArrayList<>();

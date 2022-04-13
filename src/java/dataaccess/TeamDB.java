@@ -14,11 +14,16 @@ import models.Store;
 import models.Team;
 
 /**
- *
+ *class to perform some of the CRUD operations on Team table 
  * @author srvad
  */
 public class TeamDB {
-
+/**
+ * method to retrieve Team record using team id (primary key) 
+ * @param teamId team id 
+ * @return Team object that matches team id
+ * @throws Exception 
+ */
     public Team get(int teamId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -28,7 +33,11 @@ public class TeamDB {
             em.close();
         }
     }
-
+/**
+ * method to retrieve existing records from Team table 
+ * @return List of Team objects 
+ * @throws Exception 
+ */
     public List<Team> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -39,6 +48,12 @@ public class TeamDB {
         }
     }
 
+    /**
+     * method to retrieve Team records by team name
+     * @param teamName team name
+     * @return List of Team objects that match team name 
+     * @throws Exception 
+     */
     public List<Team> getTeamsByName(String teamName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -58,7 +73,11 @@ public class TeamDB {
             em.close();
         }
     }
-
+/**
+ * method to persist new Team object into Team table 
+ * @param newTeam - new Team object to be inserted 
+ * @throws Exception 
+ */
     public void insert(Team newTeam) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -77,7 +96,11 @@ public class TeamDB {
             em.close();
         }
     }
-    
+    /**
+     * method to update existing Team record in Team table 
+     * @param updateTeam - Team object to be updated 
+     * @throws Exception 
+     */
     public void update(Team updateTeam) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
