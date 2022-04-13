@@ -16,11 +16,17 @@ import models.Program;
 import models.ProgramTraining;
 
 /**
- *
+ *data access class to perform CRUD operations on Program and ProgramTraining tables
  * @author 840979
  */
 public class ProgramDB {
     
+    /**
+     * method to retrieve program id using program name
+     * @param programName - string program name 
+     * @return - short for program id 
+     * @throws Exception 
+     */
     public short getProgramId(String programName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -38,6 +44,11 @@ public class ProgramDB {
         }
     }
 
+    /**
+     * method to get a list of all Program objects that are currently in database
+     * @return list of Program objects 
+     * @throws Exception 
+     */
     public List<Program> getAll() throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -48,7 +59,12 @@ public class ProgramDB {
             em.close();
         }
     }
-
+/**
+ * method to retrieve Program object from Program table using program id(primary key)
+ * @param programId - short passed as program id
+ * @return Program object that matches passed program id 
+ * @throws Exception 
+ */
     public Program get(short programId) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -59,6 +75,12 @@ public class ProgramDB {
         }
     }
 
+    /**
+     * method to retrieve Program object from Program table using program name
+     * @param programName - passed string for program name
+     * @return Program object matching passed program name 
+     * @throws Exception 
+     */
     public Program getByProgramName(String programName) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         try {
@@ -76,13 +98,18 @@ public class ProgramDB {
         }
     }
     
+    /**
+     * method to persist new ProgramTraining object into ProgramTraining table 
+     * @param programTraining new ProgramTraining object passed 
+     * @throws Exception 
+     */
     public void insertProgramTraining(ProgramTraining programTraining) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
         
         try {
             programTraining.getUser().getProgramTrainingList().add(programTraining);
-//            System.out.println(programTraining.getUser().getUserId());
+
             programTraining.getProgram().getProgramTrainingList().add(programTraining);
             programTraining.getRoleId().getProgramTrainingList().add(programTraining);
             trans.begin();
@@ -98,6 +125,11 @@ public class ProgramDB {
         }
     }
     
+    /**
+     * method to update existing ProgramTraining object in ProgramTraining table 
+     * @param programTraining object to be updated 
+     * @throws Exception 
+     */
     public void updateProgramTraining(ProgramTraining programTraining) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -111,7 +143,11 @@ public class ProgramDB {
             em.close();
         }
     }
-
+/**
+ * method to persist new Program object into Program table 
+ * @param program new program object passed 
+ * @throws Exception 
+ */
     public void insert(Program program) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -125,7 +161,11 @@ public class ProgramDB {
             em.close();
         }
     }
-
+/**
+ * method to update existing Program object in Program table
+ * @param program Program object to be updated 
+ * @throws Exception if object does not exist
+ */
     public void update(Program program) throws Exception {
         EntityManager em = DBUtil.getEMFactory().createEntityManager();
         EntityTransaction trans = em.getTransaction();
@@ -139,7 +179,11 @@ public class ProgramDB {
             em.close();
         }
     }
-
+/**
+ * metho retrieve all ids of existing programs in Program table 
+ * @return List of Ids from Program table 
+ * @throws Exception 
+ */
     public List<Short> getAllIDs() throws Exception
     {
         EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
@@ -148,6 +192,11 @@ public class ProgramDB {
         return ids;
     }
     
+    /**
+     * method to retrieve all Program objects where isActive field is set to "true" 
+     * @return list of all active programs 
+     * @throws Exception 
+     */
     public List<Program> getAllActive() throws Exception
     {
         EntityManager entityManager = DBUtil.getEMFactory().createEntityManager();
