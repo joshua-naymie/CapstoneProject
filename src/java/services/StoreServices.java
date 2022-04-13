@@ -77,6 +77,7 @@ public String update (int storeId, String streetAddress, String postalCode, Stri
        toUpdate.setStoreCity(storeCity);
        toUpdate.setStoreName(storeName);
        toUpdate.setStreetAddress(streetAddress);
+       toUpdate.setCompanyId(cn);
        
        storeDB.update(toUpdate);
         return "Store "+ storeName + " has been added.";

@@ -298,7 +298,7 @@ public class TeamsServlet extends HttpServlet {
     private void save(HttpServletRequest request, HttpServletResponse response) {
         // team service
         TeamServices tmService = new TeamServices();
-       
+       System.out.println();
         // getting the edited values and updating the team
         try {
             // updating the team

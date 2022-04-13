@@ -247,9 +247,9 @@ public class ReportServlet extends HttpServlet {
                         totalMileage += checkTask.getFoodDeliveryData().getMileage();
                     }
                     //check if its hotline task
-                    if (checkTask.getProgramId().getProgramId() == 2) {
+                    if (checkTask.getProgramId().getProgramId() == 2 && checkTask.getHotlineData() != null) {
                         tempHoursWorked = checkTask.getHotlineData().getHotlineHoursWorked().doubleValue();
-                        hoursWorkedPerTask = checkTask.getFoodDeliveryData().getFoodHoursWorked();
+                        hoursWorkedPerTask = checkTask.getHotlineData().getHotlineHoursWorked();
                         totalTasksCompleted++;
                     }
 
@@ -452,8 +452,9 @@ public class ReportServlet extends HttpServlet {
         builder.addRecord(tableHeader);
         long hour = 3600 * 1000;
         for (FoodDeliveryData f : fdd) {
-            if ((f.getTask().getStartTime().getTime() >= startDate.getTime()
-                    && f.getTask().getStartTime().getTime() <= (endDate.getTime() + 23 * hour))) {
+            if ((f.getTask().getStartTime().getTime() >= startDate.getTime() 
+                    && f.getTask().getStartTime().getTime() <= (endDate.getTime() + 23 * hour)&&
+                    f.getTask().getIsApproved())) {
                 String deliveryDate = f.getTask().getStartTime() == null
                         ? "No date recorded"
                         : dateFormat.format(f.getTask().getStartTime());
