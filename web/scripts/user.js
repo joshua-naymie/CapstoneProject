@@ -132,6 +132,16 @@ function load() {
     //    phoneInput.setEnterFunction(phoneInput);
     phoneInput.setPlaceHolderText("555-555-5555");
     containerRight.appendChild(phoneInput.container);
+    
+    streetInput.setLabelText("Street:");
+    streetInput.addValidator(
+            REGEX_NOT_EMPTY,
+            INPUTGROUP_STATE_ERROR,
+            MESSAGE_REQUIRED
+            );
+    //    streetInput.setEnterFunction(phoneInput);
+    streetInput.setPlaceHolderText("112 Edgedale Dr. NW");
+    containerLeft.appendChild(streetInput.container);
 
     birthdayInput.setLabelText("Birthday:");
     birthdayInput.input.type = "date";
@@ -146,17 +156,7 @@ function load() {
             MESSAGE_INVALID
             );
     //    birthdayInput.setEnterFunction(phoneInput);
-    containerLeft.appendChild(birthdayInput.container);
-
-    streetInput.setLabelText("Street:");
-    streetInput.addValidator(
-            REGEX_NOT_EMPTY,
-            INPUTGROUP_STATE_ERROR,
-            MESSAGE_REQUIRED
-            );
-    //    streetInput.setEnterFunction(phoneInput);
-    streetInput.setPlaceHolderText("112 Edgedale Dr. NW");
-    containerRight.appendChild(streetInput.container);
+    containerRight.appendChild(birthdayInput.container);
 
     cityInput.setLabelText("City:");
     cityInput.addValidator(
@@ -165,6 +165,7 @@ function load() {
             MESSAGE_REQUIRED
             );
     //    cityInput.setEnterFunction(phoneInput);
+    cityInput.setPlaceHolderText("Calgary");
     containerLeft.appendChild(cityInput.container);
 
     postalCodeInput.setLabelText("Postal Code:");
@@ -178,6 +179,7 @@ function load() {
             INPUTGROUP_STATE_WARNING,
             MESSAGE_INVALID
             );
+    postalCodeInput.setPlaceHolderText("A9A 9A9");
     //    postalCodeInput.setEnterFunction(phoneInput);
     postalCodeInput.setPlaceHolderText("A0A0A0");
     containerRight.appendChild(postalCodeInput.container);
