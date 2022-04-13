@@ -23,7 +23,12 @@
         <div class="container">
 			<p class="h1 text-center header"> Task: ${description} </p>
         
-        <form action="submitTaskForm" method="post" class="mt-3">   
+        <form action="submitTaskForm" method="post" class="mt-3">                             
+                
+        <div class="form-floating mb-3">
+            <textarea name="submissionInfo" class="form-control" id="submissionInfo" placeholder="Old Submission Info" style="height: 150px;" disabled></textarea>
+            <label for="notes">Old Submission Info</label>
+        </div>
         
         <div class="mb-3 form-group">
             <label for="totalHours" class="form-label">Hours Worked: </label>

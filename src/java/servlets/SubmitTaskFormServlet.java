@@ -76,11 +76,24 @@ public class SubmitTaskFormServlet extends HttpServlet {
 
         //get description for the current task
         String description = editTask.getTaskDescription();
-
+        
+        String oldSubmissionInfo = "";
+        
+        if(editTask.getApprovalNotes() != null) oldSubmissionInfo = "Notes: " + editTask.getApprovalNotes() + "<br>";
         
         //if the selected task was food delivery get information for extra fields
         if (foodDeliveryId == editTask.getProgramId().getProgramId()) {
 
+            if(editTask.getFoodDeliveryData() != null){
+                FoodDeliveryData fd = editTask.getFoodDeliveryData();
+                oldSubmissionInfo = "Hours: " + fd.getFoodHoursWorked() + "<br>";
+                oldSubmissionInfo = "Family Count: " + fd.getFamilyCount() + "<br>";
+                oldSubmissionInfo = "Mileage: " + fd.getMileage() + "<br>";
+                oldSubmissionInfo = "Organization Name: " + fd.getOrganizationId().getOrgName() + "<br>";
+                oldSubmissionInfo = "Pakage Type: " + fd.getPackageId().getPackageName() + "<br>";
+                oldSubmissionInfo = "Package Count: " + fd.getFoodAmount() + "<br>";
+            }
+            
             request.setAttribute("foodDelivery", true);
 
             //get all the package types available in the package_type table
@@ -110,6 +123,14 @@ public class SubmitTaskFormServlet extends HttpServlet {
             request.setAttribute("organizations", organizations);
 
         }
+        else{
+            if(editTask.getHotlineData()!=null){
+                HotlineData hd = editTask.getHotlineData();
+                oldSubmissionInfo = "Hours: " + hd.getHotlineHoursWorked() + "<br>";
+            }
+        }
+        
+       request.setAttribute("submissionInfo", oldSubmissionInfo);
 
         request.setAttribute("description", description);
 
@@ -226,8 +247,14 @@ public class SubmitTaskFormServlet extends HttpServlet {
                 fd.setPackageId(pt);
 
                 fd.setStoreId(editTask.getTeamId().getStoreId());
+                
+                if(editTask.getFoodDeliveryData() != null){
+                    fds.insertFoodDeliveryData(fd);
+                }
+                else{
+                    fds.updateFoodDeliveryData(fd);
+                }
 
-                fds.insertFoodDeliveryData(fd);
 
             } else {
                 
@@ -235,7 +262,13 @@ public class SubmitTaskFormServlet extends HttpServlet {
                 HotlineData hd = new HotlineData(submitTaskId);
                 hd.setTaskHotlineId(submitTaskId);
                 hd.setHotlineHoursWorked(totalHours);
-                fds.insertHotlineData(hd);
+                
+                if(editTask.getHotlineData() != null){
+                    fds.insertHotlineData(hd);
+                }else{
+                    fds.updateHotlineData(hd);
+                }
+
             }
 
             try {
