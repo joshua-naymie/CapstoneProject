@@ -132,14 +132,14 @@
                                     </ul>
                                 </div>
 
-                                <div class="form-group col-md-4 mb-3">
+                                <%-- <div class="form-group col-md-4 mb-3">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="task_available" id="task_available">
                                         <label class="form-check-label" for="isAvailable">
                                             Is Available 
                                         </label>
                                     </div>
-                                </div>
+                                </div> --%>
                             </div>
                             
                             <!-- Number of volunteers for the task -->
