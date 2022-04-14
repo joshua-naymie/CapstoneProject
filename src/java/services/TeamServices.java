@@ -11,17 +11,28 @@ import models.Store;
 import models.Team;
 
 /**
- *
+ *class to perform CRUD operations on Team table 
  * @author srvad
  */
 public class TeamServices {
 
+    /**
+     * method to retrieve Team record using team id
+     * @param teamId
+     * @return Team object matching the id
+     * @throws Exception 
+     */
     public Team get(int teamId) throws Exception {
         TeamDB teamDB = new TeamDB();
         Team team = teamDB.get(teamId);
         return team;
     }
 
+    /**
+     * method to retrieve all existing records from team table
+     * @return list of Team objects
+     * @throws Exception 
+     */
     public List<Team> getAll() throws Exception {
         TeamDB teamDB = new TeamDB();
         List<Team> teams = teamDB.getAll();
@@ -29,6 +40,12 @@ public class TeamServices {
 
     }
 
+    /**
+     * method to retrieve records from Team table by team name 
+     * @param teamName
+     * @return list of Team objects matching team name
+     * @throws Exception 
+     */
     public List<Team> getTeamByName(String teamName) throws Exception {
 
         TeamDB teamDB = new TeamDB();
@@ -36,6 +53,16 @@ public class TeamServices {
         return teams;
     }
 
+    /**
+     * method to persist new record into Team table
+     * @param programId
+     * @param teamSize
+     * @param teamSup
+     * @param storeId
+     * @param teamName
+     * @return string msg
+     * @throws Exception 
+     */
     public String insert(short programId, short teamSize, int teamSup, int storeId, String teamName) throws Exception {
         try {
             // Getting program
@@ -66,6 +93,17 @@ public class TeamServices {
         return "Team " + teamName + " has been created";
     }
 
+    /**
+     * method to update existing record in team table 
+     * @param teamId
+     * @param programId
+     * @param teamSize
+     * @param teamSup
+     * @param storeId
+     * @param teamName
+     * @return string msg 
+     * @throws Exception 
+     */
     public String update(int teamId, short programId, short teamSize, int teamSup, int storeId, String teamName) throws Exception {
         try {
             // Getting program
