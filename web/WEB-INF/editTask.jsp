@@ -40,12 +40,12 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label class="form-label">Description:</label>
-                                    <input class="form-control" type="text" name="task_description" value="" placeholder="" id="task_description">
+                                    <input class="form-control" type="text" name="task_description" value="" placeholder="" id="task_description" required>
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label for="task_program" class="form-label">Program</label>
-                                    <select name="task_program" id="task_program" class="form-control" id="task_program">
+                                    <select name="task_program" id="task_program" class="form-control" id="task_program" disabled>
                                         <c:forEach items="${allPrograms}" var="program">
                                             <option value="${program.getProgramName()};${program.getProgramId()}">
                                                 ${program.getProgramName()}
@@ -68,19 +68,19 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label class="form-label">Date:</label>
-                                    <input class="form-control" type="date" name="task_date" value="" placeholder="" id="task_date">
+                                    <input class="form-control" type="date" name="task_date" value="" placeholder="" id="task_date" required>
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="form-label">Start Time:</label>
-                                    <input class="form-control" type="time" name="task_start_time" value="" placeholder="" id="task_start_time" step="3600000">
+                                    <input class="form-control" type="time" name="task_start_time" value="" placeholder="" id="task_start_time" step="3600000" required>
                                 </div>
 
 
                                 <div class="form-group col-md-4">
                                     <label class="form-label">End Time:</label>
                                     <input class="form-control" type="time" name="task_end_time" value=""
-                                        placeholder="" id="task_end_time">
+                                        placeholder="" id="task_end_time" required>
                                 </div>
                             </div>
 
@@ -88,7 +88,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="task_max_users" class="form-label">Max Users: </label>
-                                    <input type="number" id="task_max_users" name="task_max_users" min="1" max="10" value="1" class="form-control">
+                                    <input type="number" id="task_max_users" name="task_max_users" min="1" max="10" value="1" class="form-control" required>
                                 </div>
 
                                 <div class="form-group col-md-4">
