@@ -25,6 +25,9 @@
         <div id="main" class="body">
             <h1 class="header">History</h1>
             <p>Total Hours Worked: <span id="total-hours" style="font-weight: bold;"></span></p>
+            
+            <div id="table-container" class="table-container"></div>
+            <h1 id="no-task-message" class="no-tasks">No Tasks</h1>
         </div>
     </body>
 </html>

@@ -17,9 +17,19 @@ import javax.mail.internet.MimeMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
+/**
+ * class to manage mail transactions 
+ * @author 840979
+ */
 public class GmailService {
-
+/**
+ * methid used to transfer mail 
+ * @param to address
+ * @param subject subject line
+ * @param template
+ * @param tags
+ * @throws Exception 
+ */
     public static void sendMail(String to, String subject, String template, HashMap<String, String> tags) throws Exception {
         // {{firstname}} -> Anne
         // {{date}} -> Oct. 28

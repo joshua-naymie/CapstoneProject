@@ -175,7 +175,7 @@ INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users
 --             'Pickup boxes and drop to Wilson Family', 'Calgary', FALSE, TRUE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `user_id`, `is_dissaproved`)
-     VALUES (7, 0, 1, 1, 1, "2022-04-18 12:30:00", "2022-04-19 15:30:00", FALSE, FALSE, 
+     VALUES (7, 0, 1, 1, 1, "2022-04-18 12:30:00", "2022-04-19 15:30:00", FALSE, TRUE, 
             'Task completed. No issues.', 4, 
             'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, 4, FALSE);
 INSERT INTO `task` (`group_id`,  `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
