@@ -193,7 +193,7 @@ public class TaskService {
         List<ProgramTraining> programTrainingList = programTrainingDB.getAll();
 
         for (ProgramTraining programTraining : programTrainingList) {
-            if (programTraining.getRoleId() == role && programTraining.getProgram().equals(task.getProgramId())) {
+            if (programTraining.getRoleId().equals(role)) {
                 canBeAssignedUsers.add(programTraining.getUser());
             }
         }

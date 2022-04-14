@@ -128,7 +128,7 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
                     request.setAttribute("approving_manager", approvingManager);
                     request.setAttribute("can_be_approving_managers", canBeApprovingManagers);
                     request.setAttribute("assigned_users", assignedUsers);
-                    request.setAttribute("can_be_assigned_users", canBeAssignedUsers);
+                    request.setAttribute("can_be_assigned_users", canBeAssignedUsers.stream().distinct().collect(Collectors.toList()));
 
                     Object[] taskData = {
                             editTask.getTaskId(),
@@ -245,19 +245,23 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
             String userIdList = request.getParameter("selected_user_id_list");
-            String[] list_of_ids = userIdList.split("&");
             List<User> assignedUsers = new ArrayList<>();
-            for (String userAndId : list_of_ids) {
-                String[] thisUserId = userAndId.split("=");
-                User user = new User(Integer.parseInt(thisUserId[1]));
-                assignedUsers.add(user);
+            System.out.println(userIdList);
+            if (userIdList != null) {
+                String[] list_of_ids = userIdList.split(",");
+            
+                for (String id : list_of_ids) {
+                    User user = new User(Integer.parseInt(id));
+                    assignedUsers.add(user);
+                }
             }
+            
 
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
                 for (Task task1 : taskService.getAllTasksInGroup(groupId)) {
                     taskService.delete(task1);
                 }
-                Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
+//                Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
 
                 short maxUsers = Short.parseShort(request.getParameter("max_users"));
 
@@ -265,7 +269,7 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
                         0L,
                         -1L,
                         simpleDateFormat.parse(date + startTime),
-                        Boolean.parseBoolean(request.getParameter("available")),
+                        true,
                         false,
                         Integer.parseInt(request.getParameter("approving_manager_id")),
                         Short.parseShort(request.getParameter("spots_taken")),
@@ -274,7 +278,7 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
                 task1.setProgramId(task.getProgramId());
                 task1.setMaxUsers(maxUsers);
                 task1.setEndTime(simpleDateFormat.parse(date + endTime));
-                task1.setTeamId(team);
+                task1.setTeamId(task.getTeamId());
                 task1.setAssigned(Boolean.parseBoolean(request.getParameter("assigned")));
                 task1.setTaskDescription(request.getParameter("task_description"));
                 task1.setNotes(task.getNotes());
@@ -314,11 +318,11 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
                 task.setStartTime(simpleDateFormat.parse(date + startTime));
                 task.setEndTime(simpleDateFormat.parse(date + endTime));
 
-                task.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
+//                task.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
                 task.setTaskDescription(request.getParameter("task_description"));
 
-                Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
-                task.setTeamId(team);
+//                Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
+                task.setTeamId(task.getTeamId());
 
                 task.setApprovingManager(Integer.parseInt(request.getParameter("approving_manager_id")));
 
@@ -329,6 +333,6 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
         } catch (Exception ex) {
             Logger.getLogger(TaskServlet.class.getName()).log(Level.WARNING, null, ex);
         }
-        response.sendRedirect("tasks");
+        getServletContext().getRequestDispatcher("/WEB-INF/editTask.jsp").forward(request, response);
     }
 }
