@@ -45,8 +45,8 @@
             </div>  
         </div>
         <form id="submit-form">
-<!--            <input id="action" name="action" type="hidden">
-            <input id="username" name="username" type="hidden">-->
+            <input id="action" name="action" type="hidden">
+            <input id="username" name="username" type="hidden">
         </form>
     </body>
 </html>
