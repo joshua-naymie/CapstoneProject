@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -155,20 +156,17 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
 
         // getting package weight
         short packageWeight = task.getFoodDeliveryData().getPackageId().getWeightLb();
-        
+
+        // set end time to be how many hours was worked
         Date taskStart = task.getStartTime();
-
-        //find the difference between the task start time and the current time
-        LocalDateTime taskTime = taskStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        Date taskEnd = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(taskStart);
+//        System.out.println("int value time: " + task.getFoodDeliveryData().getFoodHoursWorked().intValue());
+        cal.add(Calendar.HOUR, task.getFoodDeliveryData().getFoodHoursWorked().intValue());
+//        System.out.println("new time: " + cal.getTime());
+        taskEnd = cal.getTime();
         
-        taskTime.plusHours(task.getFoodDeliveryData().getFoodHoursWorked().longValue());
-        
-        log(taskTime + "");
-        
-        //Date endDate = task.getStartTime().getTime() + task.getFoodDeliveryData().getFoodHoursWorked().doubleValue() ;
-        Date out = Date.from(taskTime.atZone(ZoneId.systemDefault()).toInstant());
-
-//        if (task.getFoodDeliveryData().getFoodHoursWorked() != null) 
         // retrieving program values into an array
         if (isCommunity) {
 
@@ -178,7 +176,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 task.getUserId().getFirstName(),
                 task.getUserId().getLastName(),
                 jsonDateFormat.format(task.getStartTime()),
-                jsonDateFormat.format(out),
+                jsonDateFormat.format(taskEnd),
                 task.getTaskDescription(),
                 task.getTaskCity(),
                 task.getFoodDeliveryData().getMileage(),
@@ -195,7 +193,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 task.getUserId().getFirstName(),
                 task.getUserId().getLastName(),
                 jsonDateFormat.format(task.getStartTime()),
-                jsonDateFormat.format(out),
+                jsonDateFormat.format(taskEnd),
                 task.getTaskDescription(),
                 task.getTaskCity(),
                 task.getFoodDeliveryData().getMileage(),
@@ -278,10 +276,10 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             // get task Id to update approval
             String taskId = request.getParameter("id");
             System.out.println("Task id: " + taskId);
-            
+
             // get approval notes to update
             String approvalNotes = request.getParameter("approvalText");
-            
+
             //call on db to set this task to approved
             ts.approveTask(Long.parseLong(taskId), approvalNotes);
 
@@ -298,14 +296,14 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
 
             // get task Id to update approval
             String taskId = request.getParameter("id");
-            
+
             // get approval notes to update
             String approvalNotes = request.getParameter("approvalText");
 //          System.out.println("approval notes: " + approvalNotes);
-            
+
             //call on db to set this task to approved
             ts.disapproveTask(Long.parseLong(taskId), approvalNotes);
-            
+
             response.sendRedirect("approve");
         } catch (Exception ex) {
             Logger.getLogger(TaskApproveDissaproveServlet.class.getName()).log(Level.WARNING, null, ex);

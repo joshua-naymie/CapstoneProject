@@ -66,7 +66,6 @@ public class SubmittedTasksServlet extends HttpServlet {
                     if (needApproval.get(i).getProgramId().getProgramId() == 1) {
                         taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
                     } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
-
                         taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
                     } else {
                         System.out.println("wrong program id");
