@@ -42,6 +42,8 @@ function onSubmitEditTask(e) {
   let task_max_users = $("#task_max_users").val();
   let task_store = $("#storeAdd").val();
   let task_company = $("#companyAdd").val();
+  let task_date = $("#task_date").val();
+  let task_approving_manager = $("#task_approving_manager").val();
 
   let selected_user_id_list = [];
   $(".selected_users")
@@ -67,6 +69,7 @@ function onSubmitEditTask(e) {
       selected_user_id_list: selected_user_id_list,
       task_store: task_store,
       task_company: task_company,
+      approving_manager_id: task_approving_manager,
       date: task_date,
     },
     success: () => {
