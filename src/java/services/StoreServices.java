@@ -10,17 +10,29 @@ import models.CompanyName;
 import models.Store;
 
 /**
- *
+ *class to perform some crud operations on Store table
  * @author 840979
  */
 public class StoreServices {
 
+    
+    /**
+     * method to retrieve all existing records in Store table filtered by company id
+     * @param companyId
+     * @return list of Store objects
+     */
 public List<Store> getAllByCompany (short companyId){
         StoreDB storeDB = new StoreDB();
         List<Store> stores = storeDB.getAllByCompany(companyId);
         return stores;
 
 }
+
+/**
+ * method to retrieve all existing records in Store table
+ * @return list of Store objects 
+ * @throws Exception 
+ */
 public List<Store> getAll() throws Exception {
         StoreDB storeDB = new StoreDB();
         List<Store> stores = storeDB.getAll();
@@ -28,14 +40,31 @@ public List<Store> getAll() throws Exception {
     }
     
 
-
+/**
+ * method to retrieve specific Store record using primary key
+ * @param storeId store id
+ * @return Store object
+ * @throws Exception 
+ */
   public Store get (int storeId)throws Exception{
         StoreDB storeDB = new StoreDB();
         Store store = storeDB.get(storeId);
         return store;
     }
   
-
+/**
+ * method to persist new record into Store table
+ * @param streetAddress
+ * @param postalCode
+ * @param storeCity
+ * @param storeName
+ * @param isActive
+ * @param phoneNum
+ * @param contact
+ * @param companyName
+ * @return string msg
+ * @throws Exception 
+ */
 public String insert (String streetAddress, String postalCode, String storeCity,String storeName, boolean isActive, String phoneNum, String contact, String companyName) throws Exception{
        StoreDB storeDB = new StoreDB();
       
@@ -57,6 +86,22 @@ public String insert (String streetAddress, String postalCode, String storeCity,
         return "Store has been created";
 }
 }
+
+
+/**
+ * method to update existing Store record
+ * @param storeId
+ * @param streetAddress
+ * @param postalCode
+ * @param storeCity
+ * @param storeName
+ * @param isActive
+ * @param phoneNum
+ * @param contact
+ * @param companyName
+ * @return string msg
+ * @throws Exception 
+ */
 public String update (int storeId, String streetAddress, String postalCode, String storeCity, String storeName, boolean isActive, String phoneNum, String contact, String companyName) throws Exception{
        StoreDB storeDB = new StoreDB();
        CompanyService companyService = new CompanyService();
@@ -83,6 +128,12 @@ public String update (int storeId, String streetAddress, String postalCode, Stri
         return "Store "+ storeName + " has been added.";
 }
 
+/**
+ * method to retrieve Store records by store name
+ * @param storeName
+ * @return List of Store objects matching store name
+ * @throws Exception 
+ */
 public List<Store> getStoresByName(String storeName) throws Exception {
        
         StoreDB storeDB = new StoreDB();
