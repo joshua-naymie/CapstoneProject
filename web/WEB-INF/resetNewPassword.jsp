@@ -20,7 +20,6 @@
     <script type="text/javascript" src="scripts/models/validator.js"></script>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!--        COMMIT-->
         <title>Password Reset</title>
     </head>
     <body>
@@ -35,6 +34,7 @@
                     </div> 
                 </form>
 
+<!--                SOURCE FOR THE CREATION OF THIS BLOCK OF HTML: w3schools.com    -->
                 <div id="message" class="message" onfocus="focusFunction()" onblur="blurFunction()" onkeyup="keyUpFunction()">
                     <h3>PASSWORD MUST CONTAIN</h3>
                     <p id="letter" class="invalid">A <b>lowercase</b> letter</p>

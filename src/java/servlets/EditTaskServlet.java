@@ -137,7 +137,7 @@ public class EditTaskServlet extends HttpServlet {
                         }
                     }
 
-for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
+//for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
 
                     request.setAttribute("approving_manager", approvingManager);
                     request.setAttribute("can_be_approving_managers", canBeApprovingManagers);
@@ -208,9 +208,10 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
                         canBeApprovingManagers.add(program.getUserId());
                     }
                     canBeApprovingManagers.addAll(taskService.getCanBeApprovingManagersHotline(editTask.getTaskId()));
-
+		System.out.println("approving manager: " + canBeApprovingManagers.toString());
                     request.setAttribute("approving_manager", editTask.getApprovingManager());
                     request.setAttribute("can_be_approving_managers", canBeApprovingManagers);
+
                     request.setAttribute("assigned_user", editTask.getUserId());
                     request.setAttribute("can_be_assigned_users", taskService.getCanBeAssignedUsersHotline(editTask.getTaskId()));
 
@@ -234,7 +235,7 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
                 Logger.getLogger(TaskServlet.class.getName()).log(Level.WARNING, null, ex);
             }
 
-            System.out.println("ID: " + task_id);
+//            System.out.println("ID: " + task_id);
         }
         getServletContext().getRequestDispatcher("/WEB-INF/editTask.jsp").forward(request, response);
     }

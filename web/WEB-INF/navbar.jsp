@@ -38,6 +38,8 @@
     </div>
 </nav>
 
+<!--Source for the creation of the script below: w3schools.com-->
+
 <script>
 
 var dropdown = document.getElementsByClassName("dropdown-btn");
