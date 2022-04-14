@@ -83,6 +83,7 @@ function newPass()
 }
 
 // When the user starts to type something inside the password field
+// SOURCE FOR CREATING THIS FUNCTION: w3schools.com
 function keyUpFunction() {
     // Validate lowercase letters
     var lowerCaseLetters = /[a-z]/g;
