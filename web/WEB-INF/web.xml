@@ -54,10 +54,6 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
-        <servlet-name>EditTaskServlet</servlet-name>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>AuthenticationFilter</filter-name>
         <servlet-name>SubmitTaskFormServlet</servlet-name>
     </filter-mapping>
     <filter-mapping>

@@ -269,6 +269,7 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
             String userIdList = request.getParameter("selected_user_id_list");
+System.out.println(userIdList);
             List<User> assignedUsers = new ArrayList<>();
             System.out.println(userIdList);
             if (userIdList != null) {
@@ -295,7 +296,7 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
                         simpleDateFormat.parse(date + startTime),
                         true,
                         false,
-                        Integer.parseInt(request.getParameter("approving_manager_id")),
+                        task.getApprovingManager(),
                         maxUsers,
                         request.getParameter("task_city")
                 );
