@@ -270,7 +270,7 @@ public class EditTaskServlet extends HttpServlet {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
             String userIdList = request.getParameter("selected_user_id_list");
-System.out.println(userIdList);
+System.out.println("Assined User " + userIdList);
             List<User> assignedUsers = new ArrayList<>();
             System.out.println(userIdList);
             if (userIdList != null) {
@@ -284,9 +284,9 @@ System.out.println(userIdList);
             
 
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
-                for (Task task1 : taskService.getAllTasksInGroup(groupId)) {
-                    taskService.delete(task1);
-                }
+//                for (Task task1 : taskService.getAllTasksInGroup(groupId)) {
+//                    taskService.delete(task1);
+//                }
 //                Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
 
                 short maxUsers = Short.parseShort(request.getParameter("max_users"));
@@ -294,7 +294,7 @@ System.out.println(userIdList);
                 Task task1 = new Task(
                         0L,
                         -1L,
-                        simpleDateFormat.parse(date + startTime),
+                        simpleDateFormat.parse(date + " " + startTime),
                         true,
                         false,
                         task.getApprovingManager(),
@@ -303,14 +303,14 @@ System.out.println(userIdList);
                 );
                 task1.setProgramId(task.getProgramId());
                 task1.setMaxUsers(maxUsers);
-                task1.setEndTime(simpleDateFormat.parse(date + endTime));
+//                task1.setEndTime(simpleDateFormat.parse(date + " " + endTime));
 //                task1.setTeamId(task.getTeamId());
 //                task1.setAssigned(Boolean.parseBoolean(request.getParameter("assigned")));
                 task1.setTaskDescription(request.getParameter("task_description"));
                 task1.setNotes(task.getNotes());
                 task1.setIsSubmitted(false);
                 task1.setIsDissaproved(false);
-                task1.setUserId(assignedUsers.get(0));
+if (assignedUsers.size() > 0) task1.setUserId(assignedUsers.get(0));
 
                 taskService.insert(task1);
 
@@ -335,14 +335,14 @@ System.out.println(userIdList);
                         task2.setNotes(task1.getNotes());
                         task2.setIsSubmitted(false);
                         task2.setIsDissaproved(false);
-                        task2.setUserId(assignedUsers.get(i));
+                        if (assignedUsers.size() > 0) task2.setUserId(assignedUsers.get(i));
 
                         taskService.insert(task2);
                     }
                 }
             } else {
-                task.setStartTime(simpleDateFormat.parse(date + startTime));
-                task.setEndTime(simpleDateFormat.parse(date + endTime));
+                task.setStartTime(simpleDateFormat.parse(date + " " + startTime));
+//                task.setEndTime(simpleDateFormat.parse(date + " " + endTime));
 
 //                task.setAvailable(Boolean.parseBoolean(request.getParameter("available")));
                 task.setTaskDescription(request.getParameter("task_description"));
@@ -352,7 +352,7 @@ System.out.println(userIdList);
 
 //                task.setApprovingManager(Integer.parseInt(request.getParameter("approving_manager_id")));
 
-                task.setUserId(assignedUsers.get(0));
+                if (assignedUsers.size() > 0) task.setUserId(assignedUsers.get(0));
 
                 taskService.update(task);
             }
