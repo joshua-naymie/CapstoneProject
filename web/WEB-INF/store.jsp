@@ -36,7 +36,7 @@
                             <input id="store-filter" type="checkbox">
                         </div>
                         <div class="list-panel__top-buttons">
-                            <input id="search-input" type="search" class="search-stores__input" placeholder="Search by Program, Manager">
+                            <input id="search-input" type="search" class="search-stores__input" placeholder="Search by Store, Company or Address">
                             <input id="notempty" type="button" class="default__button" onclick="addStore()" value="New Store">
                         </div>
                         <div id="list-base" class="store-list__base">
