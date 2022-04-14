@@ -17,7 +17,7 @@ import models.util.*;
 import services.*;
 
 /**
- *
+ * handles user interaction on stores page
  * @author Main
  */
 public class StoreServlet extends HttpServlet

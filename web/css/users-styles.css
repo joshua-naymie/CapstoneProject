@@ -31,6 +31,13 @@
     margin-top: 20px;
 }
 
+.no-users
+{
+    display: none;
+    font-weight: normal;
+    color: gray;
+}
+
 .table-container
 {
     display: flex;

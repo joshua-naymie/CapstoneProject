@@ -62,8 +62,11 @@ const userSearchInputTimer = (searchValue) => {
  * @returns Whether the search value is contained in the store or manager name
  */
 const filterStore = (store, searchValue) => {
-    if (store.name.toLowerCase().includes(searchValue)
-    ||((store.managerId != null) && userData[store.managerId].name.toLowerCase().includes(searchValue)))
+    searchValue = searchValue.toLowerCase();
+    
+    if(store.name.toLowerCase().includes(searchValue)
+    ||(store.streetAddress != null && store.streetAddress.toLowerCase().includes(searchValue))
+    ||(store.companyId != null && getCompanyByID(store.companyId).name.toLowerCase().includes(searchValue)))
     {
         return filterCheckbox.checked ? true : store.isActive;
     }

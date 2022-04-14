@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author 854950
+ * not used
  */
 public class LoadTaskInfo extends HttpServlet {
 

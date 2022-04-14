@@ -14,11 +14,21 @@ import models.util.*;
 import services.*;
 
 /**
- *
- * @author 861349
+ * handles team page
+ * 
  */
 public class TeamsServlet extends HttpServlet {
-
+    
+    /**
+     *
+     * Backend code for sending up all data needed for the teams page
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -246,6 +256,16 @@ public class TeamsServlet extends HttpServlet {
         return builder.buildJSON(data);
     }
     
+    /**
+     *
+     * Backend code for adding / updating team info
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -298,7 +318,7 @@ public class TeamsServlet extends HttpServlet {
     private void save(HttpServletRequest request, HttpServletResponse response) {
         // team service
         TeamServices tmService = new TeamServices();
-       
+       System.out.println();
         // getting the edited values and updating the team
         try {
             // updating the team

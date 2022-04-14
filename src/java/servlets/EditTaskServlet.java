@@ -13,8 +13,22 @@ import java.util.stream.Collectors;
 
 import models.*;
 import services.*;
-
+/**
+ * handles the editing of posted tasks 
+ * 
+ */
 public class EditTaskServlet extends HttpServlet {
+    
+    /**
+     *
+     * Backend code for handling sending up the right task data for front end to populate inputs with
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // logged in user
@@ -224,7 +238,17 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
         }
         getServletContext().getRequestDispatcher("/WEB-INF/editTask.jsp").forward(request, response);
     }
-
+    
+    /**
+     *
+     * Backend code for handling any task information changes and update the Database
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // logged in user

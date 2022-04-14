@@ -14,20 +14,38 @@ import models.util.JSONBuilder;
 import models.util.JSONKey;
 import services.*;
 
+/**
+ * sends all submitted tasks data as json keys to front end
+ * 
+ */
 public class SubmittedTasksServlet extends HttpServlet {
 
     private static final DateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
 
     private static final String HISTORY_JSP_DIR = "/WEB-INF/submittedTasks.jsp";
-
+    
+    /**
+     *
+     * Backend code for sending up all submitted tasks data as json keys to front end
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // getting all tasks that need approving
         TaskService ts = new TaskService();
         List<Task> needApproval = null;
-
+        HttpSession httpSession = request.getSession();
+        int loggedInUserId = -1;
         try {
-            needApproval = ts.getSubmittedToManager(4);  //get a list of all tasks that need approval
+            loggedInUserId = (int) httpSession.getAttribute("email");
+            System.out.println(loggedInUserId);
+
+            needApproval = ts.getSubmittedToManager(loggedInUserId);  //get a list of all tasks that need approval
             System.out.println("check needapproval size: " + needApproval.size());
 //            System.out.println("task id: " + needApproval.get(0).getProgramId());
             // sending json data
@@ -47,7 +65,7 @@ public class SubmittedTasksServlet extends HttpServlet {
                 new JSONKey("programName", true),
                 new JSONKey("startTime", true),
                 new JSONKey("userList", true),
-                new JSONKey("storeName", true)};
+                new JSONKey("teamName", true)};
 
             // builder for hotline
             JSONBuilder hotLineBuilder = new JSONBuilder(hotlineKeys);
@@ -58,23 +76,24 @@ public class SubmittedTasksServlet extends HttpServlet {
             // Create task JSON objects
             if (needApproval.size() > 0) {
                 int i;
-                for (i = 0; i < needApproval.size() - 1; i++) {
+                for (i = 0; i < needApproval.size(); i++) {
                     if (needApproval.get(i).getProgramId().getProgramId() == 1) {
                         taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
                     } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
-                        
                         taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
                     } else {
                         System.out.println("wrong program id");
                     }
-                    taskReturnData.append(',');
+                    
+                    if(i != needApproval.size() -1 )taskReturnData.append(',');
                 }
-                if (needApproval.get(i).getProgramId().getProgramId() == 1) {
-                    taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
-                } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
-                    taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
-                }
+//                if (needApproval.get(i).getProgramId().getProgramId() == 1) {
+//                    taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
+//                } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
+//                    taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
+//                }
             }
+            
             taskReturnData.append("];");
 
             // setting user data attribute for the front end to use
@@ -102,14 +121,18 @@ public class SubmittedTasksServlet extends HttpServlet {
         fullUserName.append(task.getUserId().getLastName() + " ");
 
         // retrieving program values into an array
-        Object[] foodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
-            task.getFoodDeliveryData().getTaskFdId(),
-            task.getProgramId().getProgramName(),
-            jsonDateFormat.format(task.getStartTime()),
-            fullUserName,
-            task.getFoodDeliveryData().getStoreId().getStoreName()};
-
-        return foodBuilder.buildJSON(foodTaskValues);
+        if (task.getFoodDeliveryData() != null) {
+            Object[] foodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
+                task.getFoodDeliveryData().getTaskFdId(),
+                task.getProgramId().getProgramName(),
+                jsonDateFormat.format(task.getStartTime()),
+                fullUserName,
+                task.getFoodDeliveryData().getStoreId().getStoreName()};
+            return foodBuilder.buildJSON(foodTaskValues);
+        }else{
+            return null;
+        }
+        
     }
 
     /**
@@ -120,7 +143,7 @@ public class SubmittedTasksServlet extends HttpServlet {
      * @return A hotline task JSON as a string
      */
     private String buildHotlineJSON(Task task, JSONBuilder hotLineBuilder) {
-        
+
         // retrieving program values into an array
         Object[] hotLineValues = {task.getHotlineData().getTaskHotlineId(),
             task.getHotlineData().getTaskHotlineId(),

@@ -36,24 +36,17 @@
                     <div style="display: flex; justify-content: center; align-items: center;">
                         <input id="searchbar" type="text" placeholder="Name" />
                     </div>
-
                     <div style="display: flex; justify-content: flex-end">
                         <a class="default__button user-table__button" href="/ECSSENPro/add">Add User</a>
                     </div>
-                    
-                    <form action="" method="post">
-                            
-                    </form>
-                    
                 </div>
-                <div id="table-container" class="table-container">
-
-                </div>
+                <div id="table-container" class="table-container"></div>
+                <h1 id="no-user-message" class="no-users">No Users</h1>
             </div>  
         </div>
-            <form id="submit-form">
-                <input id="action" name="action" type="hidden">
-                <input id="username" name="username" type="hidden">
-            </form>
+        <form id="submit-form">
+<!--            <input id="action" name="action" type="hidden">
+            <input id="username" name="username" type="hidden">-->
+        </form>
     </body>
 </html>

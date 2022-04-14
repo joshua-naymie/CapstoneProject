@@ -58,14 +58,16 @@ INSERT INTO `store` (`store_id`, `street_address`, `postal_code`, `store_city`, 
 -- -----------------------------------------------------
 -- TEAM
 -- -----------------------------------------------------
-INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`)
-    VALUES (2, 30, 3, 12345, 'Hotline');
+INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`team_name`)
+    VALUES (2, 30, 3, 'Hotline');
 INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`) 
     VALUES (1, 30, 4, 12345, 'Airdrie Safeway');
 INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`) 
-    VALUES (1, 30, 3, 12345, 'Kensingston COBS');
+    VALUES (1, 30, 3, 12, 'Kensingston COBS');
 INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`) 
     VALUES (1, 25, 4, 123, 'Kensingston Starbucks');
+INSERT INTO `team` (`program_id`, `team_size`,`team_supervisor`,`store_id`,`team_name`) 
+    VALUES (1, 20, 4, 12345, 'Brentwood Starbucks');
 -- -----------------------------------------------------
 -- USER
 -- -----------------------------------------------------
@@ -173,7 +175,7 @@ INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users
 --             'Pickup boxes and drop to Wilson Family', 'Calgary', FALSE, TRUE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `user_id`, `is_dissaproved`)
-     VALUES (7, 0, 1, 1, 1, "2022-04-18 12:30:00", "2022-04-19 15:30:00", FALSE, FALSE, 
+     VALUES (7, 0, 1, 1, 1, "2022-04-18 12:30:00", "2022-04-19 15:30:00", FALSE, TRUE, 
             'Task completed. No issues.', 4, 
             'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, 4, FALSE);
 INSERT INTO `task` (`group_id`,  `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,

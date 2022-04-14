@@ -12,6 +12,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,18 +24,29 @@ import models.Task;
 import services.TaskService;
 
 /**
- *
+ * approving / disapproving of submitted tasks
  * @author 861349
  */
 public class TaskApproveDissaproveServlet extends HttpServlet {
 
     private static final DateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
-
+    
+    /**
+     *
+     * Backend code for sending up the data of the chosen task to approve or disapprove
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // retrieve task information based on URL parameter
         String taskId = request.getParameter("id");
+//        System.out.println("Id: " + taskId);
         Task task = null;
         try {
             // uncomment after frontend connection
@@ -75,8 +89,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 new JSONKey("foodAmount", false),
                 new JSONKey("hoursWorked", false),
                 new JSONKey("packageType", true),
-                new JSONKey("teamName", true),
-                new JSONKey("hoursWorked", false)};
+                new JSONKey("teamName", true)};
 
             // creating keys for food delivery for organization
             JSONKey[] orgFoodTaskKeys = {new JSONKey("taskID", false),
@@ -93,8 +106,7 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
                 new JSONKey("foodAmount", false),
                 new JSONKey("hoursWorked", false),
                 new JSONKey("packageType", true),
-                new JSONKey("teamName", true),
-                new JSONKey("hoursWorked", false)};
+                new JSONKey("teamName", true)};
 
             // builder for hotline
             JSONBuilder hotLineBuilder = new JSONBuilder(hotlineTaskKeys);
@@ -155,45 +167,52 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
         // getting package weight
         short packageWeight = task.getFoodDeliveryData().getPackageId().getWeightLb();
 
-//        if (task.getFoodDeliveryData().getFoodHoursWorked() != null) 
-            // retrieving program values into an array
+        // set end time to be how many hours was worked
+        Date taskStart = task.getStartTime();
+        Date taskEnd = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(taskStart);
+//        System.out.println("int value time: " + task.getFoodDeliveryData().getFoodHoursWorked().intValue());
+        cal.add(Calendar.HOUR, task.getFoodDeliveryData().getFoodHoursWorked().intValue());
+//        System.out.println("new time: " + cal.getTime());
+        taskEnd = cal.getTime();
+        
+        // retrieving program values into an array
+        if (isCommunity) {
+
             Object[] comFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
                 task.getProgramId().getProgramId(),
                 task.getProgramId().getProgramName(),
                 task.getUserId().getFirstName(),
                 task.getUserId().getLastName(),
                 jsonDateFormat.format(task.getStartTime()),
-                jsonDateFormat.format(task.getEndTime()),
+                jsonDateFormat.format(taskEnd),
                 task.getTaskDescription(),
                 task.getTaskCity(),
                 task.getFoodDeliveryData().getMileage(),
                 task.getFoodDeliveryData().getFamilyCount(),
                 task.getFoodDeliveryData().getFoodAmount(),
-                task.getFoodDeliveryData().getFoodHoursWorked(),
+                task.getFoodDeliveryData().getFoodHoursWorked().doubleValue(),
                 packageType,
-                task.getFoodDeliveryData().getStoreId().getStoreName(),
-                task.getFoodDeliveryData().getFoodHoursWorked().doubleValue()};
-
+                task.getFoodDeliveryData().getStoreId().getStoreName()};
+            return communityFoodBuilder.buildJSON(comFoodTaskValues);
+        } else {
             Object[] orgFoodTaskValues = {task.getFoodDeliveryData().getTaskFdId(),
                 task.getProgramId().getProgramId(),
                 task.getProgramId().getProgramName(),
                 task.getUserId().getFirstName(),
                 task.getUserId().getLastName(),
                 jsonDateFormat.format(task.getStartTime()),
-                jsonDateFormat.format(task.getEndTime()),
+                jsonDateFormat.format(taskEnd),
                 task.getTaskDescription(),
                 task.getTaskCity(),
                 task.getFoodDeliveryData().getMileage(),
                 task.getFoodDeliveryData().getOrganizationId().getOrgName(),
                 task.getFoodDeliveryData().getFoodAmount(),
-                task.getFoodDeliveryData().getFoodHoursWorked(),
+                task.getFoodDeliveryData().getFoodHoursWorked().doubleValue(),
                 packageType,
-                task.getFoodDeliveryData().getStoreId().getStoreName(),
-                task.getFoodDeliveryData().getFoodHoursWorked().doubleValue()};
-        
-        if (isCommunity) {
-            return communityFoodBuilder.buildJSON(comFoodTaskValues);
-        } else {
+                task.getFoodDeliveryData().getStoreId().getStoreName()};
+
             return communityFoodBuilder.buildJSON(orgFoodTaskValues);
         }
     }
@@ -222,7 +241,17 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
 
         return hotLineBuilder.buildJSON(hotLineValues);
     }
-
+    
+    /**
+     *
+     * Backend code for handling approve / disapprove of the task or clicking of the cancel button
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -268,8 +297,11 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             String taskId = request.getParameter("id");
             System.out.println("Task id: " + taskId);
 
+            // get approval notes to update
+            String approvalNotes = request.getParameter("approvalText");
+
             //call on db to set this task to approved
-            ts.approveTask(Long.parseLong(taskId));
+            ts.approveTask(Long.parseLong(taskId), approvalNotes);
 
             response.sendRedirect("approve");
         } catch (Exception ex) {
@@ -285,8 +317,12 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
             // get task Id to update approval
             String taskId = request.getParameter("id");
 
+            // get approval notes to update
+            String approvalNotes = request.getParameter("approvalText");
+//          System.out.println("approval notes: " + approvalNotes);
+
             //call on db to set this task to approved
-            ts.disapproveTask(Long.parseLong(taskId));
+            ts.disapproveTask(Long.parseLong(taskId), approvalNotes);
 
             response.sendRedirect("approve");
         } catch (Exception ex) {

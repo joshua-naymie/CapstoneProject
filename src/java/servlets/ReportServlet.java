@@ -29,11 +29,21 @@ import services.TaskService;
 import services.TeamServices;
 
 /**
- *
- * @author 641380
+ * handles generating of all reports on reports page
+ * 
  */
 public class ReportServlet extends HttpServlet {
-
+    
+    /**
+     *
+     * redirects user to the report page
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,7 +54,7 @@ public class ReportServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * Generates the correct report based on front end selections
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -247,9 +257,9 @@ public class ReportServlet extends HttpServlet {
                         totalMileage += checkTask.getFoodDeliveryData().getMileage();
                     }
                     //check if its hotline task
-                    if (checkTask.getProgramId().getProgramId() == 2) {
+                    if (checkTask.getProgramId().getProgramId() == 2 && checkTask.getHotlineData() != null) {
                         tempHoursWorked = checkTask.getHotlineData().getHotlineHoursWorked().doubleValue();
-                        hoursWorkedPerTask = checkTask.getFoodDeliveryData().getFoodHoursWorked();
+                        hoursWorkedPerTask = checkTask.getHotlineData().getHotlineHoursWorked();
                         totalTasksCompleted++;
                     }
 
@@ -452,8 +462,9 @@ public class ReportServlet extends HttpServlet {
         builder.addRecord(tableHeader);
         long hour = 3600 * 1000;
         for (FoodDeliveryData f : fdd) {
-            if ((f.getTask().getStartTime().getTime() >= startDate.getTime()
-                    && f.getTask().getStartTime().getTime() <= (endDate.getTime() + 23 * hour))) {
+            if ((f.getTask().getStartTime().getTime() >= startDate.getTime() 
+                    && f.getTask().getStartTime().getTime() <= (endDate.getTime() + 23 * hour)&&
+                    f.getTask().getIsApproved())) {
                 String deliveryDate = f.getTask().getStartTime() == null
                         ? "No date recorded"
                         : dateFormat.format(f.getTask().getStartTime());

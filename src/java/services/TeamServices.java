@@ -51,7 +51,7 @@ public class TeamServices {
 
             // checking if store was selected for creation
             if (storeId != -1) {
-                Team newTeamWithStore = new Team(teamsProgram, teamSize, teamSup, teamsStore, teamName);
+                Team newTeamWithStore = new Team(teamsProgram, teamSize, teamSup, teamsStore, teamsStore.getStoreName());
                 teamDB.insert(newTeamWithStore);
             } else {
                 Team newTeamWithoutStore = new Team(teamsProgram, teamSize, teamSup, teamName);
@@ -86,7 +86,7 @@ public class TeamServices {
                 currentTeam.setTeamSize(teamSize);
                 currentTeam.setTeamSupervisor(teamSup);
                 currentTeam.setStoreId(teamsStore);
-                currentTeam.setTeamName(teamName);
+                currentTeam.setTeamName(teamsStore.getStoreName());
             } else {
                 currentTeam.setProgramId(teamsProgram);
                 currentTeam.setTeamSize(teamSize);

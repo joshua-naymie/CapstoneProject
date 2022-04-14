@@ -13,7 +13,7 @@ import services.*;
 import models.*;
 
 /**
- *
+ * pulling data from database to show on the history page of the logged in user
  * @author <jnaymie@gmail.com>
  */
 public class HistoryServlet extends HttpServlet

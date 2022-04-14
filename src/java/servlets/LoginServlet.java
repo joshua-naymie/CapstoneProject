@@ -14,7 +14,7 @@ import models.User;
 import services.AccountServices;
 
 /**
- *
+ * handles user logins
  * @author Main
  */
 public class LoginServlet extends HttpServlet
@@ -75,7 +75,7 @@ public class LoginServlet extends HttpServlet
             response.sendRedirect("users");
         }
         else {
-            response.sendRedirect("add");
+            response.sendRedirect("tasks");
         }
         
     }
