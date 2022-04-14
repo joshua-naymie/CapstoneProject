@@ -13,18 +13,18 @@ import java.util.stream.Collectors;
 
 import models.*;
 import services.*;
+
 /**
- * handles the editing of posted tasks 
- * 
+ * handles the editing of posted tasks
+ *
  */
 public class EditTaskServlet extends HttpServlet {
-    
+
     /**
      *
      * Backend code for handling sending up the right task data for front end to populate inputs with
      *
-     * @param request Request object created by the web container for each
-     * request of the client
+     * @param request Request object created by the web container for each request of the client
      * @param response HTTP Response sent by a server to the client
      * @throws ServletException a general exception a servlet can throw when it encounters errors
      * @throws IOException Occurs when an IO operation fails
@@ -50,25 +50,25 @@ public class EditTaskServlet extends HttpServlet {
 
                 if (editTask.getProgramId().getProgramName().equals("Food Delivery")) {
                     JSONKey[] taskKeys = {
-                            new JSONKey("task_id", true),
-                            new JSONKey("program_id", true),
-                            new JSONKey("program_name", true),
-                            new JSONKey("max_users", true),
-                            new JSONKey("group_id", true),
-                            new JSONKey("spots_taken", true),
-                            new JSONKey("is_assigned", false),
-                            new JSONKey("date", true),
-                            new JSONKey("start_time", true),
-                            new JSONKey("end_time", true),
-                            new JSONKey("available", false),
-                            new JSONKey("task_description", true),
-                            new JSONKey("task_city", true),
-                            new JSONKey("team_id", true),
-                            new JSONKey("team_name", true),
-                            new JSONKey("company_id", true),
-                            new JSONKey("company_name", true),
-                            new JSONKey("store_id", true),
-                            new JSONKey("store_name", true)
+                        new JSONKey("task_id", true),
+                        new JSONKey("program_id", true),
+                        new JSONKey("program_name", true),
+                        new JSONKey("max_users", true),
+                        new JSONKey("group_id", true),
+                        new JSONKey("spots_taken", true),
+                        new JSONKey("is_assigned", false),
+                        new JSONKey("date", true),
+                        new JSONKey("start_time", true),
+                        new JSONKey("end_time", true),
+                        new JSONKey("available", false),
+                        new JSONKey("task_description", true),
+                        new JSONKey("task_city", true),
+                        new JSONKey("team_id", true),
+                        new JSONKey("team_name", true),
+                        new JSONKey("company_id", true),
+                        new JSONKey("company_name", true),
+                        new JSONKey("store_id", true),
+                        new JSONKey("store_name", true)
                     };
 
                     JSONBuilder taskBuilder = new JSONBuilder(taskKeys);
@@ -102,7 +102,7 @@ public class EditTaskServlet extends HttpServlet {
 
                     short maxUsers = -1;
                     if (editTask.getMaxUsers() != null) {
-                         maxUsers = editTask.getMaxUsers();
+                        maxUsers = editTask.getMaxUsers();
                     }
                     String taskDescription = null;
                     if (editTask.getTaskDescription() != null) {
@@ -138,48 +138,46 @@ public class EditTaskServlet extends HttpServlet {
                     }
 
 //for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
-
                     request.setAttribute("approving_manager", approvingManager);
                     request.setAttribute("can_be_approving_managers", canBeApprovingManagers);
                     request.setAttribute("assigned_users", assignedUsers);
                     request.setAttribute("can_be_assigned_users", canBeAssignedUsers.stream().distinct().collect(Collectors.toList()));
 
                     Object[] taskData = {
-                            editTask.getTaskId(),
-                            editTask.getProgramId().getProgramId(),
-                            editTask.getProgramId().getProgramName(),
-                            maxUsers,
-                            editTask.getGroupId(),
-                            editTask.getSpotsTaken(),
-                            editTask.getAssigned(),
-                            date,
-                            startTime,
-                            endTime,
-                            editTask.getAvailable(),
-                            taskDescription,
-                            taskCity,
-                            editTask.getTeamId().getTeamId(),
-                            editTask.getTeamId().getTeamName(),
-                            companyId,
-                            companyName,
-                            storeId,
-                            storeName
+                        editTask.getTaskId(),
+                        editTask.getProgramId().getProgramId(),
+                        editTask.getProgramId().getProgramName(),
+                        maxUsers,
+                        editTask.getGroupId(),
+                        editTask.getSpotsTaken(),
+                        editTask.getAssigned(),
+                        date,
+                        startTime,
+                        endTime,
+                        editTask.getAvailable(),
+                        taskDescription,
+                        taskCity,
+                        editTask.getTeamId().getTeamId(),
+                        editTask.getTeamId().getTeamName(),
+                        companyId,
+                        companyName,
+                        storeId,
+                        storeName
                     };
 
                     returnData.append(taskBuilder.buildJSON(taskData));
                     returnData.append(";");
                 } else {
-                    JSONKey[] taskKeys = { new JSONKey("task_id", true),
-                            new JSONKey("program_id", true),
-                            new JSONKey("program_name", true),
-                            new JSONKey("date", true),
-                            new JSONKey("start_time", true),
-                            new JSONKey("end_time", true),
-                            new JSONKey("available", false),
-                            new JSONKey("task_description", true),
-                            new JSONKey("team_id", true),
-                            new JSONKey("team_name", true),
-                    };
+                    JSONKey[] taskKeys = {new JSONKey("task_id", true),
+                        new JSONKey("program_id", true),
+                        new JSONKey("program_name", true),
+                        new JSONKey("date", true),
+                        new JSONKey("start_time", true),
+                        new JSONKey("end_time", true),
+                        new JSONKey("available", false),
+                        new JSONKey("task_description", true),
+                        new JSONKey("team_id", true),
+                        new JSONKey("team_name", true),};
 
                     JSONBuilder taskBuilder = new JSONBuilder(taskKeys);
 
@@ -208,7 +206,7 @@ public class EditTaskServlet extends HttpServlet {
                         canBeApprovingManagers.add(program.getUserId());
                     }
                     canBeApprovingManagers.addAll(taskService.getCanBeApprovingManagersHotline(editTask.getTaskId()));
-		System.out.println("approving manager: " + canBeApprovingManagers.toString());
+                    System.out.println("approving manager: " + canBeApprovingManagers.toString());
                     request.setAttribute("approving_manager", editTask.getApprovingManager());
                     request.setAttribute("can_be_approving_managers", canBeApprovingManagers);
 
@@ -216,16 +214,16 @@ public class EditTaskServlet extends HttpServlet {
                     request.setAttribute("can_be_assigned_users", taskService.getCanBeAssignedUsersHotline(editTask.getTaskId()));
 
                     Object[] taskData = {
-                            editTask.getTaskId(),
-                            editTask.getProgramId().getProgramId(),
-                            editTask.getProgramId().getProgramName(),
-                            date,
-                            startTime,
-                            endTime,
-                            editTask.getAvailable(),
-                            taskDescription,
-                            editTask.getTeamId().getTeamId(),
-                            editTask.getTeamId().getTeamName() };
+                        editTask.getTaskId(),
+                        editTask.getProgramId().getProgramId(),
+                        editTask.getProgramId().getProgramName(),
+                        date,
+                        startTime,
+                        endTime,
+                        editTask.getAvailable(),
+                        taskDescription,
+                        editTask.getTeamId().getTeamId(),
+                        editTask.getTeamId().getTeamName()};
 
                     returnData.append(taskBuilder.buildJSON(taskData));
                     returnData.append(";");
@@ -239,13 +237,12 @@ public class EditTaskServlet extends HttpServlet {
         }
         getServletContext().getRequestDispatcher("/WEB-INF/editTask.jsp").forward(request, response);
     }
-    
+
     /**
      *
      * Backend code for handling any task information changes and update the Database
      *
-     * @param request Request object created by the web container for each
-     * request of the client
+     * @param request Request object created by the web container for each request of the client
      * @param response HTTP Response sent by a server to the client
      * @throws ServletException a general exception a servlet can throw when it encounters errors
      * @throws IOException Occurs when an IO operation fails
@@ -270,18 +267,17 @@ public class EditTaskServlet extends HttpServlet {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
             String userIdList = request.getParameter("selected_user_id_list");
-System.out.println("Assined User " + userIdList);
+            System.out.println("Assined User " + userIdList);
             List<User> assignedUsers = new ArrayList<>();
             System.out.println(userIdList);
             if (userIdList != null) {
                 String[] list_of_ids = userIdList.split(",");
-            
+
                 for (String id : list_of_ids) {
                     User user = new User(Integer.parseInt(id));
                     assignedUsers.add(user);
                 }
             }
-            
 
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
 //                for (Task task1 : taskService.getAllTasksInGroup(groupId)) {
@@ -310,7 +306,9 @@ System.out.println("Assined User " + userIdList);
                 task1.setNotes(task.getNotes());
                 task1.setIsSubmitted(false);
                 task1.setIsDissaproved(false);
-if (assignedUsers.size() > 0) task1.setUserId(assignedUsers.get(0));
+                if (assignedUsers.size() > 0) {
+                    task1.setUserId(assignedUsers.get(0));
+                }
 
                 taskService.insert(task1);
 
@@ -335,7 +333,9 @@ if (assignedUsers.size() > 0) task1.setUserId(assignedUsers.get(0));
                         task2.setNotes(task1.getNotes());
                         task2.setIsSubmitted(false);
                         task2.setIsDissaproved(false);
-                        if (assignedUsers.size() > 0) task2.setUserId(assignedUsers.get(i));
+                        if (assignedUsers.size() > 0) {
+                            task2.setUserId(assignedUsers.get(i));
+                        }
 
                         taskService.insert(task2);
                     }
@@ -349,10 +349,10 @@ if (assignedUsers.size() > 0) task1.setUserId(assignedUsers.get(0));
 
 //                Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
 //                task.setTeamId(task.getTeamId());
-
 //                task.setApprovingManager(Integer.parseInt(request.getParameter("approving_manager_id")));
-
-                if (assignedUsers.size() > 0) task.setUserId(assignedUsers.get(0));
+                if (assignedUsers.size() > 0) {
+                    task.setUserId(assignedUsers.get(0));
+                }
 
                 taskService.update(task);
             }
