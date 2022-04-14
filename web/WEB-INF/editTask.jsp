@@ -97,7 +97,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-row">
+                            <%-- <div class="form-row">
                                 <div class="form-group">
                                     <label for="task_approving_manager" class="form-label">Approving Manager: </label>
                                     <select name="task_approving_manager" id="task_approving_manager" class="form-control">
@@ -111,7 +111,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                            </div>
+                            </div> --%>
 
 
                             <div class="form-row">
