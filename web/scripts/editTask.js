@@ -61,13 +61,13 @@ function onSubmitEditTask(e) {
       task_description: task_description,
       task_program: task_program,
       task_city: task_city,
-      task_start_time: task_start_time,
-      task_end_time: task_end_time,
-      task_max_users: task_max_users,
+      start_time: task_start_time,
+      end_time: task_end_time,
+      max_users: task_max_users,
       selected_user_id_list: selected_user_id_list,
       task_store: task_store,
       task_company: task_company,
-      task_date: task_date,
+      date: task_date,
     },
     success: () => {
       window.location = "tasks";

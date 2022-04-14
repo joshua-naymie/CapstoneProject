@@ -296,14 +296,14 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
                         true,
                         false,
                         Integer.parseInt(request.getParameter("approving_manager_id")),
-                        Short.parseShort(request.getParameter("spots_taken")),
+                        maxUsers,
                         request.getParameter("task_city")
                 );
                 task1.setProgramId(task.getProgramId());
                 task1.setMaxUsers(maxUsers);
                 task1.setEndTime(simpleDateFormat.parse(date + endTime));
-                task1.setTeamId(task.getTeamId());
-                task1.setAssigned(Boolean.parseBoolean(request.getParameter("assigned")));
+//                task1.setTeamId(task.getTeamId());
+//                task1.setAssigned(Boolean.parseBoolean(request.getParameter("assigned")));
                 task1.setTaskDescription(request.getParameter("task_description"));
                 task1.setNotes(task.getNotes());
                 task1.setIsSubmitted(false);
@@ -346,9 +346,9 @@ for(User user: canBeAssignedUsers) {System.out.println(user.getFirstName());}
                 task.setTaskDescription(request.getParameter("task_description"));
 
 //                Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
-                task.setTeamId(task.getTeamId());
+//                task.setTeamId(task.getTeamId());
 
-                task.setApprovingManager(Integer.parseInt(request.getParameter("approving_manager_id")));
+//                task.setApprovingManager(Integer.parseInt(request.getParameter("approving_manager_id")));
 
                 task.setUserId(assignedUsers.get(0));
 
