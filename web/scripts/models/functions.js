@@ -1,7 +1,7 @@
 /**
  * POST's to server. Can specify form to submit and action value
  * @param {string} anAction The action the server will perform
- *                          Ex: "edit"
+ *                          eg: "edit"
  * @param {string} form The form id that you want to submit to the server 
  * @param {string} page The page to submit the form too
  *                      Ex: "login"

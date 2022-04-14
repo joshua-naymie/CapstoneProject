@@ -9,10 +9,16 @@ import java.util.List;
 import models.PackageType;
 
 /**
- *
+ *class to perform some crud operations on PackageType table
  * @author srvad
  */
 public class PackageTypeService {
+    
+    /**
+     * method to get all existing records in PackageType table
+     * @return
+     * @throws Exception 
+     */
     public List<PackageType> getAll() throws Exception {
 
         PackageTypeDB packageTypeDB = new PackageTypeDB();
@@ -20,7 +26,12 @@ public class PackageTypeService {
         return p;
 
     }
-
+/**
+ * method to retrieve PackageType record using roleId
+ * @param roleId role id
+ * @return PackageType object matching role id
+ * @throws Exception 
+ */
     public PackageType get(short roleId) throws Exception {
         PackageTypeDB packageTypeDB = new PackageTypeDB();
         PackageType p = packageTypeDB.get(roleId);

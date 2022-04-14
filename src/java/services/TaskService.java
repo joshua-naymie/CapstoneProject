@@ -13,7 +13,7 @@ import models.*;
 import javax.persistence.criteria.CriteriaBuilder;
 
 /**
- *
+ * class to perform CRUD operations on Task table
  * @author srvad
  */
 public class TaskService {
@@ -38,12 +38,23 @@ public class TaskService {
         taskDB.approveTask(taskId, approvalNotes);
     }
 
+    /**
+     * method to retrieve all existing records in Task table
+     * @return list of Task objects
+     * @throws Exception 
+     */
     public List<Task> getAll() throws Exception {
         TaskDB taskDB = new TaskDB();
         List<Task> tasks = taskDB.getAll();
         return tasks;
     }
 
+    /**
+     * method to retrieve Task records filtered by group id
+     * @param groupId group id 
+     * @return list of task objects matching group id
+     * @throws Exception 
+     */
     public List<Task> getAllTasksByGroupId(Long groupId) throws Exception {
         TaskDB taskDB = new TaskDB();
         List<Task> tasks = taskDB.getAllTasksByGroupId(groupId);
@@ -160,17 +171,34 @@ public class TaskService {
         return parsedPrograms;
     }
 
+    /**
+     * method to retrieve Task records where isSubmitted is set to "true" using id value
+     * @param id
+     * @return List of Task objects matching the above criterias 
+     * @throws Exception 
+     */
     public List<Task> getSubmittedToManager(int id) throws Exception {
         TaskDB taskDB = new TaskDB();
         return taskDB.getSubmittedToManager(id);
     }
 
+    /**
+     * retrieve records from Task table where isApproved set to "false" using User object
+     * @param user User object
+     * @return list of Tasks matching the above parameters
+     * @throws Exception 
+     */
     public List<Task> getAllNotApprovedTasksByUser(User user) throws Exception {
         TaskDB taskDB = new TaskDB();
         List<Task> tasks = taskDB.getAllNotApprovedTasksByUser(user);
         return tasks;
     }
 
+    /**
+     * get existing records from Task table where role is set to "supervisor"
+     * @return list of Integer ids of supervisors 
+     * @throws Exception 
+     */
     public List<Integer> getSupervisors() throws Exception {
         TeamDB teamDB = new TeamDB();
         List<Team> teamList = teamDB.getAll();
@@ -181,6 +209,14 @@ public class TaskService {
         return supervisors;
     }
 
+    
+    /**
+     * method to retrieve list of Users that can be assigned to FoodDelivery tasks using 
+     * group id
+     * @param groupId
+     * @return list of User objects
+     * @throws Exception 
+     */
     public List<User> getCanBeAssignedUsersFoodDelivery(long groupId) throws Exception {
         TaskDB taskDB = new TaskDB();
         Task task = new Task(groupId);
@@ -200,6 +236,13 @@ public class TaskService {
         return canBeAssignedUsers;
     }
 
+    /**
+     * method to retrieve list of users that can approve tasks (that have manager role)
+     * using task id
+     * @param taskId
+     * @return list of User objects 
+     * @throws Exception 
+     */
     public List<User> getCanBeApprovingManagersHotline(long taskId) throws Exception {
         List<User> canBeApprovingManager = new ArrayList<>();
         RoleDB roleDB = new RoleDB();
@@ -217,6 +260,12 @@ public class TaskService {
         return canBeApprovingManager;
     }
 
+    /**
+     * method to retrieve users that can be assigned to hotline program by task id
+     * @param taskId
+     * @return list of User objects
+     * @throws Exception 
+     */
     public List<User> getCanBeAssignedUsersHotline(long taskId) throws Exception {
         TaskDB taskDB = new TaskDB();
         Task task = taskDB.get(taskId);
@@ -233,6 +282,12 @@ public class TaskService {
         return canBeAssignedUsers;
     }
 
+    /**
+     * method to retrieve all tasks assigned to a specific group using group id
+     * @param groupId
+     * @return List of Task objects
+     * @throws Exception 
+     */
     public List<Task> getAllTasksInGroup(long groupId) throws Exception {
         TaskDB taskDB = new TaskDB();
         List<Task> sameGroupTasks = new ArrayList<>();
@@ -244,32 +299,60 @@ public class TaskService {
         return sameGroupTasks;
     }
 
-//    public Long getNextTaskId() throws Exception{
-//        TaskDB taskDB = new TaskDB();
-//        Long taskId = taskDB.getNextTaskId();
-//        return taskId;
-//    }
+/**
+ * method to persist new record into Task table
+ * @param task Task object to be persisted 
+ * @return long task id
+ * @throws Exception 
+ */
     public Long insert(Task task) throws Exception {
         TaskDB taskDB = new TaskDB();
         return taskDB.insert(task);
     }
 
+    /**
+     * method to update existing record in Task table
+     * @param task Task object to be updated
+     * @throws Exception 
+     */
     public void update(Task task) throws Exception {
         TaskDB taskDB = new TaskDB();
         taskDB.update(task);
     }
 
+    /**
+     * method to remove a specific record from Task table
+     * @param task task object to be removed
+     * @throws Exception 
+     */
     public void delete(Task task) throws Exception {
         TaskDB taskDB = new TaskDB();
         taskDB.delete(task);
     }
 
+    /**
+     * method to retrieve Task records that have field isApproved set to "true" 
+     * using user id
+     * @param userId
+     * @return List of Task objects 
+     * @throws Exception 
+     */
     public List<models.Task> getHotlineApprovedByUser(int userId) throws Exception {
         TaskDB taskDB = new TaskDB();
         List<models.Task> tasks = taskDB.getHotlineApprovedByUser(userId);
         return tasks;
     }
 
+    /**
+     * method to retrieve records from Task table that match given City, id, start date,
+     * end date
+     * @param programId
+     * @param city
+     * @param startDate
+     * @param endDate
+     * @return list of Task objects that match the above parameters 
+     * @throws Exception 
+     */
     public List<Task> getByProgramCityDate(String programId, String city, String startDate, String endDate) throws Exception {
         TaskDB taskDB = new TaskDB();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

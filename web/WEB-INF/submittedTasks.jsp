@@ -24,6 +24,8 @@
         <%@ include file="navbar.jsp" %>
         <div id="main" class="body">
             <h1 class="header">Submitted Tasks</h1>
+            <div id="table-container" class="table-container"></div>
+            <h1 id="no-task-message" class="no-tasks">No Tasks</h1>
         </div>
     </body>
 </html>

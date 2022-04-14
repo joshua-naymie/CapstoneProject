@@ -14,12 +14,26 @@ import models.util.JSONBuilder;
 import models.util.JSONKey;
 import services.*;
 
+/**
+ * sends all submitted tasks data as json keys to front end
+ * 
+ */
 public class SubmittedTasksServlet extends HttpServlet {
 
     private static final DateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
 
     private static final String HISTORY_JSP_DIR = "/WEB-INF/submittedTasks.jsp";
-
+    
+    /**
+     *
+     * Backend code for sending up all submitted tasks data as json keys to front end
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // getting all tasks that need approving
@@ -66,7 +80,6 @@ public class SubmittedTasksServlet extends HttpServlet {
                     if (needApproval.get(i).getProgramId().getProgramId() == 1) {
                         taskReturnData.append(buildFoodJSON(needApproval.get(i), foodBuilder));
                     } else if (needApproval.get(i).getProgramId().getProgramId() == 2) {
-
                         taskReturnData.append(buildHotlineJSON(needApproval.get(i), hotLineBuilder));
                     } else {
                         System.out.println("wrong program id");

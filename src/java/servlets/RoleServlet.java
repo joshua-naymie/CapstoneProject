@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- *
+ * currently not being used
  * @author 861349
  */
 public class RoleServlet extends HttpServlet {

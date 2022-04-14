@@ -41,6 +41,13 @@
     margin-top: 20px;
 }
 
+.no-tasks
+{
+    display: none;
+    font-weight: normal;
+    color: gray;
+}
+
 .table-container
 {
     display: flex;

@@ -29,11 +29,21 @@ import services.TaskService;
 import services.TeamServices;
 
 /**
- *
- * @author 641380
+ * handles generating of all reports on reports page
+ * 
  */
 public class ReportServlet extends HttpServlet {
-
+    
+    /**
+     *
+     * redirects user to the report page
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,7 +54,7 @@ public class ReportServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * Generates the correct report based on front end selections
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs

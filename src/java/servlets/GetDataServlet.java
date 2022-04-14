@@ -25,10 +25,20 @@ import services.TeamServices;
 
 /**
  *
- * @author lixia
+ * Methods for ajax call to search for users, teams, stores, programs etc.
  */
 public class GetDataServlet extends HttpServlet {
-
+    
+    /**
+     *
+     * Backend code for handling user inputs and returning the right results pulled from DB
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

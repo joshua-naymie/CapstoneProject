@@ -20,12 +20,21 @@ import models.*;
 import services.AccountServices;
 
 /**
- *
- * @author DWEI
+ * handles user interactions on the users list webpage, /users
+ * 
  */
 public class AccountServlet extends HttpServlet {
 
-    // saurav
+    /**
+     *
+     * Backend code for sending up user data
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,14 +53,6 @@ public class AccountServlet extends HttpServlet {
         StringBuilder returnData = new StringBuilder();
 //        String OUTPUT_FORMAT = "{\"id\":%s, \"firstName\":%s, \"lastName\":%s, \"phoneNum\":%s, \"address\":%s},";
         returnData.append("var data = [");
-//        for (User u : allUsers) {
-//            returnData.append(String.format(OUTPUT_FORMAT, checkNull(u.getUserId()), checkNull(u.getFirstName()), 
-//                                            checkNull(u.getLastName()), checkNull(u.getPhoneNumber()), checkNull(u.getHomeAddress())));
-//        }
-//        returnData.deleteCharAt(returnData.length() - 1);
-//        returnData.append("];");
-        //response.setContentType("text/html");
-        //response.getWriter().write(returnData.toString());
         
         // Create keys
         JSONKey[] keys = { new JSONKey("id", true),
@@ -103,7 +104,16 @@ public class AccountServlet extends HttpServlet {
         return "\""+check+"\"";
     }
 
-    // david
+    /**
+     *
+     * Backend code for handling exporting csv
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -111,16 +121,11 @@ public class AccountServlet extends HttpServlet {
         // Obtain the action from the JSP
         String action = request.getParameter("action");
 
-        // edit user
-        // change status
-        // create user 
         // try catch to handle what happens based on the action obtained
-        // dummy names for now match the cases with the frontend
         try {
             switch (action) {
                 // creating a new user
                 case "edit":
-                    // request.setAttribute("startView", true);
                     edit(request, response);
                     break;
                     
@@ -134,9 +139,9 @@ public class AccountServlet extends HttpServlet {
         } catch (Exception e) {
             Logger.getLogger(AccountServlet.class.getName()).log(Level.WARNING, null, e);
             System.err.println("Error Occured carrying out action:" + action);
-//            log("Error Occured carrying out action:" + action);
+
         }
-        // work on exporting if we have time before use case is due
+
 
     }
 
