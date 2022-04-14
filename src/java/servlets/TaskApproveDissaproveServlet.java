@@ -24,13 +24,23 @@ import models.Task;
 import services.TaskService;
 
 /**
- *
+ * approving / disapproving of submitted tasks
  * @author 861349
  */
 public class TaskApproveDissaproveServlet extends HttpServlet {
 
     private static final DateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
-
+    
+    /**
+     *
+     * Backend code for sending up the data of the chosen task to approve or disapprove
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -231,7 +241,17 @@ public class TaskApproveDissaproveServlet extends HttpServlet {
 
         return hotLineBuilder.buildJSON(hotLineValues);
     }
-
+    
+    /**
+     *
+     * Backend code for handling approve / disapprove of the task or clicking of the cancel button
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -24,11 +24,21 @@ import services.ProgramServices;
 import services.RoleService;
 
 /**
- *
+ * handles programs page
  * @author 861349
  */
 public class ProgramServlet extends HttpServlet {
-
+    
+    /**
+     *
+     * Backend code for sending json keys of program data for front end to use
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -145,7 +155,17 @@ public class ProgramServlet extends HttpServlet {
 
         return builder.buildJSON(programValues);
     }
-
+    
+    /**
+     *
+     * Backend code for handling adding. editing / saving changes of programs
+     *
+     * @param request Request object created by the web container for each
+     * request of the client
+     * @param response HTTP Response sent by a server to the client
+     * @throws ServletException a general exception a servlet can throw when it encounters errors
+     * @throws IOException Occurs when an IO operation fails
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -236,23 +256,7 @@ public class ProgramServlet extends HttpServlet {
                 ProgramTraining roleAdd = new ProgramTraining(updateRole, proService.get(programId) , newRole);
                 proService.insertProgramTraining(roleAdd);
             }
-
-            // if current user is not a manager change their role to manager
-//            if (currentRoles == null) {
-            // get manager and programId to match and add it to the list
-//            ProgramTraining roleAdd = new ProgramTraining(userId, programId, newRole);
-            // currentRoles.add(roleAdd);
-            // accService.updateProgramTraining(updateRole, currentRoles);
-//            proService.insertProgramTraining(roleAdd);
-//            } else {
-//                for (ProgramTraining pt : currentRoles) {
-//                    if((pt.getProgram().getProgramId() == programId)&& 
-//                            (pt.getUser().getUserId() == userId)){
-//                        // test, set new role
-//                        pt.setRoleId(newRole);
-//                    }
-//                }
-//            }
+            
             response.sendRedirect("programs");
         } catch (Exception e) {
             Logger.getLogger(ProgramServlet.class.getName()).log(Level.WARNING, null, e);

@@ -14,7 +14,7 @@ import models.User;
 import services.AccountServices;
 
 /**
- *
+ * handles user logins
  * @author Main
  */
 public class LoginServlet extends HttpServlet

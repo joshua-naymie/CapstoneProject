@@ -22,15 +22,15 @@ import services.AccountServices;
 import services.ProgramServices;
 
 /**
- *
- * @author Main
+ * handling all actions on users page
+ * 
  */
 public class UserServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * sends up all user data
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -134,7 +134,7 @@ public class UserServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * handles adding, editing and cancel functions on the page
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs

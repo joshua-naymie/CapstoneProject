@@ -14,6 +14,10 @@ import java.util.logging.*;
 import models.*;
 import services.*;
 
+/**
+ * handles main tasks page /tasks
+ *
+ */
 public class TaskServlet extends HttpServlet {
 
     boolean refresh = false;
