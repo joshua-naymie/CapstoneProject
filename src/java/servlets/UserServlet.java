@@ -26,6 +26,9 @@ import services.ProgramServices;
  * 
  */
 public class UserServlet extends HttpServlet {
+    
+    // remove dashs / white space
+    private static final String ZIPCODE_REMOVE_REGEXP = "[\\-\\s]";
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -223,7 +226,7 @@ public class UserServlet extends HttpServlet {
                     dateOfBirth,
                     request.getParameter("user_phone"),
                     request.getParameter("street"),
-                    request.getParameter("user_postalcode"),
+                    request.getParameter("user_postalcode").replaceAll(ZIPCODE_REMOVE_REGEXP, ""),
                     // registration date
                     registrationDate,
                     // team 
@@ -281,12 +284,12 @@ public class UserServlet extends HttpServlet {
                     request.getParameter("user_lastname"),
                     // is active
                     isActive,
-                    request.getParameter("user_password"),
+                    //request.getParameter("user_password"),
                     // DOB
                     dateOfBirth,
                     request.getParameter("user_phone"),
                     request.getParameter("street"),
-                    request.getParameter("user_postalcode"),
+                    request.getParameter("user_postalcode").replaceAll(ZIPCODE_REMOVE_REGEXP, ""),
                     // registration date
                     registrationDate,
                     // team

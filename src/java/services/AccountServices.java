@@ -242,9 +242,9 @@ public class AccountServices {
  * @return String msg 
  * @throws Exception 
  */
-    public String update(int userId, String email, boolean isAdmin, String userCity, String firstName, String lastName, boolean isActive, String password, Date dateOfBirth, String phoneNumber, String homeAddress, String postalCode, Date registrationDate, int teamId) throws Exception {
+    public String update(int userId, String email, boolean isAdmin, String userCity, String firstName, String lastName, boolean isActive, Date dateOfBirth, String phoneNumber, String homeAddress, String postalCode, Date registrationDate, int teamId) throws Exception {
         UserDB userDB = new UserDB();
-        User user = userDB.get(email);
+        User user = userDB.getByID(userId);
         if (user == null) {
             return "User does not exist!";
         }
@@ -253,6 +253,7 @@ public class AccountServices {
         TeamServices ts = new TeamServices();
         Team usersTeam = ts.get(teamId);
         
+        user.setEmail(email);
         user.setIsAdmin(isAdmin);
         user.setTeamId(usersTeam);
         user.setUserCity(userCity);
@@ -260,10 +261,10 @@ public class AccountServices {
         user.setLastName(lastName);
         user.setIsActive(isActive);
 
-        String passwordSalt = getSalt();
-        String passwordHash = getHash(password, passwordSalt);
-        user.setPasswordSalt(passwordSalt);
-        user.setPasswordHash(passwordHash);
+        //String passwordSalt = getSalt();
+        //String passwordHash = getHash("password", passwordSalt);
+        //user.setPasswordSalt(passwordSalt);
+        //user.setPasswordHash(passwordHash);
 
         user.setDateOfBirth(dateOfBirth);
         user.setPhoneNumber(phoneNumber);
