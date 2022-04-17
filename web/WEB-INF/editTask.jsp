@@ -97,6 +97,23 @@
                                 </div>
                             </div>
 
+                            <%-- <div class="form-row">
+                                <div class="form-group">
+                                    <label for="task_approving_manager" class="form-label">Approving Manager: </label>
+                                    <select name="task_approving_manager" id="task_approving_manager" class="form-control">
+                                        <c:forEach items="${can_be_approving_managers}" var="can_be_approving_manager">
+                                            <c:if test="${approving_manager.userId == can_be_approving_manager.userId }  ">
+                                                <option selected value="${can_be_approving_manager.userId}">${can_be_approving_manager.firstName} ${can_be_approving_manager.lastName}</option>
+                                            </c:if>
+                                            <c:if test="${not empty can_be_approving_manager}">
+                                                <option value="${can_be_approving_manager.userId}">${can_be_approving_manager.firstName} ${can_be_approving_manager.lastName}</option>
+                                            </c:if>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div> --%>
+
+
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label class="form-label" for="chosen_users">Signed Up Volunteers</label>
