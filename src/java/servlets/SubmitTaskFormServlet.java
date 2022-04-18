@@ -271,6 +271,8 @@ public class SubmitTaskFormServlet extends HttpServlet {
                         //log(fd.getFoodHoursWorked() + " " + fd.getTaskFdId() + "");
                         fds.updateFoodDeliveryData(fd);
                     }
+                    
+                    editTask.setFoodDeliveryData(fd);
 
                 } else {
                     
@@ -291,6 +293,8 @@ public class SubmitTaskFormServlet extends HttpServlet {
                     } else {
                         fds.updateHotlineData(hd);
                     }
+                    
+                    editTask.setHotlineData(hd);
 
                 }
 
