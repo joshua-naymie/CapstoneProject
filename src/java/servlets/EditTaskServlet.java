@@ -281,9 +281,9 @@ public class EditTaskServlet extends HttpServlet {
             }
 
             if (task.getProgramId().getProgramName().equals("Food Delivery")) {
-//                for (Task task1 : taskService.getAllTasksInGroup(groupId)) {
-//                    taskService.delete(task1);
-//                }
+                for (Task task1 : taskService.getAllTasksInGroup(groupId)) {
+                    taskService.delete(task1);
+                }
 //                Team team = new Team(Integer.parseInt(request.getParameter("team_id")));
 
                 short maxUsers = Short.parseShort(request.getParameter("max_users"));

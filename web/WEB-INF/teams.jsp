@@ -31,7 +31,7 @@
                     <h1 id="team-header" class="header">Teams</h1>
                     <div class="list-panel" id="list-area">
                         <div class="list-panel__top-buttons">
-                            <input id="search-input" type="search" class="search-teams__input" placeholder="Search by Program">
+                            <input id="search-input" type="search" class="search-teams__input" placeholder="Search by Name">
                             <input id="notempty" type="button" class="default__button" onclick="addTeam()" value="New Team">
                         </div>
                         <div id="team-list" class="team-list__base"></div>
