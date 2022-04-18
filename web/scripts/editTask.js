@@ -34,7 +34,7 @@ function onSubmitEditTask(e) {
   e.preventDefault();
 
   let task_id = editTask.task_id;
-  let task_description = $("#task_descirption").val();
+  let task_description = $("#task_description").val();
   let task_program = $("#task_program").val();
   let task_city = $("#task_city").val();
   let task_start_time = $("#task_start_time").val();

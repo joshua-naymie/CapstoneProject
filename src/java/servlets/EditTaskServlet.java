@@ -260,6 +260,7 @@ public class EditTaskServlet extends HttpServlet {
             long taskId = Long.parseLong(request.getParameter("task_id"));
             Task task = taskService.get(taskId);
             long groupId = task.getGroupId();
+            Team team = task.getTeamId();
 
             String date = request.getParameter("date");
             String startTime = request.getParameter("start_time");
@@ -300,7 +301,7 @@ public class EditTaskServlet extends HttpServlet {
                 task1.setProgramId(task.getProgramId());
                 task1.setMaxUsers(maxUsers);
 //                task1.setEndTime(simpleDateFormat.parse(date + " " + endTime));
-//                task1.setTeamId(task.getTeamId());
+                task1.setTeamId(team);
 //                task1.setAssigned(Boolean.parseBoolean(request.getParameter("assigned")));
                 task1.setTaskDescription(request.getParameter("task_description"));
                 task1.setNotes(task.getNotes());
@@ -327,7 +328,7 @@ public class EditTaskServlet extends HttpServlet {
                         task2.setProgramId(task1.getProgramId());
                         task2.setMaxUsers(task1.getMaxUsers());
                         task2.setEndTime(task1.getEndTime());
-                        task2.setTeamId(task1.getTeamId());
+                        task2.setTeamId(team);
                         task2.setAssigned(task1.getAssigned());
                         task2.setTaskDescription(task1.getTaskDescription());
                         task2.setNotes(task1.getNotes());
