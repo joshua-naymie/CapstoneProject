@@ -37,7 +37,7 @@
                         <input id="searchbar" type="text" placeholder="Name" />
                     </div>
                     <div style="display: flex; justify-content: flex-end">
-                        <a class="default__button user-table__button" href="/ECSSENPro/add">Add User</a>
+                        <a class="default__button user-table__button" href="/add">Add User</a>
                     </div>
                 </div>
                 <div id="table-container" class="table-container"></div>
