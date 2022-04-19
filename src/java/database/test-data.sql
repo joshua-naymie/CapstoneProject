@@ -142,7 +142,7 @@ INSERT INTO `package_type` (`package_name`,`weight_lb`)
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`, `start_time`,`end_time`,`available`,`is_approved`,
                     `approving_manager`,`task_city`, `user_id`, `is_submitted`)
     VALUES (1, 0, 2, 1, 1, "2022-03-15 09:30:00", "2022-03-15 10:30:00", FALSE, TRUE, 4,
-            'Calgary', 4, FALSE);
+            'Calgary', 5, FALSE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`)
      VALUES (2, 2, 1, 1, 2, "2022-03-15 09:30:00", "2022-03-15 10:30:00", FALSE, TRUE, 
@@ -155,44 +155,44 @@ INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users
             'Pickup boxes and drop to Ross Family', 'Calgary');
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `notes`,`approving_manager`,`task_description`, `task_city`, `is_submitted`, `user_id`, `is_dissaproved`)
-     VALUES (7, 1, 1, 1, 1, "2022-04-18 12:30:00", "2022-04-19 15:30:00", FALSE, TRUE, 
+     VALUES (4, 1, 1, 1, 1, "2022-04-12 12:30:00", "2022-04-12 15:30:00", FALSE, TRUE, 
             'Task done. No issues.', 4, 
             'Pickup boxes and drop to Wilson Family', 'Calgary', TRUE, 4, FALSE);
 INSERT INTO `task` (`group_id`,  `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
-                    `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
-     VALUES (8, 3, 1, 2, 3, "2022-04-18 12:30:00", "2022-04-19 15:30:00", FALSE, TRUE, 
-            '3', 'Pickup 2 boxes ', 'Calgary', FALSE, FALSE);
+                    `approving_manager`,`task_description`, `task_city`, `is_submitted`,`user_id`,  `is_dissaproved`,`assigned`)
+     VALUES (5, 3, 1, 2, 3, "2022-04-13 12:30:00", "2022-04-13 15:30:00", FALSE,FALSE, 
+            '4', 'Pickup 2 boxes ', 'Calgary', FALSE, 6, FALSE, TRUE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
-                    `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`)
-     VALUES (8, 3, 1, 3, 3, "2022-04-18 12:30:00", "2022-04-19 15:30:00", FALSE, TRUE, 
-            '3', 'Pickup 2 boxes ', 'Calgary', FALSE, FALSE);
+                    `approving_manager`,`task_description`, `task_city`, `is_submitted`, `user_id`, `is_dissaproved`,`assigned`)
+     VALUES (5, 3, 1, 3, 3, "2022-04-13 12:30:00", "2022-04-13 15:30:00", FALSE,FALSE, 
+            '4', 'Pickup 2 boxes ', 'Calgary', FALSE, 5, FALSE, TRUE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`,`user_id`, `assigned`)
-     VALUES (8, 3, 1, 3, 3, "2022-04-18 12:30:00", "2022-04-19 15:30:00", FALSE, TRUE, 
-            '3', 'Pickup 2 boxes ', 'Calgary', FALSE, FALSE, 4, TRUE);
+     VALUES (5, 3, 1, 3, 3, "2022-04-13 12:30:00", "2022-04-13 15:30:00", FALSE, FALSE, 
+            '4', 'Pickup 2 boxes ', 'Calgary', FALSE, FALSE, 4, TRUE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`, `available`,`is_approved`,
                     `approving_manager`,`task_description`, `is_submitted`, `is_dissaproved`,`user_id`, `assigned`)
-     VALUES (10, 0, 2, 1, 2, "2022-03-22 16:30:00", FALSE, TRUE, 
+     VALUES (8, 2, 2, 1, 2, "2022-04-13 16:30:00", FALSE, FALSE, 
             '3', 'Receive call evening', FALSE, FALSE, 4, TRUE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`, `available`,`is_approved`,
                     `approving_manager`,`task_description`, `is_submitted`, `is_dissaproved`,`assigned`)
-     VALUES (11, 2, 2, 1, 2, "2022-04-18 16:30:00", FALSE, TRUE, 
+     VALUES (9, 2, 2, 1, 2, "2022-04-14 16:30:00", FALSE, TRUE, 
             '3', 'Check up calls evening', FALSE, FALSE, FALSE);
 -- -----------------------------------------------------
 -- TASK for testing 
 -- -----------------------------------------------------
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`,`user_id`, `assigned`)
-     VALUES (12, 2, 1, 4, 2, "2022-04-25 12:30:00", "2022-04-25 15:30:00", FALSE, TRUE, 
+     VALUES (10, 2, 1, 4, 2, "2022-04-15 12:30:00", "2022-04-15 15:30:00", FALSE, TRUE, 
             '3', 'Pickup 5 boxes ', 'Calgary', FALSE, FALSE, 1, TRUE);
 INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
                     `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`,`user_id`, `assigned`)
-     VALUES (12, 2, 1, 4, 2, "2022-04-25 12:30:00", "2022-04-25 15:30:00", FALSE, TRUE, 
+     VALUES (10, 2, 1, 4, 2, "2022-04-15 12:30:00", "2022-04-15 15:30:00", FALSE, TRUE, 
             '3', 'Pickup 5 boxes ', 'Calgary', FALSE, FALSE, 5, TRUE);
-INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
-                    `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`,`user_id`, `assigned`)
-     VALUES (13, 1, 1, 4, 1, "2022-04-30 12:30:00", "2022-4-30 15:30:00", FALSE, TRUE, 
-            '3', 'Pickup and deliver boxes ', 'Calgary', FALSE, FALSE, 4, TRUE);
+-- INSERT INTO `task` (`group_id`, `spots_taken`, `program_id`,`team_id`,`max_users`,`start_time`,`end_time`,`available`,`is_approved`,
+--                     `approving_manager`,`task_description`, `task_city`, `is_submitted`, `is_dissaproved`,`user_id`, `assigned`)
+--      VALUES (12, 1, 1, 4, 1, "2022-04-30 12:30:00", "2022-4-30 15:30:00", FALSE, TRUE, 
+--             '3', 'Pickup and deliver boxes ', 'Calgary', FALSE, FALSE, 4, TRUE);
 -- -----------------------------------------------------
 -- HOTLINE DATA
 -- -----------------------------------------------------

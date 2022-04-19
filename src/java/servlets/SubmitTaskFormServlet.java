@@ -264,11 +264,14 @@ public class SubmitTaskFormServlet extends HttpServlet {
                     fd.setPackageId(pt);
 
                     fd.setStoreId(editTask.getTeamId().getStoreId());
+                    fd.setTask(editTask);
 
                     if (editTask.getFoodDeliveryData() == null) {
                         fds.insertFoodDeliveryData(fd);
+                        
+                        log(fd.getFoodHoursWorked() + " " + fd.getTaskFdId() + "up");
                     } else {
-                        //log(fd.getFoodHoursWorked() + " " + fd.getTaskFdId() + "");
+                        log(fd.getFoodHoursWorked() + " " + fd.getTaskFdId() + "down");
                         fds.updateFoodDeliveryData(fd);
                     }
                     
@@ -285,6 +288,7 @@ public class SubmitTaskFormServlet extends HttpServlet {
                         hd = editTask.getHotlineData();
                     }
 
+                    hd.setTask(editTask);
                     hd.setTaskHotlineId(submitTaskId);
                     hd.setHotlineHoursWorked(totalHours);
 
